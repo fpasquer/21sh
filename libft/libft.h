@@ -6,7 +6,7 @@
 /*   By: fpasquer <florianpasquereau37@gmail.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/02 21:31:48 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 10:09:34 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 15:24:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,12 +168,12 @@ long long int		ft_abs(long long int nb);
 char				*ft_strdup_and_len(const char *s, size_t *len);
 size_t				ft_nblen(long long int nb);
 size_t				len_y(char **tabl);
-char			*ft_getenv(char **env, const char *name);
+char				*ft_getenv(char **env, const char *name);
 char				**join_tab2d_str(char **tabl, char *str, int where);
 char				**join_2_tabs_2d(char **tab1, char **tab2);
 char				**ft_strsplit_guil(char *s, char c);
 int					ft_is_number(char *s);
 int					ft_atoi_base(const char *s, int base, int *nb);
-int							count_char(char *line, char c);
+int					count_char(char *line, char c);
 
 #endif
