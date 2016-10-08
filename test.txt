@@ -1,13 +1,13 @@
-total 81
-drwxr-xr-x  7 jchen  2015_paris  4096 Oct  8 19:46 .
+total 80
+drwxr-xr-x  7 jchen  2015_paris  4096 Oct  8 20:23 .
 drwx------  3 jchen  2015_paris  4096 Oct  8 17:09 ..
-drwxr-xr-x  8 jchen  2015_paris  4096 Oct  8 19:53 .git
--rwxr-xr-x  1 jchen  2015_paris  8736 Oct  8 19:53 21sh
+drwxr-xr-x  8 jchen  2015_paris  4096 Oct  8 20:24 .git
+-rwxr-xr-x  1 jchen  2015_paris  8736 Oct  8 20:24 21sh
 -rw-r--r--  1 jchen  2015_paris  1983 Oct  8 17:14 Makefile
 -rw-r--r--  1 jchen  2015_paris     6 Oct  8 17:09 README.md
 -rw-r--r--  1 jchen  2015_paris     9 Oct  8 17:09 auteur
 drwxr-xr-x  2 jchen  2015_paris  4096 Oct  8 17:22 incs
-drwxr-xr-x  2 jchen  2015_paris  4096 Oct  8 17:23 libft
-drwxr-xr-x  2 jchen  2015_paris  4096 Oct  8 19:53 objs
-drwxr-xr-x  2 jchen  2015_paris  4096 Oct  8 19:52 srcs
--rw-r--r--  1 jchen  2015_paris    61 Oct  8 19:53 test.txt
+drwxr-xr-x  2 jchen  2015_paris  4096 Oct  8 20:20 libft
+drwxr-xr-x  2 jchen  2015_paris  4096 Oct  8 20:24 objs
+drwxr-xr-x  2 jchen  2015_paris  4096 Oct  8 20:24 srcs
+-rwx------  1 jchen  2015_paris     0 Oct  8 20:24 test.txt

@@ -5,7 +5,7 @@
 int main(int argc, char **argv, char **env)
 {
 	int pid = fork();
-
+	
 	if (argc > 1) {
 		if (pid < 0) {
 			perror("error");
@@ -13,7 +13,7 @@ int main(int argc, char **argv, char **env)
 		}
 		if (pid == 0) {
 			printf("child\n");	
-			int fw = open("test.txt", O_WRONLY);
+			int fw = open("test.txt", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU); // O_TRUNC POUR >, O_APPEND pour >>
 			dup2(fw, 1);
 			execve("/bin/ls", &argv[1], env);
 		}
