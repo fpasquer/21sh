@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 09:22:44 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 17:23:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 18:53:48 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ static int					del_struct_21sh(t_21sh **sh)
 		ft_memdel((void**)&(*sh)->path);
 	if ((*sh)->tab_path != NULL)
 		ft_free_strsplit((*sh)->tab_path);
+	if ((*sh)->user != NULL)
+		ft_memdel((void**)&(*sh)->user);
+	if ((*sh)->pwd != NULL)
+		ft_memdel((void**)&(*sh)->pwd);
+	del_bin();
 	ft_memdel((void**)sh);
 	return (true);
 }

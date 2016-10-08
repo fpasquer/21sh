@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:32:47 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 17:10:30 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 18:53:01 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ int							save_path(t_21sh **sh, char *path)
 		return (ERROR);
 	if (((*sh)->tab_path = ft_strsplit(path, ':')) == NULL)
 		return (ERROR);
-	return (true);
+	return (save_bin(*sh));
 }
