@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 20:33:30 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/08 20:35:44 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #define SHELL_21SH
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
