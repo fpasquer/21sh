@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 09:22:44 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 18:53:48 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:46:16 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,19 @@ t_21sh						*get_21sh(t_21sh *shell_21sh)
 	return (adr_21sh);
 }
 
+t_21sh						*init_21sh2(t_21sh **sh)
+{
+	char					*sh_lvl;
+	extern char				**environ;
+
+	if ((sh_lvl = ft_getenv(environ, "SHLVL")) == NULL || !ft_is_number(sh_lvl))
+		(*sh)->sh_lvl = 1;
+	else
+		(*sh)->sh_lvl = ft_atoi(sh_lvl) + 1;
+	return (get_21sh(*sh));
+}
+
+
 t_21sh						*init_21sh(void)
 {
 	char					*tmp;
@@ -63,19 +76,22 @@ t_21sh						*init_21sh(void)
 	if ((sh = ft_memalloc(sizeof(*sh))) == NULL)
 		return (NULL);
 	if (save_sh_init("TERM", &sh->term_name) == false)
-		return (NULL);
+		if ((sh->term_name = ft_strdup(NAME_SHELL)) == NULL)
+			return (NULL);
 	if (save_sh_init("OLDPWD", &sh->old_pwd) == false)
 		if ((sh->old_pwd = ft_strdup("")) == NULL)
 			return (NULL);
 	if (save_sh_init("HOME", &sh->home) == false)
-		if (save_pwd(&sh->home) == ERROR)
+		if ((sh->home = ft_strdup("")) == NULL)
 			return (NULL);
 	if (save_pwd(&sh->pwd) == ERROR)
 		return (NULL);
-	save_sh_init("USER", &sh->user);
+	if (save_sh_init("USER", &sh->user) == false)
+		if ((sh->user = ft_strdup("")) == NULL)
+			return (NULL);;
 	if (save_path(&sh, ft_getenv(environ, "PATH")) == ERROR)
 			return (NULL);
-	return (get_21sh(sh));
+	return (init_21sh2(&sh));
 }
 
 int							del_21sh(void)

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:32:47 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 18:53:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:26:42 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int							save_path(t_21sh **sh, char *path)
 	if (sh == NULL || *sh == NULL)
 		return (ERROR);
 	if (path == NULL)
+	{
+		if (((*sh)->path = ft_strdup("")) == NULL)
+			return (ERROR);
 		return (false);
+	}
 	if ((*sh)->path != NULL)
 		ft_memdel((void**)&(*sh)->path);
 	if ((*sh)->tab_path != NULL)

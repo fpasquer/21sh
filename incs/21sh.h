@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 18:40:58 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:39:45 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define ERROR -1
 # define LEN_PATH_MAX 200
 # define SIZE_HASH 300
+# define NAME_SHELL "xterm-256color"
 
 /*
 **	name :			nom du binaire
@@ -67,7 +68,7 @@ typedef struct				s_21sh
 	char					*user;
 	char					*path;
 	char					**tab_path;
-	unsigned int			sh_lvl;
+	int						sh_lvl;
 	t_bin					*hash[SIZE_HASH];
 }							t_21sh;
 
@@ -95,4 +96,9 @@ int							del_bin(void);
 */
 int							i_table_hash(char *name, int size_hash);
 
+/*
+**	Supprimer
+*/
+
+int							print_all_bin(void);
 #endif
