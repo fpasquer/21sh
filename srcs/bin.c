@@ -6,11 +6,11 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 17:00:14 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:25:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:57:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/21sh.h"
+#include "../incs/shell_21sh.h"
 
 static t_bin				*new_bin(t_bin *lst[], char *name, char *path,
 		int index)
@@ -20,7 +20,8 @@ static t_bin				*new_bin(t_bin *lst[], char *name, char *path,
 
 	if ((n = ft_memalloc(sizeof(*n))) == NULL || name == NULL || path == NULL)
 		return (NULL);
-	if ((n->name = ft_strdup(name)) && (n->path = ft_strdup(path)) &&
+	if ((n->name = ft_strdup(name)) &&
+			(n->path = ft_strdup(path)) &&
 			(n->path_name = ft_multijoin(3, path, "/", name)))
 	{
 		n->i_hash = index;
@@ -85,7 +86,6 @@ int							save_bin(t_21sh *sh)
 			return (ERROR);
 	return (true);
 }
-
 
 static int					print_bin_list(t_bin *lst)
 {

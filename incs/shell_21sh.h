@@ -6,13 +6,13 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:39:45 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:59:15 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_21SH
+#ifndef SHELL_21SH_H
 
-# define SHELL_21SH
+# define SHELL_21SH_H
 
 # include <stdlib.h>
 # include <unistd.h>

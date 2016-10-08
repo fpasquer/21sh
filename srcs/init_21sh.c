@@ -6,11 +6,11 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 09:22:44 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:46:16 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 22:00:27 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/21sh.h"
+#include "../incs/shell_21sh.h"
 
 static int					del_struct_21sh(t_21sh **sh)
 {
@@ -66,7 +66,6 @@ t_21sh						*init_21sh2(t_21sh **sh)
 	return (get_21sh(*sh));
 }
 
-
 t_21sh						*init_21sh(void)
 {
 	char					*tmp;
@@ -88,9 +87,9 @@ t_21sh						*init_21sh(void)
 		return (NULL);
 	if (save_sh_init("USER", &sh->user) == false)
 		if ((sh->user = ft_strdup("")) == NULL)
-			return (NULL);;
-	if (save_path(&sh, ft_getenv(environ, "PATH")) == ERROR)
 			return (NULL);
+	if (save_path(&sh, ft_getenv(environ, "PATH")) == ERROR)
+		return (NULL);
 	return (init_21sh2(&sh));
 }
 

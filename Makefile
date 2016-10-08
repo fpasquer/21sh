@@ -14,7 +14,7 @@ NAME			= 21sh
 
 SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c
 
-INCLUDES		= 21sh.h
+INCLUDES		= shell_21sh.h
 
 LIBRARY			= libft/libft.a
 

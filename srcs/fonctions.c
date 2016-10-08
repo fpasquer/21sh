@@ -6,11 +6,11 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:32:47 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:26:42 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:57:44 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/21sh.h"
+#include "../incs/shell_21sh.h"
 
 int							save_pwd(char **dest)
 {

@@ -6,11 +6,11 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:56:07 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 19:16:21 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:57:36 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/21sh.h"
+#include "../incs/shell_21sh.h"
 
 static void					del_hash_bin(t_bin **link)
 {

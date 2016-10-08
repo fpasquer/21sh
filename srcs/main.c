@@ -6,11 +6,11 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:42:32 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/08 21:58:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/21sh.h"
+#include "../incs/shell_21sh.h"
 #include <stdio.h>
 
 int							main(void)
