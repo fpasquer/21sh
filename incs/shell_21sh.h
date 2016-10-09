@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 14:37:14 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/09 21:39:39 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define LEN_PATH_MAX 200
 # define SIZE_HASH 300
 # define NAME_SHELL "xterm-256color"
+# define SIZE_PROMT 2000
 
 /*
 **	name :			nom de la variable env
@@ -99,6 +100,7 @@ int							del_21sh(void);
 */
 int							save_pwd(char **dest);
 int							save_path(t_21sh **sh, char *path);
+int							nb_match_var_env(char **tab);
 
 /*
 **	bin.c
@@ -137,8 +139,13 @@ int							builtin_env(char *l_cmd);
 **	options_env.c
 */
 int							tab_env_i(char *l_cmd, char ***tab);
-int							tab_env_u(char *l_cmd, char ***tab);
+int							tab_env_u(char **l_cmd, char ***tab);
 int							tab_env(char *l_cmd, char ***tab);
+
+/*
+**	loop_shell.c
+*/
+void						loop_shell(void);
 
 /*
 **	Supprimer

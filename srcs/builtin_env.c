@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 09:30:35 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 14:59:29 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/09 22:00:09 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,57 @@ static int					get_tab_env(char **l_cmd, char ***tab)
 	if ((flags & FLAG_I) != 0)
 		return (tab_env_i(*l_cmd, tab));
 	else if ((flags & FLAG_U) != 0)
-		return (tab_env_u(*l_cmd, tab));
+		return (tab_env_u(l_cmd, tab));
 	else
 		return (tab_env(*l_cmd, tab));
+}
+
+static int					add_in_tab(char ***tab, char *entree)
+{
+	char					**new_tab;
+	unsigned int			i;
+	t_21sh					*sh;
+
+	if (tab == NULL || entree == NULL || (sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	if ((new_tab = ft_memalloc(sizeof(char *) * (sh->nb_var_env + 2 ))) == NULL)
+		return (ERROR);
+	i = 0;
+	while (i < sh->nb_var_env && tab[0][i] != NULL)
+	{
+		new_tab[i] = tab[0][i];
+		i++;
+	}
+	new_tab[i] = ft_strdup(entree);
+	*tab = new_tab;
+	sh->nb_var_env++;
+	return (true);
+}
+
+static int					add_new_var_env(char *l_cmd, char ***tab)
+{
+	char					*egal;
+	char					*end;
+	int						recul;
+
+	if (l_cmd == NULL || tab == NULL)
+		return (false);
+	while (ft_isspace(*l_cmd) == true)
+		l_cmd++;
+	recul = 0;
+	while (l_cmd != '\0' && (egal = ft_strchr(l_cmd, '=')) != NULL)
+	{
+		if ((end = ft_strchr(l_cmd, ' ')) == NULL)
+		{
+			end = egal + ft_strlen(egal);
+			recul = -1;
+		}
+		*end = '\0';
+		if (add_in_tab(tab, l_cmd) == ERROR)
+			return (ERROR);
+		l_cmd = end + 1 + recul;
+	}
+	return (true);
 }
 
 int							builtin_env(char *l_cmd)
@@ -81,7 +129,6 @@ int							builtin_env(char *l_cmd)
 	char					**tab;
 	int						i;
 
-	tab = NULL;
 	if (l_cmd == NULL || get_tab_env(&l_cmd, &tab) == ERROR)
 		return (ERROR);
 	if (*l_cmd == '\0')
@@ -91,7 +138,13 @@ int							builtin_env(char *l_cmd)
 			ft_putendl(tab[i++]);
 	}
 	else
-		ft_putendl(l_cmd);
+	{
+		if (add_new_var_env(l_cmd, &tab) != true)
+			return (ERROR);
+		i = 0;
+		while (tab[i] != NULL)
+			ft_putendl(tab[i++]);
+	}
 	ft_free_strsplit(tab);
 	return (true);
 }

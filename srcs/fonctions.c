@@ -6,11 +6,44 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:32:47 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:57:44 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/09 22:01:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+#include <stdio.h>
+
+static int					match(char *name, char **tab)
+{
+	unsigned int			i;
+
+	if (name == NULL || tab == NULL)
+		return (0);
+	i = 0;
+	while (tab[i] != NULL)
+		if (ft_strcmp(tab[i++], name) == 0)
+			return (true);
+	return (false);
+}
+
+int							nb_match_var_env(char **tab)
+{
+	int						nb_match_val;
+	t_env					*curs;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (0);
+	nb_match_val = 0;
+	curs = sh->env;
+	while (curs != NULL)
+	{
+		if (match(curs->name, tab) == true)
+			nb_match_val++;
+		curs = curs->next;
+	}
+	return (nb_match_val);
+}
 
 int							save_pwd(char **dest)
 {
