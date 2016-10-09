@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:59:15 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/09 08:16:14 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,19 @@ int							del_bin(void);
 int							i_table_hash(char *name, int size_hash);
 
 /*
+**	sort_fonctions.c
+*/
+int							len_tri(void *node1, void *node2);
+
+/*
+**	sort_list.c
+*/
+void					sort_list(t_bin **liste,
+				int (fonc_tri)(void *, void *));
+
+/*
 **	Supprimer
 */
-
 int							print_all_bin(void);
+
 #endif

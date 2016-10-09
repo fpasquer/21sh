@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 17:00:14 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 21:57:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/09 08:19:19 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ int							save_bin(t_21sh *sh)
 	while (sh->tab_path[i] != NULL)
 		if (add_bin_directory(sh, sh->tab_path[i++]) == ERROR)
 			return (ERROR);
+	i = 0;
+	while (i < SIZE_HASH)
+		sort_list(&sh->hash[i++], len_tri);
 	return (true);
 }
 
@@ -97,7 +100,7 @@ static int					print_bin_list(t_bin *lst)
 	while (tmp != NULL)
 	{
 		loop++;
-		ft_putendl(tmp->path_name);
+		ft_putendl(tmp->name);
 		tmp = tmp->next;
 	}
 	if (loop > 0)
