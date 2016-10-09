@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 09:30:35 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 14:12:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/09 14:59:29 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # define FLAG_V 16
 
 # define OPT_WRONG -2
+# define PARAM -3
+
+#include <stdio.h>
 
 static char					get_flags_env(char  **l_cmd)
 {
@@ -44,33 +47,51 @@ static char					get_flags_env(char  **l_cmd)
 		}
 	}
 	l_cmd[0] = (c_prev == '-') ? l_cmd[0] - 1 : l_cmd[0];
-	return ((c_prev != ' ' && loop > 0) ? OPT_WRONG : flags);
+	return (((*(*l_cmd)) == '\0' && (flags & FLAG_U) != 0) ? PARAM : flags);
 }
 
-int							get_tab_env(char *l_cmd, char ***tab)
+static int					get_tab_env(char **l_cmd, char ***tab)
 {
 	char					flags;
 
 	if (l_cmd == NULL)
 		return (ERROR);
-	if ((flags = get_flags_env(&l_cmd)) == OPT_WRONG)
+	if ((flags = get_flags_env(l_cmd)) == OPT_WRONG)
 	{
 		ft_putstr("env: illegal option -- ");
-		ft_putchar(*l_cmd);
+		ft_putchar(**l_cmd);
 		ft_putchar('\n');
 		return (ERROR);
 	}
-	if ((flags & FLAG_I) != 0)
-		return (tab_env_i(l_cmd, tab));
-	else if ((flags & FLAG_U) != 0)
+	else if (flags == PARAM)
 	{
-		if (*l_cmd == '\0')
-		{
-			ft_putendl("env: option requires an argument -- u");
-			return (ERROR);
-		}
-		return (tab_env_u(l_cmd, tab));
+		ft_putendl("env: option requires an argument -- u");
+		return (ERROR);
+	}
+	if ((flags & FLAG_I) != 0)
+		return (tab_env_i(*l_cmd, tab));
+	else if ((flags & FLAG_U) != 0)
+		return (tab_env_u(*l_cmd, tab));
+	else
+		return (tab_env(*l_cmd, tab));
+}
+
+int							builtin_env(char *l_cmd)
+{
+	char					**tab;
+	int						i;
+
+	tab = NULL;
+	if (l_cmd == NULL || get_tab_env(&l_cmd, &tab) == ERROR)
+		return (ERROR);
+	if (*l_cmd == '\0')
+	{
+		i = 0;
+		while (tab[i] != NULL)
+			ft_putendl(tab[i++]);
 	}
 	else
-		return (tab_env(l_cmd, tab));
+		ft_putendl(l_cmd);
+	ft_free_strsplit(tab);
+	return (true);
 }

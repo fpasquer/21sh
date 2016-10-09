@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 14:10:58 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/09 14:37:14 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int							del_env(void);
 /*
 **	builtin_env.c
 */
-int							get_tab_env(char *l_cmd, char ***tab);
+int							builtin_env(char *l_cmd);
 
 /*
 **	options_env.c
