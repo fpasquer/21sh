@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 14:07:56 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 16:06:02 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 19:32:44 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static int					add_in_tab(int i, char **tab, t_env *lst)
 				return (ERROR);
 		curs = curs->next;
 	}
-	return (true);
+	return (i);
 }
 
 char						**get_new_tab(t_env *lst_1, t_env *lst_2)
@@ -115,16 +115,14 @@ char						**get_new_tab(t_env *lst_1, t_env *lst_2)
 	if ((tab = ft_memalloc(sizeof(char *) * (count + 1))) == NULL)
 		return (NULL);
 	i = 0;
-	if (lst_1 != NULL)
-		if ((i = add_in_tab(i, tab, lst_1)) == ERROR)
-			return (NULL);
-	if (lst_2 != NULL)
-		if ((i = add_in_tab(i, tab, lst_2)) == ERROR)
-			return (NULL);
+	if ((i = add_in_tab(i, tab, lst_1)) == ERROR)
+		return (NULL);
+	if ((i = add_in_tab(i, tab, lst_2)) == ERROR)
+		return (NULL);
 	return (tab);
 }
 
-int							tab_env_i(char **l_cmd, char ***tab)
+static int					save_tab_env(t_env *base, char **l_cmd, char ***tab)
 {
 	char					**new_env;
 	t_env					*at_add;
@@ -133,22 +131,41 @@ int							tab_env_i(char **l_cmd, char ***tab)
 		return (ERROR);
 	if (moove_l_cmd(l_cmd) == false)
 		return (ERROR);
-	if ((at_add = get_at_add(new_env)) != NULL)
-	{
-		tab[0] = get_new_tab(NULL, at_add);
+	at_add = get_at_add(new_env);
+	tab[0] = get_new_tab(base, at_add);
+	if (at_add != NULL)
 		del_list_env(&at_add);
-	}
 	ft_free_strsplit(new_env);
 	return (true);
+
+}
+
+int							tab_env_i(char **l_cmd, char ***tab)
+{
+	return (save_tab_env(NULL, l_cmd, tab));
 }
 
 int							tab_env_u(char **l_cmd, char ***tab)
 {
-	return (true);
+	t_21sh					*sh;
 
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	return (save_tab_env(sh->env, l_cmd, tab));
 }
 
 int							tab_env(char **l_cmd, char ***tab)
 {
-	return (true);
+	t_env					*curs;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	curs = sh->env;
+	while (curs != NULL)
+	{
+		curs->add = true;
+		curs = curs->next;
+	}
+	return (save_tab_env(sh->env, l_cmd, tab));
 }

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 09:30:35 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 16:06:46 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 19:57:59 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,68 @@
 
 #include <stdio.h>
 
+static int					env_exist(char *name)
+{
+	t_env					*curs;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	curs = sh->env;
+	while (curs != NULL)
+	{
+		if (ft_strcmp(name, curs->name) == 0)
+		{
+			curs->add = false;
+			return (true);
+		}
+		curs = curs->next;
+	}
+	return (false);
+}
+
+static int					option_u_env(char **l_cmd)
+{
+	char					*end;
+	int						decalage;
+
+	if (l_cmd != NULL && ft_strncmp(*l_cmd, "u ", 2) == 0)
+	{
+		l_cmd[0] += 2;
+		while (ft_isspace((*(*l_cmd))))
+			l_cmd[0]++;
+		if ((*(*l_cmd)) == '\0')
+			return (PARAM);
+		if ((end = ft_strchr(*l_cmd, ' ')) == NULL)
+			end = l_cmd[0] + ft_strlen(*l_cmd);
+		decalage = (*end == '\0') ? -1 : 0;
+		*end = '\0';
+		env_exist(*l_cmd);
+		l_cmd[0] = end + decalage;
+		return (true);
+	}
+	return (PARAM);
+}
+
 static int					change_flag(char *flags, char **l_cmd)
 {
-	char					*tmp_line;
-	bool					option;
-
 	if (flags == NULL || l_cmd == NULL)
 		return (ERROR);
 	while ((*(*l_cmd)) == '-' || (*(*l_cmd)) == ' ')
-	{
-		if ((*(*l_cmd)) == '-')
+		if ((*(*l_cmd)++) == '-')
 		{
-			tmp_line = ++l_cmd[0];
-			while (!(option = false) && (*tmp_line == 'i' || *tmp_line == 'u'))
+			if ((*(*l_cmd)) == 'i')
+				*flags = *flags | FLAG_I;
+			else if ((*(*l_cmd)) == 'u')
 			{
-				option = true;
-				*flags = (*tmp_line == 'i') ? *flags | FLAG_I : *flags;
-				*flags = (*tmp_line++ == 'u') ? *flags | FLAG_U : *flags;
-				l_cmd[0]++;
+				*flags = *flags | FLAG_U;
+				if (option_u_env(l_cmd) == PARAM)
+					return (PARAM);
 			}
-			if (option == false && (*(*l_cmd)) != ' ')
-				return (false);
+			else
+				return (OPT_WRONG);
+			l_cmd[0]++;
 		}
-		l_cmd[0]++;
-	}
 	return (true);
 }
 
@@ -53,16 +91,27 @@ static char					get_flags_env(char  **l_cmd)
 {
 	char					flags;
 	char					c_prev;
+	int						ret;
+	t_env					*curs;
+	t_21sh					*sh;
 
 	flags = 0;
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	curs = sh->env;
+	while (curs != NULL)
+	{
+		curs->add = true;
+		curs = curs->next;
+	}
 	while (ft_isspace((*(*l_cmd))))
 		l_cmd[0]++;
 	if (*(*l_cmd) == 'e' && *(*l_cmd + 1) == 'n' && *(*l_cmd + 2) == 'v' &&
 			*(*l_cmd + 3) == ' ')
 	{
 		l_cmd[0] += 4;
-		if (change_flag(&flags, l_cmd) == false)
-			return (OPT_WRONG);
+		if ((ret = change_flag(&flags, l_cmd)) == OPT_WRONG  || ret == PARAM)
+			return (ret);
 	}
 	return (flags);
 }
@@ -89,6 +138,8 @@ int							builtin_env(char *l_cmd)
 	tab = NULL;
 	if ((flags = get_flags_env(&l_cmd)) == PARAM || flags == OPT_WRONG)
 		return (error_env(flags, l_cmd));
+	if (flags == ERROR)
+		return (ERROR);
 	if ((flags & FLAG_I) != 0)
 		ret = tab_env_i(&l_cmd, &tab);
 	else if ((flags & FLAG_U) != 0)
