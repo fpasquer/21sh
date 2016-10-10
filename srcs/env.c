@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 08:36:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 13:29:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 14:53:42 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-int							add_env(t_env **env, char *str, int index)
+int							add_env(t_env **env, char *str, int index, bool add)
 {
 	char					*egal;
 	t_env					*new;
@@ -30,6 +30,7 @@ int							add_env(t_env **env, char *str, int index)
 	if ((new->name = ft_strdup(str)) && (new->value = ft_strdup(egal + 1)))
 	{
 		new->index = index;
+		new->add = add;
 		if ((curs = *env) == NULL)
 			*env = new;
 		else
@@ -51,7 +52,7 @@ int							save_env(t_env **env)
 		return (ERROR);
 	i = 0;
 	while (environ[i++] != NULL)
-		if (add_env(env, environ[i - 1], i - 1) == ERROR)
+		if (add_env(env, environ[i - 1], i - 1, true) == ERROR)
 			return (ERROR);
 	return (i - 1);
 }

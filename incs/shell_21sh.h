@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 13:43:17 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 14:51:02 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void						sort_list(t_bin **liste,
 **	env.c
 */
 int							save_env(t_env **env);
-int							add_env(t_env **env, char *str, int index);
+int							add_env(t_env **env, char *str, int index, bool ad);
 int							del_list_env(t_env **list);
 int							del_env(void);
 

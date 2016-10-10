@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 09:30:35 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 14:34:58 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 16:06:46 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,15 @@ int							builtin_env(char *l_cmd)
 		ret = tab_env_u(&l_cmd, &tab);
 	else
 		ret = tab_env(&l_cmd, &tab);
+	if (ret == ERROR)
+		return (-1);
+	if (tab != NULL)
+	{
+		for (int i = 0; tab[i] != NULL; i ++)
+			printf("line %2d, tab[%2d]=%s\n", __LINE__, i, tab[i]);
+		printf("line = %2d, ret = %d\n", __LINE__, ret);
+		ft_free_strsplit(tab);
+	}
 	ft_putendl(l_cmd);
 	return (true);
 }

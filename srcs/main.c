@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 14:34:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 16:06:58 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int							main(void)
 	else
 	{
 		//loop_shell();
-		if (builtin_env("env           -i       -u                         dskgf     sdgdf") == ERROR)
+		if (builtin_env("env           -i       -u                     dskgf     sdgdf") == ERROR)
 			ft_putendl("Erreur");
 		del_21sh();
 	}
