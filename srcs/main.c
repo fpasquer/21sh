@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 22:03:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 14:34:25 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int							main(void)
 	else
 	{
 		//loop_shell();
-		char tab[] = "env -u HOME ghj jhfgs djhgf jsa PATH a=a z=z k=z";
-		if (builtin_env(tab) == ERROR)
+		if (builtin_env("env           -i       -u                         dskgf     sdgdf") == ERROR)
 			ft_putendl("Erreur");
+		del_21sh();
 	}
 	return (EXIT_SUCCESS);
 }

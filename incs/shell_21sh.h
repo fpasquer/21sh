@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 21:39:39 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 13:43:17 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@
 /*
 **	name :			nom de la variable env
 **	value :			valeur de la variable env
+**	index :			position dans la liste chainee
+**	add :			pour recreer le tab 2d env
 */
 typedef struct				s_env
 {
 	char					*name;
 	char					*value;
 	int						index;
+	bool					add;
 	struct s_env			*next;
 }							t_env;
 
@@ -128,6 +131,8 @@ void						sort_list(t_bin **liste,
 **	env.c
 */
 int							save_env(t_env **env);
+int							add_env(t_env **env, char *str, int index);
+int							del_list_env(t_env **list);
 int							del_env(void);
 
 /*
@@ -138,9 +143,9 @@ int							builtin_env(char *l_cmd);
 /*
 **	options_env.c
 */
-int							tab_env_i(char *l_cmd, char ***tab);
+int							tab_env_i(char **l_cmd, char ***tab);
 int							tab_env_u(char **l_cmd, char ***tab);
-int							tab_env(char *l_cmd, char ***tab);
+int							tab_env(char **l_cmd, char ***tab);
 
 /*
 **	loop_shell.c
