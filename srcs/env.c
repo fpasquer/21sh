@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 08:36:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 14:53:42 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 20:38:25 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,33 +83,4 @@ int							del_env(void)
 	if ((sh = get_21sh(NULL)) != NULL)
 		return (del_list_env(&sh->env));
 	return (false);
-}
-
-int							print_all_env(void)
-{
-	int						loop;
-	t_env					*curs;
-	t_21sh					*sh;
-
-	loop = ERROR;
-	if ((sh = get_21sh(NULL)) != NULL)
-	{
-		loop = 0;
-		curs = sh->env;
-		while (curs != NULL)
-		{
-			ft_putchar('[');
-			ft_putnbr(curs->index);
-			ft_putstr("] ");
-			ft_putstr(curs->name);
-			ft_putchar('=');
-			ft_putendl(curs->value);
-			curs = curs->next;
-			loop++;
-		}
-		ft_putstr("il y a ");
-		ft_putnbr(sh->nb_var_env);
-		ft_putendl(" variable(s) d'env");
-	}
-	return (loop);
 }

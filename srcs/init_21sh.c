@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 09:22:44 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 13:46:46 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 09:53:53 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ t_21sh						*init_21sh2(t_21sh **sh)
 		(*sh)->sh_lvl = ft_atoi(sh_lvl) + 1;
 	if ((nb_var_env = save_env(&(*sh)->env)) == ERROR)
 		return (NULL);
+	if (init_term(sh) == ERROR)
+		return (NULL);
 	(*sh)->nb_var_env = nb_var_env;
-	return (get_21sh(*sh));
+	return (*sh);
 }
 
 t_21sh						*init_21sh(void)
@@ -78,6 +80,8 @@ t_21sh						*init_21sh(void)
 	t_21sh					*sh;
 
 	if ((sh = ft_memalloc(sizeof(*sh))) == NULL)
+		return (NULL);
+	if (get_21sh(sh) == NULL)
 		return (NULL);
 	if (save_sh_init("TERM", &sh->term_name) == false)
 		if ((sh->term_name = ft_strdup(NAME_SHELL)) == NULL)
@@ -103,6 +107,10 @@ int							del_21sh(void)
 	t_21sh					*shell_21sh;
 
 	if ((shell_21sh = get_21sh(NULL)) != NULL)
+	{
+		if (tcsetattr(0, TCSADRAIN, &shell_21sh->reset) == -1)
+			return (ERROR);
 		return (del_struct_21sh(&shell_21sh));
+	}
 	return (ERROR);
 }

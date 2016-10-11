@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 09:30:35 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 19:57:59 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/10 20:56:41 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 
-static int					env_exist(char *name)
+int							env_exist(char *name)
 {
 	t_env					*curs;
 	t_21sh					*sh;
@@ -148,7 +148,7 @@ int							builtin_env(char *l_cmd)
 		ret = tab_env(&l_cmd, &tab);
 	if (ret == ERROR)
 		return (-1);
-	if (tab != NULL)
+	if (tab != NULL)//a finir
 	{
 		for (int i = 0; tab[i] != NULL; i ++)
 			printf("line %2d, tab[%2d]=%s\n", __LINE__, i, tab[i]);

@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   functions_key.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 10:01:13 by fpasquer         ###   ########.fr       */
+/*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
+/*   Updated: 2016/10/11 14:52:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 
-int							main(void)
+void						key_exit(void)
 {
-	int						loop_max;
-	t_21sh					*sh;
-
-	if ((sh = init_21sh()) == NULL)
-		ft_putendl("Erreur initialisation 21sh");
-	else
-	{
-		loop_shell();
-		ft_putendl("Erreur 21 sh");
-	}
-	return (EXIT_SUCCESS);
+	ft_putendl(COLOR_LINE);
+	ft_putstr("exit");
+	ft_putendl(RESET_COLOR);
+	del_21sh();
+	exit(0);
 }

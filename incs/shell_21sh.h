@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 18:08:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 14:50:36 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <stdbool.h>
 # include <sys/stat.h>
 # include <termios.h>
+# include <curses.h>
 # include <dirent.h>
+# include <sys/ioctl.h>
 # include "../libft/libft.h"
 
 # define ERROR -1
@@ -27,6 +29,10 @@
 # define SIZE_HASH 300
 # define NAME_SHELL "xterm-256color"
 # define SIZE_PROMT 2000
+
+# define COLOR_POMT "\033[032;1m"
+# define RESET_COLOR "\033[0m"
+# define COLOR_LINE "\033[034;1;4m"
 
 /*
 **	name :			nom de la variable env
@@ -52,7 +58,6 @@ typedef struct				s_env
 **	stat :			retour de lstat sur le binaire
 **	next :			adresse du maillon suivant
 */
-
 typedef struct				s_bin
 {
 	char					*name;
@@ -75,6 +80,8 @@ typedef struct				s_bin
 **	tab_path :		path split sur :
 **	hash :			table de hash des binaire
 **	env :			liste des variables d'env
+**	reset :			structure pour reset les parametres du term
+**	term_param :	structure pour save les parametres du term
 */
 typedef struct				s_21sh
 {
@@ -89,6 +96,9 @@ typedef struct				s_21sh
 	int						nb_var_env;
 	t_bin					*hash[SIZE_HASH];
 	t_env					*env;
+	struct termios			reset;
+	struct termios			term_param;
+	struct winsize			win;
 }							t_21sh;
 
 /*
@@ -151,6 +161,16 @@ int							tab_env(char **l_cmd, char ***tab);
 **	loop_shell.c
 */
 void						loop_shell(void);
+
+/*
+**	term.c
+*/
+int							init_term(t_21sh **sh);
+
+/*
+**	functions_key.c
+*/
+void						key_exit(void);
 
 /*
 **	Supprimer
