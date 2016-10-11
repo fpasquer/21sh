@@ -73,6 +73,7 @@ void						loop_shell(void)
 {
 	char					*line;
 	int						ret;
+	t_stin_content 			stin_content;
 
 	print_header();
 	while (print_prompt())
@@ -80,6 +81,8 @@ void						loop_shell(void)
 		if ((line = get_line_entree()) == NULL)
 			break ;
 		put_line_entre(line);
+		stin_content = parse_stin(line);
+		exe_cmd(stin);
 		ft_memdel((void**)&line);
 	}
 	del_21sh();

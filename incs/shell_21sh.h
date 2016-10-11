@@ -33,6 +33,7 @@
 # define COLOR_POMT "\033[032;1m"
 # define RESET_COLOR "\033[0m"
 # define COLOR_LINE "\033[034;1;4m"
+# define SPACE_CHAR 32
 
 /*
 **	name :			nom de la variable env
@@ -58,6 +59,7 @@ typedef struct				s_env
 **	stat :			retour de lstat sur le binaire
 **	next :			adresse du maillon suivant
 */
+
 typedef struct				s_bin
 {
 	char					*name;
@@ -83,6 +85,7 @@ typedef struct				s_bin
 **	reset :			structure pour reset les parametres du term
 **	term_param :	structure pour save les parametres du term
 */
+
 typedef struct				s_21sh
 {
 	char					*term_name;
@@ -140,6 +143,7 @@ void						sort_list(t_bin **liste,
 /*
 **	env.c
 */
+
 int							save_env(t_env **env);
 int							add_env(t_env **env, char *str, int index, bool ad);
 int							del_list_env(t_env **list);
@@ -177,5 +181,38 @@ void						key_exit(int val_exit);
 */
 int							print_all_bin(void);
 int							print_all_env(void);
+
+
+/**
+*** FONCTIONS TEMPORAIRES
+***/
+
+
+/*
+**
+**	bin 			: nom de l'executable
+**	bin_argv		: tableau contenant l'executable et les parametres
+**	bin_param		: tableau contenant uniquement les parametres
+**	bin_argc		: contient le nombre de parametre + l'executable
+**
+**/
+
+typedef struct 				s_stin_content
+{
+	char 					*bin;
+	char 					**bin_argv;
+	char 					**bin_param;
+	int 					bin_argc;
+}							t_stin_content;
+
+typedef struct 				s_builtin_lst
+{
+	int 					i;
+	int 					(*p)(t_stin_content *stin);
+}							t_builtin_lst;
+
+t_stin_content				parse_stin(char *line);
+int	 						cd(t_stin_content *cmd);
+
 
 #endif

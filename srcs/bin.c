@@ -58,8 +58,8 @@ static int					add_bin_directory(t_21sh *sh, char *path)
 	DIR						*direct;
 	struct dirent			*str_dirent;
 
-	if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
-		return (ERROR);
+	//if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
+	//	return (ERROR);
 	if ((direct = opendir(path)) != NULL)
 	{
 		while ((str_dirent = readdir(direct)) != NULL)
