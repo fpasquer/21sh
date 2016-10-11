@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 16:08:04 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 21:18:59 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define SIZE_HASH 300
 # define NAME_SHELL "xterm-256color"
 # define SIZE_PROMT 2000
+
+# define HISTORY "/tmp/history.txt"
 
 # define COLOR_POMT "\033[032;1m"
 # define RESET_COLOR "\033[0m"
@@ -70,6 +72,16 @@ typedef struct				s_bin
 }							t_bin;
 
 /*
+**	line :			ligne de l'historique
+**	next :			pointeur sur le maillon suivant
+*/
+typedef struct				s_history
+{
+	char					*line;
+	struct s_history		*next;
+}							t_histoy;
+
+/*
 **	term_name :		nom du terminal recu dans **env
 **	home :			path du home dans la variable env
 **	pwd :			path actuel
@@ -82,6 +94,7 @@ typedef struct				s_bin
 **	env :			liste des variables d'env
 **	reset :			structure pour reset les parametres du term
 **	term_param :	structure pour save les parametres du term
+**	hist :			pointeur sur le premier maillon de l'historique
 */
 typedef struct				s_21sh
 {
@@ -96,6 +109,7 @@ typedef struct				s_21sh
 	int						nb_var_env;
 	t_bin					*hash[SIZE_HASH];
 	t_env					*env;
+	t_histoy				*hist;
 	struct termios			reset;
 	struct termios			term_param;
 	struct winsize			win;
@@ -171,6 +185,13 @@ int							init_term(t_21sh **sh);
 **	functions_key.c
 */
 void						key_exit(int val_exit);
+
+/*
+**	history.c
+*/
+int							init_history(void);
+int							del_hist(void);
+int							add_history(t_histoy **hist, char **line);
 
 /*
 **	Supprimer

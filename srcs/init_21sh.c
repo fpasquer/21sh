@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 09:22:44 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 09:53:53 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 21:36:17 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int					del_struct_21sh(t_21sh **sh)
 		ft_memdel((void**)&(*sh)->pwd);
 	del_bin();
 	del_env();
+	del_hist();
 	ft_memdel((void**)sh);
 	return (true);
 }
@@ -70,6 +71,8 @@ t_21sh						*init_21sh2(t_21sh **sh)
 	if (init_term(sh) == ERROR)
 		return (NULL);
 	(*sh)->nb_var_env = nb_var_env;
+	if (init_history() == ERROR)
+		return (NULL);
 	return (*sh);
 }
 

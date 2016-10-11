@@ -14,7 +14,7 @@ NAME			= 21sh
 
 SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					sort_fonctions.c sort_list.c env.c builtin_env.c key.c		\
-					options_env.c loop_shell.c term.c functions_key.c
+					options_env.c loop_shell.c term.c functions_key.c history.c	
 
 INCLUDES		= shell_21sh.h key.h
 

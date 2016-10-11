@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 14:49:07 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 21:20:13 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,20 @@ void						loop_shell(void)
 {
 	char					*line;
 	int						ret;
+	t_21sh					*sh;
 
-	print_header();
-	while (print_prompt())
+	if ((sh = get_21sh(NULL)) != NULL)
 	{
-		if ((line = get_line_entree()) == NULL)
-			break ;
-		put_line_entre(line);
-		ft_memdel((void**)&line);
+		print_header();
+		while (print_prompt())
+		{
+			if ((line = get_line_entree()) == NULL)
+				break ;
+			put_line_entre(line);
+			if (add_history(&sh->hist, &line) == ERROR)
+				break ;
+			ft_memdel((void**)&line);
+		}
 	}
 	del_21sh();
 }

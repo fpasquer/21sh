@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 17:00:14 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 08:19:19 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 19:25:58 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static int					add_bin_directory(t_21sh *sh, char *path)
 	DIR						*direct;
 	struct dirent			*str_dirent;
 
-	if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
-		return (ERROR);
+//	if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
+//		return (ERROR);
 	if ((direct = opendir(path)) != NULL)
 	{
 		while ((str_dirent = readdir(direct)) != NULL)
