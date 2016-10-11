@@ -6,12 +6,14 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 14:45:17 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 18:03:14 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/key.h"
 #include "../incs/shell_21sh.h"
+
+#define KEY_IGNORE -2
 
 static t_line				*add_new_line(t_line **lst, char *line,
 		unsigned int i)
@@ -39,8 +41,22 @@ static t_line				*add_new_line(t_line **lst, char *line,
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
 	if (ESC)
-		key_exit();
-	return (b[0]);
+		key_exit(EXIT_SUCCESS);
+	else if (TAB)
+		;
+	else if (ARROW_UP)
+		;
+	else if (ARROW_DOWN)
+		;
+	else if (ARROW_RIGHT)
+		;
+	else if (ARROW_LEFT)
+		;
+	else if (DEL)
+		;
+	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
+		return (b[0]);
+	return (KEY_IGNORE);
 }
 
 static char					get_char_keyboard(void)
@@ -68,10 +84,12 @@ static t_line				*get_line(void)
 		ft_bzero(line, sizeof(line));
 		while (i < MAX_LEN_LINE)
 		{
-			ft_putchar(c);
+			if (c != KEY_IGNORE)
+				ft_putchar(c);
 			if (c == '\n' || c == EOF)
 				break;
-			line[i++] = c;
+			if (c != KEY_IGNORE)
+				line[i++] = c;
 			c = get_char_keyboard();
 		}
 		if ((lst = add_new_line(&lst, line, i)) == NULL)
@@ -118,7 +136,7 @@ static char					*make_tab(t_line *lines)
 	t_line					*curs;
 
 	if (lines == NULL)
-		return (NULL);
+		return (ft_memalloc(sizeof(*line)));
 	if ((len_total = len_tab(lines)) < 0)
 		return (NULL);
 	if ((line = ft_memalloc(sizeof(*line) * (len_total + 1))) == NULL)
@@ -139,8 +157,7 @@ char						*get_line_entree(void)
 	t_line					*lines;
 	t_line					*curs;
 
-	if ((lines = get_line()) == NULL)
-		return (NULL);
+	lines = get_line();
 	line = make_tab(lines);
 	del_lines(&lines);
 	return (line);

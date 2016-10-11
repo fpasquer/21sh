@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 14:50:36 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/11 16:08:04 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int							init_term(t_21sh **sh);
 /*
 **	functions_key.c
 */
-void						key_exit(void);
+void						key_exit(int val_exit);
 
 /*
 **	Supprimer
