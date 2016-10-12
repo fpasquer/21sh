@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 11:20:21 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 15:54:18 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,14 +211,18 @@ int							del_hist(void);
 int							add_history(t_histoy **hist, char **line);
 int							print_history(void);
 
+/*
+**	print_event.c
+*/
+char						*put_words_event(t_list_print *lst, int  len,
+		int nb_word_line,t_21sh  *sh);
+
 
 /*
 **	print_list_term.c
 */
-char						*print_list_term(t_list_print *list);
-t_list_print				*get_list_term(char **list);
-int							del_list_term(t_list_print **list);
-
+char						*print_list_term(t_21sh *sh, char **list,
+		bool select);
 /*
 **	Supprimer
 */

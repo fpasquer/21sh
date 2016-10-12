@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 10:33:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 17:47:08 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,37 @@ int							init_history(void)
 	return (true);
 }
 
+static int					loop_print(t_21sh *sh)
+{
+	char					**list;
+	char					*ret;
+	int						loop;
+	t_histoy				*curs;
+
+	curs = (sh == NULL) ? NULL : sh->hist;
+	loop = 0;
+	while (curs != NULL)
+	{
+		loop++;
+		curs = curs->next;
+	}
+	if (loop == 0 || (list = ft_memalloc((sizeof(*list) * (loop + 1)))) == NULL)
+		return ((loop == 0) ? false : ERROR);
+	curs = sh->hist;
+	loop = 0;
+	while (curs != NULL)
+	{
+		list[loop++] = curs->line;
+		curs = curs->next;
+	}
+	ret = print_list_term(sh, list, false);// a passer en false
+	ft_memdel((void**)&list);
+	return ((ret == NULL) ? false : true);
+}
+
 int							print_history(void)
 {
-	t_histoy				*curs;
+	int						ret;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL)
@@ -81,19 +109,13 @@ int							print_history(void)
 	ft_putendl(COLOR_LINE);
 	ft_putstr("print_history");
 	ft_putendl(RESET_COLOR);
-	if ((curs = sh->hist) != NULL)
-	{
-		while (curs->next != NULL)
-			curs = curs->next;
-		while (curs != NULL)
-		{
-			if (curs->line != NULL)
-				ft_putendl(curs->line);
-			curs = curs->prev;
-		}
-	}
+	ret = loop_print(sh);
+	if (ret == ERROR)
+		ft_putendl("History error");
+	else if (ret == false)
+		ft_putendl("History empty");
 	print_prompt();
-	return (true);
+	return (ret);
 }
 
 int							del_hist(void)

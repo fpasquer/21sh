@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 10:34:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 11:18:31 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 17:42:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int					add_list_term(t_list_print **lst, char **word)
 	return (true);
 }
 
-t_list_print				*get_list_term(char **list)
+static t_list_print				*get_list_term(char **list)
 {
 	unsigned int			i;
 	t_list_print			*lst;
@@ -66,15 +66,87 @@ t_list_print				*get_list_term(char **list)
 	return (lst);
 }
 
+static int					del_list_term(t_list_print **lst)
+{
+	t_list_print			*tmp;
+	t_list_print			*curs;
 
-char						*print_list_term(t_list_print *list)
+	if (lst == NULL)
+		return (ERROR);
+	curs = *lst;
+	while (curs != NULL)
+	{
+		tmp = curs->next;
+		ft_memdel((void**)&curs);
+		curs = tmp;
+	}
+	return (true);
+}
+
+static char					*put_words2(t_list_print *lst, int len,
+		int nb_word_line)
+{
+	int						x;
+	int						y;
+	int						i;
+	t_list_print			*curs;
+
+	if (lst == NULL || len <= 0 || nb_word_line <= 0)
+		return (NULL);
+	curs = lst;
+	y = 0;
+	while (curs != NULL)
+	{
+		x = 0;
+		while (curs != NULL && x++ < nb_word_line)
+		{
+			i = ft_strlen(curs->word);
+			ft_putstr(curs->word);
+			while (i++ < len)
+				ft_putchar(' ');
+			curs = curs->next;
+		}
+		ft_putchar('\n');
+		y++;
+	}
+	return (lst->word);
+}
+
+static char					*put_words1(t_21sh *sh, t_list_print *lst,
+		bool select)
 {
 	size_t					bigger_word;
 	unsigned int			len_total;
 	unsigned int			nb_word;
+	int						len;
+	int						nb_word_line;
 
-	if (get_infos_words(list, &bigger_word, &len_total, &nb_word) == ERROR)
+	if (sh == NULL || lst == NULL)
 		return (NULL);
-	printf("bigger_word = %zu, len_total = %u, nb_word = %u\n", bigger_word, len_total, nb_word);
-	return (NULL);
+	if (get_infos_words(lst, &bigger_word, &len_total, &nb_word) == ERROR)
+		return (NULL);
+	len = sh->win.ws_col / (bigger_word + 1);
+	len = sh->win.ws_col / len;
+	nb_word_line = sh->win.ws_col / len;
+	if (select == true)
+		return (put_words_event(lst, len, nb_word_line, sh));
+	else
+		return (put_words2(lst, len, nb_word_line));
+}
+
+
+char						*print_list_term(t_21sh *sh, char **list,
+		bool select)
+{
+	char					*adr;
+	t_list_print			*lst;
+
+	if ((lst = get_list_term(list)) == NULL)
+		return (NULL);
+	if (sh == NULL)
+		return (NULL);
+	adr = NULL;
+	adr = put_words1(sh, lst, select);
+	del_list_term(&lst);
+	return (adr);
 }
