@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/13 00:00:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/13 01:49:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,20 @@ static t_cmd			*create_cmd(t_cmd *cmd2, char *line, int size, int i)
 
 static int				check_error_parse(t_cmd *cmd)
 {
-	if (cmd->op != 0)
+	if (cmd->op != 0 || (cmd->arg[0] == NULL && cmd->right))
 		return (-1);
 	cmd = cmd->right;
 	while (cmd)
 	{
+		if ((cmd->arg == NULL && cmd->right) ||
+				(cmd->arg && cmd->arg[0] == NULL && cmd->right))
+			return (-1);
+		if ((cmd->arg == NULL && cmd->op == 2) ||
+				(cmd->arg && cmd->arg[0] == NULL && cmd->op == 2))
+			return (-1);
+		if ((cmd->arg == NULL && cmd->op == 3) ||
+				(cmd->arg && cmd->arg[0] == NULL && cmd->op == 3))
+			return (-1);
 		cmd = cmd->right;
 	}
 	return (0);
@@ -117,61 +126,36 @@ void					print_cmd(t_cmd *cmd)
 	cmpt = 0;
 	while (cmd)
 	{
-		ft_putstr("father link num = ");
-		ft_putnbr(cmpt);
-		ft_putchar('\n');
-		ft_putstr("link op = ");
-		ft_putnbr(cmd->op);
-		ft_putchar('\n');
-		ft_putstr("link cmd = ");
-		ft_putnbr(cmd->cmd);
-		ft_putstr("\nline = ");
-		if (cmd->line)
-			ft_putendl(cmd->line);
-		else
-			ft_putchar('\n');
-		ft_putstr("argc = ");
-		ft_putnbr(cmd->argc);
-		ft_putchar('\n');
-		ft_putstr("agr :\n");
+		printf("father link num = %d\n", cmpt);
+		printf("link op = %d\n", cmd->op);
+		printf("link cmd = %d\n", cmd->cmd);
+		printf("line = %s\n", cmd->line);
+		printf("argc = %d\n", cmd->argc);
 		i = 0;
 		if (cmd->arg)
 		{
 			while (cmd->arg[i])
 			{
-				ft_putendl(cmd->arg[i]);
+				printf("cmd->arg[%d] = %s\n", i, cmd->arg[i]);
 				i++;
 			}
 		}
-		else
-			ft_putchar('\n');
 		ft_putchar('\n');
 		curs = cmd->left;
 		cmpt2 = 1;
 		while (curs)
 		{
-			ft_putstr("child link num = ");
-			ft_putnbr(cmpt);
-			ft_putchar('.');
-			ft_putnbr(cmpt2);
-			ft_putchar('\n');
-			ft_putstr("link cmd = ");
-			ft_putnbr(curs->cmd);
-			ft_putstr("\nline = ");
-			if (curs->line)
-				ft_putendl(curs->line);
-			else
-				ft_putchar('\n');
-			ft_putstr("argc = ");
-			ft_putnbr(curs->argc);
-			ft_putchar('\n');
-			ft_putstr("agr :\n");
+			printf("child link num = %d.%d\n", cmpt, cmpt2);
+			printf("link op = %d\n", curs->op);
+			printf("link cmd = %d\n", curs->cmd);
+			printf("line = %s\n", curs->line);
+			printf("argc = %d\n", curs->argc);
 			i = 0;
 			if (curs->arg)
 			{
 				while (curs->arg[i])
 				{
-					ft_putendl(curs->arg[i]);
+					printf("cmd->arg[%d] = %s\n", i, curs->arg[i]);
 					i++;
 				}
 			}
