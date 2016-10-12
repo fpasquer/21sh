@@ -20,6 +20,9 @@ t_stin_content	parse_stin(char *line) {
 		cmd.str = line;
 		cmd.bin = cmd.bin_argv[0];
 		cmd.bin_argc = count(cmd.bin_argv);
+		if (cmd.bin_argc > 1) {
+			cmd.bin_param = &cmd.bin_argv[1];
+		}
 	}
 	return (cmd);
 }

@@ -22,26 +22,6 @@
 
 #include <stdio.h>
 
-int							env_exist(char *name)
-{
-	t_env					*curs;
-	t_21sh					*sh;
-
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	curs = sh->env;
-	while (curs != NULL)
-	{
-		if (ft_strcmp(name, curs->name) == 0)
-		{
-			curs->add = false;
-			return (true);
-		}
-		curs = curs->next;
-	}
-	return (false);
-}
-
 static int					option_u_env(char **l_cmd)
 {
 	char					*end;
@@ -58,7 +38,7 @@ static int					option_u_env(char **l_cmd)
 			end = l_cmd[0] + ft_strlen(*l_cmd);
 		decalage = (*end == '\0') ? -1 : 0;
 		*end = '\0';
-		env_exist(*l_cmd);
+		check_if_env_exist(*l_cmd);
 		l_cmd[0] = end + decalage;
 		return (true);
 	}

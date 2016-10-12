@@ -22,6 +22,10 @@
 # include <curses.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
+
+# include <sys/stat.h>
+# include <sys/types.h>
+
 # include "../libft/libft.h"
 
 # define ERROR -1
@@ -34,6 +38,8 @@
 # define RESET_COLOR "\033[0m"
 # define COLOR_LINE "\033[034;1;4m"
 # define SPACE_CHAR 32
+
+typedef struct stat			t_stat;
 
 /*
 **	name :			nom de la variable env
@@ -240,5 +246,10 @@ char						*getenv_value(char *name);
 
 int 						modify_env_value(char *name, char *value);
 
+/*
+** Verifie sur l'env existe
+*/
+
+int							check_if_env_exist(char *name);
 
 #endif

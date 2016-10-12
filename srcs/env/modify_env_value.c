@@ -11,9 +11,10 @@ int							modify_env_value(char *name, char *value)
 	curs = sh->env;
 	while (curs != NULL)
 	{
-		if (ft_strcmp(name, curs->name) == 0) {
-			free(curs->name);
-			curs->name = ft_strdup(value);
+		if (curs->name && ft_strcmp(name, curs->name) == 0) {
+			free(curs->value);
+			if ((curs->value = ft_strdup(value)) == NULL)
+				return (false);
 			return (true);
 		}
 		curs = curs->next;
