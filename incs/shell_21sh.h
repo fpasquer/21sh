@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 08:37:50 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 11:20:21 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,20 @@ typedef struct				s_history
 	struct s_history		*next;
 	struct s_history		*prev;
 }							t_histoy;
+
+/*
+**	word :					mot a afficher
+**	len :					longueur de word
+**	next :					pointeur sur le maillon suivant
+**	prev :					pointeur sur le millon precedent;
+*/
+typedef struct				s_print_list
+{
+	char					*word;
+	size_t					len;
+	struct s_print_list		*next;
+	struct s_print_list		*prev;
+}							t_list_print;
 
 /*
 **	term_name :		nom du terminal recu dans **env
@@ -176,6 +190,7 @@ int							tab_env(char **l_cmd, char ***tab);
 **	loop_shell.c
 */
 void						loop_shell(void);
+int							print_prompt(void);
 
 /*
 **	term.c
@@ -186,6 +201,7 @@ int							init_term(t_21sh **sh);
 **	functions_key.c
 */
 void						key_exit(int val_exit);
+int							key_del_hist(void);
 
 /*
 **	history.c
@@ -193,6 +209,15 @@ void						key_exit(int val_exit);
 int							init_history(void);
 int							del_hist(void);
 int							add_history(t_histoy **hist, char **line);
+int							print_history(void);
+
+
+/*
+**	print_list_term.c
+*/
+char						*print_list_term(t_list_print *list);
+t_list_print				*get_list_term(char **list);
+int							del_list_term(t_list_print **list);
 
 /*
 **	Supprimer

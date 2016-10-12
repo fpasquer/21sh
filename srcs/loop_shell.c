@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 09:05:17 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 09:55:23 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int					print_header(void)
 	return (true);
 }
 
-static int					print_prompt(void)
+int							print_prompt(void)
 {
 	char					promt[SIZE_PROMT + 5];
 	t_21sh					*sh;

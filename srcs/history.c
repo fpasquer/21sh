@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 09:25:17 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 10:33:03 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,31 @@ int							init_history(void)
 			return (ERROR);
 	if (close(fd) != 0)
 		return (ERROR);
-	for (t_histoy *curs = sh->hist; curs != NULL; curs = curs->next)
-		printf("line = '%s'\n", curs->line);
+	return (true);
+}
+
+int							print_history(void)
+{
+	t_histoy				*curs;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	ft_putendl(COLOR_LINE);
+	ft_putstr("print_history");
+	ft_putendl(RESET_COLOR);
+	if ((curs = sh->hist) != NULL)
+	{
+		while (curs->next != NULL)
+			curs = curs->next;
+		while (curs != NULL)
+		{
+			if (curs->line != NULL)
+				ft_putendl(curs->line);
+			curs = curs->prev;
+		}
+	}
+	print_prompt();
 	return (true);
 }
 
@@ -99,5 +122,6 @@ int							del_hist(void)
 		ft_memdel((void**)&curs);
 		curs = tmp;
 	}
+	sh->hist = NULL;
 	return ((close(fd) != 0) ? ERROR : true);
 }
