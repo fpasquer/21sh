@@ -105,6 +105,40 @@ typedef struct				s_21sh
 }							t_21sh;
 
 /*
+**
+**	str 			: chaine entiere envoye par l'utilisateur
+**	bin 			: nom de l'executable
+**	bin_argv		: tableau contenant l'executable et les parametres
+**	bin_param		: tableau contenant uniquement les parametres
+**	bin_argc		: contient le nombre de parametre + l'executable
+**
+*/
+
+typedef struct 				s_stin_content
+{
+	char 					*str;
+	char 					*bin;
+	char 					**bin_argv;
+	char 					**bin_param;
+	int 					bin_argc;
+}							t_stin_content;
+
+/*
+**
+** Tableau sur pointeur sur fonction permettant de verifier si le binaire
+** entree est un builtin
+**
+*/
+
+typedef struct 				s_builtin_lst
+{
+	char 					*str;
+	int 					(*p)(t_stin_content *stin);
+}							t_builtin_lst;
+
+void						builtin_or_not(t_stin_content *content);
+
+/*
 **	init_21sh.c
 */
 t_21sh						*init_21sh(void);
@@ -152,7 +186,7 @@ int							del_env(void);
 /*
 **	builtin_env.c
 */
-int							builtin_env(char *l_cmd);
+int							builtin_env(t_stin_content *contentst);
 
 /*
 **	options_env.c
@@ -181,38 +215,6 @@ void						key_exit(int val_exit);
 */
 int							print_all_bin(void);
 int							print_all_env(void);
-
-/*
-**
-**	bin 			: nom de l'executable
-**	bin_argv		: tableau contenant l'executable et les parametres
-**	bin_param		: tableau contenant uniquement les parametres
-**	bin_argc		: contient le nombre de parametre + l'executable
-**
-*/
-
-typedef struct 				s_stin_content
-{
-	char 					*bin;
-	char 					**bin_argv;
-	char 					**bin_param;
-	int 					bin_argc;
-}							t_stin_content;
-
-/*
-**
-** Tableau sur pointeur sur fonction permettant de verifier si le binaire
-** entree est un builtin
-**
-*/
-
-typedef struct 				s_builtin_lst
-{
-	char 					*str;
-	int 					(*p)(t_stin_content *stin);
-}							t_builtin_lst;
-
-void						builtin_or_not(t_stin_content *content);
 
 /*
 **		fonction temporaire. 

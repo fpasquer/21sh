@@ -3,6 +3,7 @@
 
 t_builtin_lst g_builtin_lst[] = {
 	{"cd", cd},
+	{"env", builtin_env},
 	{NULL, NULL},
 };
 

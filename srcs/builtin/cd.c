@@ -19,7 +19,6 @@ int cd (t_stin_content *content) {
 	printf("%s << PWD\n", tmp);
 	
 	int i = modify_env_value("PWD", "TEST");
-
 	printf("%d << i\n", i);
 	return (1);
 }
