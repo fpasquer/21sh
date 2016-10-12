@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 21:18:59 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 08:37:50 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct				s_history
 {
 	char					*line;
 	struct s_history		*next;
+	struct s_history		*prev;
 }							t_histoy;
 
 /*

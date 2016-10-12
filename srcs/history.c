@@ -6,11 +6,25 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 21:42:15 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 09:25:17 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+
+static bool					at_add_history(char *line)
+{
+	int						i;
+	bool					ret;
+
+	if (line == NULL)
+		return (false);
+	i = 0;
+	ret = false;
+	while (line[i] != '\0')
+		ret = (ft_isspace(line[i++]) == true) ? ret : true;
+	return (ret);
+}
 
 int							add_history(t_histoy **hist, char **line)
 {
@@ -19,17 +33,20 @@ int							add_history(t_histoy **hist, char **line)
 
 	if (hist == NULL || line == NULL || *line == NULL)
 		return (ERROR);
-	if ((new = ft_memalloc(sizeof(*new))) == NULL)
-		return (ERROR);
-	new->line = *line;
-	if ((curs = *hist) == NULL)
-		*hist = new;
-	else
+	if (at_add_history(*line) == true)
 	{
-		while (curs->next != NULL)
-			curs = curs->next;
-		curs->next = new;
+		if ((new = ft_memalloc(sizeof(*new))) == NULL)
+			return (ERROR);
+		new->line = *line;
+		if ((curs = *hist) != NULL)
+		{
+			new->next = (*hist);
+			(*hist)->prev = new;
+		}
+		*hist = new;
 	}
+	else
+		ft_memdel((void**)line);
 	return (true);
 }
 
@@ -42,10 +59,10 @@ int							init_history(void)
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	if ((sh->hist = ft_memalloc(sizeof(*sh->hist))) == NULL)
-		return (ERROR);
 	if ((fd = ft_fopen(HISTORY, "r+")) <= 0)
-		return (ERROR);
+		if ((fd = ft_fopen(HISTORY, "w+")) <=0)
+			return (ERROR);
+	line = NULL;
 	while ((ret = get_next_line(fd, &line)) > 0)
 		if (add_history(&sh->hist, &line) == ERROR)
 			return (ERROR);
@@ -69,19 +86,18 @@ int							del_hist(void)
 		return (ERROR);
 	if ((fd = ft_fopen(HISTORY, "w+")) <= 0)
 		return (ERROR);
+	while (curs->next != NULL)
+		curs = curs->next;
 	while (curs != NULL)
 	{
+		tmp = curs->prev;
 		if (curs->line != NULL)
 		{
-			ft_putendl(curs->line);
 			ft_putendl_fd(curs->line, fd);
 			ft_memdel((void**)&curs->line);
 		}
-		tmp = curs->next;
 		ft_memdel((void**)&curs);
 		curs = tmp;
 	}
-	if (close(fd) != 0)
-		return (ERROR);
-	return (true);
+	return ((close(fd) != 0) ? ERROR : true);
 }
