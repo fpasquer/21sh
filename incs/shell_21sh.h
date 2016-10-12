@@ -182,12 +182,6 @@ void						key_exit(int val_exit);
 int							print_all_bin(void);
 int							print_all_env(void);
 
-
-/**
-*** FONCTIONS TEMPORAIRES
-***/
-
-
 /*
 **
 **	bin 			: nom de l'executable
@@ -195,7 +189,7 @@ int							print_all_env(void);
 **	bin_param		: tableau contenant uniquement les parametres
 **	bin_argc		: contient le nombre de parametre + l'executable
 **
-**/
+*/
 
 typedef struct 				s_stin_content
 {
@@ -205,14 +199,44 @@ typedef struct 				s_stin_content
 	int 					bin_argc;
 }							t_stin_content;
 
+/*
+**
+** Tableau sur pointeur sur fonction permettant de verifier si le binaire
+** entree est un builtin
+**
+*/
+
 typedef struct 				s_builtin_lst
 {
-	int 					i;
+	char 					*str;
 	int 					(*p)(t_stin_content *stin);
 }							t_builtin_lst;
 
-t_stin_content				parse_stin(char *line);
+void						builtin_or_not(t_stin_content *content);
+
+/*
+**		fonction temporaire. 
+*/
+
+t_stin_content				parse_stin(char *line); 
+
+/*
+** BUILTIN
+*/
+
 int	 						cd(t_stin_content *cmd);
+
+/*
+** Renvoi la valeur de l'environnement.
+*/
+
+char						*getenv_value(char *name);
+
+/*
+** Change la valeur de l'environnement.
+*/
+
+int 						modify_env_value(char *name, char *value);
 
 
 #endif

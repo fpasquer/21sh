@@ -69,6 +69,27 @@ static void					put_line_entre(char *line)
 	ft_putendl(RESET_COLOR);
 }
 
+/*
+** FONCTION TEMPORAIRE
+*/
+
+void 					free_stin(t_stin_content *content)
+{
+	int 				i = 0;
+
+	if (content->bin_argv) {
+		while (content->bin_argv[i]) {
+			free(content->bin_argv[i]);
+			i++;
+		}
+		free(content->bin_argv);
+	}
+}
+
+/*
+**
+*/
+
 void						loop_shell(void)
 {
 	char					*line;
@@ -81,8 +102,9 @@ void						loop_shell(void)
 		if ((line = get_line_entree()) == NULL)
 			break ;
 		put_line_entre(line);
-		stin_content = parse_stin(line);
-		exe_cmd(stin);
+		stin_content = parse_stin(line); // fonction temporaire
+		builtin_or_not(&stin_content);
+		free_stin(&stin_content); // fonction temporaire
 		ft_memdel((void**)&line);
 	}
 	del_21sh();

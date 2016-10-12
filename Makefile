@@ -15,7 +15,8 @@ NAME			= 21sh
 SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					sort_fonctions.c sort_list.c env.c builtin_env.c key.c		\
 					options_env.c loop_shell.c term.c functions_key.c 			\
-					parse_stin.c cd.c builtin_or_not.c
+					parse_stin.c cd.c builtin_or_not.c getenv_value.c			\
+					modify_env_value.c
 
 INCLUDES		= shell_21sh.h key.h
 
@@ -31,6 +32,8 @@ OBJ_NAME		= $(SRC_NAME:.c=.o)
 
 SRCDIR			= srcs
 SRCDIR_BUILTIN	= srcs/builtin
+SRCDIR_EXE_CMD	= srcs/exe_cmd
+SRCDIR_ENV		= srcs/env
 OBJDIR			= objs
 INCDIR			= incs
 
@@ -46,16 +49,22 @@ $(NAME) : $(OBJDIR) $(OBJ) $(LIBRARY)
 	@echo "\033[0;32m"$(NAME) "DONE\033[0m"
 
 $(LIBRARY) :
+	@echo "\033[0;32mCOMPILE LIBFT\033[0m"
 	make -C libft
+
+$(OBJDIR)/%.o : $(SRCDIR)/%.c $(INC)
+	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_BUILTIN)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE BUILTIN\033[0m"
 	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.c $(INC)
+$(OBJDIR)/%.o : $(SRCDIR_EXE_CMD)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE CMD\033[0m"
 	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.c $(INC)
+$(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE ENV\033[0m"
 	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
 $(OBJDIR) :
