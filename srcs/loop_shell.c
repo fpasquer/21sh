@@ -70,23 +70,6 @@ static void					put_line_entre(char *line)
 }
 
 /*
-** FONCTION TEMPORAIRE
-*/
-
-void 					free_stin(t_stin_content *content)
-{
-	int 				i = 0;
-
-	if (content->bin_argv) {
-		while (content->bin_argv[i]) {
-			free(content->bin_argv[i]);
-			i++;
-		}
-		free(content->bin_argv);
-	}
-}
-
-/*
 **
 */
 
@@ -105,10 +88,11 @@ void						loop_shell(void)
 			break ;
 		put_line_entre(line);
 		
-		if ((cmd = parse_cmd(line)) != NULL)
+		if ((cmd = parse_cmd(line)) != NULL) {
+			builtin_or_not(cmd);
 			print_cmd(cmd);
+		}
 		// stin_content = parse_stin(line); // fonction temporaire
-		// builtin_or_not(&stin_content);
 		// free_stin(&stin_content); // fonction temporaire
 		
 		ft_memdel((void**)&line);

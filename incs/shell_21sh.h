@@ -111,24 +111,6 @@ typedef struct				s_21sh
 	struct winsize			win;
 }							t_21sh;
 
-/*
-**
-**	str 			: chaine entiere envoye par l'utilisateur
-**	bin 			: nom de l'executable
-**	bin_argv		: tableau contenant l'executable et les parametres
-**	bin_param		: tableau contenant uniquement les parametres
-**	bin_argc		: contient le nombre de parametre + l'executable
-**
-*/
-
-typedef struct 				s_stin_content
-{
-	char 					*str;
-	char 					*bin;
-	char 					**bin_argv;
-	char 					**bin_param;
-	int 					bin_argc;
-}							t_stin_content;
 
 /*
 **
@@ -140,10 +122,10 @@ typedef struct 				s_stin_content
 typedef struct 				s_builtin_lst
 {
 	char 					*str;
-	int 					(*p)(t_stin_content *stin);
+	int 					(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
-void						builtin_or_not(t_stin_content *content);
+void						builtin_or_not(t_cmd *content);
 
 /*
 **	init_21sh.c
@@ -193,7 +175,7 @@ int							del_env(void);
 /*
 **	builtin_env.c
 */
-int							builtin_env(t_stin_content *contentst);
+int							builtin_env(t_cmd *contentst);
 
 /*
 **	options_env.c
@@ -227,13 +209,13 @@ int							print_all_env(void);
 **		fonction temporaire. 
 */
 
-t_stin_content				parse_stin(char *line); 
+// t_stin_content				parse_stin(char *line); 
 
 /*
 ** BUILTIN
 */
 
-int	 						cd(t_stin_content *cmd);
+int	 						cd(t_cmd *cmd);
 
 /*
 ** Renvoi la valeur de l'environnement.

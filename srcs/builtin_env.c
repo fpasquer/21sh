@@ -109,23 +109,23 @@ static int					error_env(char flags, char *l_cmd)
 	return (ERROR);
 }
 
-int							builtin_env(t_stin_content *content)
+int							builtin_env(t_cmd *content)
 {
 	char					flags;
 	char					**tab;
 	int						ret;
 
 	tab = NULL;
-	if ((flags = get_flags_env(&content->str)) == PARAM || flags == OPT_WRONG)
-		return (error_env(flags, content->str));
+	if ((flags = get_flags_env(&content->line)) == PARAM || flags == OPT_WRONG)
+		return (error_env(flags, content->line));
 	if (flags == ERROR)
 		return (ERROR);
 	if ((flags & FLAG_I) != 0)
-		ret = tab_env_i(&content->str, &tab);
+		ret = tab_env_i(&content->line, &tab);
 	else if ((flags & FLAG_U) != 0)
-		ret = tab_env_u(&content->str, &tab);
+		ret = tab_env_u(&content->line, &tab);
 	else
-		ret = tab_env(&content->str, &tab);
+		ret = tab_env(&content->line, &tab);
 	if (ret == ERROR)
 		return (-1);
 	if (tab != NULL)//a finir
@@ -135,6 +135,6 @@ int							builtin_env(t_stin_content *content)
 		printf("line = %2d, ret = %d\n", __LINE__, ret);
 		ft_free_strsplit(tab);
 	}
-	ft_putendl(content->str);
+	ft_putendl(content->line);
 	return (true);
 }

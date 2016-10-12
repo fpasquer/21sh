@@ -91,13 +91,13 @@ int cd_less () {
 	return (true);
 }
 
-int cd (t_stin_content *content) {
+int cd (t_cmd *content) {
 	char *path = NULL;
 
-	if (content->bin_argc > 1) {
-		path = content->bin_param[0];
+	if (content->argc > 1) {
+		path = content->arg[1];
 	}
-	if (content->bin_argc == 1)
+	if (content->argc == 1)
 		return (cd_home());
 	else if (path && ft_strequ("-", path))
 		return (cd_less());
