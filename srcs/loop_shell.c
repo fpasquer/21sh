@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 14:49:07 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 21:10:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void						loop_shell(void)
 	int						ret;
 	t_cmd 					*cmd;
 
+	line = NULL;
+	cmd = NULL;
 	print_header();
 	while (print_prompt())
 	{
@@ -103,13 +105,14 @@ void						loop_shell(void)
 			break ;
 		put_line_entre(line);
 		
-		cmd = parse_cmd(line);
-		print_cmd(cmd);
+		if ((cmd = parse_cmd(line)) != NULL)
+			print_cmd(cmd);
 		// stin_content = parse_stin(line); // fonction temporaire
 		// builtin_or_not(&stin_content);
 		// free_stin(&stin_content); // fonction temporaire
 		
 		ft_memdel((void**)&line);
+		free_cmd(cmd);
 	}
 	del_21sh();
 }

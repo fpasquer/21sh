@@ -22,6 +22,7 @@ typedef struct			s_cmd
 {
 	int					cmd;
 	int					op;
+	int					argc;
 	int					fd;
 	int					done;
 	char				*line; // UNIQUEMENT LA COMMANDE
@@ -47,12 +48,14 @@ typedef struct			s_cmd
 
 t_cmd					*parse_cmd(char *line);
 void					free_cmd(t_cmd *cmd);
-void					print_cmd(t_cmd *cmd);
+
+void					print_cmd(t_cmd *cmd); // debug
 
 /*
 **	parse2.c
 */
 
 int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i);
+t_cmd					*exit_parse(t_cmd *cmd, char *str);
 
 #endif
