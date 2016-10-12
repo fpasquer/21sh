@@ -27,6 +27,7 @@
 # include <sys/types.h>
 
 # include "../libft/libft.h"
+# include "parse.h"
 
 # define ERROR -1
 # define LEN_PATH_MAX 200

@@ -17,6 +17,8 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					options_env.c loop_shell.c term.c functions_key.c 			\
 					parse_stin.c cd.c builtin_or_not.c getenv_value.c			\
 					modify_env_value.c check_if_env_exist.c						\
+					parse.c parse2.c 											
+
 
 INCLUDES		= shell_21sh.h key.h
 
@@ -34,6 +36,8 @@ SRCDIR			= srcs
 SRCDIR_BUILTIN	= srcs/builtin
 SRCDIR_EXE_CMD	= srcs/exe_cmd
 SRCDIR_ENV		= srcs/env
+SRCDIR_PARSE	= srcs/parse
+
 OBJDIR			= objs
 INCDIR			= incs
 
@@ -65,6 +69,10 @@ $(OBJDIR)/%.o : $(SRCDIR_EXE_CMD)/%.c $(INC)
 
 $(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE ENV\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+
+$(OBJDIR)/%.o : $(SRCDIR_PARSE)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE PARSE\033[0m"
 	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
 $(OBJDIR) :

@@ -94,7 +94,7 @@ void						loop_shell(void)
 {
 	char					*line;
 	int						ret;
-	t_stin_content 			stin_content;
+	t_cmd 					*cmd;
 
 	print_header();
 	while (print_prompt())
@@ -102,9 +102,13 @@ void						loop_shell(void)
 		if ((line = get_line_entree()) == NULL)
 			break ;
 		put_line_entre(line);
-		stin_content = parse_stin(line); // fonction temporaire
-		builtin_or_not(&stin_content);
-		free_stin(&stin_content); // fonction temporaire
+		
+		cmd = parse_cmd(line);
+		print_cmd(cmd);
+		// stin_content = parse_stin(line); // fonction temporaire
+		// builtin_or_not(&stin_content);
+		// free_stin(&stin_content); // fonction temporaire
+		
 		ft_memdel((void**)&line);
 	}
 	del_21sh();
