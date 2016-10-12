@@ -47,6 +47,7 @@ static int				check_error_parse(t_cmd *cmd)
 {
 	if (cmd->op != 0)
 		return (-1);
+	ft_putendl("test");
 	return (0);
 }
 
