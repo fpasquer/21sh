@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/12 17:37:40 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/12 21:10:48 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ static t_cmd			*create_cmd(t_cmd *cmd2, char *line, int size, int i)
 	return (cmd);
 }
 
+static int				check_error_parse(t_cmd *cmd)
+{
+	if (cmd->op != 0)
+		return (-1);
+	return (0);
+}
+
 t_cmd					*parse_cmd(char *line)
 {
 	int					i;
@@ -50,7 +57,8 @@ t_cmd					*parse_cmd(char *line)
 	t_cmd				*cmd;
 
 	cmd = NULL;
-	i = ft_strlen(line) - 1;
+	if ((i = ft_strlen(line) - 1) < 0)
+		return (NULL);
 	while (i >= 0)
 	{
 		size = 0;
@@ -65,9 +73,8 @@ t_cmd					*parse_cmd(char *line)
 			i - check_and_parse(line, i);
 	}
 	if (parse_cmd2(cmd, cmd, 0) < 0)
-		return (NULL);
-	//print_cmd(cmd);
-	return (cmd);
+		return (exit_parse(cmd, "error parse cmd"));
+	return (!check_error_parse(cmd) ? cmd : exit_parse(cmd, "parse error"));
 }
 
 void					free_cmd(t_cmd *cmd)
@@ -95,7 +102,6 @@ void					free_cmd(t_cmd *cmd)
 	}
 }
 
-
 void					print_cmd(t_cmd *cmd)
 {
 	int					cmpt;
@@ -119,6 +125,9 @@ void					print_cmd(t_cmd *cmd)
 			ft_putendl(cmd->line);
 		else
 			ft_putchar('\n');
+		ft_putstr("argc = ");
+		ft_putnbr(cmd->argc);
+		ft_putchar('\n');
 		ft_putstr("agr :\n");
 		i = 0;
 		if (cmd->arg)
@@ -148,6 +157,9 @@ void					print_cmd(t_cmd *cmd)
 				ft_putendl(curs->line);
 			else
 				ft_putchar('\n');
+			ft_putstr("argc = ");
+			ft_putnbr(curs->argc);
+			ft_putchar('\n');
 			ft_putstr("agr :\n");
 			i = 0;
 			if (curs->arg)
