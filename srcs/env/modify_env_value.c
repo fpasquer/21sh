@@ -12,7 +12,7 @@ int							modify_env_value(char *name, char *value)
 	while (curs != NULL)
 	{
 		if (curs->name && ft_strcmp(name, curs->name) == 0) {
-			free(curs->value);
+			ft_memdel((void**)&(curs->value));
 			if ((curs->value = ft_strdup(value)) == NULL)
 				return (false);
 			return (true);

@@ -9,40 +9,41 @@ int cd_change_pwd (char *path) {
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (false);
 
+	old_pwd = getcwd(NULL, 0);
+
+	if (chdir(path) == ERROR)
+		return (false);
+
+	new_path = getcwd(NULL, 0);
+
+	/*
+	** CHANGE PWD
+	** EN VERIFIANT SI OLD_PWD EST SET
+	*/
+	
+	if (check_if_env_exist("PWD") == false) {
+		if (add_env(&sh->env, new_path, ++sh->nb_var_env, true) == ERROR)
+			return (false);
+	}
+	else if (modify_env_value("PWD", new_path) == false) {
+		return (false);
+	}
+
 	/*
 	** CHANGE OLD PWD
 	** EN VERIFIANT SI OLWD_PWD EST SET
 	*/
 
-	old_pwd = getcwd(NULL, 0);
 	if (check_if_env_exist("OLDPWD") == false) {
 		if (add_env(&sh->env, old_pwd, ++sh->nb_var_env, true) == ERROR)
 			return (false);
 	}
 	else if (modify_env_value("OLDPWD", old_pwd) == false) {
-		ft_putendl("CHANGE_OLDPWD");
 		return (false);
 	}
 
-
-	if (chdir(path) == ERROR)
-		return (false);
-	
-	/*
-	** CHANGE PWD
-	** EN VERIFIANT SI OLD_PWD EST SET
-	*/
-
-	new_path = getcwd(NULL, 0);
-	if (check_if_env_exist("PWD") == false) {
-		if (add_env(&sh->env, path, ++sh->nb_var_env, true) == ERROR)
-			return (false);
-	}
-	else if (modify_env_value("PWD", path) == false) {
-		ft_putendl(new_path);
-		ft_putendl("CHANGE_PWD");
-		return (false);
-	}
+	free(new_path);
+	free(old_pwd);
 	return (true);
 }
 
@@ -86,7 +87,9 @@ int cd_less () {
 	else {
 		if ((path = getenv_value("OLDPWD")) == NULL)
 			return (false);
+		path = ft_strdup(path);
 		cd_change_pwd(path);
+		free(path);
 	}
 	return (true);
 }
