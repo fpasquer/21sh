@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 15:54:18 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 20:24:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct				s_print_list
 {
 	char					*word;
 	size_t					len;
+	struct s_print_list		*curs;
 	struct s_print_list		*next;
 	struct s_print_list		*prev;
 }							t_list_print;
@@ -216,6 +217,7 @@ int							print_history(void);
 */
 char						*put_words_event(t_list_print *lst, int  len,
 		int nb_word_line,t_21sh  *sh);
+int							put_cmd_term(char *cmd);
 
 
 /*

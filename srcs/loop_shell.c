@@ -6,12 +6,13 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 09:55:23 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 19:20:23 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
+#include <term.h>
 
 static int					put_line_header(char *name, char *value)
 {
@@ -50,8 +51,12 @@ static int					print_header(void)
 int							print_prompt(void)
 {
 	char					promt[SIZE_PROMT + 5];
+	char					*ret;
 	t_21sh					*sh;
 
+	if ((ret = tgetstr("sc", NULL)) == NULL)
+		return (false);
+	tputs(ret, 0, my_out_put);
 	if (getcwd(promt, SIZE_PROMT) == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (false);
 	if (ft_strcat(promt, " ?> ") == NULL)

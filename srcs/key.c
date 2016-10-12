@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 15:00:07 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/12 19:16:54 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,4 +165,10 @@ char						*get_line_entree(void)
 	line = make_tab(lines);
 	del_lines(&lines);
 	return (line);
+}
+
+int							my_out_put(int c)
+{
+	ft_putchar(c);
+	return (1);
 }
