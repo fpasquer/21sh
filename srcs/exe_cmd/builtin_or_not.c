@@ -16,6 +16,7 @@
 t_builtin_lst g_builtin_lst[] = {
 	{"cd", cd},
 	{"env", builtin_env},
+	{"setenv", builtin_setenv},
 	{NULL, NULL},
 };
 
@@ -27,6 +28,7 @@ void		builtin_or_not(t_cmd *content) {
 		while (g_builtin_lst[i].str) {
 			if (ft_strequ(content->arg[0], g_builtin_lst[i].str)) {
 				g_builtin_lst[i].p(content);
+				break ;
 			}
 			i++;
 		}

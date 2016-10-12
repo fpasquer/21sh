@@ -87,14 +87,10 @@ void						loop_shell(void)
 		if ((line = get_line_entree()) == NULL)
 			break ;
 		put_line_entre(line);
-		
 		if ((cmd = parse_cmd(line)) != NULL) {
 			builtin_or_not(cmd);
 			print_cmd(cmd);
 		}
-		// stin_content = parse_stin(line); // fonction temporaire
-		// free_stin(&stin_content); // fonction temporaire
-		
 		ft_memdel((void**)&line);
 		free_cmd(cmd);
 	}
