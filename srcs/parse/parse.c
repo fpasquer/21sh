@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/12 23:55:48 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/13 00:00:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ static int				check_error_parse(t_cmd *cmd)
 {
 	if (cmd->op != 0)
 		return (-1);
-	ft_putendl("test");
+	cmd = cmd->right;
+	while (cmd)
+	{
+		cmd = cmd->right;
+	}
 	return (0);
 }
 
