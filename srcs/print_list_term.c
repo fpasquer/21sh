@@ -6,11 +6,12 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 10:34:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 17:42:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:23:43 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+#include "../incs/key.h"
 
 static int					get_infos_words(t_list_print *list,
 		size_t *bigger_word, unsigned int *len_total, unsigned int *nb_word)
@@ -141,6 +142,7 @@ char						*print_list_term(t_21sh *sh, char **list,
 	char					*adr;
 	t_list_print			*lst;
 
+	del_lines();
 	if ((lst = get_list_term(list)) == NULL)
 		return (NULL);
 	if (sh == NULL)

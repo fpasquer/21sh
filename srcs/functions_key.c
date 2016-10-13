@@ -6,11 +6,12 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 12:54:10 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:34:29 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+#include "../incs/key.h"
 
 void						key_exit(int val_exit)
 {

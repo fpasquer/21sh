@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 15:19:42 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:32:18 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ char						*put_words_event(t_list_print *l, int  len,
 		return (NULL);
 	if (l == NULL || len <= 0 || nb_word_line <= 0)
 		return (NULL);
+	del_lines();
+	ft_bzero(g_line, sizeof(g_line));
 	l->curs = l;
 	while ((ret = print_words(l, len, nb_word_line, sh)) != NULL)
 	{

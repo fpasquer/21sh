@@ -6,11 +6,12 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 15:28:39 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:36:43 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+#include "../incs/key.h"
 #include <term.h>
 
 static bool					at_add_history(char *line)
@@ -107,6 +108,8 @@ int							print_history(void)
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
+	del_lines();
+	ft_bzero(g_line, sizeof(g_line));
 	ft_putendl(COLOR_LINE);
 	ft_putstr("print_history");
 	ft_putendl(RESET_COLOR);

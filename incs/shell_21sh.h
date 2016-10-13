@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 15:23:16 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:30:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@
 # define COLOR_POMT "\033[032;1m"
 # define RESET_COLOR "\033[0m"
 # define COLOR_LINE "\033[034;1;4m"
-
-char						*g_line;
 
 /*
 **	name :			nom de la variable env

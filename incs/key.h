@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 09:52:35 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:30:39 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@
 # define MAX_LEN_LINE 10
 # define SIZE_BUFF 8
 
+
 typedef struct				s_line
 {
 	char					line[MAX_LEN_LINE];
 	unsigned int			i;
 	struct s_line			*next;
 }							t_line;
+
+t_line						*g_lines;
+char						g_line[MAX_LEN_LINE + 1];
 
 # define DS					(b[0] == -62 && b[1] == -89 && b[2] ==  83 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //§ au dessus de tab
 # define PLUS_MINUS			(b[0] == -62 && b[1] == -79 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //±
@@ -154,6 +158,7 @@ typedef struct				s_line
 #define BUFF_SIZE_READ 5
 
 char						*get_line_entree(void);
+void						del_lines(void);
 int							my_out_put(int c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 14:58:33 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:44:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int							main(void)
 		ft_putendl("Erreur initialisation 21sh");
 	else
 	{
-		signal(SIGWINCH, resize_win);
+		/*signal(SIGWINCH, resize_win);
 		loop_shell();
-		ft_putendl("Erreur 21 sh");
+		ft_putendl("Erreur 21 sh");*/
+		builtin_env("env a=a");
 	}
 	return (EXIT_SUCCESS);
 }

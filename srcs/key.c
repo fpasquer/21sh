@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 15:26:44 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 16:38:25 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,13 @@ static char					get_char_keyboard(void)
 static t_line				*get_line(void)
 {
 	char					c;
-	char					line[MAX_LEN_LINE + 1];
 	unsigned				i;
-	t_line					*lst;
 
-	lst = NULL;
 	c = 0;
 	while (c != '\n' && c != EOF)
 	{
 		i = 0;
-		ft_bzero(line, sizeof(line));
+		ft_bzero(g_line, sizeof(g_line));
 		while (i < MAX_LEN_LINE)
 		{
 			if ((c = get_char_keyboard()) != KEY_IGNORE)
@@ -95,26 +92,12 @@ static t_line				*get_line(void)
 			if (c == '\n' || c == EOF)
 				break;
 			if (c != KEY_IGNORE)
-				line[i++] = c;
+				g_line[i++] = c;
 		}
-		if ((lst = add_new_line(&lst, line, i)) == NULL)
+		if ((g_lines = add_new_line(&g_lines, g_line, i)) == NULL)
 			return (NULL);
 	}
-	return (lst);
-}
-
-static void					del_lines(t_line **lines)
-{
-	t_line					*curs;
-	t_line					*tmp;
-
-	if (lines != NULL && (curs = *lines) != NULL)
-		while (curs != NULL)
-		{
-			tmp = curs->next;
-			ft_memdel((void**)&curs);
-			curs = tmp;
-		}
+	return (g_lines);
 }
 
 static int					len_tab(t_line *lines)
@@ -156,15 +139,26 @@ static char					*make_tab(t_line *lines)
 	return (line);
 }
 
+void						del_lines(void)
+{
+	t_line					*tmp;
+
+	while (g_lines != NULL)
+	{
+		tmp = g_lines->next;
+		ft_memdel((void**)&g_lines);
+		g_lines = tmp;
+	}
+}
+
 char						*get_line_entree(void)
 {
 	char					*line;
-	t_line					*lines;
 
 	line = NULL;
-	lines = get_line();
-	line = make_tab(lines);
-	del_lines(&lines);
+	g_lines = get_line();
+	line = make_tab(g_lines);
+	del_lines();
 	return (line);
 }
 
