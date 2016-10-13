@@ -169,6 +169,7 @@ void						sort_list(t_bin **liste,
 
 int							save_env(t_env **env);
 int							add_env(t_env **env, char *str, int index, bool ad);
+int 						add_env_(char *name, char *value);
 int							del_list_env(t_env **list);
 int							del_env(void);
 
@@ -235,5 +236,12 @@ int 						modify_env_value(char *name, char *value);
 */
 
 int							check_if_env_exist(char *name);
+
+
+/*
+** Permet de recuperer l'environnement en array.
+*/
+
+int							c_l_to_arr_env(char ***tab);
 
 #endif

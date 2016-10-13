@@ -175,5 +175,6 @@ char				**ft_strsplit_guil(char *s, char c);
 int					ft_is_number(char *s);
 int					ft_atoi_base(const char *s, int base, int *nb);
 int					count_char(char *line, char c);
+char				*ft_strjoin_jc(const char *s1, const char *s2, const char *s3);
 
 #endif
