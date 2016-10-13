@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 09:58:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 10:38:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int							print_prompt(void)
 
 static void					put_line_entre(char *line)
 {
-	if (!(line == NULL || line[0] == true))
+	if (!(line == NULL || line[0] == '\0'))
 	{
 		ft_putstr(COLOR_LINE);
 		ft_putstr(line);

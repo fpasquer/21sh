@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 10:31:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 10:38:33 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int							add_history(t_history **hist, char **line)
 
 	if (hist == NULL || line == NULL || *line == NULL)
 		return (ERROR);
-	if (*line[0] != '\0' && *line[0] != true  && at_add_history(*line) == true)
+	if (*line[0] != '\0' && *line[0] != '\0'  && at_add_history(*line) == true)
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
 			return (ERROR);

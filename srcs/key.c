@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 10:22:27 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 10:37:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (F1)
 		key_del_hist();
 	else if (F2)
-		return (print_history());
+		print_history();
 	else if (TAB)
 		;
 	else if (ARROW_UP)
