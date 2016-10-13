@@ -25,8 +25,8 @@ int 		builtin_unsetenv(t_cmd *content) {
 		env_next = sh->env->next;
 	}
 	if (ft_strequ(env->name, content->arg[1])) {
-		del_env_(&env);
 		sh->env = env->next;
+		del_env_(&env);
 		sh->nb_var_env--;
 	}
 	else {
