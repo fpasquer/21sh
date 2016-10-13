@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 16:36:43 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 18:44:22 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,30 @@ static bool					at_add_history(char *line)
 	while (line[i] != '\0')
 		ret = (ft_isspace(line[i++]) == true) ? ret : true;
 	return (ret);
+}
+
+int							add_to_g_lines(char *line)
+{
+	char					buff[MAX_LEN_LINE + 1];
+	int						i;
+	int						j;
+
+	if (line == NULL)
+		return (ERROR);
+	i = 0;
+	j = 0;
+	del_lines();
+	ft_bzero(g_line, sizeof(g_line));
+	ft_bzero(buff, sizeof(buff));
+	while (line[i] != '\0')
+	{
+		if (ft_strncpy(buff, &line[i], MAX_LEN_LINE) == NULL ||
+			(g_lines = add_new_line(&g_lines, buff, (j = ft_strlen(buff))))
+			== NULL)
+			return (ERROR);
+		i += j;
+	}
+	return (true);
 }
 
 int							add_history(t_history **hist, char **line)

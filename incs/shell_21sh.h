@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 16:30:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 17:54:25 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ int							init_history(void);
 int							del_hist(void);
 int							add_history(t_history **hist, char **line);
 int							print_history(void);
+int							add_to_g_lines(char *line);
 
 /*
 **	print_event.c

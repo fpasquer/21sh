@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 16:38:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 17:45:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define KEY_IGNORE -2
 
-static t_line				*add_new_line(t_line **lst, char *line,
+t_line						*add_new_line(t_line **lst, char *line,
 		unsigned int i)
 {
 	t_line					*new;
