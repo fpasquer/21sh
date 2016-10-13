@@ -50,6 +50,7 @@ typedef struct stat			t_stat;
 **	index :			position dans la liste chainee
 **	add :			pour recreer le tab 2d env
 */
+
 typedef struct				s_env
 {
 	char					*name;
