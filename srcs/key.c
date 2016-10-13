@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 10:37:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 15:26:44 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static t_line				*add_new_line(t_line **lst, char *line,
 	if ((new = ft_memalloc(sizeof(*new))) == NULL || lst == NULL ||
 			line == NULL)
 		return (NULL);
+	/*if (line[0] == '\n' || line[0] == '\0')
+		return (*lst);*/
 	if (ft_strncpy(new->line, line, i) == NULL)
 		return (NULL);
 	new->i = i;
@@ -49,9 +51,9 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (TAB)
 		;
 	else if (ARROW_UP)
-		;
+		print_history_up();
 	else if (ARROW_DOWN)
-		;
+		print_history_down();
 	else if (ARROW_RIGHT)
 		;
 	else if (ARROW_LEFT)
@@ -81,20 +83,19 @@ static t_line				*get_line(void)
 	t_line					*lst;
 
 	lst = NULL;
-	c = get_char_keyboard();
+	c = 0;
 	while (c != '\n' && c != EOF)
 	{
 		i = 0;
 		ft_bzero(line, sizeof(line));
 		while (i < MAX_LEN_LINE)
 		{
-			if (c != KEY_IGNORE)
+			if ((c = get_char_keyboard()) != KEY_IGNORE)
 				ft_putchar(c);
 			if (c == '\n' || c == EOF)
 				break;
 			if (c != KEY_IGNORE)
 				line[i++] = c;
-			c = get_char_keyboard();
 		}
 		if ((lst = add_new_line(&lst, line, i)) == NULL)
 			return (NULL);
@@ -139,7 +140,7 @@ static char					*make_tab(t_line *lines)
 	int						len_total;
 	t_line					*curs;
 
-	if (lines == NULL)
+	if (lines == NULL || lines->line[0] == '\0')
 		return (ft_memalloc(sizeof(*line)));
 	if ((len_total = len_tab(lines)) < 0)
 		return (NULL);

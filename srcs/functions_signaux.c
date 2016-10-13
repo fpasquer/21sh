@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   functions_signaux.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 14:58:33 by fpasquer         ###   ########.fr       */
+/*   Created: 2016/10/13 14:23:46 by fpasquer          #+#    #+#             */
+/*   Updated: 2016/10/13 14:56:58 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 
-int							main(void)
+void						resize_win(int val)
 {
-	int						loop_max;
 	t_21sh					*sh;
 
-	if ((sh = init_21sh()) == NULL)
-		ft_putendl("Erreur initialisation 21sh");
-	else
-	{
-		signal(SIGWINCH, resize_win);
-		loop_shell();
-		ft_putendl("Erreur 21 sh");
-	}
-	return (EXIT_SUCCESS);
+	if ((sh = get_21sh(NULL)) != NULL)
+		ioctl(0, TIOCGWINSZ, &sh->win);
+}
+
+void						ctrl_d(int val)
+{
+	del_21sh();
+	exit(EXIT_SUCCESS);
 }

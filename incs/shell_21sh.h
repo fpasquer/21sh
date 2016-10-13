@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 08:55:19 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 15:23:16 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # define COLOR_POMT "\033[032;1m"
 # define RESET_COLOR "\033[0m"
 # define COLOR_LINE "\033[034;1;4m"
+
+char						*g_line;
 
 /*
 **	name :			nom de la variable env
@@ -78,6 +80,7 @@ typedef struct				s_bin
 typedef struct				s_history
 {
 	char					*line;
+	struct s_history		*curs;
 	struct s_history		*next;
 	struct s_history		*prev;
 }							t_history;
@@ -204,6 +207,8 @@ int							init_term(t_21sh **sh);
 */
 void						key_exit(int val_exit);
 int							key_del_hist(void);
+int							print_history_up(void);
+int							print_history_down(void);
 
 /*
 **	history.c
@@ -226,6 +231,13 @@ int							put_cmd_term(char *cmd);
 */
 char						*print_list_term(t_21sh *sh, char **list,
 		bool select);
+
+/*
+**	functions_signaux.c
+*/
+void						resize_win(int val);
+void						ctrl_d(int val);
+
 /*
 **	Supprimer
 */

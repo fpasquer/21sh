@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 10:34:18 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 15:19:42 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int							put_cmd_term(char *cmd)
 }
 
 
-char						*put_words_event(t_list_print *lst, int  len,
+char						*put_words_event(t_list_print *l, int  len,
 		int nb_word_line,t_21sh  *sh)
 {
 	char					*ret;
@@ -123,24 +123,27 @@ char						*put_words_event(t_list_print *lst, int  len,
 
 	if (put_cmd_term("vi") == ERROR)
 		return (NULL);
-	if (lst == NULL || len <= 0 || nb_word_line <= 0)
+	if (l == NULL || len <= 0 || nb_word_line <= 0)
 		return (NULL);
-	lst->curs = lst;
-	while ((ret = print_words(lst, len, nb_word_line, sh)) != NULL)
+	l->curs = l;
+	while ((ret = print_words(l, len, nb_word_line, sh)) != NULL)
 	{
 		ft_bzero(b, sizeof(b));
 		if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0 || put_cmd_term("cd") == -1
 				|| ENTER  || ESC)
 			break ;
-		if (ARROW_UP)
-			if (lst->curs->prev != NULL)
-				lst->curs = lst->curs->prev;
-		if (ARROW_DOWN)
-			if (lst->curs->next != NULL)
-				lst->curs = lst->curs->next;
+		l->curs = (ARROW_UP) && (l->curs->prev) ? l->curs->prev : l->curs;
+		l->curs = (ARROW_DOWN) && (l->curs->next) ? l->curs->next : l->curs;
 	}
 	if (put_cmd_term("ve") == ERROR ||
-			print_prompt_word(lst->curs->word, true) == ERROR)
+			print_prompt_word(l->curs->word, true) == ERROR)
 		return (NULL);
 	return ((ESC) ? NULL : ret);
 }
+
+	/*	if (ARROW_UP)
+			if (lst->curs->prev != NULL)
+				lst->curs = lst->curs->prev;*/
+		/*if (ARROW_DOWN)
+			if (lst->curs->next != NULL)
+				lst->curs = lst->curs->next;*/

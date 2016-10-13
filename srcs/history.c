@@ -6,11 +6,12 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 10:38:33 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 15:28:39 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+#include <term.h>
 
 static bool					at_add_history(char *line)
 {
@@ -94,7 +95,7 @@ static int					loop_print(t_21sh *sh)
 		list[loop++] = curs->line;
 		curs = curs->next;
 	}
-	ret = print_list_term(sh, list, true);// a passer en false
+	ret = print_list_term(sh, list, false);// a passer en false
 	ft_memdel((void**)&list);
 	return ((ret == NULL) ? false : true);
 }
