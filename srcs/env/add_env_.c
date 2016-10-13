@@ -20,6 +20,8 @@ int add_env_(char *name, char *value) {
 	else if (((env = ft_memalloc(sizeof(t_env))) == NULL)) {
 		return (ERROR);
 	}
+	if (!sh->env)
+		sh->env = env;
 	sh->nb_var_env++;
 	env->name = ft_strdup(name);
 	env->value = (value) ? ft_strdup(value) : ft_strdup("");

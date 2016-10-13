@@ -63,7 +63,6 @@ static int					add_bin_directory(t_21sh *sh, char *path)
 
 	if ((direct = opendir(path)) != NULL)
 	{
-		ft_putendl("tatat");
 		while ((str_dirent = readdir(direct)) != NULL)
 			if (find_name(sh, str_dirent->d_name, path) == ERROR)
 			{

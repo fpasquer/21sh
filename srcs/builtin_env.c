@@ -117,7 +117,7 @@ int							builtin_env(t_cmd *content)
 	char 					*tmp_line;
 
 
-	tmp_line = ft_strdup(content->line);
+	tmp_line = content->line;
 	tab = NULL;
 	if ((flags = get_flags_env(&tmp_line)) == PARAM || flags == OPT_WRONG)
 		return (error_env(flags, content->line));
@@ -127,8 +127,10 @@ int							builtin_env(t_cmd *content)
 		ret = tab_env_i(&tmp_line, &tab);
 	else if ((flags & FLAG_U) != 0)
 		ret = tab_env_u(&tmp_line, &tab);
-	else
+	else {
 		ret = tab_env(&tmp_line, &tab);
+	
+	}
 	if (ret == ERROR)
 		return (-1);
 	if (tab != NULL)//a finir

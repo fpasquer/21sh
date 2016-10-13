@@ -16,12 +16,14 @@ int 		builtin_unsetenv(t_cmd *content) {
 
 	if (content->argc == 1 || (content->argc > 1 && ft_strchr(content->arg[1], '='))) {
 		ft_putendl("The name argument is a null pointer, points to an empty string, or points to a string containing an '=' character.");
-	} 
-	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	}
+	if ((sh = get_21sh(NULL)) == NULL || sh->env == NULL)
 		return (ERROR);
 	env = sh->env;
-	if (content->argc > 1)
+	if (content->argc > 1) {
 		env_next = sh->env->next;
+	}
 	if (ft_strequ(env->name, content->arg[1])) {
 		del_env_(&env);
 		sh->env = env->next;
