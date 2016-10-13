@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 09:34:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 09:52:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int				put_word(t_list_print *curs, int len,
 {
 	int						i;
 
-	if (curs == NULL || len <= 0 || lst == NULL || curs->word == NULL || lst->curs == NULL)
+	if (curs == NULL || len <= 0 || lst == NULL || curs->word == NULL ||
+			lst->curs == NULL)
 		return (ERROR);
 	i = ft_strlen(curs->word);
 	if (curs == lst->curs)

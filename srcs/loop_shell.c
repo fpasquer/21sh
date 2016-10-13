@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 09:48:15 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 09:58:03 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,12 @@ int							print_prompt(void)
 
 static void					put_line_entre(char *line)
 {
-	ft_putstr(COLOR_LINE);
-	if (line != NULL && line[0] != '\0')
+	if (!(line == NULL || line[0] == true))
 	{
-		ft_putchar ('\'');
+		ft_putstr(COLOR_LINE);
 		ft_putstr(line);
-		ft_putchar ('\'');
+		ft_putendl(RESET_COLOR);
 	}
-	ft_putendl(RESET_COLOR);
 }
 
 int							exe_cmd(t_history **hist, char **line)

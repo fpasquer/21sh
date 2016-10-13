@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 18:44:48 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 09:52:35 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "shell_21sh.h"
 
 # define MAX_LEN_LINE 10
-# define SIZE_BUFF 6
+# define SIZE_BUFF 8
 
 typedef struct				s_line
 {
