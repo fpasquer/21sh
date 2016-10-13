@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 09:52:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 10:34:18 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../incs/key.h"
 #include <term.h>
 
-#define COLOR_SELECT "\033[07;30;47"
+#define COLOR_SELECT "\033[7m"
 
 static char					*put_curs(int y, char **ret)
 {
@@ -37,7 +37,7 @@ static int				put_word(t_list_print *curs, int len,
 	i = ft_strlen(curs->word);
 	if (curs == lst->curs)
 	{
-		ft_putstr(COLOR_LINE);
+		ft_putstr(COLOR_SELECT);
 		ft_putstr(curs->word);
 		ft_putstr(RESET_COLOR);
 	}
