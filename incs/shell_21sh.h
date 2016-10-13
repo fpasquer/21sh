@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 20:24:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 08:55:19 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct				s_history
 	char					*line;
 	struct s_history		*next;
 	struct s_history		*prev;
-}							t_histoy;
+}							t_history;
 
 /*
 **	word :					mot a afficher
@@ -125,7 +125,7 @@ typedef struct				s_21sh
 	int						nb_var_env;
 	t_bin					*hash[SIZE_HASH];
 	t_env					*env;
-	t_histoy				*hist;
+	t_history				*hist;
 	struct termios			reset;
 	struct termios			term_param;
 	struct winsize			win;
@@ -192,6 +192,7 @@ int							tab_env(char **l_cmd, char ***tab);
 */
 void						loop_shell(void);
 int							print_prompt(void);
+int							exe_cmd(t_history **hist, char **line);
 
 /*
 **	term.c
@@ -209,7 +210,7 @@ int							key_del_hist(void);
 */
 int							init_history(void);
 int							del_hist(void);
-int							add_history(t_histoy **hist, char **line);
+int							add_history(t_history **hist, char **line);
 int							print_history(void);
 
 /*

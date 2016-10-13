@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 19:38:44 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 09:46:08 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static bool					at_add_history(char *line)
 	return (ret);
 }
 
-int							add_history(t_histoy **hist, char **line)
+int							add_history(t_history **hist, char **line)
 {
-	t_histoy				*new;
-	t_histoy				*curs;
+	t_history				*new;
+	t_history				*curs;
 
 	if (hist == NULL || line == NULL || *line == NULL)
 		return (ERROR);
-	if (at_add_history(*line) == true)
+	if (*line[0] != '\0' && at_add_history(*line) == true)
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
 			return (ERROR);
@@ -76,7 +76,7 @@ static int					loop_print(t_21sh *sh)
 	char					**list;
 	char					*ret;
 	int						loop;
-	t_histoy				*curs;
+	t_history				*curs;
 
 	curs = (sh == NULL) ? NULL : sh->hist;
 	loop = 0;
@@ -121,8 +121,8 @@ int							print_history(void)
 int							del_hist(void)
 {
 	int						fd;
-	t_histoy				*curs;
-	t_histoy				*tmp;
+	t_history				*curs;
+	t_history				*tmp;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL)

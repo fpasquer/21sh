@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 19:20:23 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 09:48:15 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,22 @@ int							print_prompt(void)
 static void					put_line_entre(char *line)
 {
 	ft_putstr(COLOR_LINE);
-	ft_putstr(line);
+	if (line != NULL && line[0] != '\0')
+	{
+		ft_putchar ('\'');
+		ft_putstr(line);
+		ft_putchar ('\'');
+	}
 	ft_putendl(RESET_COLOR);
+}
+
+int							exe_cmd(t_history **hist, char **line)
+{
+	if (hist == NULL || line == NULL)
+		return (ERROR);
+	if (add_history(hist, line) == ERROR)
+		return (ERROR);
+	return (true);
 }
 
 void						loop_shell(void)
@@ -88,7 +102,7 @@ void						loop_shell(void)
 			if ((line = get_line_entree()) == NULL)
 				break ;
 			put_line_entre(line);
-			if (add_history(&sh->hist, &line) == ERROR)
+			if (exe_cmd(&sh->hist, &line) == ERROR)
 				break ;
 		}
 	}
