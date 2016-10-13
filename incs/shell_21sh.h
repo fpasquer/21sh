@@ -22,7 +22,12 @@
 # include <curses.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
+
+# include <sys/stat.h>
+# include <sys/types.h>
+
 # include "../libft/libft.h"
+# include "parse.h"
 
 # define ERROR -1
 # define LEN_PATH_MAX 200
@@ -35,6 +40,9 @@
 # define COLOR_POMT "\033[032;1m"
 # define RESET_COLOR "\033[0m"
 # define COLOR_LINE "\033[034;1;4m"
+# define SPACE_CHAR 32
+
+typedef struct stat			t_stat;
 
 /*
 **	name :			nom de la variable env
@@ -60,6 +68,7 @@ typedef struct				s_env
 **	stat :			retour de lstat sur le binaire
 **	next :			adresse du maillon suivant
 */
+
 typedef struct				s_bin
 {
 	char					*name;
@@ -113,6 +122,7 @@ typedef struct				s_print_list
 **	term_param :	structure pour save les parametres du term
 **	hist :			pointeur sur le premier maillon de l'historique
 */
+
 typedef struct				s_21sh
 {
 	char					*term_name;
@@ -131,6 +141,22 @@ typedef struct				s_21sh
 	struct termios			term_param;
 	struct winsize			win;
 }							t_21sh;
+
+
+/*
+**
+** Tableau sur pointeur sur fonction permettant de verifier si le binaire
+** entree est un builtin
+**
+*/
+
+typedef struct 				s_builtin_lst
+{
+	char 					*str;
+	int 					(*p)(t_cmd *stin);
+}							t_builtin_lst;
+
+void						builtin_or_not(t_cmd *content);
 
 /*
 **	init_21sh.c
@@ -171,15 +197,17 @@ void						sort_list(t_bin **liste,
 /*
 **	env.c
 */
+
 int							save_env(t_env **env);
 int							add_env(t_env **env, char *str, int index, bool ad);
+int 						add_env_(char *name, char *value);
 int							del_list_env(t_env **list);
 int							del_env(void);
 
 /*
 **	builtin_env.c
 */
-int							builtin_env(char *l_cmd);
+int							builtin_env(t_cmd *contentst);
 
 /*
 **	options_env.c
@@ -242,5 +270,43 @@ void						ctrl_d(int val);
 */
 int							print_all_bin(void);
 int							print_all_env(void);
+
+/*
+**		fonction temporaire. 
+*/
+
+// t_stin_content				parse_stin(char *line); 
+
+/*
+** BUILTIN
+*/
+
+int	 						cd(t_cmd *cmd);
+int 						builtin_setenv(t_cmd *cmd);
+
+/*
+** Renvoi la valeur de l'environnement.
+*/
+
+char						*getenv_value(char *name);
+
+/*
+** Change la valeur de l'environnement.
+*/
+
+int 						modify_env_value(char *name, char *value);
+
+/*
+** Verifie sur l'env existe
+*/
+
+int							check_if_env_exist(char *name);
+
+
+/*
+** Permet de recuperer l'environnement en array.
+*/
+
+int							c_l_to_arr_env(char ***tab);
 
 #endif

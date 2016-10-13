@@ -14,23 +14,22 @@
 
 static void					del_hash_bin(t_bin **link)
 {
-	t_bin					*tmp;
-	t_bin					*curs;
 	t_bin					*mem;
 
-	if (link != NULL)
-	{
-		curs = *link;
-		while (curs != NULL)
+	if (link != NULL && *link != NULL)
+		while (*link != NULL)
 		{
-			ft_memdel((void**)&curs->name);
-			ft_memdel((void**)&curs->path);
-			ft_memdel((void**)&curs->path_name);
-			mem = curs;
-			curs = curs->next;
-			ft_memdel((void**)&mem);
+			if ((*link)->name != NULL)
+				ft_memdel((void**)&(*link)->name);
+			if ((*link)->path != NULL)
+				ft_memdel((void**)&(*link)->path);
+			if ((*link)->path_name != NULL)
+				ft_memdel((void**)&(*link)->path_name);
+			mem = (*link)->next;
+			if ((*link) != NULL)
+				ft_memdel((void**)link);
+			(*link) = mem;
 		}
-	}
 }
 
 int							del_bin(void)
@@ -42,6 +41,7 @@ int							del_bin(void)
 		return (ERROR);
 	i = 0;
 	while (i < SIZE_HASH)
-		del_hash_bin(&sh->hash[i++]);
+		if (sh->hash[i++] != NULL)
+			del_hash_bin(&sh->hash[i - 1]);
 	return (true);
 }

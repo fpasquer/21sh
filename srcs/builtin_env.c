@@ -22,26 +22,6 @@
 
 #include <stdio.h>
 
-int							env_exist(char *name)
-{
-	t_env					*curs;
-	t_21sh					*sh;
-
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	curs = sh->env;
-	while (curs != NULL)
-	{
-		if (ft_strcmp(name, curs->name) == 0)
-		{
-			curs->add = false;
-			return (true);
-		}
-		curs = curs->next;
-	}
-	return (false);
-}
-
 static int					option_u_env(char **l_cmd)
 {
 	char					*end;
@@ -58,7 +38,7 @@ static int					option_u_env(char **l_cmd)
 			end = l_cmd[0] + ft_strlen(*l_cmd);
 		decalage = (*end == '\0') ? -1 : 0;
 		*end = '\0';
-		env_exist(*l_cmd);
+		check_if_env_exist(*l_cmd);
 		l_cmd[0] = end + decalage;
 		return (true);
 	}
@@ -129,23 +109,26 @@ static int					error_env(char flags, char *l_cmd)
 	return (ERROR);
 }
 
-int							builtin_env(char *l_cmd)
+int							builtin_env(t_cmd *content)
 {
 	char					flags;
 	char					**tab;
 	int						ret;
+	char 					*tmp_line;
 
+
+	tmp_line = ft_strdup(content->line);
 	tab = NULL;
-	if ((flags = get_flags_env(&l_cmd)) == PARAM || flags == OPT_WRONG)
-		return (error_env(flags, l_cmd));
+	if ((flags = get_flags_env(&tmp_line)) == PARAM || flags == OPT_WRONG)
+		return (error_env(flags, content->line));
 	if (flags == ERROR)
 		return (ERROR);
 	if ((flags & FLAG_I) != 0)
-		ret = tab_env_i(&l_cmd, &tab);
+		ret = tab_env_i(&tmp_line, &tab);
 	else if ((flags & FLAG_U) != 0)
-		ret = tab_env_u(&l_cmd, &tab);
+		ret = tab_env_u(&tmp_line, &tab);
 	else
-		ret = tab_env(&l_cmd, &tab);
+		ret = tab_env(&tmp_line, &tab);
 	if (ret == ERROR)
 		return (-1);
 	if (tab != NULL)//a finir
@@ -155,6 +138,6 @@ int							builtin_env(char *l_cmd)
 		printf("line = %2d, ret = %d\n", __LINE__, ret);
 		ft_free_strsplit(tab);
 	}
-	ft_putendl(l_cmd);
+	ft_putendl(tmp_line);
 	return (true);
 }

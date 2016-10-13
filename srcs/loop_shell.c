@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 15:27:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 20:26:06 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,34 @@ int							exe_cmd(t_history **hist, char **line)
 	return (true);
 }
 
+/*
+**
+*/
+
 void						loop_shell(void)
 {
 	char					*line;
 	int						ret;
 	t_21sh					*sh;
 
+	// if ((sh = get_21sh(NULL)) != NULL)
+	// {
+	// 	print_header();
+	// 	while (print_prompt())
+	// 	{
+	// 		if ((line = get_line_entree()) == NULL)
+	// 			break ;
+	// 		put_line_entre(line);
+	// 		if (exe_cmd(&sh->hist, &line) == ERROR)
+	// 			break ;
+	// 	}
+	// }
+	
+	t_cmd 					*cmd;
+	t_cmd 					*head;
+
+	line = NULL;
+	cmd = NULL;
 	if ((sh = get_21sh(NULL)) != NULL)
 	{
 		print_header();
@@ -102,7 +124,19 @@ void						loop_shell(void)
 			put_line_entre(line);
 			if (exe_cmd(&sh->hist, &line) == ERROR)
 				break ;
+			if ((cmd = parse_cmd(line)) != NULL)
+			{
+				head = cmd;
+				print_cmd(cmd);
+				while (cmd && cmd->arg && cmd->arg[0] != NULL)
+				{
+					builtin_or_not(cmd);
+					cmd = cmd->right;
+				}
+				free_cmd(head);
+			}
+			ft_memdel((void**)&line);
 		}
+		del_21sh();
 	}
-	del_21sh();
 }

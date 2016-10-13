@@ -56,7 +56,7 @@ void					sort_list(TYPE **liste,
 {
 	TYPE				*aux;
 
-	if ((*liste) != NULL)
+	if (liste != NULL && (*liste) != NULL)
 		if ((*liste)->NEXT != NULL)
 		{
 			aux = separer_lst(*liste);

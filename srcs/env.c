@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
-
 #include <stdio.h>
 
 int							add_env(t_env **env, char *str, int index, bool add)

@@ -58,10 +58,12 @@ static int					add_bin_directory(t_21sh *sh, char *path)
 	DIR						*direct;
 	struct dirent			*str_dirent;
 
-//	if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
-//		return (ERROR);
+	//	if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
+	//		return (ERROR);
+
 	if ((direct = opendir(path)) != NULL)
 	{
+		ft_putendl("tatat");
 		while ((str_dirent = readdir(direct)) != NULL)
 			if (find_name(sh, str_dirent->d_name, path) == ERROR)
 			{
@@ -85,8 +87,9 @@ int							save_bin(t_21sh *sh)
 		if (add_bin_directory(sh, sh->tab_path[i++]) == ERROR)
 			return (ERROR);
 	i = 0;
-	while (i < SIZE_HASH)
-		sort_list(&sh->hash[i++], len_tri);
+	/*while (i < SIZE_HASH)
+		if (sh->hash[i++] != NULL)
+			sort_list(&sh->hash[i - 1], len_tri);*/
 	return (true);
 }
 
