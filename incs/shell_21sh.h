@@ -283,6 +283,7 @@ int							print_all_env(void);
 
 int	 						cd(t_cmd *cmd);
 int 						builtin_setenv(t_cmd *cmd);
+int 						builtin_unsetenv(t_cmd *content);
 
 /*
 ** Renvoi la valeur de l'environnement.

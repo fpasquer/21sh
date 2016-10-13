@@ -17,6 +17,7 @@ t_builtin_lst g_builtin_lst[] = {
 	{"cd", cd},
 	{"env", builtin_env},
 	{"setenv", builtin_setenv},
+	{"unsetenv", builtin_unsetenv},
 	{NULL, NULL},
 };
 
