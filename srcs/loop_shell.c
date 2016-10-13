@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 20:26:06 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 21:34:30 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void						loop_shell(void)
 				}
 				free_cmd(head);
 			}
-			ft_memdel((void**)&line);
 		}
 		del_21sh();
 	}

@@ -39,6 +39,7 @@ SRCDIR_BUILTIN	= srcs/builtin
 SRCDIR_EXE_CMD	= srcs/exe_cmd
 SRCDIR_ENV		= srcs/env
 SRCDIR_PARSE	= srcs/parse
+SRCDIR_TERMCAPS	= srcs/parse
 
 OBJDIR			= objs
 INCDIR			= incs
@@ -74,6 +75,10 @@ $(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
 	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_PARSE)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE PARSE\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+
+$(OBJDIR)/%.o : $(SRCDIR_TERMCAPS)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE PARSE\033[0m"
 	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
