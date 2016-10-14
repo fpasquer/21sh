@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:25:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 11:40:12 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/14 14:02:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int							get_path_bin(char *name_bin, char **path_name)
 		curs = sh->hash[index];
 		while (curs != NULL)
 		{
-			if (ft_strcmp(name_bin, curs->name) == 0)
+			if (ft_strcmp(name_bin, curs->name) == 0 ||
+					ft_strcmp(name_bin, curs->path_name) == 0)
 			{
 				*path_name = curs->path_name;
 				return (true);
