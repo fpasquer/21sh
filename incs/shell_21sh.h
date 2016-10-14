@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 17:54:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/14 15:31:42 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int							del_bin(void);
 **	table_hash.c
 */
 int							i_table_hash(char *name, int size_hash);
+int							get_path_bin(char *name_bin, char **path_name);
 
 /*
 **	sort_fonctions.c
