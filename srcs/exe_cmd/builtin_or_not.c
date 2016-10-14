@@ -23,15 +23,24 @@ t_builtin_lst g_builtin_lst[] = {
 
 void		builtin_or_not(t_cmd *content) {
 	int 	i;
+	int 	builtin;
 
+	builtin = 0;
 	i = 0;
 	if (content->argc > 0) {
 		while (g_builtin_lst[i].str) {
 			if (ft_strequ(content->arg[0], g_builtin_lst[i].str)) {
 				g_builtin_lst[i].p(content);
+				builtin = 1;
 				break ;
 			}
 			i++;
+		}
+		if (!builtin) {
+			char **env = l_l_to_arr_env();
+			
+			exe_binaire(content, env);
+			delete_env_array(env);
 		}
 	}
 }
