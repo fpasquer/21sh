@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/12 21:10:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/14 11:53:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i)
 	{
 		cpy = ft_strdup(cmd->line);
 		i = 0;
-		while (i < (int)ft_strlen(cpy))
+		while (i <= (int)ft_strlen(cpy))
 		{
 			size = 0;
 			while (cpy[i] && !check_and_parse2(cpy, i))

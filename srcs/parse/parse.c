@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/13 21:37:40 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/14 12:06:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int				check_error_parse(t_cmd *cmd)
 {
 	if (cmd->op != 0 || (cmd->arg[0] == NULL && cmd->right))
 		return (-1);
-	cmd = cmd->right;
 	while (cmd)
 	{
 		if ((cmd->arg == NULL && cmd->right) ||
@@ -58,6 +57,9 @@ static int				check_error_parse(t_cmd *cmd)
 			return (-1);
 		if ((cmd->arg == NULL && cmd->op == 3) ||
 				(cmd->arg && cmd->arg[0] == NULL && cmd->op == 3))
+			return (-1);
+		if ((cmd->left && cmd->left->arg && cmd->left->arg[0] == NULL) ||
+				(cmd->left && cmd->left->arg == NULL))
 			return (-1);
 		cmd = cmd->right;
 	}

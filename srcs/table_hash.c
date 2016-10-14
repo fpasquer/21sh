@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:25:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 08:38:19 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/14 11:40:12 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int							get_path_bin(char *name_bin, char **path_name)
 			curs = curs->next;
 		}
 	}
+	*path_name = NULL;
 	return (false);
 }
