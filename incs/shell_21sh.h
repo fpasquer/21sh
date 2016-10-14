@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 17:54:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/14 14:55:30 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int							del_bin(void);
 **	table_hash.c
 */
 int							i_table_hash(char *name, int size_hash);
+int							get_path_bin(char *name_bin, char **path_name);
 
 /*
 **	sort_fonctions.c
@@ -231,10 +232,12 @@ int							init_term(t_21sh **sh);
 /*
 **	functions_key.c
 */
-void						key_exit(int val_exit);
+void						key_exit(unsigned char val_exit);
 int							key_del_hist(void);
 int							print_history_up(void);
 int							print_history_down(void);
+int							mouve_righ(void);
+int							mouve_left(void);
 
 /*
 **	history.c
@@ -243,7 +246,7 @@ int							init_history(void);
 int							del_hist(void);
 int							add_history(t_history **hist, char **line);
 int							print_history(void);
-int							add_to_g_lines(char *line);
+//int							add_to_g_lines(char *line);
 
 /*
 **	print_event.c
@@ -283,6 +286,7 @@ int							print_all_env(void);
 
 int	 						cd(t_cmd *cmd);
 int 						builtin_setenv(t_cmd *cmd);
+int							builtin_exit(t_cmd *cmd);
 
 /*
 ** Renvoi la valeur de l'environnement.

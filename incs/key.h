@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 17:46:16 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/14 21:42:52 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,26 @@
 # define MAX_LEN_LINE 10
 # define SIZE_BUFF 8
 
+typedef struct				s_entry
+{
+	char					c;
+	struct s_entry			*next;
+	struct s_entry			*prev;
+}							t_entry;
+
 
 typedef struct				s_line
 {
-	char					line[MAX_LEN_LINE];
-	unsigned int			i;
-	struct s_line			*next;
+	t_entry					*line;
+	t_entry					*curs;
+	t_entry					*sel_start;
+	t_entry					*sel_end;
+	size_t					len;
+	size_t					i;
+	int						y;
 }							t_line;
 
-t_line						*g_lines;
-char						g_line[MAX_LEN_LINE + 1];
+t_line						g_lines;
 
 # define DS					(b[0] == -62 && b[1] == -89 && b[2] ==  83 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //§ au dessus de tab
 # define PLUS_MINUS			(b[0] == -62 && b[1] == -79 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //±
@@ -158,7 +168,6 @@ char						g_line[MAX_LEN_LINE + 1];
 #define BUFF_SIZE_READ 5
 
 char						*get_line_entree(void);
-void						del_lines(void);
 int							my_out_put(int c);
 t_line						*add_new_line(t_line **lst, char *line,
 		unsigned int i);

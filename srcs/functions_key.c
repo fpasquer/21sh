@@ -6,14 +6,14 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 17:53:51 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/14 14:54:26 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 
-void						key_exit(int val_exit)
+void						key_exit(unsigned char val_exit)
 {
 	ft_putendl(COLOR_LINE);
 	ft_putstr("exit");
@@ -53,7 +53,8 @@ int							print_history_up(void)
 	print_prompt();
 	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
 		ft_putstr(sh->hist->curs->line);
-	return (add_to_g_lines(sh->hist->curs->line));
+	//return (add_to_g_lines(sh->hist->curs->line));
+	return (true);
 }
 
 int							print_history_down(void)

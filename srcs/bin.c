@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 17:00:14 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 19:25:58 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/13 21:42:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int					add_bin_directory(t_21sh *sh, char *path)
 
 	if ((direct = opendir(path)) != NULL)
 	{
-		ft_putendl("tatat");
 		while ((str_dirent = readdir(direct)) != NULL)
 			if (find_name(sh, str_dirent->d_name, path) == ERROR)
 			{

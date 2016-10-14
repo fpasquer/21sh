@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 08:47:23 by fpasquer         ###   ########.fr       */
+/*   Created: 2016/10/14 08:52:20 by fpasquer          #+#    #+#             */
+/*   Updated: 2016/10/14 09:20:04 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 
-int							main(void)
+int							builtin_exit(t_cmd *cmd)
 {
-	t_21sh					*sh;
+	int						val;
 
-	if ((sh = init_21sh()) == NULL)
-		ft_putendl("Erreur initialisation 21sh");
-	else
+	if (cmd != NULL && cmd->arg[0] != NULL &&
+			ft_strcmp(cmd->arg[0], "exit") == 0 &&
+			cmd->arg[1] != NULL && ft_is_number(cmd->arg[1]) == true)
 	{
-		signal(SIGWINCH, resize_win);
-		loop_shell();
-		ft_putendl("Erreur 21 sh");
+		val = ft_atoi(cmd->arg[1]);
+		key_exit((unsigned char)val);
 	}
-	return (EXIT_SUCCESS);
+	key_exit(0);
+	return (true);
 }
