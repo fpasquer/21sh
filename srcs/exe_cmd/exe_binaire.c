@@ -31,8 +31,9 @@ int 		exe_binaire(t_cmd *cmd, char **env) {
 
 	int pid = fork();
 	if (pid == 0) {
-		if (execve(path, cmd->arg, env) == -1)
+		if (execve((path) ? path : ".", cmd->arg, env) == -1) {
 			exit (-1);
+		}
 	} else {
 		wait(NULL);
 	}
