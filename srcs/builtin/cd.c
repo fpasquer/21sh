@@ -20,9 +20,9 @@ int cd_change_pwd (char *path) {
 	** CHANGE PWD
 	** EN VERIFIANT SI OLD_PWD EST SET
 	*/
-	
 	if (check_if_env_exist("PWD") == false) {
-		if (add_env(&sh->env, new_path, ++sh->nb_var_env, true) == ERROR)
+		ft_putendl("OK");
+		if (add_env_("PWD", new_path) == ERROR)
 			return (false);
 	}
 	else if (modify_env_value("PWD", new_path) == false) {
@@ -35,7 +35,7 @@ int cd_change_pwd (char *path) {
 	*/
 
 	if (check_if_env_exist("OLDPWD") == false) {
-		if (add_env(&sh->env, old_pwd, ++sh->nb_var_env, true) == ERROR)
+		if (add_env_("OLDPWD", old_pwd) == ERROR)
 			return (false);
 	}
 	else if (modify_env_value("OLDPWD", old_pwd) == false) {

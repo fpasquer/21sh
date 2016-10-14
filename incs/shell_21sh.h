@@ -50,6 +50,7 @@ typedef struct stat			t_stat;
 **	index :			position dans la liste chainee
 **	add :			pour recreer le tab 2d env
 */
+
 typedef struct				s_env
 {
 	char					*name;
@@ -283,6 +284,7 @@ int							print_all_env(void);
 
 int	 						cd(t_cmd *cmd);
 int 						builtin_setenv(t_cmd *cmd);
+int 						builtin_unsetenv(t_cmd *content);
 
 /*
 ** Renvoi la valeur de l'environnement.
@@ -307,6 +309,14 @@ int							check_if_env_exist(char *name);
 ** Permet de recuperer l'environnement en array.
 */
 
-int							c_l_to_arr_env(char ***tab);
+char						**l_l_to_arr_env();
+void 						ft_print_env_array(char **env);
+int 						delete_env_array(char **env);
+
+/*
+** Fonction execute les binaires
+*/
+
+int 						exe_binaire(t_cmd *cmd, char **env);
 
 #endif

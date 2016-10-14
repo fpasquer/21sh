@@ -30,12 +30,9 @@ int 		builtin_setenv(t_cmd *content) {
 			/*
 			** TMP;
 			*/
-			ft_putendl("OK");
 			del_bin();
 			//char *str = ft_multijoin(3, env_name,"=" , env_value);
-			ft_putendl(env_value);
 			printf("%d\n", save_path(&sh, env_value));
-			ft_putendl("OK");
 			// free(str);
 		}
 	}

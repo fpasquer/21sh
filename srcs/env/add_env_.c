@@ -8,16 +8,23 @@ int add_env_(char *name, char *value) {
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);	
 	env = sh->env;
-	while (env->next) {
+	if (env) {
+		while (env->next) {
+			env = env->next;
+		}
+		if (((env->next = ft_memalloc(sizeof(t_env))) == NULL)) {
+			return (ERROR);
+		}
 		env = env->next;
 	}
-	if (((env->next = ft_memalloc(sizeof(t_env))) == NULL)) {
+	else if (((env = ft_memalloc(sizeof(t_env))) == NULL)) {
 		return (ERROR);
 	}
+	if (!sh->env)
+		sh->env = env;
 	sh->nb_var_env++;
-	env = env->next;
 	env->name = ft_strdup(name);
-	env->value = (value) ? value : ft_strdup("");
+	env->value = (value) ? ft_strdup(value) : ft_strdup("");
 	env->add = true;
 	env->index = sh->nb_var_env;
 	return (true);
