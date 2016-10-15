@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 08:55:28 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 15:32:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,23 +129,22 @@ int							del_hist(void)
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	if ((curs = sh->hist) == NULL)
-		return (ERROR);
 	if ((fd = ft_fopen(HISTORY, "w+")) <= 0)
 		return (ERROR);
-	while (curs->next != NULL)
-		curs = curs->next;
-	while (curs != NULL)
+	if (sh->hist == NULL)
+		return (true);
+	while (sh->hist->next != NULL)
+		sh->hist = sh->hist->next;
+	while (sh->hist != NULL)
 	{
-		tmp = curs->prev;
-		if (curs->line != NULL)
+		tmp = sh->hist->prev;
+		if (sh->hist->line != NULL)
 		{
-			ft_putendl_fd(curs->line, fd);
-			ft_memdel((void**)&curs->line);
+			ft_putendl_fd(sh->hist->line, fd);
+			ft_memdel((void**)&sh->hist->line);
 		}
-		ft_memdel((void**)&curs);
-		curs = tmp;
+		ft_memdel((void**)&sh->hist);
+		sh->hist = tmp;
 	}
-	sh->hist = NULL;
 	return ((close(fd) != 0) ? ERROR : true);
 }
