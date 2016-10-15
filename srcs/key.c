@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 10:48:07 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 12:12:06 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (ARROW_DOWN)
 		print_history_down();
 	else if (ARROW_RIGHT)
-		;
+		mouve_righ();
 	else if (ARROW_LEFT)
-		;
+		mouve_left();
 	else if (DEL)
 		;
 	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
@@ -62,10 +62,14 @@ int							add_c_to_line(char c)
 	if (g_lines.curs == NULL)
 	{
 		g_lines.curs = new;
+		new->next = (g_lines.line != NULL) ? g_lines.line : NULL;
 		g_lines.line = new;
 	}
 	else
 	{
+		if (g_lines.curs->next != NULL)
+			g_lines.curs->next->prev = new;
+		new->next = (g_lines.curs->next != NULL) ? g_lines.curs->next : NULL;
 		g_lines.curs->next = new;
 		new->prev = g_lines.curs;
 		g_lines.curs = g_lines.curs->next;
@@ -92,16 +96,24 @@ void						resert_curs(size_t len_path)
 
 int							put_end_line(char c)
 {
+	int						loop;
 	t_entry					*curs;
 
-	curs = g_lines.curs;
+	curs = (g_lines.curs != NULL) ? g_lines.curs->next : g_lines.line;
 	if (put_cmd_term("cd") == ERROR)
 		return (ERROR);
+	loop = 0;
+	if (c != '\n')
+		ft_putchar(c);
 	while (curs != NULL)
 	{
 		ft_putchar(curs->c);
+		loop++;
 		curs = curs->next;
 	}
+	while (loop-- > 0)
+		if (put_cmd_term("le") == ERROR)
+			return (false);
 	if (c == '\n')
 		ft_putchar('\n');
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 10:09:57 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 11:05:21 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,29 @@ int							print_history_up(void)
 	{
 		ft_putstr(sh->hist->curs->line);
 		insert_word_in_g_line(sh->hist->curs->line);
+	}
+	return (true);
+}
+
+int							mouve_righ(void)
+{
+	if (g_lines.curs != NULL)
+		if (g_lines.curs->next != NULL)
+		{
+			if (put_cmd_term("nd") == ERROR)
+				return (ERROR);
+			g_lines.curs = g_lines.curs->next;
+		}
+	return (true);
+}
+
+int							mouve_left(void)
+{
+	if (g_lines.curs != NULL)
+	{
+		if (put_cmd_term("le") == ERROR)
+			return (ERROR);
+		g_lines.curs = g_lines.curs->prev;
 	}
 	return (true);
 }
