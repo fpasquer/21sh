@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 11:05:21 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 12:43:02 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,17 @@ int							print_history_up(void)
 
 int							mouve_righ(void)
 {
-	if (g_lines.curs != NULL)
+	static bool				decalage;
+
+	if (g_lines.i < g_lines.len)
+	{
+		if (put_cmd_term("nd") == ERROR && decalage == true)
+			return (ERROR);
+		g_lines.curs = g_lines.curs == NULL ? g_lines.line : g_lines.curs;
 		if (g_lines.curs->next != NULL)
-		{
-			if (put_cmd_term("nd") == ERROR)
-				return (ERROR);
 			g_lines.curs = g_lines.curs->next;
-		}
+		g_lines.i++;
+	}
 	return (true);
 }
 
@@ -79,6 +83,7 @@ int							mouve_left(void)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 		g_lines.curs = g_lines.curs->prev;
+		g_lines.i--;
 	}
 	return (true);
 }
