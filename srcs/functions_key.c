@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 12:43:02 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 12:46:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ int							mouve_righ(void)
 	{
 		if (put_cmd_term("nd") == ERROR && decalage == true)
 			return (ERROR);
-		g_lines.curs = g_lines.curs == NULL ? g_lines.line : g_lines.curs;
-		if (g_lines.curs->next != NULL)
-			g_lines.curs = g_lines.curs->next;
+		if (g_lines.curs != NULL)
+		{
+			if (g_lines.curs->next != NULL)
+				g_lines.curs = g_lines.curs->next;
+		}
+		else
+			g_lines.curs = g_lines.line;
 		g_lines.i++;
 	}
 	return (true);
