@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 09:13:02 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 12:54:07 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ int							print_history_up(void);
 int							print_history_down(void);
 int							mouve_righ(void);
 int							mouve_left(void);
+int							del_right();
 
 /*
 **	history.c

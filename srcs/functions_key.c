@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 12:46:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 13:44:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,41 @@ int							mouve_left(void)
 			return (ERROR);
 		g_lines.curs = g_lines.curs->prev;
 		g_lines.i--;
+	}
+	return (true);
+}
+
+int							del_right(void)
+{
+	int						loop;
+	t_entry					*curs_tmp;
+	t_entry					*start;
+
+	if (g_lines.curs != NULL)
+	{
+		if (put_cmd_term("le") == ERROR || put_cmd_term("cd") == ERROR)
+			return (ERROR);
+		if (g_lines.curs->next != NULL)
+			g_lines.curs->next->prev = g_lines.curs->prev;
+		if (g_lines.curs->prev != NULL)
+			g_lines.curs->prev->next = g_lines.curs->next;
+		if (g_lines.curs == g_lines.line)
+			g_lines.line = g_lines.line->next;
+		curs_tmp = g_lines.curs->prev;
+		ft_memdel((void**)&g_lines.curs);
+		g_lines.curs = curs_tmp;
+		g_lines.i--;
+		loop = 0;
+		start = g_lines.curs != NULL ? g_lines.curs->next : g_lines.line;
+		while (start != NULL)
+		{
+			ft_putchar(start->c);
+			loop++;
+			start = start->next;
+		}
+		while (loop-- > 0)
+			if (put_cmd_term("le") == ERROR)
+				return (false);
 	}
 	return (true);
 }

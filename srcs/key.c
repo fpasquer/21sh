@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 12:12:06 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 12:53:48 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (ARROW_LEFT)
 		mouve_left();
 	else if (DEL)
-		;
+		del_right();
 	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
 		return (b[0]);
 	return (KEY_IGNORE);
