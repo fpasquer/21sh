@@ -18,7 +18,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					print_list_term.c print_event.c functions_signaux.c 		\
 					options_env.c loop_shell.c term.c functions_key.c 			\
 					cd.c builtin_or_not.c getenv_value.c						\
-					modify_env_value.c check_if_env_exist.c						\
+					modify_env_value.c check_if_env_exist.c dico.c				\
 					parse.c parse2.c setenv.c add_env_.c builtin_exit.c
 
 

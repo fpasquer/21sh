@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 15:56:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 16:25:05 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void						loop_shell(void)
 			put_line_entre(line);
 			if (exe_cmd(&sh->hist, &line) == ERROR)
 				break ;
-			if ((cmd = parse_cmd(line)) != NULL)
+/*			if ((cmd = parse_cmd(line)) != NULL)
 			{
 				head = cmd;
 //				print_cmd(cmd);
@@ -118,7 +118,7 @@ void						loop_shell(void)
 					cmd = cmd->right;
 				}
 				free_cmd(head);
-			}
+			}*/
 		}
 		del_21sh();
 	}
