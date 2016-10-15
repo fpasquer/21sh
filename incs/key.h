@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 21:42:52 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 10:35:16 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,5 +171,7 @@ char						*get_line_entree(void);
 int							my_out_put(int c);
 t_line						*add_new_line(t_line **lst, char *line,
 		unsigned int i);
+int							insert_word_in_g_line(char *word);
+void						del_g_lines(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 14:57:14 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 08:55:28 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int					loop_print(t_21sh *sh)
 		list[loop++] = curs->line;
 		curs = curs->next;
 	}
-	ret = print_list_term(sh, list, true);// a passer en false
+	ret = print_list_term(sh, list, false);// a passer en false
 	ft_memdel((void**)&list);
 	return ((ret == NULL) ? false : true);
 }

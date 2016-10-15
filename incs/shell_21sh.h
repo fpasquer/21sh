@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 14:55:30 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 09:13:02 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct				s_21sh
 	char					**tab_path;
 	int						sh_lvl;
 	int						nb_var_env;
+	size_t					len_prompt;
 	t_bin					*hash[SIZE_HASH];
 	t_env					*env;
 	t_history				*hist;

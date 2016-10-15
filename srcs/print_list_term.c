@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 10:34:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 14:56:57 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 10:09:39 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,17 @@ static char					*put_words1(t_21sh *sh, t_list_print *lst,
 		return (NULL);
 	if (get_infos_words(lst, &bigger_word, &len_total, &nb_word) == ERROR)
 		return (NULL);
-	len = sh->win.ws_col / (bigger_word + 1);
-	len = sh->win.ws_col / len;
-	nb_word_line = sh->win.ws_col / len;
+	if (bigger_word + 1 < sh->win.ws_col)
+	{
+		len = sh->win.ws_col / (bigger_word + 1);
+		len = sh->win.ws_col / len;
+		nb_word_line = sh->win.ws_col / len;
+	}
+	else
+	{
+		ft_putendl("Windows to small");
+		return (ft_memalloc(sizeof(char)));
+	}
 	if (select == true)
 		return (put_words_event(lst, len, nb_word_line, sh));
 	else
@@ -142,9 +150,9 @@ char						*print_list_term(t_21sh *sh, char **list,
 	char					*adr;
 	t_list_print			*lst;
 
-	if ((lst = get_list_term(list)) == NULL)
-		return (NULL);
 	if (sh == NULL)
+		return (NULL);
+	if ((lst = get_list_term(list)) == NULL)
 		return (NULL);
 	adr = NULL;
 	adr = put_words1(sh, lst, select);

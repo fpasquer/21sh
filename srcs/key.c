@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 22:38:06 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 10:48:07 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (TAB)
 		;
 	else if (ARROW_UP)
-		;
+		print_history_up();
 	else if (ARROW_DOWN)
-		;
+		print_history_down();
 	else if (ARROW_RIGHT)
 		;
 	else if (ARROW_LEFT)
@@ -54,6 +54,8 @@ int							add_c_to_line(char c)
 {
 	t_entry					*new;
 
+	if (c == '\n')
+		return (true);
 	if ((new = ft_memalloc(sizeof(*new))) == NULL)
 		return (ERROR);
 	new->c = c;
@@ -85,10 +87,24 @@ void						resert_curs(size_t len_path)
 		put_cmd_term("cd");
 		l_total = len_path + g_lines.len;
 		g_lines.y = (l_total % sh->win.ws_col) == 1 ? g_lines.y + 1 : g_lines.y;
-		loop = (l_total % sh->win.ws_col >= 1) ? g_lines.y : g_lines.y + 1;
-		while (loop-- > 1)
-			put_cmd_term("up");
 	}
+}
+
+int							put_end_line(char c)
+{
+	t_entry					*curs;
+
+	curs = g_lines.curs;
+	if (put_cmd_term("cd") == ERROR)
+		return (ERROR);
+	while (curs != NULL)
+	{
+		ft_putchar(curs->c);
+		curs = curs->next;
+	}
+	if (c == '\n')
+		ft_putchar('\n');
+	return (true);
 }
 
 int							get_line_cmd(void)
@@ -96,23 +112,49 @@ int							get_line_cmd(void)
 	char					c;
 	size_t					len_path;
 	t_entry					*entry;
+	t_entry					*curs;
 
-	while ((len_path = print_prompt()) > 0)
+	print_prompt();
+	while (1)
 	{
-		entry = g_lines.line;
-		while(entry != NULL)
-		{
-			ft_putchar(entry->c);
-			entry = entry->next;
-		}
-		if((c = get_char_keyboard()) > 0)
+		if((c = get_char_keyboard()) != KEY_IGNORE)
 			if (add_c_to_line(c) == ERROR)
+				return (ERROR);
+		if (c != KEY_IGNORE && c != ERROR)
+			if (put_end_line(c) == ERROR)
 				return (ERROR);
 		if (c == ERROR || c == '\n')
 			break ;
-		resert_curs(len_path);
 	}
 	return (true);
+}
+
+int							insert_word_in_g_line(char *word)
+{
+	unsigned int			i;
+
+	if (word == NULL)
+		return (ERROR);
+	i = 0;
+	while (word[i] != '\0' && word[i] != '\n')
+		if (add_c_to_line(word[i++]) == ERROR)
+			return (ERROR);
+	return (true);
+}
+
+void						del_g_lines(void)
+{
+	t_entry					*curs;
+	t_entry					*mem;
+
+	curs = g_lines.line;
+	while (curs != NULL)
+	{
+		mem = curs->next;
+		ft_memdel((void**)&curs);
+		curs = mem;
+	}
+	ft_bzero(&g_lines, sizeof(g_lines));
 }
 
 char						*make_tab(void)
@@ -130,12 +172,12 @@ char						*make_tab(void)
 		line[i++] = curs->c;
 		curs = curs->next;
 	}
+	del_g_lines();
 	return (line);
 }
 
 char						*get_line_entree(void)
 {
-	ft_bzero(&g_lines, sizeof(g_lines));
 	if (get_line_cmd() == ERROR)
 		return (NULL);
 	return (make_tab());
