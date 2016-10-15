@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 13:56:28 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 14:14:09 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,31 @@ int							key_del_hist(void)
 	return (true);
 }
 
+static int					curs_history_up(t_21sh *sh)
+{
+	int						loop;
+	size_t					len_total;
+	size_t					rest;
+
+	if (put_cmd_term("rc") == -1)
+		return (ERROR);
+	if (sh->hist == NULL || sh->hist->curs == NULL)
+		return (true);
+	len_total = ft_strlen(sh->hist->curs->line) + sh->len_prompt;
+	rest = len_total % sh->win.ws_col;
+	len_total -= rest;
+	loop = len_total / sh->win.ws_col;
+	while (loop-- > 0)
+		if (put_cmd_term("up") == ERROR)
+			return (ERROR);
+	return (put_cmd_term("cd"));
+}
+
 int							print_history_up(void)
 {
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL)
+	if ((sh = get_21sh(NULL)) == NULL || curs_history_up(sh) == ERROR)
 		return (ERROR);
 	if (sh->hist != NULL && sh->hist->curs == NULL)
 	{
@@ -48,8 +68,6 @@ int							print_history_up(void)
 		if (sh->hist->curs->next != NULL)
 			sh->hist->curs = sh->hist->curs->next;
 	}
-	if (put_cmd_term("rc") == -1 || put_cmd_term("cd") == -1)
-		return (false);
 	del_g_lines();
 	print_prompt();
 	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
