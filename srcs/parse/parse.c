@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/14 12:06:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/16 20:21:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,11 @@ void					print_cmd(t_cmd *cmd)
 	t_cmd				*curs;
 
 	cmpt = 0;
-	while (cmd)
+	if (cmd)
 	{
 		printf("father link num = %d\n", cmpt);
 		printf("link op = %d\n", cmd->op);
+		printf("link done = %d\n", cmd->done);
 		printf("link cmd = %d\n", cmd->cmd);
 		printf("line = %s\n", cmd->line);
 		printf("argc = %d\n", cmd->argc);
