@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 17:45:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 12:53:48 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,6 @@
 #include "../incs/shell_21sh.h"
 
 #define KEY_IGNORE -2
-
-t_line						*add_new_line(t_line **lst, char *line,
-		unsigned int i)
-{
-	t_line					*new;
-	t_line					*curs;
-
-	if ((new = ft_memalloc(sizeof(*new))) == NULL || lst == NULL ||
-			line == NULL)
-		return (NULL);
-	/*if (line[0] == '\n' || line[0] == '\0')
-		return (*lst);*/
-	if (ft_strncpy(new->line, line, i) == NULL)
-		return (NULL);
-	new->i = i;
-	if ((curs = *lst) == NULL)
-		*lst = new;
-	else
-	{
-		while (curs->next != NULL)
-			curs = curs->next;
-		curs->next = new;
-	}
-	return (*lst);
-}
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
@@ -55,11 +30,11 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (ARROW_DOWN)
 		print_history_down();
 	else if (ARROW_RIGHT)
-		;
+		mouve_righ();
 	else if (ARROW_LEFT)
-		;
+		mouve_left();
 	else if (DEL)
-		;
+		del_right();
 	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
 		return (b[0]);
 	return (KEY_IGNORE);
@@ -75,91 +50,149 @@ static char					get_char_keyboard(void)
 	return (cmd_keyboard(b));
 }
 
-static t_line				*get_line(void)
+int							add_c_to_line(char c)
+{
+	t_entry					*new;
+
+	if (c == '\n')
+		return (true);
+	if ((new = ft_memalloc(sizeof(*new))) == NULL)
+		return (ERROR);
+	new->c = c;
+	if (g_lines.curs == NULL)
+	{
+		g_lines.curs = new;
+		new->next = (g_lines.line != NULL) ? g_lines.line : NULL;
+		g_lines.line = new;
+	}
+	else
+	{
+		if (g_lines.curs->next != NULL)
+			g_lines.curs->next->prev = new;
+		new->next = (g_lines.curs->next != NULL) ? g_lines.curs->next : NULL;
+		g_lines.curs->next = new;
+		new->prev = g_lines.curs;
+		g_lines.curs = g_lines.curs->next;
+	}
+	g_lines.i++;
+	g_lines.len++;
+	return (true);
+}
+
+void						resert_curs(size_t len_path)
+{
+	size_t					l_total;
+	int						loop;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) != NULL)
+	{
+		put_cmd_term("rc");
+		put_cmd_term("cd");
+		l_total = len_path + g_lines.len;
+		g_lines.y = (l_total % sh->win.ws_col) == 1 ? g_lines.y + 1 : g_lines.y;
+	}
+}
+
+int							put_end_line(char c)
+{
+	int						loop;
+	t_entry					*curs;
+
+	curs = (g_lines.curs != NULL) ? g_lines.curs->next : g_lines.line;
+	if (put_cmd_term("cd") == ERROR)
+		return (ERROR);
+	loop = 0;
+	if (c != '\n')
+		ft_putchar(c);
+	while (curs != NULL)
+	{
+		ft_putchar(curs->c);
+		loop++;
+		curs = curs->next;
+	}
+	while (loop-- > 0)
+		if (put_cmd_term("le") == ERROR)
+			return (false);
+	if (c == '\n')
+		ft_putchar('\n');
+	return (true);
+}
+
+int							get_line_cmd(void)
 {
 	char					c;
-	unsigned				i;
+	size_t					len_path;
+	t_entry					*entry;
+	t_entry					*curs;
 
-	c = 0;
-	while (c != '\n' && c != EOF)
+	print_prompt();
+	while (1)
 	{
-		i = 0;
-		ft_bzero(g_line, sizeof(g_line));
-		while (i < MAX_LEN_LINE)
-		{
-			if ((c = get_char_keyboard()) != KEY_IGNORE)
-				ft_putchar(c);
-			if (c == '\n' || c == EOF)
-				break;
-			if (c != KEY_IGNORE)
-				g_line[i++] = c;
-		}
-		if ((g_lines = add_new_line(&g_lines, g_line, i)) == NULL)
-			return (NULL);
+		if((c = get_char_keyboard()) != KEY_IGNORE)
+			if (add_c_to_line(c) == ERROR)
+				return (ERROR);
+		if (c != KEY_IGNORE && c != ERROR)
+			if (put_end_line(c) == ERROR)
+				return (ERROR);
+		if (c == ERROR || c == '\n')
+			break ;
 	}
-	return (g_lines);
+	return (true);
 }
 
-static int					len_tab(t_line *lines)
+int							insert_word_in_g_line(char *word)
 {
-	int						len_total;
-	t_line					*curs;
+	unsigned int			i;
 
-	if (lines == NULL)
-		return (-1);
-	curs = lines;
-	len_total = 0;
+	if (word == NULL)
+		return (ERROR);
+	i = 0;
+	while (word[i] != '\0' && word[i] != '\n')
+		if (add_c_to_line(word[i++]) == ERROR)
+			return (ERROR);
+	return (true);
+}
+
+void						del_g_lines(void)
+{
+	t_entry					*curs;
+	t_entry					*mem;
+
+	curs = g_lines.line;
 	while (curs != NULL)
 	{
-		len_total += curs->i;
-		curs = curs->next;
+		mem = curs->next;
+		ft_memdel((void**)&curs);
+		curs = mem;
 	}
-	return (len_total);
+	ft_bzero(&g_lines, sizeof(g_lines));
 }
 
-static char					*make_tab(t_line *lines)
+char						*make_tab(void)
 {
 	char					*line;
-	int						len_total;
-	t_line					*curs;
+	size_t					i;
+	t_entry					*curs;
 
-	if (lines == NULL || lines->line[0] == '\0')
-		return (ft_memalloc(sizeof(*line)));
-	if ((len_total = len_tab(lines)) < 0)
+	if ((line = ft_memalloc(sizeof(*line) * (g_lines.len + 1))) == NULL)
 		return (NULL);
-	if ((line = ft_memalloc(sizeof(*line) * (len_total + 1))) == NULL)
-		return (NULL);
-	curs = lines;
+	i = 0;
+	curs = g_lines.line;
 	while (curs != NULL)
 	{
-		if ((ft_strncat(line, curs->line, curs->i)) == NULL)
-			return (NULL);
+		line[i++] = curs->c;
 		curs = curs->next;
 	}
+	del_g_lines();
 	return (line);
-}
-
-void						del_lines(void)
-{
-	t_line					*tmp;
-
-	while (g_lines != NULL)
-	{
-		tmp = g_lines->next;
-		ft_memdel((void**)&g_lines);
-		g_lines = tmp;
-	}
 }
 
 char						*get_line_entree(void)
 {
-	char					*line;
-
-	line = NULL;
-	g_lines = get_line();
-	line = make_tab(g_lines);
-	del_lines();
-	return (line);
+	if (get_line_cmd() == ERROR)
+		return (NULL);
+	return (make_tab());
 }
 
 int							my_out_put(int c)

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 18:44:22 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 15:32:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,6 @@ static bool					at_add_history(char *line)
 	while (line[i] != '\0')
 		ret = (ft_isspace(line[i++]) == true) ? ret : true;
 	return (ret);
-}
-
-int							add_to_g_lines(char *line)
-{
-	char					buff[MAX_LEN_LINE + 1];
-	int						i;
-	int						j;
-
-	if (line == NULL)
-		return (ERROR);
-	i = 0;
-	j = 0;
-	del_lines();
-	ft_bzero(g_line, sizeof(g_line));
-	ft_bzero(buff, sizeof(buff));
-	while (line[i] != '\0')
-	{
-		if (ft_strncpy(buff, &line[i], MAX_LEN_LINE) == NULL ||
-			(g_lines = add_new_line(&g_lines, buff, (j = ft_strlen(buff))))
-			== NULL)
-			return (ERROR);
-		i += j;
-	}
-	return (true);
 }
 
 int							add_history(t_history **hist, char **line)
@@ -132,8 +108,6 @@ int							print_history(void)
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	del_lines();
-	ft_bzero(g_line, sizeof(g_line));
 	ft_putendl(COLOR_LINE);
 	ft_putstr("print_history");
 	ft_putendl(RESET_COLOR);
@@ -155,23 +129,22 @@ int							del_hist(void)
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	if ((curs = sh->hist) == NULL)
-		return (ERROR);
 	if ((fd = ft_fopen(HISTORY, "w+")) <= 0)
 		return (ERROR);
-	while (curs->next != NULL)
-		curs = curs->next;
-	while (curs != NULL)
+	if (sh->hist == NULL)
+		return (true);
+	while (sh->hist->next != NULL)
+		sh->hist = sh->hist->next;
+	while (sh->hist != NULL)
 	{
-		tmp = curs->prev;
-		if (curs->line != NULL)
+		tmp = sh->hist->prev;
+		if (sh->hist->line != NULL)
 		{
-			ft_putendl_fd(curs->line, fd);
-			ft_memdel((void**)&curs->line);
+			ft_putendl_fd(sh->hist->line, fd);
+			ft_memdel((void**)&sh->hist->line);
 		}
-		ft_memdel((void**)&curs);
-		curs = tmp;
+		ft_memdel((void**)&sh->hist);
+		sh->hist = tmp;
 	}
-	sh->hist = NULL;
 	return ((close(fd) != 0) ? ERROR : true);
 }

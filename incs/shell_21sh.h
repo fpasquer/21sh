@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 15:31:42 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/16 18:05:32 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct				s_21sh
 	char					**tab_path;
 	int						sh_lvl;
 	int						nb_var_env;
+	size_t					len_prompt;
 	t_bin					*hash[SIZE_HASH];
 	t_env					*env;
 	t_history				*hist;
@@ -233,10 +234,13 @@ int							init_term(t_21sh **sh);
 /*
 **	functions_key.c
 */
-void						key_exit(int val_exit);
+void						key_exit(unsigned char val_exit);
 int							key_del_hist(void);
 int							print_history_up(void);
 int							print_history_down(void);
+int							mouve_righ(void);
+int							mouve_left(void);
+int							del_right();
 
 /*
 **	history.c
@@ -245,7 +249,7 @@ int							init_history(void);
 int							del_hist(void);
 int							add_history(t_history **hist, char **line);
 int							print_history(void);
-int							add_to_g_lines(char *line);
+//int							add_to_g_lines(char *line);
 
 /*
 **	print_event.c
@@ -286,6 +290,7 @@ int							print_all_env(void);
 int	 						cd(t_cmd *cmd);
 int 						builtin_setenv(t_cmd *cmd);
 int 						builtin_unsetenv(t_cmd *content);
+int							builtin_exit(t_cmd *cmd);
 
 /*
 ** Renvoi la valeur de l'environnement.

@@ -6,7 +6,7 @@
 /*   By: jchen <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:18:15 by jchen             #+#    #+#             */
-/*   Updated: 2016/10/14 15:41:46 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/16 18:05:45 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_builtin_lst g_builtin_lst[] = {
 	{"env", builtin_env},
 	{"setenv", builtin_setenv},
 	{"unsetenv", builtin_unsetenv},
+	{"exit", builtin_exit},
 	{NULL, NULL},
 };
 

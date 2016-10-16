@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 21:34:30 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 15:56:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ int							print_prompt(void)
 	ft_putstr(COLOR_POMT);
 	ft_putstr(promt);
 	ft_putstr(RESET_COLOR);
+	sh->len_prompt = ft_strlen(promt);
 	return (true);
 }
 
 static void					put_line_entre(char *line)
 {
-	if (!(line == NULL || line[0] == '\0'))
+	if (!(line == NULL || line[0] == '\0' || line[0] == '\n'))
 	{
 		ft_putstr(COLOR_LINE);
 		ft_putstr(line);
@@ -86,29 +87,12 @@ int							exe_cmd(t_history **hist, char **line)
 	return (true);
 }
 
-/*
-**
-*/
-
 void						loop_shell(void)
 {
 	char					*line;
 	int						ret;
 	t_21sh					*sh;
 
-	// if ((sh = get_21sh(NULL)) != NULL)
-	// {
-	// 	print_header();
-	// 	while (print_prompt())
-	// 	{
-	// 		if ((line = get_line_entree()) == NULL)
-	// 			break ;
-	// 		put_line_entre(line);
-	// 		if (exe_cmd(&sh->hist, &line) == ERROR)
-	// 			break ;
-	// 	}
-	// }
-	
 	t_cmd 					*cmd;
 	t_cmd 					*head;
 
@@ -117,7 +101,7 @@ void						loop_shell(void)
 	if ((sh = get_21sh(NULL)) != NULL)
 	{
 		print_header();
-		while (print_prompt())
+		while (1)
 		{
 			if ((line = get_line_entree()) == NULL)
 				break ;
@@ -127,7 +111,7 @@ void						loop_shell(void)
 			if ((cmd = parse_cmd(line)) != NULL)
 			{
 				head = cmd;
-				print_cmd(cmd);
+//				print_cmd(cmd);
 				while (cmd && cmd->arg && cmd->arg[0] != NULL)
 				{
 					builtin_or_not(cmd);
