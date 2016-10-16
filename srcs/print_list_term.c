@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 10:34:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 10:09:39 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/16 09:47:21 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static char					*put_words1(t_21sh *sh, t_list_print *lst,
 	else
 	{
 		ft_putendl("Windows to small");
-		return (ft_memalloc(sizeof(char)));
+		return (NULL);
 	}
 	if (select == true)
 		return (put_words_event(lst, len, nb_word_line, sh));

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 12:53:48 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/16 10:39:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (F2)
 		print_history();
 	else if (TAB)
-		;
+		autocompletion();
 	else if (ARROW_UP)
 		print_history_up();
 	else if (ARROW_DOWN)
@@ -175,6 +175,8 @@ char						*make_tab(void)
 	size_t					i;
 	t_entry					*curs;
 
+	if (g_lines.len <= 0)
+		return (ft_memalloc(sizeof(*line)));
 	if ((line = ft_memalloc(sizeof(*line) * (g_lines.len + 1))) == NULL)
 		return (NULL);
 	i = 0;
