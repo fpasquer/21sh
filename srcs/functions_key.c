@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/16 10:40:56 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/16 10:44:14 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,6 @@ int							autocompletion(void)
 		ft_memdel((void**)&line);
 		return (false);
 	}
-	printf("line = '%s'\n", line);
 	if (line[0] >= 'a' && line[0] <= 'z')
 		i = line[0] - 'a';
 	else if (line[0] >= 'A' && line[0] <= 'Z')

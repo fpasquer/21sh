@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/16 10:04:44 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/16 10:54:22 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char						*put_words_event(t_list_print *l, int  len,
 	char					*ret;
 	char					b[SIZE_BUFF];
 
-	if (put_cmd_term("vi") == ERROR)
+	if (put_cmd_term("vi") == ERROR || put_cmd_term("rc") == ERROR)
 		return (NULL);
 	if (l == NULL || len <= 0 || nb_word_line <= 0)
 		return (NULL);
