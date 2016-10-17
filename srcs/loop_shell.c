@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/17 13:41:27 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/17 16:49:13 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ void						loop_shell(void)
 			if ((cmd = parse_cmd(line)) != NULL)
 			{
 				head = cmd;
-<<<<<<< HEAD
-//				print_cmd(cmd);
-=======
->>>>>>> origin/fcapocci
+				print_cmd(cmd);
 				while (cmd && cmd->arg && cmd->arg[0] != NULL)
 				{
 					builtin_or_not(cmd);
