@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/16 10:39:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 14:04:01 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,10 @@ int							get_line_cmd(void)
 	size_t					len_path;
 	t_entry					*entry;
 	t_entry					*curs;
+	t_21sh					*sh;
 
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
 	print_prompt();
 	while (1)
 	{
@@ -135,6 +138,8 @@ int							get_line_cmd(void)
 		if (c != KEY_IGNORE && c != ERROR)
 			if (put_end_line(c) == ERROR)
 				return (ERROR);
+		if (c == '\n')
+			sh->pos = 0;
 		if (c == ERROR || c == '\n')
 			break ;
 	}
@@ -143,14 +148,23 @@ int							get_line_cmd(void)
 
 int							insert_word_in_g_line(char *word)
 {
+	int						y;
 	unsigned int			i;
+	t_21sh					*sh;
 
-	if (word == NULL)
+	if (word == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	i = 0;
+	y = sh->pos;
 	while (word[i] != '\0' && word[i] != '\n')
 		if (add_c_to_line(word[i++]) == ERROR)
 			return (ERROR);
+	i += sh->len_prompt;
+	sh->pos = i / sh->win.ws_col;
+	if (sh->pos != 0 || y != 0)
+		sh->max_pos = sh->pos > y ? sh->pos : y;
+	else
+		sh->max_pos = 0;
 	return (true);
 }
 

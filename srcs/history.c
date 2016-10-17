@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 20:26:35 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 14:20:26 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,11 @@ int							del_hist(void)
 	t_history				*tmp;
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
+	if ((sh = get_21sh(NULL)) == NULL || sh->hist == NULL)
+		return (sh == NULL ? ERROR : true);
+	ft_bzero(&g_lines, sizeof(g_lines));
 	if ((fd = ft_fopen(HISTORY, "w+")) <= 0)
 		return (ERROR);
-	if (sh->hist == NULL)
-		return (true);
 	while (sh->hist->next != NULL)
 		sh->hist = sh->hist->next;
 	while (sh->hist != NULL)

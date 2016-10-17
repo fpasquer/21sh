@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/16 10:44:14 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 14:23:10 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,19 @@ int							key_del_hist(void)
 	return (true);
 }
 
-static int					curs_history_up(t_21sh *sh)
+static int					curs_history_up(t_21sh *sh, int prev)
 {
 	int						loop;
 	size_t					len_total;
 	size_t					rest;
 
-	if (put_cmd_term("rc") == -1)
+	if (put_cmd_term("rc") == -1 || put_cmd_term("cd") == -1)
 		return (ERROR);
 	if (sh->hist == NULL || sh->hist->curs == NULL)
 		return (true);
-	len_total = ft_strlen(sh->hist->curs->line) + sh->len_prompt;
-	rest = len_total % sh->win.ws_col;
-	len_total -= rest;
-	loop = len_total / sh->win.ws_col;
-	while (loop-- > 0)
+	loop = sh->max_pos - sh->pos;
+	fprintf(debug, "lien %d 'ligne = ]%s[\n\tprev = %d, actuel = %d max_pos = %d'",__LINE__, sh->hist->curs->line, prev , sh->pos, sh->max_pos);
+	while (loop--)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
 	return (put_cmd_term("cd"));
@@ -54,20 +52,22 @@ static int					curs_history_up(t_21sh *sh)
 
 int							print_history_up(void)
 {
+	int						prev;
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL || curs_history_up(sh) == ERROR)
+	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
+	 prev = sh->pos;
 	if (sh->hist != NULL && sh->hist->curs == NULL)
 	{
 		if ((sh->hist->curs = sh->hist) == NULL)
 			return (false);
 	}
 	else if (sh->hist != NULL)
-	{
 		if (sh->hist->curs->next != NULL)
 			sh->hist->curs = sh->hist->curs->next;
-	}
+	if (curs_history_up(sh, prev) == ERROR)
+		return (ERROR);
 	del_g_lines();
 	print_prompt();
 	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
@@ -165,7 +165,8 @@ int							print_history_down(void)
 		return (false);
 	del_g_lines();
 	print_prompt();
-	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
+	if (sh->hist != NULL && sh->hist->curs != NULL &&
+			sh->hist->curs->line != NULL)
 	{
 		ft_putstr(sh->hist->curs->line);
 		insert_word_in_g_line(sh->hist->curs->line);
@@ -193,7 +194,8 @@ static unsigned int			nb_match_word(t_bin *lst, char *word)
 	return (nb_match);
 }
 
-static char					**make_tab_list(t_bin *lst, unsigned int y, char *word)
+static char					**make_tab_list(t_bin *lst, unsigned int y,
+		char *word)
 {
 	char					**tab;
 	unsigned int			i;
@@ -232,7 +234,8 @@ static int					put_pompt_word(char **word)
 	return (true);
 }
 
-static int					put_autocompletion(char *line, t_21sh *sh, unsigned int i)
+static int					put_autocompletion(char *line, t_21sh *sh,
+		unsigned int i)
 {
 	char					**list;
 	char					*ret;

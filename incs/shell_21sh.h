@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/16 08:01:16 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 13:59:09 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 # include "../libft/libft.h"
 # include "parse.h"
+
+FILE *debug;
 
 # define ERROR -1
 # define LEN_PATH_MAX 200
@@ -124,6 +126,8 @@ typedef struct				s_print_list
 **	reset :			structure pour reset les parametres du term
 **	term_param :	structure pour save les parametres du term
 **	hist :			pointeur sur le premier maillon de l'historique
+**	pos :			decalage entre le prompt et le curseur en y
+**	max_pos :		decalage max entre le prompt et le curseur en y
 */
 
 typedef struct				s_21sh
@@ -136,6 +140,8 @@ typedef struct				s_21sh
 	char					*path;
 	char					**tab_path;
 	int						sh_lvl;
+	int						pos;
+	int						max_pos;
 	int						nb_var_env;
 	size_t					len_prompt;
 	t_bin					*hash[SIZE_HASH];
