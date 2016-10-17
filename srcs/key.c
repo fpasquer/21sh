@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/17 14:04:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 17:15:51 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,23 +148,18 @@ int							get_line_cmd(void)
 
 int							insert_word_in_g_line(char *word)
 {
-	int						y;
 	unsigned int			i;
 	t_21sh					*sh;
 
 	if (word == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	i = 0;
-	y = sh->pos;
+	sh->pos_prev = sh->pos;
 	while (word[i] != '\0' && word[i] != '\n')
 		if (add_c_to_line(word[i++]) == ERROR)
 			return (ERROR);
 	i += sh->len_prompt;
 	sh->pos = i / sh->win.ws_col;
-	if (sh->pos != 0 || y != 0)
-		sh->max_pos = sh->pos > y ? sh->pos : y;
-	else
-		sh->max_pos = 0;
 	return (true);
 }
 

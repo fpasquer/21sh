@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/17 14:23:10 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 17:36:04 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,20 @@ int							key_del_hist(void)
 	return (true);
 }
 
-static int					curs_history_up(t_21sh *sh, int prev)
+static int					curs_history_up(t_21sh *sh, size_t len)
 {
-	int						loop;
-	size_t					len_total;
-	size_t					rest;
+	size_t					mem;
 
-	if (put_cmd_term("rc") == -1 || put_cmd_term("cd") == -1)
+	if (sh == NULL || sh->pos_prev < 0)
 		return (ERROR);
-	if (sh->hist == NULL || sh->hist->curs == NULL)
-		return (true);
-	loop = sh->max_pos - sh->pos;
-	fprintf(debug, "lien %d 'ligne = ]%s[\n\tprev = %d, actuel = %d max_pos = %d'",__LINE__, sh->hist->curs->line, prev , sh->pos, sh->max_pos);
-	while (loop--)
+	mem = len;
+	len = len % sh->win.ws_col;
+	mem = mem / sh->win.ws_col;
+	len += sh->len_prompt;
+	while (len-- > 0)
+		if (put_cmd_term("le") == ERROR)
+			return (ERROR);
+	while (mem-- > 0)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
 	return (put_cmd_term("cd"));
@@ -52,12 +53,11 @@ static int					curs_history_up(t_21sh *sh, int prev)
 
 int							print_history_up(void)
 {
-	int						prev;
+	size_t					len;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	 prev = sh->pos;
 	if (sh->hist != NULL && sh->hist->curs == NULL)
 	{
 		if ((sh->hist->curs = sh->hist) == NULL)
@@ -66,15 +66,17 @@ int							print_history_up(void)
 	else if (sh->hist != NULL)
 		if (sh->hist->curs->next != NULL)
 			sh->hist->curs = sh->hist->curs->next;
-	if (curs_history_up(sh, prev) == ERROR)
-		return (ERROR);
-	del_g_lines();
-	print_prompt();
+	len = g_lines.len;
 	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
 	{
-		ft_putstr(sh->hist->curs->line);
+		del_g_lines();
 		insert_word_in_g_line(sh->hist->curs->line);
 	}
+	if (curs_history_up(sh, len) == ERROR)
+		return (ERROR);
+	print_prompt();
+	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
+		ft_putstr(sh->hist->curs->line);
 	return (true);
 }
 
