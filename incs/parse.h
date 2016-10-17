@@ -18,6 +18,16 @@
 **
 */
 
+# define PV 1
+# define ET 2
+# define OU 3
+
+# define BARRE 1
+# define DROITE 2
+# define D_DROITE 3
+# define GAUCHE 4
+# define D_GAUCHE 5
+
 typedef struct			s_cmd
 {
 	int					cmd;

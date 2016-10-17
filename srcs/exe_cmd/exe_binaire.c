@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/16 17:23:34 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/16 20:25:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,9 @@ static void			check_cmd(t_cmd *cmd, char **env)
 
 	if (get_path_bin(cmd->arg[0], &exe) &&
 			execve(exe, cmd->arg, env) == -1)
-	{
-		ft_putendl("PASS3"); //debug
 		exit_error(exe, "command not found");
-	}
 	else if (execve(cmd->arg[0], cmd->arg, env) == -1)
-	{
-		ft_putendl("PASS4"); //debug
 		exit_error(cmd->arg[0], "command not found");
-	}
 }
 
 int					exe_binaire(t_cmd *cmd, char **env)
@@ -61,18 +55,13 @@ int					exe_binaire(t_cmd *cmd, char **env)
 	if ((pid = fork()) != -1)
 	{
 		if (pid == 0)
-		{
-			ft_putendl("FILS");
 			check_cmd(cmd, env);
-		}
 		else
-		{
 			waitpid(pid, &ret, WUNTRACED);
-			ft_putendl("PERE");
-		}
 	}
 	if (WIFEXITED(ret))
 		ret = WEXITSTATUS(ret);
+	cmd->done = ret;
 	if (tcsetattr(0, TCSADRAIN, &(sh->term_param)) == -1)
 		return (false);
 	return (true);
