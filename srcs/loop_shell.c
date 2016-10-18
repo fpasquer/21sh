@@ -108,21 +108,41 @@ void						loop_shell(void)
 			put_line_entre(line);
 			if (exe_cmd(&sh->hist, &line) == ERROR)
 				break ;
-			if ((cmd = parse_cmd(line)) != NULL)
-			{
-				head = cmd;
-				print_cmd(cmd);
-				while (cmd && cmd->arg && cmd->arg[0] != NULL)
-				{
-					builtin_or_not(cmd);
-					print_cmd(cmd);
-					if ((cmd->right && cmd->right->op == ET && cmd->done != 0)
-					|| (cmd->right && cmd->right->op == OU && cmd->done == 0))
-						break ;
-					cmd = cmd->right;
+			
+			/*
+			** TEST
+			*/
+
+			char **test = split_quotes(line);
+			int i = 0;
+			if (test) {
+				while (test[i]) {
+					ft_putendl(test[i]);
+					free(test[i]);
+					i++;
 				}
-				free_cmd(head);
+				free(test);
 			}
+			
+			/*
+			**
+			*/
+
+			// if ((cmd = parse_cmd(line)) != NULL)
+			// {
+			// 	head = cmd;
+			// 	print_cmd(cmd);
+			// 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
+			// 	{
+			// 		builtin_or_not(cmd);
+			// 		print_cmd(cmd);
+			// 		if ((cmd->right && cmd->right->op == ET && cmd->done != 0)
+			// 		|| (cmd->right && cmd->right->op == OU && cmd->done == 0))
+			// 			break ;
+			// 		cmd = cmd->right;
+			// 	}
+			// 	free_cmd(head);
+			// }
 		}
 		del_21sh();
 	}

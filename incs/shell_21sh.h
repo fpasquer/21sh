@@ -324,5 +324,6 @@ int 						delete_env_array(char **env);
 */
 
 int 						exe_binaire(t_cmd *cmd, char **env);
+char 						**split_quotes(char *str);
 
 #endif
