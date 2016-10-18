@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/18 12:54:53 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/18 12:59:46 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void						key_exit(unsigned char val_exit)
 {
 	ft_putendl(COLOR_LINE);
+	put_cmd_term("cd");
 	ft_putstr("exit");
 	ft_putendl(RESET_COLOR);
 	del_21sh();
