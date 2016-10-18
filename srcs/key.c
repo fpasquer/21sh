@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/17 17:15:51 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/18 14:15:52 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,6 @@ int							get_line_cmd(void)
 		if (c != KEY_IGNORE && c != ERROR)
 			if (put_end_line(c) == ERROR)
 				return (ERROR);
-		if (c == '\n')
-			sh->pos = 0;
 		if (c == ERROR || c == '\n')
 			break ;
 	}
@@ -195,7 +193,6 @@ char						*make_tab(void)
 		line[i++] = curs->c;
 		curs = curs->next;
 	}
-	del_g_lines();
 	return (line);
 }
 

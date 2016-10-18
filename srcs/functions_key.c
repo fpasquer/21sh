@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/18 12:59:46 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/18 15:00:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void						key_exit(unsigned char val_exit)
 	put_cmd_term("cd");
 	ft_putstr("exit");
 	ft_putendl(RESET_COLOR);
+	del_g_lines();
 	del_21sh();
 	exit(val_exit);
 }
@@ -83,11 +84,9 @@ int							print_history_up(void)
 
 int							mouve_righ(void)
 {
-	static bool				decalage;
-
 	if (g_lines.i < g_lines.len)
 	{
-		if (put_cmd_term("nd") == ERROR && decalage == true)
+		if (put_cmd_term("nd") == ERROR)
 			return (ERROR);
 		if (g_lines.curs != NULL)
 		{
