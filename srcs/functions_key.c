@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/17 17:36:04 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/18 12:54:53 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int							print_history_up(void)
 	else if (sh->hist != NULL)
 		if (sh->hist->curs->next != NULL)
 			sh->hist->curs = sh->hist->curs->next;
-	len = g_lines.len;
+	len = g_lines.i;
 	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
 	{
 		del_g_lines();
