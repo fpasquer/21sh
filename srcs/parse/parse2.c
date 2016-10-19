@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/14 11:53:54 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/19 11:02:01 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
 	cmd->op = 0;
 	cmd->done = 0;
 	cmd->line = ft_strsub(line, i - size, size);
-	cmd->arg = ft_strsplit(cmd->line, ' ');
+	cmd->arg = ft_strsplit(cmd->line, ' '); //jchen a remplacer par split_guill
 	cmd->argc = len_y(cmd->arg);
 	ft_memdel((void**)&(cmd->line));
 }
@@ -55,7 +55,7 @@ static t_cmd			*creat_cmd2(t_cmd *cmd2, char *line, int size, int i)
 		ft_memdel((void**)&(cmd2->line));
 		cmd2->line = ft_strsub(line, i - size, size);
 		cmd2->cmd = check_and_parse2(line, i);
-		cmd2->arg = ft_strsplit(cmd2->line, ' ');
+		cmd2->arg = ft_strsplit(cmd2->line, ' '); //jchen a remplacer par plit_guill
 		cmd2->argc = len_y(cmd2->arg);
 		cmd2->done = 0;
 	}
@@ -86,8 +86,13 @@ int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i)
 			size = 0;
 			while (cpy[i] && !check_and_parse2(cpy, i))
 			{
-				size++;
-				i++;
+				if (cpy[i] == '\"' || cpy[i] == '\'')
+					scop(cpy, &i, &size);
+				else
+				{
+					size++;
+					i++;
+				}
 			}
 			cmd = creat_cmd2(cmd, cpy, size, i);
 			i = (check_and_parse2(cpy, i) == 3 ||

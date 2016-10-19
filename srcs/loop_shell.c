@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 08:15:43 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/19 10:34:14 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void						loop_shell(void)
 			put_line_entre(line);
 			if (exe_cmd(&sh->hist, &line) == ERROR)
 				break ;
-			if ((cmd = parse_cmd(line, NULL)) != NULL)
+			if ((cmd = parse_cmd(line, NULL, 0)) != NULL)
 			{
 				head = cmd;
 				while (cmd && cmd->arg && cmd->arg[0] != NULL)

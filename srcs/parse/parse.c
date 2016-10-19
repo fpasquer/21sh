@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/19 09:10:25 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/19 10:34:17 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,38 +75,30 @@ static int				check_error_parse(t_cmd *cmd)
 	return (0);
 }
 
-t_cmd					*parse_cmd(char *line, t_cmd *cmd)
+t_cmd					*parse_cmd(char *line, t_cmd *cmd, int i)
 {
-	int					i;
 	int					size;
 
-	if ((i = 0) != 0 || cmd != NULL || line == NULL)
+	if (i != 0 || cmd != NULL || line == NULL)
 		return (NULL);
 	while (i < (int)ft_strlen(line))
 	{
 		size = 0;
 		while (line[i] && !check_and_parse(line, i))
 		{
-			/*if (line[i] == '\"' || line[i] == '\'')
+			if (line[i] == '\"' || line[i] == '\'')
+				scop(line, &i, &size);
+			else
 			{
-				ft_putendl("PASS");
-				ft_putnbr(i);
-				ft_putchar('\n');
-				scop_1st(line, &i, &size);
-				ft_putendl("SORTIE");
-				ft_putnbr(i);
-				ft_putchar('\n');
-			}
-			else*/
 				size++;
 				i++;
+			}
 		}
 		if ((cmd = create_cmd(cmd, line, size, i)) == NULL)
 			return (exit_parse(cmd, "error to allocate memory"));
 		i = (check_and_parse(line, i)) == 3 ? i + 2 :
 			i + check_and_parse(line, i);
 	}
-	print_cmd(cmd);
 	if (parse_cmd2(cmd, cmd, 0) < 0)
 		return (exit_parse(cmd, "error parse cmd"));
 	return (!check_error_parse(cmd) ? cmd : exit_parse(cmd, "parse error"));

@@ -56,7 +56,7 @@ typedef struct			s_cmd
 **	parse.c
 */
 
-t_cmd					*parse_cmd(char *line, t_cmd *cmd);
+t_cmd					*parse_cmd(char *line, t_cmd *cmd, int i);
 void					free_cmd(t_cmd *cmd);
 
 void					print_cmd(t_cmd *cmd); // debug
@@ -72,6 +72,6 @@ t_cmd					*exit_parse(t_cmd *cmd, char *str);
 **	quotes.c
 */
 
-void					scop_1st(char *line, int *i, int *size);
+void					scop(char *line, int *i, int *size);
 
 #endif
