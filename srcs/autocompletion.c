@@ -6,12 +6,16 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 08:47:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 09:55:46 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
+
+#define QUOTE 2
+#define D_QUOTE 3
+#define NONE 0
 
 static unsigned int			nb_match_word(t_bin *lst, char *word)
 {
@@ -95,9 +99,63 @@ static int					put_autocompletion(char *line, t_21sh *sh,
 	return (put_pompt_word(&ret));
 }
 
+static int					get_new_i(char *l, int *i, int *mem)
+{
+	if (l == NULL || *i < 0 || mem == NULL)
+		return (ERROR);
+	if (ft_strncmp(&l[*i], "||", 2) == 0 || ft_strncmp(&l[*i], "&&", 2) == 0)
+	{
+		*i = *i + 2;
+		while (ft_isspace(l[*i]) == true)
+			*i = *i + 1;
+		*mem = *i;
+		return (true);
+	}
+	else if (l[*i] == ';')
+	{
+		*i = *i + 1;
+		while (ft_isspace(l[*i]) == true)
+			*i = *i + 1;
+		*mem = *i;
+		return (true);
+	}
+	else
+		*i += 1;
+	return (false);
+}
+
+static char					*is_autocompletion_bin(char *line)
+{
+	int						ignore;
+	int						i;
+	int						mem;
+
+	if (line == NULL)
+		return (NULL);
+	ignore = NONE;
+	i = 0;
+	mem = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '\'' && (ignore == NONE || ignore == QUOTE))
+			ignore = (ignore == NONE) ? QUOTE : NONE;
+		if (line[i] == '\"' && (ignore == NONE || ignore == D_QUOTE))
+			ignore = (ignore == NONE) ? D_QUOTE : NONE;
+		if (ignore == NONE)
+		{
+			if (get_new_i(line, &i, &mem) == ERROR)
+				return (NULL);
+		}
+		else
+			i++;
+	}
+	return (ft_strdup(&line[mem]));
+}
+
 int							autocompletion(void)
 {
 	char					*line;
+	char					*new_line;
 	unsigned int			i;
 	t_21sh					*sh;
 
@@ -105,17 +163,19 @@ int							autocompletion(void)
 		return (ERROR);
 	if (line[0] == '\0' || (sh = get_21sh(NULL)) == NULL)
 	{
+		del_g_lines();
 		ft_memdel((void**)&line);
 		return (false);
 	}
-	if (line[0] >= 'a' && line[0] <= 'z')
-		i = line[0] - 'a';
-	else if (line[0] >= 'A' && line[0] <= 'Z')
-		i = line[0] - 'A';
+	if ((new_line = is_autocompletion_bin(line)) == NULL)
+		return (ERROR);
+	if (new_line[0] >= 'a' && new_line[0] <= 'z')
+		i = new_line[0] - 'a';
+	else if (new_line[0] >= 'A' && new_line[0] <= 'Z')
+		i = new_line[0] - 'A';
 	else
 		i = SIZE_DICO - 1;
-	del_g_lines();
-	if (put_autocompletion(line, sh, i) == ERROR)
+	if (put_autocompletion(new_line, sh, i) == ERROR)
 		return (ERROR);
 	ft_memdel((void**)&line);
 	return (true);
