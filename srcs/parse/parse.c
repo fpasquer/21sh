@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/16 20:21:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/19 03:42:19 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ t_cmd					*parse_cmd(char *line)
 	t_cmd				*cmd;
 
 	cmd = NULL;
-	if (line == NULL)
-		return (NULL);
-	if ((i = ft_strlen(line) - 1) < 0)
+	if (line == NULL || (i = ft_strlen(line) - 1) < 0)
 		return (NULL);
 	while (i >= 0)
 	{
@@ -86,7 +84,7 @@ t_cmd					*parse_cmd(char *line)
 			i--;
 		}
 		if ((cmd = create_cmd(cmd, line, size, i)) == NULL)
-			return (NULL);
+			return (exit_parse(cmd, "error to allocate memory"));
 		i = (check_and_parse(line, i)) == 3 ? i - 2 :
 			i - check_and_parse(line, i);
 	}
