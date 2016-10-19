@@ -37,7 +37,7 @@ SRC = ft_atoi.c ft_bzero.c ft_clrscr.c ft_error.c ft_fopen.c ft_free_strsplit.c	
 	ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c\
 	ft_tolower.c ft_toupper.c ft_utoa_base.c get_next_line.c get_y.c ft_abs.c	\
 	ft_nblen.c len_y.c ft_strsplit_guil.c ft_is_number.c ft_atoi_base.c			\
-	ft_count_char.c ft_getenv.c 
+	ft_count_char.c ft_getenv.c ft_add_to_array.c
 
 OBJ = $(SRC:.c=.o)
 

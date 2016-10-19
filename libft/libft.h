@@ -175,5 +175,6 @@ char				**ft_strsplit_guil(char *s, char c);
 int					ft_is_number(char *s);
 int					ft_atoi_base(const char *s, int base, int *nb);
 int					count_char(char *line, char c);
+char 				**ft_add_to_array(char *str, char **list);
 
 #endif

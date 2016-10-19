@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 14:40:48 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 14:48:01 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ char						*put_words_event(t_list_print *l, int  len,
 			break ;
 		l->curs = (ARROW_LEFT) && (l->curs->prev) ? l->curs->prev : l->curs;
 		l->curs = (ARROW_RIGHT) && (l->curs->next) ? l->curs->next : l->curs;
+		l->curs = (TAB) && (l->curs->next) ? l->curs->next : l->curs;
 	}
 	if (put_cmd_term("ve") == ERROR ||
 			print_prompt_word(l->curs->word, true) == ERROR)
