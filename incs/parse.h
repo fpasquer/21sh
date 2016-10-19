@@ -68,4 +68,10 @@ void					print_cmd(t_cmd *cmd); // debug
 int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i);
 t_cmd					*exit_parse(t_cmd *cmd, char *str);
 
+/*
+**	quotes.c
+*/
+
+void					scop_1st(char *line, int *i, int *size);
+
 #endif

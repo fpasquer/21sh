@@ -6,7 +6,7 @@
 #*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2016/05/17 16:07:18 by fpasquer          #+#    #+#             *#
-#*   Updated: 2016/09/30 13:05:40 by fpasquer         ###   ########.fr       *#
+#*   Updated: 2016/10/19 05:45:29 by fcapocci         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -20,7 +20,8 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					cd.c builtin_or_not.c getenv_value.c						\
 					modify_env_value.c check_if_env_exist.c						\
 					parse.c parse2.c setenv.c add_env_.c unsetenv.c  			\
-					exe_binaire.c linked_list_to_array_env.c builtin_exit.c
+					exe_binaire.c linked_list_to_array_env.c builtin_exit.c		\
+					quotes.c
 
 INCLUDES		= shell_21sh.h key.h
 

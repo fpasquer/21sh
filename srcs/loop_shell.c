@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 03:54:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/19 08:15:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ void						loop_shell(void)
 				{
 					builtin_or_not(cmd);
 					print_cmd(cmd);
-					if ((cmd->right && cmd->right->op == ET && cmd->done != 0)
-					|| (cmd->right && cmd->right->op == OU && cmd->done == 0))
+					if ((cmd->right && cmd->op == ET && cmd->done != 0)
+					|| (cmd->right && cmd->op == OU && cmd->done == 0))
 						break ;
 					cmd = cmd->right;
 				}

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/19 03:54:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/19 09:10:25 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,24 @@
 
 static int				check_and_parse(char *line, int i)
 {
-	if (i < 0)
-		return (0);
-	if (line[i] == ';')
-		return (1);
-	if (i - 1 >= 0 && line[i] == '&' && line[i - 1] == '&')
-		return (2);
-	if (i - 1 >= 0 && line[i] == '|' && line[i - 1] == '|')
-		return (3);
+	if (line[i])
+	{
+		if (line[i] == ';')
+			return (1);
+		if (i + 1 >= 0 && line[i] == '&' && line[i + 1] == '&')
+			return (2);
+		if (i + 1 >= 0 && line[i] == '|' && line[i + 1] == '|')
+			return (3);
+	}
 	return (0);
 }
 
 static t_cmd			*create_cmd(t_cmd *cmd2, char *line, int size, int i)
 {
 	t_cmd				*cmd;
+	t_cmd				*head;
 
+	head = cmd2;
 	if ((cmd = ft_memalloc(sizeof(t_cmd))) == NULL)
 		return (NULL);
 	cmd->right = NULL;
@@ -37,29 +40,35 @@ static t_cmd			*create_cmd(t_cmd *cmd2, char *line, int size, int i)
 	cmd->arg = NULL;
 	cmd->op = check_and_parse(line, i);
 	cmd->done = 0;
-	cmd->line = ft_strsub(line, i + 1, size);
+	cmd->line = ft_strsub(line, i - size, size);
 	if (cmd2)
-		cmd->right = cmd2;
+	{
+		while (cmd2->right)
+			cmd2 = cmd2->right;
+		cmd2->right = cmd;
+		return (head);
+	}
 	return (cmd);
 }
 
 static int				check_error_parse(t_cmd *cmd)
 {
-	if (cmd->op != 0 || (cmd->arg[0] == NULL && cmd->right))
+	if ((cmd->op != 0 && !cmd->arg) ||
+			(cmd->op != 0 && cmd->arg && !cmd->arg[0]))
 		return (-1);
 	while (cmd)
 	{
 		if ((cmd->arg == NULL && cmd->right) ||
 				(cmd->arg && cmd->arg[0] == NULL && cmd->right))
 			return (-1);
-		if ((cmd->arg == NULL && cmd->op == 2) ||
-				(cmd->arg && cmd->arg[0] == NULL && cmd->op == 2))
-			return (-1);
-		if ((cmd->arg == NULL && cmd->op == 3) ||
-				(cmd->arg && cmd->arg[0] == NULL && cmd->op == 3))
+		if ((cmd->arg == NULL && cmd->op != 0) ||
+				(cmd->arg && cmd->arg[0] == NULL && cmd->op != 0))
 			return (-1);
 		if ((cmd->left && cmd->left->arg && cmd->left->arg[0] == NULL) ||
 				(cmd->left && cmd->left->arg == NULL))
+			return (-1);
+		if ((cmd->op > 1 && cmd->right && cmd->right->arg &&
+				!cmd->right->arg[0]) || (cmd->op > 1 && !cmd->right))
 			return (-1);
 		cmd = cmd->right;
 	}
@@ -71,21 +80,33 @@ t_cmd					*parse_cmd(char *line, t_cmd *cmd)
 	int					i;
 	int					size;
 
-	if (line == NULL || (i = ft_strlen(line) - 1) < 0)
+	if ((i = 0) != 0 || cmd != NULL || line == NULL)
 		return (NULL);
-	while (i >= 0)
+	while (i < (int)ft_strlen(line))
 	{
 		size = 0;
-		while (i >= 0 && !check_and_parse(line, i))
+		while (line[i] && !check_and_parse(line, i))
 		{
-			size++;
-			i--;
+			/*if (line[i] == '\"' || line[i] == '\'')
+			{
+				ft_putendl("PASS");
+				ft_putnbr(i);
+				ft_putchar('\n');
+				scop_1st(line, &i, &size);
+				ft_putendl("SORTIE");
+				ft_putnbr(i);
+				ft_putchar('\n');
+			}
+			else*/
+				size++;
+				i++;
 		}
 		if ((cmd = create_cmd(cmd, line, size, i)) == NULL)
 			return (exit_parse(cmd, "error to allocate memory"));
-		i = (check_and_parse(line, i)) == 3 ? i - 2 :
-			i - check_and_parse(line, i);
+		i = (check_and_parse(line, i)) == 3 ? i + 2 :
+			i + check_and_parse(line, i);
 	}
+	print_cmd(cmd);
 	if (parse_cmd2(cmd, cmd, 0) < 0)
 		return (exit_parse(cmd, "error parse cmd"));
 	return (!check_error_parse(cmd) ? cmd : exit_parse(cmd, "parse error"));
