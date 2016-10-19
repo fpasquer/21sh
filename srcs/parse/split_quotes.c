@@ -1,10 +1,6 @@
 #include "../../incs/shell_21sh.h"
 #include "../../incs/key.h"
 
-# define w_quotes 		1
-# define s_quotes 		2
-# define space			3
-
 # define CHAR_SPACE 	32
 # define CHAR_W_QUOTE 	34
 # define CHAR_S_QUOTE 	39
@@ -18,6 +14,7 @@
 **
 **	w_quotes = weak quotes "
 **	s_quotes = strong quotes '
+** 	HT = horizontal tab
 **
 */
 
