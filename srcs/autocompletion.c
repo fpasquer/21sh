@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 09:55:46 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 11:25:45 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static int					put_pompt_word(char **word)
 	if (word == NULL)
 		return (ERROR);
 	print_prompt();
+	print_g_line();
 	if (*word != NULL)
 	{
 		insert_word_in_g_line(*word);
@@ -124,8 +125,22 @@ static int					get_new_i(char *l, int *i, int *mem)
 	return (false);
 }
 
+static char					*put_new_line(char *line, int mem)
+{
+	int						i;
+
+	if (line == NULL || mem < 0)
+		return (NULL);
+	i = 0;
+	while (i < mem)
+		if (add_c_to_line(line[i++]) == ERROR)
+			return (NULL);
+	return (ft_strdup(&line[mem]));
+}
+
 static char					*is_autocompletion_bin(char *line)
 {
+	char					*tmp;
 	int						ignore;
 	int						i;
 	int						mem;
@@ -149,7 +164,7 @@ static char					*is_autocompletion_bin(char *line)
 		else
 			i++;
 	}
-	return (ft_strdup(&line[mem]));
+	return (put_new_line(line, mem));
 }
 
 int							autocompletion(void)
@@ -161,9 +176,9 @@ int							autocompletion(void)
 
 	if ((line = make_tab()) == NULL)
 		return (ERROR);
+	del_g_lines();
 	if (line[0] == '\0' || (sh = get_21sh(NULL)) == NULL)
 	{
-		del_g_lines();
 		ft_memdel((void**)&line);
 		return (false);
 	}
@@ -177,6 +192,7 @@ int							autocompletion(void)
 		i = SIZE_DICO - 1;
 	if (put_autocompletion(new_line, sh, i) == ERROR)
 		return (ERROR);
+	ft_memdel((void**)&new_line);
 	ft_memdel((void**)&line);
 	return (true);
 }

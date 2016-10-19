@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/16 10:54:22 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 11:25:03 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,28 @@ static int				put_word(t_list_print *curs, int len,
 	return (true);
 }
 
+void						print_g_line(void)
+{
+	char					cpy_word[SIZE_MEM + 1];
+	int						i;
+	t_entry					*curs;
+
+	curs = g_lines.line;
+	while (curs != NULL)
+	{
+		i = 0;
+		ft_bzero(&cpy_word, sizeof(cpy_word));
+		while (i < SIZE_MEM && curs != NULL)
+		{
+			cpy_word[i++] = curs->c;
+			curs = curs->next;
+		}
+		ft_putstr(cpy_word);
+	}
+}
+
 static int					print_prompt_word(char *word, bool end)
 {
-	char					*cpy_word;
 	t_21sh					*sh;
 
 	if (word == NULL)
@@ -58,6 +77,7 @@ static int					print_prompt_word(char *word, bool end)
 	if (end == false)
 	{
 		print_prompt();
+		print_g_line();
 		ft_putstr(word);
 		ft_putstr(COLOR_LINE);
 		ft_putstr("\nrecherches");
