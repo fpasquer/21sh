@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/19 03:42:19 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/19 03:54:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,11 @@ static int				check_error_parse(t_cmd *cmd)
 	return (0);
 }
 
-t_cmd					*parse_cmd(char *line)
+t_cmd					*parse_cmd(char *line, t_cmd *cmd)
 {
 	int					i;
 	int					size;
-	t_cmd				*cmd;
 
-	cmd = NULL;
 	if (line == NULL || (i = ft_strlen(line) - 1) < 0)
 		return (NULL);
 	while (i >= 0)

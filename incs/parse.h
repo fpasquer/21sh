@@ -14,7 +14,7 @@
 ** 	2 = <
 **	3 = <<
 **	4 = >
-**	5 = >> 
+**	5 = >>
 **
 */
 
@@ -56,7 +56,7 @@ typedef struct			s_cmd
 **	parse.c
 */
 
-t_cmd					*parse_cmd(char *line);
+t_cmd					*parse_cmd(char *line, t_cmd *cmd);
 void					free_cmd(t_cmd *cmd);
 
 void					print_cmd(t_cmd *cmd); // debug
