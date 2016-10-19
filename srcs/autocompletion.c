@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 19:15:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 20:36:23 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,8 +252,8 @@ int							autocompletion_path(t_21sh *sh, char *new_line)
 	if (sh == NULL || new_line == NULL)
 		return (ERROR);
 	end = ft_strlen(new_line);
-	while (end-- > 0)
-		if (new_line[end] == ' ')
+	while (end > 0)
+		if (new_line[--end] == ' ')
 			break ;
 	i = 0;
 	if (new_line[end] == ' ')
