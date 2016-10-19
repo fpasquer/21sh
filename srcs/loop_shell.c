@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/17 16:49:13 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/19 14:35:49 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,28 @@ int							print_prompt(void)
 
 static void					put_line_entre(char *line)
 {
-	if (!(line == NULL || line[0] == '\0' || line[0] == '\n'))
+	int						i;
+	t_21sh					*sh;
+
+	if (line != NULL && line[0] != '\0' && line[0] != '\n')
 	{
+		if ((sh = get_21sh(NULL)) == NULL)
+			return ;
+		i = g_lines.len / sh->win.ws_col;
+		put_cmd_term("cd");
+		while (i-- > 0)
+			if (put_cmd_term("kd") == ERROR)
+				return ;
+		while (sh->pos-- > 0)
+			put_cmd_term("le");
+		i = 0;
+		while (i++ < sh->len_prompt)
+			ft_putchar(' ');
 		ft_putstr(COLOR_LINE);
 		ft_putstr(line);
 		ft_putendl(RESET_COLOR);
+		sh->pos = 0;
+		del_g_lines();
 	}
 }
 
@@ -98,6 +115,7 @@ void						loop_shell(void)
 
 	line = NULL;
 	cmd = NULL;
+	del_g_lines();
 	if ((sh = get_21sh(NULL)) != NULL)
 	{
 		print_header();
@@ -108,7 +126,6 @@ void						loop_shell(void)
 			put_line_entre(line);
 			if (exe_cmd(&sh->hist, &line) == ERROR)
 				break ;
-			
 			/*
 			** TEST
 			*/

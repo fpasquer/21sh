@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 09:22:44 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/11 21:36:17 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 15:10:57 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,19 @@ t_21sh						*get_21sh(t_21sh *shell_21sh)
 	return (adr_21sh);
 }
 
+void						sort_list_bin(void)
+{
+	unsigned int			i;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return ;
+	i = 0;
+	while (i < SIZE_DICO)
+		if (sh->dico[i++] != NULL)
+			sort_list(&sh->dico[i - 1], name_tri);
+}
+
 t_21sh						*init_21sh2(t_21sh **sh)
 {
 	char					*sh_lvl;
@@ -73,6 +86,7 @@ t_21sh						*init_21sh2(t_21sh **sh)
 	(*sh)->nb_var_env = nb_var_env;
 	if (init_history() == ERROR)
 		return (NULL);
+	sort_list_bin();
 	return (*sh);
 }
 
@@ -109,6 +123,7 @@ int							del_21sh(void)
 {
 	t_21sh					*shell_21sh;
 
+	fclose(debug);
 	if ((shell_21sh = get_21sh(NULL)) != NULL)
 	{
 		if (tcsetattr(0, TCSADRAIN, &shell_21sh->reset) == -1)

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 17:00:14 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/17 16:59:33 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/19 14:33:49 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static int					find_name(t_21sh *sh, char *name, char *path)
 		return (ERROR);
 	if ((new = new_bin(&sh->hash[i_hash], name, path, i_hash)) == NULL)
 		return (ERROR);
+	if (save_dico(&new) == ERROR)
+		return (ERROR);
 	return (true);
 }
 
@@ -58,9 +60,9 @@ static int					add_bin_directory(t_21sh *sh, char *path)
 	DIR						*direct;
 	struct dirent			*str_dirent;
 
-	//	if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
-	//		return (ERROR);
-
+	//a laisser
+//	if ((ret = access(path, F_OK | R_OK | X_OK)) != 0)
+//		return (ERROR);
 	if ((direct = opendir(path)) != NULL)
 	{
 		while ((str_dirent = readdir(direct)) != NULL)
@@ -85,10 +87,6 @@ int							save_bin(t_21sh *sh)
 	while (sh->tab_path[i] != NULL)
 		if (add_bin_directory(sh, sh->tab_path[i++]) == ERROR)
 			return (ERROR);
-	i = 0;
-	/*while (i < SIZE_HASH)
-		if (sh->hash[i++] != NULL)
-			sort_list(&sh->hash[i - 1], len_tri);*/
 	return (true);
 }
 

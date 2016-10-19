@@ -6,14 +6,14 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/13 13:05:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 08:07:33 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/15 21:44:21 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 
 #define TYPE t_bin
-#define NEXT next
+#define NEXT n_dico
 
 static TYPE					*separer_lst(TYPE *liste)
 {

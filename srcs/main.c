@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/14 08:47:23 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 15:18:23 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ int							main(void)
 		ft_putendl("Erreur initialisation 21sh");
 	else
 	{
+		if ((debug = fopen("test.txt", "w+")) == NULL)
+				return (EXIT_SUCCESS);
 		signal(SIGWINCH, resize_win);
 		loop_shell();
 		ft_putendl("Erreur 21 sh");
+		//print_dico();
+		//print_all_bin();
+		del_21sh();
 	}
 	return (EXIT_SUCCESS);
 }

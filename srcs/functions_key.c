@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 14:14:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 08:46:32 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 void						key_exit(unsigned char val_exit)
 {
 	ft_putendl(COLOR_LINE);
+	put_cmd_term("cd");
 	ft_putstr("exit");
 	ft_putendl(RESET_COLOR);
+	del_g_lines();
 	del_21sh();
 	exit(val_exit);
 }
@@ -32,21 +34,20 @@ int							key_del_hist(void)
 	return (true);
 }
 
-static int					curs_history_up(t_21sh *sh)
+static int					curs_history_up(t_21sh *sh, size_t len)
 {
-	int						loop;
-	size_t					len_total;
-	size_t					rest;
+	size_t					mem;
 
-	if (put_cmd_term("rc") == -1)
+	if (sh == NULL || sh->pos_prev < 0)
 		return (ERROR);
-	if (sh->hist == NULL || sh->hist->curs == NULL)
-		return (true);
-	len_total = ft_strlen(sh->hist->curs->line) + sh->len_prompt;
-	rest = len_total % sh->win.ws_col;
-	len_total -= rest;
-	loop = len_total / sh->win.ws_col;
-	while (loop-- > 0)
+	mem = len;
+	len = len % sh->win.ws_col;
+	mem = mem / sh->win.ws_col;
+	len += sh->len_prompt;
+	while (len-- > 0)
+		if (put_cmd_term("le") == ERROR)
+			return (ERROR);
+	while (mem-- > 0)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
 	return (put_cmd_term("cd"));
@@ -54,9 +55,10 @@ static int					curs_history_up(t_21sh *sh)
 
 int							print_history_up(void)
 {
+	size_t					len;
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL || curs_history_up(sh) == ERROR)
+	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	if (sh->hist != NULL && sh->hist->curs == NULL)
 	{
@@ -64,27 +66,27 @@ int							print_history_up(void)
 			return (false);
 	}
 	else if (sh->hist != NULL)
-	{
 		if (sh->hist->curs->next != NULL)
 			sh->hist->curs = sh->hist->curs->next;
-	}
-	del_g_lines();
-	print_prompt();
+	len = g_lines.i;
 	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
 	{
-		ft_putstr(sh->hist->curs->line);
+		del_g_lines();
 		insert_word_in_g_line(sh->hist->curs->line);
 	}
+	if (curs_history_up(sh, len) == ERROR)
+		return (ERROR);
+	print_prompt();
+	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
+		ft_putstr(sh->hist->curs->line);
 	return (true);
 }
 
 int							mouve_righ(void)
 {
-	static bool				decalage;
-
 	if (g_lines.i < g_lines.len)
 	{
-		if (put_cmd_term("nd") == ERROR && decalage == true)
+		if (put_cmd_term("nd") == ERROR)
 			return (ERROR);
 		if (g_lines.curs != NULL)
 		{
@@ -165,7 +167,8 @@ int							print_history_down(void)
 		return (false);
 	del_g_lines();
 	print_prompt();
-	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
+	if (sh->hist != NULL && sh->hist->curs != NULL &&
+			sh->hist->curs->line != NULL)
 	{
 		ft_putstr(sh->hist->curs->line);
 		insert_word_in_g_line(sh->hist->curs->line);

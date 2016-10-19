@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 12:53:48 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/18 14:15:52 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (F2)
 		print_history();
 	else if (TAB)
-		;
+		autocompletion();
 	else if (ARROW_UP)
 		print_history_up();
 	else if (ARROW_DOWN)
@@ -125,7 +125,10 @@ int							get_line_cmd(void)
 	size_t					len_path;
 	t_entry					*entry;
 	t_entry					*curs;
+	t_21sh					*sh;
 
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
 	print_prompt();
 	while (1)
 	{
@@ -144,13 +147,17 @@ int							get_line_cmd(void)
 int							insert_word_in_g_line(char *word)
 {
 	unsigned int			i;
+	t_21sh					*sh;
 
-	if (word == NULL)
+	if (word == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	i = 0;
+	sh->pos_prev = sh->pos;
 	while (word[i] != '\0' && word[i] != '\n')
 		if (add_c_to_line(word[i++]) == ERROR)
 			return (ERROR);
+	i += sh->len_prompt;
+	sh->pos = i / sh->win.ws_col;
 	return (true);
 }
 
@@ -175,6 +182,8 @@ char						*make_tab(void)
 	size_t					i;
 	t_entry					*curs;
 
+	if (g_lines.len <= 0)
+		return (ft_memalloc(sizeof(*line)));
 	if ((line = ft_memalloc(sizeof(*line) * (g_lines.len + 1))) == NULL)
 		return (NULL);
 	i = 0;
@@ -184,7 +193,6 @@ char						*make_tab(void)
 		line[i++] = curs->c;
 		curs = curs->next;
 	}
-	del_g_lines();
 	return (line);
 }
 
