@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 17:10:58 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 18:29:59 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 18:55:06 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int							list_all_bin(char *path, char *begin_name)
 		return (ERROR);
 	if ((count = count_objets(path, begin_name)) == ERROR)
 		return (ERROR);
+	if (count == 0)
+		return (insert_word_in_g_line(begin_name));
 	if ((list_bin = make_list_bin(path, begin_name, count)) == NULL)
 		return (ERROR);
 	ret = print_list_term(sh, list_bin, true);

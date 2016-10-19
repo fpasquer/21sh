@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 18:25:19 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 19:15:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,12 +169,18 @@ static char					*get_new_line(char *line)
 	return (put_new_line(line, mem));
 }
 
-int							search_bin_path(char *new_line)
+int							search_bin_path(char *line)
 {
+	char					*new_line;
+	int						i;
 	size_t					len;
 
-	if (new_line == NULL)
+	if (line == NULL)
 		return (ERROR);
+	i = 0;
+	while (ft_isspace(line[i]) == true)
+		i++;
+	new_line = &line[i];
 	if ((len = ft_strlen(new_line)) > 0)
 	{
 		while (len-- > 0)
@@ -188,18 +194,22 @@ int							search_bin_path(char *new_line)
 int							autocompletion_bin(t_21sh *sh, char *new_line)
 {
 	unsigned int			i;
+	unsigned int			start;
 
 	if (new_line == NULL)
 		return (ERROR);
-	if (new_line[0] == '\0')
+	start = 0;
+	while (ft_isspace(new_line[start]) == true)
+		start++;
+	if (new_line[start] == '\0')
 		return (false);
-	if (new_line[0] >= 'a' && new_line[0] <= 'z')
-		i = new_line[0] - 'a';
-	else if (new_line[0] >= 'A' && new_line[0] <= 'Z')
-		i = new_line[0] - 'A';
+	if (new_line[start] >= 'a' && new_line[start] <= 'z')
+		i = new_line[start] - 'a';
+	else if (new_line[start] >= 'A' && new_line[start] <= 'Z')
+		i = new_line[start] - 'A';
 	else
 		i = SIZE_DICO - 1;
-	if (put_autocompletion(new_line, sh, i) == ERROR)
+	if (put_autocompletion(&new_line[start], sh, i) == ERROR)
 		return (ERROR);
 	return (true);
 }
