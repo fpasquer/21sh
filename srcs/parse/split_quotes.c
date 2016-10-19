@@ -87,6 +87,7 @@ char **split_quotes(char *str) {
 		}
 		i++;
 	}
+	free(tmp_str);
 	return (list);
 }
 
