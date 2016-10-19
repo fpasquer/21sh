@@ -131,10 +131,10 @@ void						loop_shell(void)
 			// if ((cmd = parse_cmd(line)) != NULL)
 			// {
 			// 	head = cmd;
-			// 	print_cmd(cmd);
 			// 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 			// 	{
 			// 		builtin_or_not(cmd);
+			// 		ft_putendl("\nPRINT COMMAND\n");
 			// 		print_cmd(cmd);
 			// 		if ((cmd->right && cmd->right->op == ET && cmd->done != 0)
 			// 		|| (cmd->right && cmd->right->op == OU && cmd->done == 0))
