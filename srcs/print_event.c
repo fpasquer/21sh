@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 14:48:01 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/20 16:54:24 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ void						print_g_line(void)
 
 static int					print_prompt_word(char *word, bool end)
 {
+	size_t					len;
 	t_21sh					*sh;
 
-	if (word == NULL)
+	if (word == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
+	len = ft_strlen(word);
+	g_lines.y = (len + sh->len_prompt + g_lines.len) / sh->win.ws_col;
 	if (end == false)
 	{
 		print_prompt();
@@ -97,7 +100,7 @@ static char					*print_words(t_list_print *lst, int  len,
 			print_prompt_word(lst->curs->word, false) == ERROR)
 		return (NULL);
 	curs = lst;
-	y = 0;
+	y = g_lines.y;
 	while (curs != NULL && (x = 0) == 0)
 	{
 		while (curs != NULL && x++ < nb_word_line)

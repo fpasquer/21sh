@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 10:34:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 11:22:57 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/20 09:58:04 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ char						*print_list_term(t_21sh *sh, char **list,
 		bool select)
 {
 	char					*adr;
+	unsigned int			y;
 	t_list_print			*lst;
 
 	if (sh == NULL)

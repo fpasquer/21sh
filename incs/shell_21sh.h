@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 14:34:02 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/20 16:56:33 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,11 @@ int							print_prompt(void);
 int							exe_cmd(t_history **hist, char **line);
 
 /*
+**	list_bin.c
+*/
+int							list_all_bin(char *path, char *begin_name);
+
+/*
 **	term.c
 */
 int							init_term(t_21sh **sh);
@@ -277,6 +282,10 @@ char						*put_words_event(t_list_print *lst, int  len,
 int							put_cmd_term(char *cmd);
 void						print_g_line(void);
 
+/*
+**	autocompletion.c
+*/
+int							put_pompt_word(char **word);
 
 /*
 **	print_list_term.c

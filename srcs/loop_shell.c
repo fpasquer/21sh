@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 16:52:47 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/20 16:55:21 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,11 @@ static void					put_line_entre(char *line) // DEBUG
 		while (i-- > 0)
 			if (put_cmd_term("kd") == ERROR)
 				return ;
-		while (sh->pos-- > 0)
+		//je ne comprends pas pourquoi j' ai des B qui pop
+		i = sh->win.ws_col;
+		while (i-- > 0)
 			put_cmd_term("le");
+		//pour moi la boucle du dessus est a supprimer, mais des B peuvent POP sur les commandes sur plusieurs lignes
 		i = 0;
 		while (i++ < sh->len_prompt)
 			ft_putchar(' ');
