@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/20 21:44:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/20 22:13:33 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,15 @@ static int			check_access(t_cmd *cmd, char *cpy, int *ret)
 	if (i == ERROR && get_path_bin(cmd->arg[0], &cpy) == 0)
 	{
 		*ret = 1;
+		cmd->done = *ret;
 		ft_putstr_fd("error: ", 2);
 		ft_putstr_fd(cmd->arg[0], 2);
 		ft_putstr_fd(": ", 2);
-		ft_putendl_fd("command not found", 2);
+		if ((cmd->arg[0][0] == '.' && cmd->arg[0][1] && cmd->arg[0][1] == '/')
+				|| cmd->arg[0][0] == '/')
+			ft_putendl_fd("no such file or directory", 2);
+		else
+			ft_putendl_fd("command not found", 2);
 		return (false);
 	}
 	return (true);
