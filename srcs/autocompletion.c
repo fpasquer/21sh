@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 20:36:23 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/20 09:25:53 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ int							autocompletion_path(t_21sh *sh, char *new_line)
 	char					*path;
 	int						i;
 	int						end;
+	int						ret;
 
 	if (sh == NULL || new_line == NULL)
 		return (ERROR);
@@ -263,10 +264,9 @@ int							autocompletion_path(t_21sh *sh, char *new_line)
 			return (ERROR);
 	if ((path = ft_strdup(&new_line[end])) == NULL)
 		return (ERROR);
-	if (list_bin(path) == ERROR)
-		return (ERROR);
+	ret = list_bin(path);
 	ft_memdel((void**)&path);
-	return (true);
+	return (ret);
 }
 
 int							autocompletion(void)
@@ -290,9 +290,7 @@ int							autocompletion(void)
 		ret = autocompletion_bin(sh, new_line);
 	else if (ret == PATH)
 		ret = autocompletion_path(sh, new_line);
-	if (ret == ERROR)
-		return (ERROR);
 	ft_memdel((void**)&new_line);
 	ft_memdel((void**)&line);
-	return (true);
+	return (ret);
 }
