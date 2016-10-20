@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 16:55:21 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/20 21:13:20 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int							print_prompt(void)
 	return (true);
 }
 
-static void					put_line_entre(char *line) // DEBUG
+static void					put_line_entre(char *line)
 {
 	int						i;
 	t_21sh					*sh;
@@ -138,7 +138,7 @@ void						loop_shell(void)
 		{
 			if ((line = get_line_entree()) == NULL)
 				break ;
-			put_line_entre(line); //DEBUG
+			put_line_entre(line);
 			if (check_add_hist(&sh->hist, &line) == ERROR)
 				break ;
 			if ((cmd = parse_cmd(line, NULL, 0)) != NULL)

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/16 20:25:28 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/20 21:44:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,27 @@ static void			exit_error(char *cmd, char *error)
 
 static void			check_cmd(t_cmd *cmd, char **env, char *exe)
 {
-	if (execve(exe, cmd->arg, env) == -1)
+	if (get_path_bin(cmd->arg[0], &exe) && execve(exe, cmd->arg, env) == -1)
 		exit_error(exe, "command not found");
 	else if (execve(cmd->arg[0], cmd->arg, env) == -1)
 		exit_error(cmd->arg[0], "command not found");
+}
+
+static int			check_access(t_cmd *cmd, char *cpy, int *ret)
+{
+	int				i;
+
+	i = access(cmd->arg[0], X_OK);
+	if (i == ERROR && get_path_bin(cmd->arg[0], &cpy) == 0)
+	{
+		*ret = 1;
+		ft_putstr_fd("error: ", 2);
+		ft_putstr_fd(cmd->arg[0], 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd("command not found", 2);
+		return (false);
+	}
+	return (true);
 }
 
 int					exe_binaire(t_cmd *cmd, char **env)
@@ -44,16 +61,11 @@ int					exe_binaire(t_cmd *cmd, char **env)
 	pid_t			pid;
 	t_21sh			*sh;
 	int				ret;
-	int 			i;
 	char 			*exe;
 
 	ret = 0;
-
-	i = access(cmd->arg[0], X_OK);
-	if (i == ERROR && get_path_bin(cmd->arg[0], &exe) == 0) {
-		ft_putendl("Error: command not found");
+	if (check_access(cmd, NULL, &ret) == false)
 		return (false);
-	}
 	if (((sh = get_21sh(NULL)) == NULL) ||
 			tcsetattr(0, TCSADRAIN, &(sh->reset)) == -1)
 		return (false);

@@ -37,7 +37,7 @@ static char *ft_strsub_bis(char *str, int index, int end, int nb_ht) {
 
 static char *parse_string(char *str, int *index, char delimiter) {
 	
-	if (ft_isalpha(str[*index])) {
+	if (str[*index] != CHAR_S_QUOTE && str[*index] != CHAR_W_QUOTE) {
 		delimiter = CHAR_SPACE;
 	}
 	else {
