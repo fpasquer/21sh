@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 09:25:53 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/20 13:11:49 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,14 +181,20 @@ int							search_bin_path(char *line)
 	while (ft_isspace(line[i]) == true)
 		i++;
 	new_line = &line[i];
-	if ((len = ft_strlen(new_line)) > 0)
-	{
-		while (len-- > 0)
-			if (new_line[len] == ' ' || new_line[len] == '/')
-				return (PATH);
-		return (BIN);
-	}
-	return (false);
+	if ((len = ft_strlen(new_line)) <= 0)
+		return (false);
+	while (len-- > 0)
+		if (new_line[len] == ' ' || new_line[len] == '/')
+		{
+			if (ft_strcmp(&new_line[len + 1], "..") == 0 ||
+					ft_strcmp(&new_line[len + 1], ".") == 0)
+			{
+				insert_word_in_g_line(line);
+				return (false);
+			}
+			return (PATH);
+		}
+	return (BIN);
 }
 
 int							autocompletion_bin(t_21sh *sh, char *new_line)
@@ -269,10 +275,25 @@ int							autocompletion_path(t_21sh *sh, char *new_line)
 	return (ret);
 }
 
+int							get_end_line(char **new_line, char **end)
+{
+	if (new_line == NULL || *new_line == NULL | end == NULL)
+		return (ERROR);
+	if ((*end = ft_strchr(*new_line, ' ')) == NULL)
+		*end = ft_strdup("");
+	else
+	{
+		**end = '\0';
+		end = end + 1;
+	}
+	return (true);
+}
+
 int							autocompletion(void)
 {
 	char					*line;
 	char					*new_line;
+	char					*end;
 	int						ret;
 	t_21sh					*sh;
 

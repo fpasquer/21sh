@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 10:10:04 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/20 10:24:49 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void						loop_shell(void)
 /*			if ((cmd = parse_cmd(line)) != NULL)
 			{
 				head = cmd;
-//				print_cmd(cmd);
+				print_cmd(cmd);
 				while (cmd && cmd->arg && cmd->arg[0] != NULL)
 				{
 					builtin_or_not(cmd);
