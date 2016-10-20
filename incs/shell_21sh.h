@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/16 18:05:32 by jchen            ###   ########.fr       */
+/*   Updated: 2016/10/19 14:34:02 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@
 # include "../libft/libft.h"
 # include "parse.h"
 
+FILE *debug;
+
 # define ERROR -1
 # define LEN_PATH_MAX 200
 # define SIZE_HASH 300
+# define SIZE_DICO 27
 # define NAME_SHELL "xterm-256color"
 # define SIZE_PROMT 2000
 
@@ -76,9 +79,11 @@ typedef struct				s_bin
 	char					*path;
 	char					*path_name;
 	unsigned int			i_hash;
+	unsigned int			i_sort;
 	size_t					len_name;
 	struct stat				stat;
 	struct s_bin			*next;
+	struct s_bin			*n_dico;
 }							t_bin;
 
 /*
@@ -122,6 +127,8 @@ typedef struct				s_print_list
 **	reset :			structure pour reset les parametres du term
 **	term_param :	structure pour save les parametres du term
 **	hist :			pointeur sur le premier maillon de l'historique
+**	pos :			decalage entre le prompt et le curseur en y
+**	pos_prev :		old decalage entre le prompt et le curseur en y
 */
 
 typedef struct				s_21sh
@@ -134,9 +141,12 @@ typedef struct				s_21sh
 	char					*path;
 	char					**tab_path;
 	int						sh_lvl;
+	int						pos;
+	int						pos_prev;
 	int						nb_var_env;
 	size_t					len_prompt;
 	t_bin					*hash[SIZE_HASH];
+	t_bin					*dico[SIZE_DICO];
 	t_env					*env;
 	t_history				*hist;
 	struct termios			reset;
@@ -190,12 +200,19 @@ int							get_path_bin(char *name_bin, char **path_name);
 **	sort_fonctions.c
 */
 int							len_tri(void *node1, void *node2);
+int							name_tri(void *node1, void *node2);
 
 /*
 **	sort_list.c
 */
 void						sort_list(t_bin **liste,
 				int (fonc_tri)(void *, void *));
+
+/*
+**	dico.c
+*/
+int							save_dico(t_bin **n);
+
 
 /*
 **	env.c
@@ -240,7 +257,8 @@ int							print_history_up(void);
 int							print_history_down(void);
 int							mouve_righ(void);
 int							mouve_left(void);
-int							del_right();
+int							del_right(void);
+int							autocompletion(void);
 
 /*
 **	history.c
@@ -257,6 +275,7 @@ int							print_history(void);
 char						*put_words_event(t_list_print *lst, int  len,
 		int nb_word_line,t_21sh  *sh);
 int							put_cmd_term(char *cmd);
+void						print_g_line(void);
 
 
 /*
@@ -276,6 +295,7 @@ void						ctrl_d(int val);
 */
 int							print_all_bin(void);
 int							print_all_env(void);
+void						print_dico(void);
 
 /*
 **		fonction temporaire. 
@@ -324,5 +344,6 @@ int 						delete_env_array(char **env);
 */
 
 int 						exe_binaire(t_cmd *cmd, char **env);
+char 						**split_quotes(char *str);
 
 #endif

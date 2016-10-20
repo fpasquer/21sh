@@ -31,12 +31,9 @@ static void			exit_error(char *cmd, char *error)
 	exit(EXIT_FAILURE);
 }
 
-static void			check_cmd(t_cmd *cmd, char **env)
+static void			check_cmd(t_cmd *cmd, char **env, char *exe)
 {
-	char			*exe;
-
-	if (get_path_bin(cmd->arg[0], &exe) &&
-			execve(exe, cmd->arg, env) == -1)
+	if (execve(exe, cmd->arg, env) == -1)
 		exit_error(exe, "command not found");
 	else if (execve(cmd->arg[0], cmd->arg, env) == -1)
 		exit_error(cmd->arg[0], "command not found");
@@ -47,15 +44,23 @@ int					exe_binaire(t_cmd *cmd, char **env)
 	pid_t			pid;
 	t_21sh			*sh;
 	int				ret;
+	int 			i;
+	char 			*exe;
 
 	ret = 0;
+
+	i = access(cmd->arg[0], X_OK);
+	if (i == ERROR && get_path_bin(cmd->arg[0], &exe) == 0) {
+		ft_putendl("Error: command not found");
+		return (false);
+	}
 	if (((sh = get_21sh(NULL)) == NULL) ||
 			tcsetattr(0, TCSADRAIN, &(sh->reset)) == -1)
 		return (false);
 	if ((pid = fork()) != -1)
 	{
 		if (pid == 0)
-			check_cmd(cmd, env);
+			check_cmd(cmd, env, exe);
 		else
 			waitpid(pid, &ret, WUNTRACED);
 	}

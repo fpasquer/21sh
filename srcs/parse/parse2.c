@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/19 11:02:01 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/20 16:00:12 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
 	cmd->op = 0;
 	cmd->done = 0;
 	cmd->line = ft_strsub(line, i - size, size);
-	cmd->arg = ft_strsplit(cmd->line, ' '); //jchen a remplacer par split_guill
+	cmd->arg = split_quotes(cmd->line);
 	cmd->argc = len_y(cmd->arg);
 	ft_memdel((void**)&(cmd->line));
 }
@@ -55,7 +55,7 @@ static t_cmd			*creat_cmd2(t_cmd *cmd2, char *line, int size, int i)
 		ft_memdel((void**)&(cmd2->line));
 		cmd2->line = ft_strsub(line, i - size, size);
 		cmd2->cmd = check_and_parse2(line, i);
-		cmd2->arg = ft_strsplit(cmd2->line, ' '); //jchen a remplacer par plit_guill
+		cmd2->arg = split_quotes(cmd2->line);
 		cmd2->argc = len_y(cmd2->arg);
 		cmd2->done = 0;
 	}

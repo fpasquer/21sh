@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/13 17:55:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/19 14:48:01 by jchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,40 @@ static int				put_word(t_list_print *curs, int len,
 	return (true);
 }
 
+void						print_g_line(void)
+{
+	char					cpy_word[SIZE_MEM + 1];
+	int						i;
+	t_entry					*curs;
+
+	curs = g_lines.line;
+	while (curs != NULL)
+	{
+		i = 0;
+		ft_bzero(&cpy_word, sizeof(cpy_word));
+		while (i < SIZE_MEM && curs != NULL)
+		{
+			cpy_word[i++] = curs->c;
+			curs = curs->next;
+		}
+		ft_putstr(cpy_word);
+	}
+}
+
 static int					print_prompt_word(char *word, bool end)
 {
-	char					*cpy_word;
 	t_21sh					*sh;
 
 	if (word == NULL)
 		return (ERROR);
-	print_prompt();
-	ft_putendl(word);
-	ft_putstr(COLOR_LINE);
 	if (end == false)
 	{
-		ft_putstr("recherches");
-		ft_putendl(RESET_COLOR);
-	}
-	else
-	{
-		if ((sh = get_21sh(NULL)) == NULL)
-			return (ERROR);
+		print_prompt();
+		print_g_line();
 		ft_putstr(word);
+		ft_putstr(COLOR_LINE);
+		ft_putstr("\nrecherches");
 		ft_putendl(RESET_COLOR);
-		if ((cpy_word = ft_strdup(word)) == NULL)
-			return (ERROR);
-		if (exe_cmd(&sh->hist, &cpy_word) == ERROR)
-			return (ERROR);
 	}
 	return (true);
 }
@@ -101,7 +110,6 @@ static char					*print_words(t_list_print *lst, int  len,
 		y++;
 	}
 	return (put_curs(y, &lst->word));
-	return (NULL);
 }
 
 int							put_cmd_term(char *cmd)
@@ -121,7 +129,7 @@ char						*put_words_event(t_list_print *l, int  len,
 	char					*ret;
 	char					b[SIZE_BUFF];
 
-	if (put_cmd_term("vi") == ERROR)
+	if (put_cmd_term("vi") == ERROR || put_cmd_term("rc") == ERROR)
 		return (NULL);
 	if (l == NULL || len <= 0 || nb_word_line <= 0)
 		return (NULL);
@@ -132,18 +140,12 @@ char						*put_words_event(t_list_print *l, int  len,
 		if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0 || put_cmd_term("cd") == -1
 				|| ENTER  || ESC)
 			break ;
-		l->curs = (ARROW_UP) && (l->curs->prev) ? l->curs->prev : l->curs;
-		l->curs = (ARROW_DOWN) && (l->curs->next) ? l->curs->next : l->curs;
+		l->curs = (ARROW_LEFT) && (l->curs->prev) ? l->curs->prev : l->curs;
+		l->curs = (ARROW_RIGHT) && (l->curs->next) ? l->curs->next : l->curs;
+		l->curs = (TAB) && (l->curs->next) ? l->curs->next : l->curs;
 	}
 	if (put_cmd_term("ve") == ERROR ||
 			print_prompt_word(l->curs->word, true) == ERROR)
 		return (NULL);
-	return ((ESC) ? NULL : ret);
+	return ((ESC) ? NULL : ft_strdup(l->curs->word));
 }
-
-	/*	if (ARROW_UP)
-			if (lst->curs->prev != NULL)
-				lst->curs = lst->curs->prev;*/
-		/*if (ARROW_DOWN)
-			if (lst->curs->next != NULL)
-				lst->curs = lst->curs->next;*/
