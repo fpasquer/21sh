@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 16:36:50 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/20 16:52:47 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ static int					check_add_hist(t_history **hist, char **line)
 		return (ERROR);
 	return (true);
 }
+
 static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
