@@ -6,13 +6,12 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/20 22:13:33 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/22 15:12:19 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/shell_21sh.h"
 #include "../../incs/key.h"
-
 
 static void			exit_error(char *cmd, char *error)
 {
@@ -66,7 +65,7 @@ int					exe_binaire(t_cmd *cmd, char **env)
 	pid_t			pid;
 	t_21sh			*sh;
 	int				ret;
-	char 			*exe;
+	char			*exe;
 
 	ret = 0;
 	if (check_access(cmd, NULL, &ret) == false)

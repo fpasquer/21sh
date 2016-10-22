@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 16:56:33 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/22 15:04:48 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ typedef struct 				s_builtin_lst
 	int 					(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
-void						builtin_or_not(t_cmd *content);
+void						builtin_or_not(t_cmd *content, int i, int builtin);
 
 /*
 **	init_21sh.c

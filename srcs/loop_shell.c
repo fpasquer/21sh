@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 21:13:20 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/22 15:06:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
-		builtin_or_not(cmd);
+		builtin_or_not(cmd, 0, 0);
 		print_cmd(cmd); //DEBUG
 		if ((cmd->right && cmd->op == ET && cmd->done != 0)
 				|| (cmd->right && cmd->op == OU && cmd->done == 0))
