@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/22 19:27:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/24 14:53:35 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void			exit_error(char *cmd, char *error)
 
 static void			check_cmd(t_cmd *cmd, char **env, char *exe)
 {
+	redirecting(cmd, cmd->left, cmd->cmd, 0);
 	if (get_path_bin(cmd->arg[0], &exe) && execve(exe, cmd->arg, env) == -1)
 		exit_error(exe, "command not found");
 	else if (execve(cmd->arg[0], cmd->arg, env) == -1)
