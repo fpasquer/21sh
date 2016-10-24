@@ -44,7 +44,7 @@ typedef struct			s_cmd
 /*
 **	cmd : numero de l'operateur de redirection
 **	op : numero de l'operateur de separation
-**	fd : files descriptor utilise
+**	fd : files descriptor utilise (1 par defaut)
 **	done : reussite de l'execution de la cmd
 **	line : ligne de cmd des maillon pere emputer des redirections si il y en a
 **	arg : splite de line original pour chaque ligne redirection comprise
@@ -65,7 +65,7 @@ void					print_cmd(t_cmd *cmd); // debug
 **	parse2.c
 */
 
-int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i);
+int						parse_cmd2(t_cmd *cmd, int i);
 t_cmd					*exit_parse(t_cmd *cmd, char *str);
 
 /*
@@ -73,5 +73,6 @@ t_cmd					*exit_parse(t_cmd *cmd, char *str);
 */
 
 void					scop(char *line, int *i, int *size);
+void					tacke_more_arg(t_cmd *cmd, t_cmd *red);
 
 #endif

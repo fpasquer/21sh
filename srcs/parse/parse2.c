@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/20 20:04:04 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/24 02:13:13 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ static t_cmd			*creat_cmd2(t_cmd *cmd2, char *line, int size, int i)
 			cmd2 = cmd2->left;
 		cmd2->left = cmd;
 		creat_cmd3(cmd, line, size, i);
+		if (cmd->arg && cmd->arg[1])
+			tacke_more_arg(head, cmd);
 	}
 	return (head);
 }
 
-int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i)
+int						parse_cmd2(t_cmd *cmd, int i)
 {
 	char				*cpy;
 	int					size;
@@ -85,15 +87,7 @@ int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i)
 		{
 			size = 0;
 			while (cpy[i] && !check_and_parse2(cpy, i))
-			{
-				if (cpy[i] == '\"' || cpy[i] == '\'')
-					scop(cpy, &i, &size);
-				else
-				{
-					size++;
-					i++;
-				}
-			}
+				scop(cpy, &i, &size);
 			cmd = creat_cmd2(cmd, cpy, size, i);
 			i = (check_and_parse2(cpy, i) == 3 ||
 				check_and_parse2(cpy, i) == 5 ? i + 2 : i + 1);
@@ -107,7 +101,7 @@ int						parse_cmd2(t_cmd *cmd, t_cmd *head, int i)
 t_cmd				*exit_parse(t_cmd *cmd, char *str)
 {
 	if (str)
-		ft_putendl(str);
+		ft_putendl_fd(str, 2);
 	if (cmd)
 		free_cmd(cmd);
 	return (NULL);

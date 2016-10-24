@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/19 10:34:17 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/24 02:01:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,21 +85,13 @@ t_cmd					*parse_cmd(char *line, t_cmd *cmd, int i)
 	{
 		size = 0;
 		while (line[i] && !check_and_parse(line, i))
-		{
-			if (line[i] == '\"' || line[i] == '\'')
-				scop(line, &i, &size);
-			else
-			{
-				size++;
-				i++;
-			}
-		}
+			scop(line, &i, &size);
 		if ((cmd = create_cmd(cmd, line, size, i)) == NULL)
 			return (exit_parse(cmd, "error to allocate memory"));
 		i = (check_and_parse(line, i)) == 3 ? i + 2 :
 			i + check_and_parse(line, i);
 	}
-	if (parse_cmd2(cmd, cmd, 0) < 0)
+	if (parse_cmd2(cmd, 0) < 0)
 		return (exit_parse(cmd, "error parse cmd"));
 	return (!check_error_parse(cmd) ? cmd : exit_parse(cmd, "parse error"));
 }
@@ -129,7 +121,7 @@ void					free_cmd(t_cmd *cmd)
 	}
 }
 
-void					print_cmd(t_cmd *cmd)
+void					print_cmd(t_cmd *cmd) //DEBUG
 {
 	int					cmpt;
 	int					cmpt2;
