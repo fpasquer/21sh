@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 10:24:49 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/24 20:43:31 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,14 @@ static void					put_line_entre(char *line)
 	{
 		if ((sh = get_21sh(NULL)) == NULL)
 			return ;
-		i = g_lines.len / sh->win.ws_col;
-		put_cmd_term("cd");
+		i = ((g_lines.len + sh->len_prompt) / sh->win.ws_col) -
+			((g_lines.i + sh->len_prompt) / sh->win.ws_col);
+		fprintf(debug, "i = %d\n", i);
 		while (i-- > 0)
-			if (put_cmd_term("kd") == ERROR)
+			if (put_cmd_term("do") == ERROR)
 				return ;
-		//je ne comprends pas pourquoi j' ai des B qui pop
-		i = sh->win.ws_col;
-		while (i-- > 0)
-			put_cmd_term("le");
-		//pour moi la boucle du dessus est a supprimer, mais des B peuvent POP sur les commandes sur plusieurs lignes
+		if (put_cmd_term("cb") == ERROR)
+			return ;
 		i = 0;
 		while (i++ < sh->len_prompt)
 			ft_putchar(' ');

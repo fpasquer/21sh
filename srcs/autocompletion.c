@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 13:11:49 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/21 15:55:19 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char					**make_tab_list(t_bin *lst, unsigned int y,
 	{
 		if (ft_strncmp(curs->name, word, len_word) == 0)
 			if ((tab[i++] = ft_strdup(curs->name)) == NULL)
-				break ;
+	break ;
 		curs = curs->n_dico;
 	}
 	return (tab);
