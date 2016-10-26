@@ -6,7 +6,7 @@
 #*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2016/05/17 16:07:18 by fpasquer          #+#    #+#             *#
-#*   Updated: 2016/10/26 18:38:15 by fpasquer         ###   ########.fr       *#
+#*   Updated: 2016/10/26 20:09:27 by fpasquer         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -14,7 +14,7 @@ NAME			= 21sh
 
 SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					sort_fonctions.c sort_list.c env.c term.c dico.c history.c	\
-					functions_signaux.c
+					functions_signaux.c loop_shell.c key.c del_g_lines.c
 
 INCLUDES		= shell_21sh.h key.h
 
@@ -69,13 +69,6 @@ fclean : clean
 	make -C libft fclear
 
 re : fclean All
-
-push : fclean
-	git add $(SRCDIR) $(INCDIR) $(OTHERS) ./libft
-#	git commit -m "$(DATE)"
-	echo "Enter Your Commit : "
-	read root_path ; git commit -m "$$root_path"
-	git push
 
 norm:
 	norminette $(SRC) $(INC)

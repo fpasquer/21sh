@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 18:19:34 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 19:23:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,21 @@ static bool					at_add_history(char *line)
 	return (ret);
 }
 
+static size_t				get_y_line(size_t len_line)
+{
+	size_t					rest;
+	size_t					y;
+	t_21sh					*sh;
+
+	y = 0;
+	if ((sh = get_21sh(NULL)) != NULL)
+	{
+		len_line -= len_line % sh->win.ws_col;
+		y = len_line / sh->win.ws_col;
+	}
+	return (y);
+}
+
 int							add_history(t_history **hist, char **line)
 {
 	t_history				*new;
@@ -40,6 +55,8 @@ int							add_history(t_history **hist, char **line)
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
 			return (ERROR);
 		new->line = *line;
+		new->len = ft_strlen(*line);
+		new->y = get_y_line(new->len);
 		if ((curs = *hist) != NULL)
 		{
 			new->next = (*hist);

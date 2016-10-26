@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 08:26:41 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 18:12:12 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 18:54:29 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ int							init_term(t_21sh **sh)
 	if (tcsetattr(0, TCSADRAIN, &(*sh)->term_param) == -1)
 		return (ERROR);
 	return (save_win_size());
+}
+
+
+int							put_cmd_term(char *cmd)
+{
+	char					*ret;
+
+	if ((ret = tgetstr(cmd, NULL)) == NULL)
+		return (ERROR);
+	tputs(ret, 0, my_out_put);
+	return (true);
 }
 
 int							my_out_put(int c)

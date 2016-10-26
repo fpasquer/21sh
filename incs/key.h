@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 18:12:45 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 21:26:43 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 # define SIZE_BUFF 8
 # define SIZE_MEM 2000
 
+/*
+**	c :					carcatere de la commande
+**	next :				maillon suivant de la de la commande
+**	prev :				maillon precedent de la commande
+*/
 typedef struct				s_entry
 {
 	char					c;
@@ -27,19 +32,31 @@ typedef struct				s_entry
 	struct s_entry			*prev;
 }							t_entry;
 
-
+/*
+**	line :				premier maillon de la commade
+**	curs :				position du maillon dans la commande
+**	sel_start :			debut de la selection
+**	sel_end :			fin de la selection
+**	next :				si la commande est multi commande (avec des quotes)
+**	len :				longueur de la commande
+**	i :					position dans la commade
+**	x :					position dans l'ecran horizontalement
+**	y :					decalage de ligne par rapport au prompt
+*/
 typedef struct				s_line
 {
 	t_entry					*line;
 	t_entry					*curs;
 	t_entry					*sel_start;
 	t_entry					*sel_end;
+	struct s_line			*next;
 	size_t					len;
 	size_t					i;
-	int						y;
+	size_t					x;
+	size_t					y;
 }							t_line;
 
-t_line						g_lines;
+t_line						*g_lines;
 
 # define DS					(b[0] == -62 && b[1] == -89 && b[2] ==  83 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //§ au dessus de tab
 # define PLUS_MINUS			(b[0] == -62 && b[1] == -79 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //±
@@ -169,11 +186,8 @@ t_line						g_lines;
 #define BUFF_SIZE_READ 5
 
 char						*get_line_entree(void);
-t_line						*add_new_line(t_line **lst, char *line,
-		unsigned int i);
-int							add_c_to_line(char c);
-int							insert_word_in_g_line(char *word);
-void						del_g_lines(void);
+int							add_c_to_line(char c, t_line *lines);
 char						*make_tab(void);
+void						del_g_lines(void);
 
 #endif

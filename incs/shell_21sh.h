@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 18:37:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 19:26:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,18 @@ typedef struct				s_bin
 }							t_bin;
 
 /*
-**	line :			ligne de l'historique
+**	line :			commande de l'historique
 **	next :			pointeur sur le maillon suivant
+**	prev :			pointeur sur le maillon precedent
+**	curs :			
+**	len :			nombre de caracteres de la commande
+**	y :				nombre de ligne que comprend la commande
 */
 typedef struct				s_history
 {
 	char					*line;
+	size_t					y;
+	size_t					len;
 	struct s_history		*curs;
 	struct s_history		*next;
 	struct s_history		*prev;
@@ -243,5 +249,6 @@ int							get_path_bin(char *name_bin, char **path_name);
 */
 int							init_term(t_21sh **sh);
 int							my_out_put(int c);
+int							put_cmd_term(char *cmd);
 
 #endif

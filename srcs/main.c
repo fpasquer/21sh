@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 18:16:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 22:06:15 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int							main(void)
 		if ((debug = fopen("test.txt", "w+")) == NULL)
 				return (EXIT_SUCCESS);
 		signal(SIGWINCH, resize_win);
-		//loop_shell();
+		loop_shell();
 		ft_putendl("Erreur 21 sh");
-		print_dico();
+		//print_dico();
 		//print_all_bin();
 		del_21sh();
 	}
