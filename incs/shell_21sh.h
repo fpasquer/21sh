@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 18:22:33 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 18:37:01 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,28 +153,37 @@ typedef struct				s_21sh
 	struct winsize			win;
 }							t_21sh;
 
-
-/*
-**
-** Tableau sur pointeur sur fonction permettant de verifier si le binaire
-** entree est un builtin
-**
-*/
-
 typedef struct 				s_builtin_lst
 {
 	char 					*str;
 	int 					(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
-void						builtin_or_not(t_cmd *content);
+/*
+**	bin.c
+*/
+int							save_bin(t_21sh *sh);
 
 /*
-**	init_21sh.c
+**	del_bin.c
 */
-t_21sh						*init_21sh(void);
-t_21sh						*get_21sh(t_21sh *shell_21sh);
-int							del_21sh(void);
+int							del_bin(void);
+
+/*
+**	dico.c
+*/
+int							save_dico(t_bin **n);
+	//a supprimer
+void						print_dico(void);
+
+/*
+**	env.c
+*/
+int							save_env(t_env **env);
+int							add_env(t_env **env, char *str, int index, bool ad);
+int 						add_env_(char *name, char *value);
+int							del_list_env(t_env **list);
+int							del_env(void);
 
 /*
 **	fonctions.c
@@ -184,16 +193,32 @@ int							save_path(t_21sh **sh, char *path);
 int							nb_match_var_env(char **tab);
 
 /*
-**	bin.c
+**	functions_signaux.c
 */
-int							save_bin(t_21sh *sh);
-int							del_bin(void);
+void						resize_win(int val);
+void						ctrl_d(int val);
 
 /*
-**	table_hash.c
+**	history.c
 */
-int							i_table_hash(char *name, int size_hash);
-int							get_path_bin(char *name_bin, char **path_name);
+int							init_history(void);
+int							del_hist(void);
+int							add_history(t_history **hist, char **line);
+int							print_history(void);
+
+/*
+**	init_21sh.c
+*/
+t_21sh						*init_21sh(void);
+t_21sh						*get_21sh(t_21sh *shell_21sh);
+int							del_21sh(void);
+
+/*
+**	loop_shell.c
+*/
+void						loop_shell(void);
+int							print_prompt(void);
+int							exe_cmd(t_history **hist, char **line);
 
 /*
 **	sort_fonctions.c
@@ -208,140 +233,15 @@ void						sort_list(t_bin **liste,
 				int (fonc_tri)(void *, void *));
 
 /*
-**	dico.c
+**	table_hash.c
 */
-int							save_dico(t_bin **n);
-
-
-/*
-**	env.c
-*/
-
-int							save_env(t_env **env);
-int							add_env(t_env **env, char *str, int index, bool ad);
-int 						add_env_(char *name, char *value);
-int							del_list_env(t_env **list);
-int							del_env(void);
-
-/*
-**	builtin_env.c
-*/
-int							builtin_env(t_cmd *contentst);
-
-/*
-**	options_env.c
-*/
-int							tab_env_i(char **l_cmd, char ***tab);
-int							tab_env_u(char **l_cmd, char ***tab);
-int							tab_env(char **l_cmd, char ***tab);
-
-/*
-**	loop_shell.c
-*/
-void						loop_shell(void);
-int							print_prompt(void);
-int							exe_cmd(t_history **hist, char **line);
-
-/*
-**	list_bin.c
-*/
-int							list_all_bin(char *path, char *begin_name);
+int							i_table_hash(char *name, int size_hash);
+int							get_path_bin(char *name_bin, char **path_name);
 
 /*
 **	term.c
 */
 int							init_term(t_21sh **sh);
-
-/*
-**	functions_key.c
-*/
-void						key_exit(unsigned char val_exit);
-int							key_del_hist(void);
-int							print_history_up(void);
-int							print_history_down(void);
-int							mouve_righ(void);
-int							mouve_left(void);
-int							del_right(void);
-int							autocompletion(void);
-
-/*
-**	history.c
-*/
-int							init_history(void);
-int							del_hist(void);
-int							add_history(t_history **hist, char **line);
-int							print_history(void);
-//int							add_to_g_lines(char *line);
-
-/*
-**	print_event.c
-*/
-char						*put_words_event(t_list_print *lst, int  len,
-		int nb_word_line,t_21sh  *sh);
-int							put_cmd_term(char *cmd);
-void						print_g_line(void);
-
-/*
-**	autocompletion.c
-*/
-int							put_pompt_word(char **word);
-
-/*
-**	print_list_term.c
-*/
-char						*print_list_term(t_21sh *sh, char **list,
-		bool select);
-
-/*
-**	functions_signaux.c
-*/
-void						resize_win(int val);
-void						ctrl_d(int val);
-
-/*
-**	Supprimer
-*/
-int							print_all_bin(void);
-int							print_all_env(void);
-void						print_dico(void);
-
-/*
-**		fonction temporaire. 
-*/
-
-// t_stin_content				parse_stin(char *line); 
-
-/*
-** BUILTIN
-*/
-
-int	 						cd(t_cmd *cmd);
-int 						builtin_setenv(t_cmd *cmd);
-int							builtin_exit(t_cmd *cmd);
-
-/*
-** Renvoi la valeur de l'environnement.
-*/
-
-char						*getenv_value(char *name);
-
-/*
-** Change la valeur de l'environnement.
-*/
-
-int 						modify_env_value(char *name, char *value);
-
-/*
-** Verifie sur l'env existe
-*/
-
-int							check_if_env_exist(char *name);
-
-
-/*
-** Permet de recuperer l'environnement en array.
-*/
-
-int							c_l_to_arr_env(char ***tab);
+int							my_out_put(int c);
 
 #endif

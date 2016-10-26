@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 08:26:41 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/12 19:15:07 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 18:12:12 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,10 @@ int							init_term(t_21sh **sh)
 	if (tcsetattr(0, TCSADRAIN, &(*sh)->term_param) == -1)
 		return (ERROR);
 	return (save_win_size());
+}
+
+int							my_out_put(int c)
+{
+	ft_putchar(c);
+	return (1);
 }

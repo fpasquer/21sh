@@ -6,22 +6,15 @@
 #*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2016/05/17 16:07:18 by fpasquer          #+#    #+#             *#
-#*   Updated: 2016/09/30 13:05:40 by fpasquer         ###   ########.fr       *#
+#*   Updated: 2016/10/26 18:38:15 by fpasquer         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
 NAME			= 21sh
 
 SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
-					sort_fonctions.c sort_list.c env.c builtin_env.c key.c		\
-					history.c autocompletion.c	\
-					print_list_term.c print_event.c functions_signaux.c 		\
-					options_env.c loop_shell.c term.c functions_key.c 			\
-					cd.c builtin_or_not.c getenv_value.c						\
-					modify_env_value.c check_if_env_exist.c dico.c				\
-					parse.c parse2.c setenv.c add_env_.c builtin_exit.c			\
-					list_bin.c
-
+					sort_fonctions.c sort_list.c env.c term.c dico.c history.c	\
+					functions_signaux.c
 
 INCLUDES		= shell_21sh.h key.h
 
@@ -63,26 +56,6 @@ $(LIBRARY) :
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INC)
 	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
 
-$(OBJDIR)/%.o : $(SRCDIR_BUILTIN)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE BUILTIN\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
-
-$(OBJDIR)/%.o : $(SRCDIR_EXE_CMD)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE CMD\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
-
-$(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE ENV\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
-
-$(OBJDIR)/%.o : $(SRCDIR_PARSE)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE PARSE\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
-
-$(OBJDIR)/%.o : $(SRCDIR_TERMCAPS)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE PARSE\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
-
 $(OBJDIR) :
 	mkdir -p $(OBJDIR)
 
@@ -97,12 +70,12 @@ fclean : clean
 
 re : fclean All
 
-#push : fclean
-#	git add $(SRCDIR) $(INCDIR) $(OTHERS) ./libft
+push : fclean
+	git add $(SRCDIR) $(INCDIR) $(OTHERS) ./libft
 #	git commit -m "$(DATE)"
-#	echo "Enter Your Commit : "
-#	read root_path ; git commit -m "$$root_path"
-#	git push
+	echo "Enter Your Commit : "
+	read root_path ; git commit -m "$$root_path"
+	git push
 
 norm:
 	norminette $(SRC) $(INC)
