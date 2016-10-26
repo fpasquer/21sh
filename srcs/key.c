@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 10:58:55 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/24 20:26:14 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 13:02:31 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #include "../incs/shell_21sh.h"
 
 #define KEY_IGNORE -2
+#define NONE 0
+#define QUOTE '\''
+#define D_QUOTE '\"'
+#define MULTI_LINE "\033[31m\\ \033[0m"
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
@@ -54,8 +58,6 @@ int							add_c_to_line(char c)
 {
 	t_entry					*new;
 
-	if (c == '\n')
-		return (true);
 	if ((new = ft_memalloc(sizeof(*new))) == NULL)
 		return (ERROR);
 	new->c = c;
@@ -119,6 +121,32 @@ int							put_end_line(char c)
 	return (true);
 }
 
+int							is_end(char c)
+{
+	int						quote;
+	t_entry					*curs;
+
+	if (c != '\n')
+		return (false);
+	quote = NONE;
+	curs = g_lines.line;
+	while (curs != NULL)
+	{
+		if (curs->c == '\'' && (quote == NONE || quote == QUOTE))
+			quote = (quote == NONE) ? QUOTE : NONE;
+		if (curs->c == '"' && (quote == NONE || quote == D_QUOTE))
+			quote = (quote == NONE) ? D_QUOTE : NONE;
+		curs = curs->next;
+	}
+	if (quote != NONE)
+	{
+		g_lines.y++;
+		add_c_to_line(c);
+		ft_putstr(MULTI_LINE);
+	}
+	return ((quote == NONE) ? true : false);
+}
+
 int							get_line_cmd(void)
 {
 	char					c;
@@ -132,13 +160,13 @@ int							get_line_cmd(void)
 	print_prompt();
 	while (1)
 	{
-		if((c = get_char_keyboard()) != KEY_IGNORE)
+		if((c = get_char_keyboard()) != KEY_IGNORE && c != '\n')
 			if (add_c_to_line(c) == ERROR)
 				return (ERROR);
 		if (c != KEY_IGNORE && c != ERROR)
 			if (put_end_line(c) == ERROR)
 				return (ERROR);
-		if (c == ERROR || c == '\n')
+		if (c == ERROR || is_end(c) == true)
 			break ;
 	}
 	return (true);
@@ -153,7 +181,7 @@ int							insert_word_in_g_line(char *word)
 		return (ERROR);
 	i = 0;
 	sh->pos_prev = sh->pos;
-	while (word[i] != '\0' && word[i] != '\n')
+	while (word[i] != '\0')
 		if (add_c_to_line(word[i++]) == ERROR)
 			return (ERROR);
 	i += sh->len_prompt;

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 14:46:02 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 08:46:32 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/26 13:06:16 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,22 @@ int							key_del_hist(void)
 	return (true);
 }
 
+static int					nb_enter(void)
+{
+	int						enter;
+	t_entry					*curs;
+
+	curs = g_lines.line;
+	enter = 0;
+	while (curs != NULL)
+	{
+		if (curs->c == '\n')
+			enter++;
+		curs = curs->next;
+	}
+	return (enter);
+}
+
 static int					curs_history_up(t_21sh *sh, size_t len)
 {
 	size_t					mem;
@@ -46,7 +62,7 @@ static int					curs_history_up(t_21sh *sh, size_t len)
 	len += sh->len_prompt;
 	while (len-- > 0)
 		if (put_cmd_term("le") == ERROR)
-			return (ERROR);
+			return (ERROR);;
 	while (mem-- > 0)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
@@ -68,12 +84,10 @@ int							print_history_up(void)
 	else if (sh->hist != NULL)
 		if (sh->hist->curs->next != NULL)
 			sh->hist->curs = sh->hist->curs->next;
-	len = g_lines.i;
+	len = g_lines.i + nb_enter() * sh->win.ws_col;
+	del_g_lines();
 	if (sh->hist != NULL && sh->hist->curs != NULL && sh->hist->curs->line != NULL)
-	{
-		del_g_lines();
 		insert_word_in_g_line(sh->hist->curs->line);
-	}
 	if (curs_history_up(sh, len) == ERROR)
 		return (ERROR);
 	print_prompt();
