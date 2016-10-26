@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/24 18:12:35 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/26 21:15:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,14 @@ void				write_funct(t_cmd *redirect)
 	{
 	//	if (check_files(redirect->arg))
 	//	{
-			fd = ft_fopen(redirect->arg[0], "w+");
-			dup2(fd, 1);
+			if ((fd = ft_fopen(redirect->arg[0], "w+")) >= 0)
+				dup2(fd, 1);
+			else
+			{
+				ft_putstr_fd("error :", 2);
+				ft_putstr_fd(redirect->arg[0], 2);
+				ft_putendl_fd(": permission denied", 2);
+			}
 	//	}
 	}
 }
@@ -47,8 +53,14 @@ void				d_write_funct(t_cmd *redirect)
 	{
 	//	if (check_files(redirect->arg))
 	//	{
-			fd = ft_fopen(redirect->arg[0], "a");
-			dup2(fd, 1);
+			if ((fd = ft_fopen(redirect->arg[0], "a")) >= 0)
+				dup2(fd, 1);
+			else
+			{
+				ft_putstr_fd("error :", 2);
+				ft_putstr_fd(redirect->arg[0], 2);
+				ft_putendl_fd(": permission denied", 2);
+			}
 	//	}
 	}
 }

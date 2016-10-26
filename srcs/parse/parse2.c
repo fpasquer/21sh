@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/24 02:13:13 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/26 21:35:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
 	cmd->cmd = check_and_parse2(line, i);
 	cmd->op = 0;
 	cmd->done = 0;
+	cmd->fd = 1;
 	cmd->line = ft_strsub(line, i - size, size);
 	cmd->arg = split_quotes(cmd->line);
 	cmd->argc = len_y(cmd->arg);
@@ -58,6 +59,7 @@ static t_cmd			*creat_cmd2(t_cmd *cmd2, char *line, int size, int i)
 		cmd2->arg = split_quotes(cmd2->line);
 		cmd2->argc = len_y(cmd2->arg);
 		cmd2->done = 0;
+		cmd2->fd = 1;
 	}
 	else
 	{
