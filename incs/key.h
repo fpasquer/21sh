@@ -186,7 +186,7 @@ t_line						*g_lines;
 #define BUFF_SIZE_READ 5
 
 char						*get_line_entree(void);
-int							add_c_to_line(char c, t_line *lines);
+int							add_c_to_line(char c, t_line **lines);
 char						*make_tab(void);
 void						del_g_lines(void);
 

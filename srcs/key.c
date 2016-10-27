@@ -12,6 +12,7 @@
 
 #include "../incs/key.h"
 #include "../incs/shell_21sh.h"
+#include <limits.h>
 
 #define KEY_IGNORE -2
 #define NONE 0
@@ -81,18 +82,7 @@ static char					get_char_keyboard(void)
 	return ((quote == NONE) ? true : false);
 }*/
 
-static int					new_lines(int quote, t_line **lines)
-{
-	if (quote == NONE)
-		return (true);
-	(*lines)->y++;
-	if (((*lines)->next = ft_memalloc(sizeof(t_line))) == NULL)
-		return (ERROR);
-	(*lines) = (*lines)->next;
-	return (false);
-}
-
-static int					is_end(char c, t_line **lines)
+static int					is_end(char c)
 {
 	int						quote;
 	t_entry					*curent_c;
@@ -100,7 +90,7 @@ static int					is_end(char c, t_line **lines)
 
 	if (c != '\n')
 		return (false);
-	if (lines == NULL || *lines == NULL || (curs = g_lines) == NULL)
+	if ((curs = g_lines) == NULL)
 		return (ERROR);
 	quote = NONE;
 	while (curs != NULL)
@@ -116,38 +106,46 @@ static int					is_end(char c, t_line **lines)
 		}
 		curs = curs->next;
 	}
-	return (new_lines(quote, lines));
+	return ((quote == NONE) ? true : false);
+}
+
+static int					loop_place_curs(size_t y, size_t i)
+{
+	if (y > 0)
+		while (--y > 1)
+			if (put_cmd_term("up") == ERROR)
+				return (ERROR);
+	if (i > 0)
+		while (--i > 0)
+			if (put_cmd_term("le") == ERROR)
+				return (ERROR);
+	return (true);
 }
 
 static int					place_curs(void)
 {
 	size_t					i;
 	size_t					y;
-	size_t					len_total;
+	size_t					len_last;
 	t_line					*curs;
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	if ((curs = g_lines) == NULL)
+	sh = get_21sh(NULL);
+	if (sh == NULL || (curs = g_lines) == NULL)
 		return (ERROR);
 	y = 0;
-	len_total = 0;
+	len_last = 0;
+	i = 0;
 	while (curs != NULL)
 	{
+		i++;
 		y += curs->y;
-		len_total = curs->x;
+		len_last = curs->x;
 		curs = curs->next;
 	}
-	while (y-- > 0)
-		if (put_cmd_term("up") == ERROR)
-			return (ERROR);
-	i = sh->len_prompt + len_total;
-	while (i-- > 0)
-		if (put_cmd_term("le") == ERROR)
-			return (ERROR);
-	print_prompt();
-	return (true);
+	y += i;
+	i = (y == 1) ? sh->len_prompt + len_last : sh->win.ws_col + len_last;
+	return (loop_place_curs(y, i));
 }
 
 static void					put_lines(void)
@@ -157,8 +155,9 @@ static void					put_lines(void)
 	t_line					*curs;
 	t_entry					*c_line;
 
-	curs = g_lines;
-	if (place_curs() == true)
+	if (place_curs() == true && (curs = g_lines) != NULL)
+	{
+		print_prompt();
 		while (curs != NULL)
 		{
 			c_line = curs->line;
@@ -175,6 +174,7 @@ static void					put_lines(void)
 			}
 			curs = curs->next;
 		}
+	}
 }
 
 static int					get_line_cmd(void)
@@ -187,10 +187,10 @@ static int					get_line_cmd(void)
 	while (1)
 	{
 		if ((c = get_char_keyboard()) != KEY_IGNORE)
-			if (add_c_to_line(c, curs) == ERROR)
+			if (add_c_to_line(c, &curs) == ERROR)
 				return (ERROR);
 		put_lines();
-		if ((ret = is_end(c, &curs)) != false)
+		if ((ret = is_end(c)) != false)
 			break ;
 	}
 	return (ret);
@@ -198,50 +198,77 @@ static int					get_line_cmd(void)
 
 static int					save_y(t_line **lines)
 {
+	size_t					y;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL)
 		return (ERROR);
-	(*lines)->y = (*lines)->i / sh->win.ws_col;
-	(*lines)->x = (*lines)->i % sh->win.ws_col;
-	return (true);
-}
-
-int							add_c_to_line(char c, t_line *lines)
-{
-	t_entry					*new;
-
-	if ((new = ft_memalloc(sizeof(*new))) == NULL || lines == NULL)
-		return (ERROR);
-	new->c = c;
-	if (lines->curs == NULL)
+	if (sh->win.ws_col == 0)
+		return (false);
+	if ((*lines) == g_lines)
 	{
-		lines->curs = new;
-		new->next = (lines->line != NULL) ? lines->line : NULL;
-		lines->line = new;
+		(*lines)->y = ((*lines)->i + sh->len_prompt) / sh->win.ws_col;
+		(*lines)->x = ((*lines)->i + sh->len_prompt) % sh->win.ws_col;
 	}
 	else
 	{
-		if (lines->curs->next != NULL)
-			lines->curs->next->prev = new;
-		new->next = (lines->curs->next != NULL) ? lines->curs->next : NULL;
-		lines->curs->next = new;
-		new->prev = lines->curs;
-		lines->curs = lines->curs->next;
+		(*lines)->y = (*lines)->i / sh->win.ws_col;
+		(*lines)->x = (*lines)->i % sh->win.ws_col;
 	}
-	lines->i++;
-	lines->len++;
-	return (save_y(&lines));
+	return (true);
+}
+
+static void					creat_new_line(t_line **lines, char c)
+{
+	t_line					*new;
+
+	if (c != '\n')
+		return ;
+	if (lines == NULL || *lines == NULL)
+		return ;
+	if ((new = ft_memalloc(sizeof(t_line))) == NULL)
+		return ;
+	(*lines)->next = new;
+	(*lines) = (*lines)->next;
+}
+
+int							add_c_to_line(char c, t_line **lines)
+{
+	t_entry					*new;
+
+	creat_new_line(lines, c);
+	if ((new = ft_memalloc(sizeof(*new))) == NULL || lines == NULL || *lines == NULL)
+		return (ERROR);
+	new->c = c;
+	if ((*lines)->curs == NULL)
+	{
+		(*lines)->curs = new;
+		new->next = ((*lines)->line != NULL) ? (*lines)->line : NULL;
+		(*lines)->line = new;
+	}
+	else
+	{
+		if ((*lines)->curs->next != NULL)
+			(*lines)->curs->next->prev = new;
+		new->next = ((*lines)->curs->next != NULL) ? (*lines)->curs->next : NULL;
+		(*lines)->curs->next = new;
+		new->prev = (*lines)->curs;
+		(*lines)->curs = (*lines)->curs->next;
+	}
+	(*lines)->i++;
+	(*lines)->len++;
+	return (save_y(lines));
 }
 
 char						*make_tab(void)
 {
 	char					*tab;
+	size_t					y_total;
 	t_line					*curs;
-	t_entry					*curent_c;
 
 	if ((curs = g_lines) == NULL)
 		return (NULL);
+	y_total = 0;
 	while (curs != NULL)
 	{
 		printf("line->x = %zu, line->y = %zu\n", curs->x, curs->y);
