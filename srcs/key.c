@@ -54,7 +54,7 @@ static char					get_char_keyboard(void)
 	return (cmd_keyboard(b));
 }
 
-static int					is_end(char c, t_line **lines)
+/*static int					is_end(char c, t_line **lines)
 {
 	int						quote;
 	t_entry					*curs;
@@ -62,7 +62,7 @@ static int					is_end(char c, t_line **lines)
 	if (c != '\n')
 		return (false);
 	quote = NONE;
-	curs = (*lines)->line;
+	curs = g_lines->line;
 	while (curs != NULL)
 	{
 		if (curs->c == '\'' && (quote == NONE || quote == QUOTE))
@@ -77,10 +77,46 @@ static int					is_end(char c, t_line **lines)
 		if (((*lines)->next = ft_memalloc(sizeof(t_line))) == NULL)
 			return (ERROR);
 		(*lines) = (*lines)->next;
-		if (add_c_to_line(c, *lines) == ERROR)
-			return (ERROR);
 	}
 	return ((quote == NONE) ? true : false);
+}*/
+
+static int					new_lines(int quote, t_line **lines)
+{
+	if (quote == NONE)
+		return (true);
+	(*lines)->y++;
+	if (((*lines)->next = ft_memalloc(sizeof(t_line))) == NULL)
+		return (ERROR);
+	(*lines) = (*lines)->next;
+	return (false);
+}
+
+static int					is_end(char c, t_line **lines)
+{
+	int						quote;
+	t_entry					*curent_c;
+	t_line					*curs;
+
+	if (c != '\n')
+		return (false);
+	if (lines == NULL || *lines == NULL || (curs = g_lines) == NULL)
+		return (ERROR);
+	quote = NONE;
+	while (curs != NULL)
+	{
+		curent_c = curs->line;
+		while (curent_c != NULL)
+		{
+			if (curent_c->c == '\'' && (quote == NONE || quote == QUOTE))
+				quote = (quote == NONE) ? QUOTE : NONE;
+			if (curent_c->c == '\"' && (quote == NONE || quote == D_QUOTE))
+				quote = (quote == NONE) ? D_QUOTE : NONE;
+			curent_c = curent_c->next;
+		}
+		curs = curs->next;
+	}
+	return (new_lines(quote, lines));
 }
 
 static int					place_curs(void)
@@ -144,6 +180,7 @@ static void					put_lines(void)
 static int					get_line_cmd(void)
 {
 	char					c;
+	int						ret;
 	t_line					*curs;
 
 	curs = g_lines;
@@ -153,10 +190,10 @@ static int					get_line_cmd(void)
 			if (add_c_to_line(c, curs) == ERROR)
 				return (ERROR);
 		put_lines();
-		if (is_end(c, &curs) == true)
+		if ((ret = is_end(c, &curs)) != false)
 			break ;
 	}
-	return (true);
+	return (ret);
 }
 
 static int					save_y(t_line **lines)
@@ -174,8 +211,6 @@ int							add_c_to_line(char c, t_line *lines)
 {
 	t_entry					*new;
 
-	if (c == '\n')
-		return (true);
 	if ((new = ft_memalloc(sizeof(*new))) == NULL || lines == NULL)
 		return (ERROR);
 	new->c = c;
@@ -199,6 +234,23 @@ int							add_c_to_line(char c, t_line *lines)
 	return (save_y(&lines));
 }
 
+char						*make_tab(void)
+{
+	char					*tab;
+	t_line					*curs;
+	t_entry					*curent_c;
+
+	if ((curs = g_lines) == NULL)
+		return (NULL);
+	while (curs != NULL)
+	{
+		printf("line->x = %zu, line->y = %zu\n", curs->x, curs->y);
+		curs = curs->next;
+	}
+	tab = NULL;
+	return (tab);
+}
+
 
 char						*get_line_entree(void)
 {
@@ -207,5 +259,5 @@ char						*get_line_entree(void)
 		return (NULL);
 	if (get_line_cmd() == ERROR)
 		return (NULL);
-	return (NULL);
+	return (make_tab());
 }
