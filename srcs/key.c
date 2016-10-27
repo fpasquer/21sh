@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 22:06:23 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/27 21:51:16 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
-/*	if (ESC)
+	if (ESC)
 		key_exit(EXIT_SUCCESS);
-	else if (F1)
+	/*else if (F1)
 		key_del_hist();
 	else if (F2)
 		print_history();
@@ -39,8 +39,8 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (ARROW_LEFT)
 		mouve_left();
 	else if (DEL)
-		del_right();
-	else*/ if ((b[0] >= 32 && b[0] <= 126) || ENTER)
+		del_right();*/
+	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
 		return (b[0]);
 	return (KEY_IGNORE);
 }
@@ -54,33 +54,6 @@ static char					get_char_keyboard(void)
 		return (ERROR);
 	return (cmd_keyboard(b));
 }
-
-/*static int					is_end(char c, t_line **lines)
-{
-	int						quote;
-	t_entry					*curs;
-
-	if (c != '\n')
-		return (false);
-	quote = NONE;
-	curs = g_lines->line;
-	while (curs != NULL)
-	{
-		if (curs->c == '\'' && (quote == NONE || quote == QUOTE))
-			quote = (quote == NONE) ? QUOTE : NONE;
-		if (curs->c == '\"' && (quote == NONE || quote == D_QUOTE))
-			quote = (quote == NONE) ? D_QUOTE : NONE;
-		curs = curs->next;
-	}
-	if (quote != NONE)
-	{
-		(*lines)->y++;
-		if (((*lines)->next = ft_memalloc(sizeof(t_line))) == NULL)
-			return (ERROR);
-		(*lines) = (*lines)->next;
-	}
-	return ((quote == NONE) ? true : false);
-}*/
 
 static int					is_end(char c)
 {
@@ -148,6 +121,15 @@ static int					place_curs(void)
 	return (loop_place_curs(y, i));
 }
 
+static int						clean_and_put_prompt(void)
+{
+	int							ret;
+
+	ret = put_cmd_term("cd");
+	print_prompt();
+	return (ret);
+}
+
 static void					put_lines(void)
 {
 	char					buff[PRINT_MAX + 1];
@@ -155,9 +137,8 @@ static void					put_lines(void)
 	t_line					*curs;
 	t_entry					*c_line;
 
-	if (place_curs() == true && (curs = g_lines) != NULL)
-	{
-		print_prompt();
+	if (place_curs() == true && (curs = g_lines) != NULL &&
+			clean_and_put_prompt() == true)
 		while (curs != NULL)
 		{
 			c_line = curs->line;
@@ -174,7 +155,6 @@ static void					put_lines(void)
 			}
 			curs = curs->next;
 		}
-	}
 }
 
 static int					get_line_cmd(void)
@@ -187,9 +167,11 @@ static int					get_line_cmd(void)
 	while (1)
 	{
 		if ((c = get_char_keyboard()) != KEY_IGNORE)
+		{
 			if (add_c_to_line(c, &curs) == ERROR)
 				return (ERROR);
-		put_lines();
+			put_lines();
+		}
 		if ((ret = is_end(c)) != false)
 			break ;
 	}
@@ -234,25 +216,26 @@ static void					creat_new_line(t_line **lines, char c)
 
 int							add_c_to_line(char c, t_line **lines)
 {
-	t_entry					*new;
+	t_entry					*n;
 
 	creat_new_line(lines, c);
-	if ((new = ft_memalloc(sizeof(*new))) == NULL || lines == NULL || *lines == NULL)
+	if ((n = ft_memalloc(sizeof(*n))) == NULL || lines == NULL ||
+			*lines == NULL)
 		return (ERROR);
-	new->c = c;
+	n->c = c;
 	if ((*lines)->curs == NULL)
 	{
-		(*lines)->curs = new;
-		new->next = ((*lines)->line != NULL) ? (*lines)->line : NULL;
-		(*lines)->line = new;
+		(*lines)->curs = n;
+		n->next = ((*lines)->line != NULL) ? (*lines)->line : NULL;
+		(*lines)->line = n;
 	}
 	else
 	{
 		if ((*lines)->curs->next != NULL)
-			(*lines)->curs->next->prev = new;
-		new->next = ((*lines)->curs->next != NULL) ? (*lines)->curs->next : NULL;
-		(*lines)->curs->next = new;
-		new->prev = (*lines)->curs;
+			(*lines)->curs->next->prev = n;
+		n->next = ((*lines)->curs->next != NULL) ? (*lines)->curs->next : NULL;
+		(*lines)->curs->next = n;
+		n->prev = (*lines)->curs;
 		(*lines)->curs = (*lines)->curs->next;
 	}
 	(*lines)->i++;
@@ -260,22 +243,45 @@ int							add_c_to_line(char c, t_line **lines)
 	return (save_y(lines));
 }
 
+static char					*save_tab(char *tab)
+{
+	size_t					i;
+	t_line					*curs;
+	t_entry					*curent_c;
+
+	if((curs = g_lines) == NULL || tab == NULL)
+		return (NULL);
+	i = 0;
+	while (curs != NULL)
+	{
+		curent_c = curs->line;
+		while (curent_c != NULL)
+		{
+			tab[i++] = curent_c->c;
+			curent_c = curent_c->next;
+		}
+		curs = curs->next;
+	}
+	return(tab);
+}
+
 char						*make_tab(void)
 {
 	char					*tab;
-	size_t					y_total;
+	size_t					len_total;
 	t_line					*curs;
 
 	if ((curs = g_lines) == NULL)
 		return (NULL);
-	y_total = 0;
+	len_total = 0;
 	while (curs != NULL)
 	{
-		printf("line->x = %zu, line->y = %zu\n", curs->x, curs->y);
+		len_total += curs->len;
 		curs = curs->next;
 	}
-	tab = NULL;
-	return (tab);
+	if ((tab = ft_memalloc(sizeof(*tab) * len_total)) == NULL)
+		return (NULL);
+	return (save_tab(tab));
 }
 
 

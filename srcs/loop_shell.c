@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 21:30:35 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/27 21:47:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void					put_line_entre(char *line)
 			ft_putchar(' ');
 		ft_putstr(COLOR_LINE);
 		ft_putstr(line);
-		ft_putendl(RESET_COLOR);
+		ft_putstr(RESET_COLOR);
 		sh->pos = 0;
 		del_g_lines();
 	}

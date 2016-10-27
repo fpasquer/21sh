@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 21:26:43 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/27 21:44:13 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,5 +189,7 @@ char						*get_line_entree(void);
 int							add_c_to_line(char c, t_line **lines);
 char						*make_tab(void);
 void						del_g_lines(void);
+
+void						key_exit(unsigned char val_exit);
 
 #endif
