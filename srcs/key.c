@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/27 21:51:16 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/28 14:29:29 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,27 @@ static int					place_curs(void)
 	size_t					i;
 	size_t					y;
 	size_t					len_last;
+	size_t					last_y;
 	t_line					*curs;
 	t_21sh					*sh;
 
 	sh = get_21sh(NULL);
 	if (sh == NULL || (curs = g_lines) == NULL)
 		return (ERROR);
-	y = 0;
 	len_last = 0;
 	i = 0;
+	y = 0;
+	last_y = 0;
 	while (curs != NULL)
 	{
 		i++;
 		y += curs->y;
+		last_y = curs->y;
 		len_last = curs->x;
 		curs = curs->next;
 	}
+	y = g_lines->next && g_lines->x < sh->win.ws_col && len_last > 1  && last_y == 0 ? y + 1 : y;
+	fprintf(debug, "i = %zu y = %zu\n", i, y);
 	y += i;
 	i = (y == 1) ? sh->len_prompt + len_last : sh->win.ws_col + len_last;
 	return (loop_place_curs(y, i));
