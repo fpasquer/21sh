@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/26 21:35:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/29 17:24:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
 	cmd->cmd = check_and_parse2(line, i);
 	cmd->op = 0;
 	cmd->done = 0;
-	cmd->fd = 1;
+	cmd->tgt_fd = STDOUT_FILENO;
 	cmd->line = ft_strsub(line, i - size, size);
 	cmd->arg = split_quotes(cmd->line);
 	cmd->argc = len_y(cmd->arg);
@@ -59,7 +59,7 @@ static t_cmd			*creat_cmd2(t_cmd *cmd2, char *line, int size, int i)
 		cmd2->arg = split_quotes(cmd2->line);
 		cmd2->argc = len_y(cmd2->arg);
 		cmd2->done = 0;
-		cmd2->fd = 1;
+		cmd2->tgt_fd = STDOUT_FILENO;
 	}
 	else
 	{
@@ -103,7 +103,7 @@ int						parse_cmd2(t_cmd *cmd, int i)
 t_cmd				*exit_parse(t_cmd *cmd, char *str)
 {
 	if (str)
-		ft_putendl_fd(str, 2);
+		ft_putendl_fd(str, STDERR_FILENO);
 	if (cmd)
 		free_cmd(cmd);
 	return (NULL);

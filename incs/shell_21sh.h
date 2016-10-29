@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/24 14:57:41 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/29 17:44:39 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,17 +354,18 @@ char 						**split_quotes(char *str);
 **	check le redirections et renvoie vers des fonctions aproprie
 */
 
-void						redirecting(t_cmd *cmd, t_cmd *redirect, int index,
+void						redirecting(t_cmd *redirect, int index, int tgt_fd,
 							int i);
 
 /*
 **	redirection2
+**	fonctions effectuant la redirection voulu
 */
 
-void						pipe_funct(t_cmd *redeirect);
-void						read_funct(t_cmd *redeirect);
-void						d_read_funct(t_cmd *redeirect);
-void						write_funct(t_cmd *redeirect);
-void						d_write_funct(t_cmd *redeirect);
+void						pipe_funct(t_cmd *redeirect, int tgt_fd);
+void						read_funct(t_cmd *redeirect, int tgt_fd);
+void						d_read_funct(t_cmd *redeirect, int tgt_fd);
+void						write_funct(t_cmd *redeirect, int tgt_fd);
+void						d_write_funct(t_cmd *redeirect, int tgt_fd);
 
 #endif

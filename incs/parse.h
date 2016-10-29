@@ -34,6 +34,7 @@ typedef struct			s_cmd
 	int					op;
 	int					argc;
 	int					fd;
+	int					tgt_fd;
 	int					done;
 	char				*line; // UNIQUEMENT LA COMMANDE
 	char				**arg;

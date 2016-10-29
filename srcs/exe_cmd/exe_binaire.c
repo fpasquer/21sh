@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/24 14:53:35 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/29 17:15:42 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,24 @@
 
 static void			exit_error(char *cmd, char *error)
 {
-	ft_putstr_fd("error", 2);
+	ft_putstr_fd("error", STDERR_FILENO);
 	if (cmd)
 	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(cmd, STDERR_FILENO);
 	}
 	if (error)
 	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(error, 2);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(error, STDERR_FILENO);
 	}
-	ft_putchar_fd('\n', 2);
+	ft_putchar_fd('\n', STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 
 static void			check_cmd(t_cmd *cmd, char **env, char *exe)
 {
-	redirecting(cmd, cmd->left, cmd->cmd, 0);
+	redirecting(cmd->left, cmd->cmd, cmd->tgt_fd, 0);
 	if (get_path_bin(cmd->arg[0], &exe) && execve(exe, cmd->arg, env) == -1)
 		exit_error(exe, "command not found");
 	else if (execve(cmd->arg[0], cmd->arg, env) == -1)
@@ -48,14 +48,14 @@ static int			check_access(t_cmd *cmd, char *cpy, int *ret)
 	{
 		*ret = 1;
 		cmd->done = *ret;
-		ft_putstr_fd("error: ", 2);
-		ft_putstr_fd(cmd->arg[0], 2);
-		ft_putstr_fd(": ", 2);
+		ft_putstr_fd("error: ", STDERR_FILENO);
+		ft_putstr_fd(cmd->arg[0], STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 		if ((cmd->arg[0][0] == '.' && cmd->arg[0][1] && cmd->arg[0][1] == '/')
 				|| cmd->arg[0][0] == '/')
-			ft_putendl_fd("no such file or directory", 2);
+			ft_putendl_fd("no such file or directory", STDERR_FILENO);
 		else
-			ft_putendl_fd("command not found", 2);
+			ft_putendl_fd("command not found", STDERR_FILENO);
 		return (false);
 	}
 	return (true);

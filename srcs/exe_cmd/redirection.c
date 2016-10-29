@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 15:36:23 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/26 20:57:19 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/29 17:44:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 typedef struct		s_redirect_selec
 {
 	int				num;
-	void			(*p)(t_cmd *redirect);
+	void			(*p)(t_cmd *redirect, int tgt_fd);
 }					t_redirect_selec;
 
 t_redirect_selec	g_redirect_selec[] = {
@@ -28,7 +28,7 @@ t_redirect_selec	g_redirect_selec[] = {
 	{0, NULL}
 };
 
-void				redirecting(t_cmd *cmd, t_cmd *redirect, int index, int i)
+void				redirecting(t_cmd *redirect, int index, int tgt_fd, int i)
 {
 	if (redirect)
 	{
@@ -36,12 +36,12 @@ void				redirecting(t_cmd *cmd, t_cmd *redirect, int index, int i)
 		{
 			if (g_redirect_selec[i].num == index)
 			{
-				g_redirect_selec[i].p(redirect);
+				g_redirect_selec[i].p(redirect, tgt_fd);
 				break ;
 			}
 			i++;
 		}
 		if (redirect->cmd != 0)
-			redirecting(cmd, redirect->left, redirect->cmd, 0);
+			redirecting(redirect->left, redirect->cmd, redirect->tgt_fd, 0);
 	}
 }
