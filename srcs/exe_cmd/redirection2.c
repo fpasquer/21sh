@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/29 17:44:42 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/10/29 18:32:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void				pipe_funct(t_cmd *redirect, int tgt_fd)
 
 void				read_funct(t_cmd *redirect, int tgt_fd)
 {
-	printf("\n\n redirect->arg[0] == %s\n\n", redirect->arg[0]);
 	if (redirect->arg && redirect->arg[0])
 	{
+		tgt_fd = STDIN_FILENO;
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "r")) >= 0)
 			dup2(redirect->fd, tgt_fd);
 		else
@@ -35,11 +35,16 @@ void				read_funct(t_cmd *redirect, int tgt_fd)
 
 void				d_read_funct(t_cmd *redirect, int tgt_fd)
 {
+	if (redirect->arg && redirect->arg[0])
+	{
+		tgt_fd = STDIN_FILENO;
+	}
+	else
+		ft_putendl_fd("syntax error unexpected token `newline'", STDERR_FILENO);
 }
 
 void				write_funct(t_cmd *redirect, int tgt_fd)
 {
-	printf("\n\n redirect->arg[0] == %s\n\n", redirect->arg[0]);
 	if (redirect->arg && redirect->arg[0])
 	{
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "w+")) >= 0)
