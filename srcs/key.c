@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/28 14:29:29 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/29 15:34:36 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,34 +95,46 @@ static int					loop_place_curs(size_t y, size_t i)
 	return (true);
 }
 
-static int					place_curs(void)
+static int					save_y_i(size_t *y, size_t *i)
 {
-	size_t					i;
-	size_t					y;
 	size_t					len_last;
 	size_t					last_y;
 	t_line					*curs;
 	t_21sh					*sh;
 
 	sh = get_21sh(NULL);
-	if (sh == NULL || (curs = g_lines) == NULL)
+	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || i == NULL)
 		return (ERROR);
 	len_last = 0;
-	i = 0;
-	y = 0;
+	(*i) = 0;
+	(*y) = 0;
 	last_y = 0;
 	while (curs != NULL)
 	{
-		i++;
-		y += curs->y;
+		(*i) = (*i) + 1;
+		(*y) += curs->y;
 		last_y = curs->y;
 		len_last = curs->x;
 		curs = curs->next;
 	}
-	y = g_lines->next && g_lines->x < sh->win.ws_col && len_last > 1  && last_y == 0 ? y + 1 : y;
-	fprintf(debug, "i = %zu y = %zu\n", i, y);
-	y += i;
-	i = (y == 1) ? sh->len_prompt + len_last : sh->win.ws_col + len_last;
+	(*y) = g_lines->next && g_lines->x < sh->win.ws_col && g_lines->y == 0 &&
+			len_last > 2 ? (*y) + 1 : (*y);
+	(*y) += (*i);
+	(*i) = ((*y) == 1) ? sh->len_prompt + len_last : sh->win.ws_col + len_last;
+	return (true);
+}
+
+static int					place_curs(void)
+{
+	size_t					i;
+	size_t					y;
+	t_21sh					*sh;
+
+	if (save_y_i(&y, &i) == ERROR || (sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	if (g_lines != NULL && g_lines->next != NULL && g_lines->x < sh->win.ws_col
+			&& g_lines->next->len == 2)
+		y++;
 	return (loop_place_curs(y, i));
 }
 
