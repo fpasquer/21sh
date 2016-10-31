@@ -6,17 +6,13 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 16:31:44 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/17 14:20:26 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 #include <term.h>
-
-#define NONE 0
-#define QUOTE '\''
-#define D_QUOTE '\"'
 
 static bool					at_add_history(char *line)
 {
@@ -32,45 +28,14 @@ static bool					at_add_history(char *line)
 	return (ret);
 }
 
-static int					att_ad_old_line(t_history **hist, char **line)
-{
-	char					*tmp;
-	int						i;
-	int						quote;
-
-	if (line == NULL || *line == NULL || hist == NULL)
-		return (ERROR);
-	if (*hist == NULL)
-		return (false);
-	quote = NONE;
-	if ((tmp = (*hist)->line) == NULL)
-		return (false);
-	i = 0;
-	while (tmp[i++] != '\0')
-	{
-		if (tmp[i - 1] == '\'' && (quote == NONE || quote == QUOTE))
-			quote = (quote == NONE) ? QUOTE : NONE;
-		if (tmp[i - 1] == '\"' && (quote == NONE || quote == D_QUOTE))
-			quote = (quote == NONE) ? D_QUOTE : NONE;
-	}
-	if (quote == NONE)
-		return (false);
-	tmp = (*hist)->line;
-	if (((*hist)->line = ft_strjoin(tmp, *line)) == NULL)
-		return (ERROR);
-	ft_memdel((void**)&tmp);
-	return (true);
-}
-
 int							add_history(t_history **hist, char **line)
 {
-	int						ret;
 	t_history				*new;
 	t_history				*curs;
 
 	if (hist == NULL || line == NULL || *line == NULL)
 		return (ERROR);
-	if (*line[0] != '\0' && at_add_history(*line) == true && (ret = att_ad_old_line(hist, line)) == false)
+	if (*line[0] != '\0' && *line[0] != '\0'  && at_add_history(*line) == true)
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
 			return (ERROR);
@@ -84,8 +49,6 @@ int							add_history(t_history **hist, char **line)
 	}
 	else
 		ft_memdel((void**)line);
-	if (ret == ERROR)
-		return (ERROR);
 	return (true);
 }
 
