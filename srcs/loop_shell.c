@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/27 21:47:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/31 09:38:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void					put_line_entre(char *line)
 	{
 		if ((sh = get_21sh(NULL)) == NULL)
 			return ;
-		i = g_lines->y;
+		i = g_y;
 		while (i-- > 0)
 			if (put_cmd_term("do") == ERROR)
 				return ;
@@ -68,7 +68,7 @@ static void					put_line_entre(char *line)
 			ft_putchar(' ');
 		ft_putstr(COLOR_LINE);
 		ft_putstr(line);
-		ft_putstr(RESET_COLOR);
+		ft_putendl(RESET_COLOR);
 		sh->pos = 0;
 		del_g_lines();
 	}
@@ -95,7 +95,7 @@ int							print_prompt(void)
 	return (true);
 }
 
-int							exe_cmd(t_history **hist, char **line)
+int							exe_cmd(t_history **hist, char *line)
 {
 	if (hist == NULL || line == NULL)
 		return (ERROR);
@@ -120,8 +120,9 @@ void						loop_shell(void)
 			if ((line = get_line_entree()) == NULL)
 				break ;
 			put_line_entre(line);
-			if (exe_cmd(&sh->hist, &line) == ERROR)
+			if (exe_cmd(&sh->hist, line) == ERROR)
 				break ;
+			ft_memdel((void**)&line);
 		}
 		del_21sh();
 	}

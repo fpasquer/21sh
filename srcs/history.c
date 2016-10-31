@@ -6,13 +6,16 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 19:23:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/31 09:22:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 #include <term.h>
+#define QUOTE '\''
+#define D_QUOTE '\"'
+#define NONE 0
 
 static bool					at_add_history(char *line)
 {
@@ -37,35 +40,79 @@ static size_t				get_y_line(size_t len_line)
 	y = 0;
 	if ((sh = get_21sh(NULL)) != NULL)
 	{
+		if (sh->win.ws_col == 0)
+			return (0);
 		len_line -= len_line % sh->win.ws_col;
 		y = len_line / sh->win.ws_col;
 	}
 	return (y);
 }
 
-int							add_history(t_history **hist, char **line)
+static int					end_line(char *line)
 {
-	t_history				*new;
-	t_history				*curs;
+	int						quote;
+	unsigned int			i;
 
-	if (hist == NULL || line == NULL || *line == NULL)
+	if (line == NULL)
 		return (ERROR);
-	if (*line[0] != '\0' && *line[0] != '\0'  && at_add_history(*line) == true)
+	i = NONE;
+	while (line[i++] != '\0')
+		if (line[i - 1] == '\'' && (quote == NONE || quote == QUOTE))
+			quote = (quote == NONE) ? QUOTE : NONE;
+		else if (line[i - 1] == '\"' && (quote == NONE || quote == D_QUOTE))
+			quote = (quote == NONE) ? D_QUOTE : NONE;
+	return (quote);
+}
+
+static int					add_history_line(t_history **hist, char *line)
+{
+	char					*new_line;
+	int						quote_prev;
+	t_history				*curs;
+	t_history				*new;
+
+	if (hist == NULL || *hist == NULL || line == NULL || (curs = *hist) == NULL)
+		return (ERROR);
+	while (curs->next != NULL)
+		curs = curs->next;
+	if ((quote_prev = end_line(curs->line)) != NONE)
+	{
+		if ((new_line = ft_multijoin(3, curs->line,"\n" ,line)) == NULL)
+			return (ERROR);
+		if (curs->line != NULL)
+			ft_memdel((void**)&curs->line);
+		curs->line = new_line;
+	}
+	else
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
 			return (ERROR);
-		new->line = *line;
-		new->len = ft_strlen(*line);
-		new->y = get_y_line(new->len);
-		if ((curs = *hist) != NULL)
-		{
-			new->next = (*hist);
-			(*hist)->prev = new;
-		}
-		*hist = new;
+		if ((new->line = ft_strdup(line)) == NULL)
+			return (ERROR);
+		(*hist)->prev = new;
+		new->next = (*hist);
+		(*hist) = new;
+	}
+	return(true);
+}
+
+int							add_history(t_history **hist, char *line)
+{
+	t_history				*new;
+
+	if (hist == NULL || line == NULL)
+		return (ERROR);
+	if (*hist == NULL)
+	{
+		if ((new = ft_memalloc(sizeof(*new))) == NULL)
+			return (ERROR);
+		if ((new->line = ft_strdup(line[0] == '\0' ? "\n" : line)) == NULL)
+			return (ERROR);
+		new->len = ft_strlen(new->line);
+		(*hist) = new;
 	}
 	else
-		ft_memdel((void**)line);
+		return (add_history_line(hist, line));
 	return (true);
 }
 
@@ -83,58 +130,32 @@ int							init_history(void)
 			return (ERROR);
 	line = NULL;
 	while ((ret = get_next_line(fd, &line)) > 0)
-		if (add_history(&sh->hist, &line) == ERROR)
+	{
+		if (add_history(&sh->hist, line) == ERROR)
 			return (ERROR);
+		ft_memdel((void**)&line);
+	}
 	if (close(fd) != 0)
 		return (ERROR);
 	return (true);
 }
 
-static int					loop_print(t_21sh *sh)
-{
-	char					**list;
-	char					*ret;
-	int						loop;
-	t_history				*curs;
-
-	curs = (sh == NULL) ? NULL : sh->hist;
-	loop = 0;
-	while (curs != NULL)
-	{
-		loop++;
-		curs = curs->next;
-	}
-	if (loop == 0 || (list = ft_memalloc((sizeof(*list) * (loop + 1)))) == NULL)
-		return ((loop == 0) ? false : ERROR);
-	curs = sh->hist;
-	loop = 0;
-	while (curs != NULL)
-	{
-		list[loop++] = curs->line;
-		curs = curs->next;
-	}
-	ret = *list;//ret = print_list_term(sh, list, false);// a passer en false
-	ft_memdel((void**)&list);
-	return ((ret == NULL) ? false : true);
-}
-
 int							print_history(void)
 {
-	int						ret;
+	int						i;
+	t_history				*curs;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	ft_putendl(COLOR_LINE);
-	ft_putstr("print_history");
-	ft_putendl(RESET_COLOR);
-	ret = loop_print(sh);
-	if (ret == ERROR)
-		ft_putendl("History error");
-	else if (ret == false)
-		ft_putendl("History empty");
-//	print_prompt();
-	return (ret);
+	curs = sh->hist;
+	i = 0;
+	while (curs != NULL)
+	{
+		printf("%3d : \n\t%s\n", i++, curs->line);
+		curs = curs->next;
+	}
+	return (true);
 }
 
 int							del_hist(void)
@@ -144,12 +165,11 @@ int							del_hist(void)
 	t_history				*tmp;
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL || sh->hist == NULL)
-		return (sh == NULL ? ERROR : true);
-	ft_bzero(&g_lines, sizeof(g_lines));
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
 	if ((fd = ft_fopen(HISTORY, "w+")) <= 0)
 		return (ERROR);
-	while (sh->hist->next != NULL)
+	while (sh->hist != NULL && sh->hist->next != NULL)
 		sh->hist = sh->hist->next;
 	while (sh->hist != NULL)
 	{

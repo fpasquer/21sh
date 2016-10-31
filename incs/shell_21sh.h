@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21sh.h                                             :+:      :+:    :+:   */
+/*   shell_21sh.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 19:26:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/31 09:06:43 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ void						ctrl_d(int val);
 */
 int							init_history(void);
 int							del_hist(void);
-int							add_history(t_history **hist, char **line);
+int							add_history(t_history **hist, char *line);
 int							print_history(void);
 
 /*
@@ -224,7 +224,7 @@ int							del_21sh(void);
 */
 void						loop_shell(void);
 int							print_prompt(void);
-int							exe_cmd(t_history **hist, char **line);
+int							exe_cmd(t_history **hist, char *line);
 
 /*
 **	sort_fonctions.c

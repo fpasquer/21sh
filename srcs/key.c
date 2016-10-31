@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/29 15:34:36 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/10/31 10:01:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 {
 	if (ESC)
 		key_exit(EXIT_SUCCESS);
-	/*else if (F1)
+	else if (F1)
 		key_del_hist();
-	else if (F2)
-		print_history();
-	else if (TAB)
-		autocompletion();
+	/*else if (F2)
+		print_history();*/
+	/*else if (TAB)
+		autocompletion();*/
 	else if (ARROW_UP)
 		print_history_up();
-	else if (ARROW_DOWN)
-		print_history_down();
-	else if (ARROW_RIGHT)
+	/*else if (ARROW_DOWN)
+		print_history_down();*/
+	/*else if (ARROW_RIGHT)
 		mouve_righ();
 	else if (ARROW_LEFT)
 		mouve_left();
@@ -269,7 +269,7 @@ static char					*save_tab(char *tab)
 	if((curs = g_lines) == NULL || tab == NULL)
 		return (NULL);
 	i = 0;
-	while (curs != NULL)
+	while (curs->next != NULL)
 	{
 		curent_c = curs->line;
 		while (curent_c != NULL)
@@ -282,6 +282,20 @@ static char					*save_tab(char *tab)
 	return(tab);
 }
 
+int							insert_word_in_g_line(char *word, t_line **line)
+{
+	unsigned int			i;
+
+	if (word == NULL || line == NULL || *line == NULL)
+		return (ERROR);
+	i = 0;
+	while (word[i] != '\0')
+		if (add_c_to_line(word[i++], line) == ERROR)
+			return (false);
+	put_lines();
+	return (true);
+}
+
 char						*make_tab(void)
 {
 	char					*tab;
@@ -291,9 +305,14 @@ char						*make_tab(void)
 	if ((curs = g_lines) == NULL)
 		return (NULL);
 	len_total = 0;
+	g_y = 0;
 	while (curs != NULL)
 	{
-		len_total += curs->len;
+		if (curs->next != NULL)
+		{
+			len_total += curs->len;
+			g_y += curs->y;
+		}
 		curs = curs->next;
 	}
 	if ((tab = ft_memalloc(sizeof(*tab) * len_total)) == NULL)
