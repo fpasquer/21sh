@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 10:00:59 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/01 10:40:03 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct				s_line
 }							t_line;
 
 t_line						*g_lines;
-size_t						g_y;
+t_line						*g_curs;
 
 # define DS					(b[0] == -62 && b[1] == -89 && b[2] ==  83 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //§ au dessus de tab
 # define PLUS_MINUS			(b[0] == -62 && b[1] == -79 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //±
@@ -195,5 +195,11 @@ void						del_g_lines(void);
 void						key_exit(unsigned char val_exit);
 int							key_del_hist(void);
 int							print_history_up(void);
+int							print_history_down(void);
+int							search_history_up(char *beguin);
+int							search_history_down(char *beguin);
+
+int							get_y_x_line(char *line, unsigned int *y,
+		unsigned int *x);
 
 #endif

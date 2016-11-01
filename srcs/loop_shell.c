@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 09:38:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/01 10:24:05 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ static void					put_line_entre(char *line)
 	{
 		if ((sh = get_21sh(NULL)) == NULL)
 			return ;
-		i = g_y;
+		/*i = g_y;
 		while (i-- > 0)
 			if (put_cmd_term("do") == ERROR)
-				return ;
+				return ;*/
 		if (put_cmd_term("cb") == ERROR)
 			return ;
 		i = 0;

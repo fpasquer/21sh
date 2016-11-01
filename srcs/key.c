@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 10:01:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/01 14:09:08 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		autocompletion();*/
 	else if (ARROW_UP)
 		print_history_up();
-	/*else if (ARROW_DOWN)
-		print_history_down();*/
+	else if (ARROW_DOWN)
+		print_history_down();
 	/*else if (ARROW_RIGHT)
 		mouve_righ();
 	else if (ARROW_LEFT)
@@ -178,14 +178,12 @@ static int					get_line_cmd(void)
 {
 	char					c;
 	int						ret;
-	t_line					*curs;
 
-	curs = g_lines;
 	while (1)
 	{
 		if ((c = get_char_keyboard()) != KEY_IGNORE)
 		{
-			if (add_c_to_line(c, &curs) == ERROR)
+			if (add_c_to_line(c, &g_curs) == ERROR)
 				return (ERROR);
 			put_lines();
 		}
@@ -269,16 +267,18 @@ static char					*save_tab(char *tab)
 	if((curs = g_lines) == NULL || tab == NULL)
 		return (NULL);
 	i = 0;
-	while (curs->next != NULL)
+	while (curs != NULL)
 	{
 		curent_c = curs->line;
 		while (curent_c != NULL)
 		{
-			tab[i++] = curent_c->c;
+			if (curent_c->c != '\n')
+				tab[i++] = curent_c->c;
 			curent_c = curent_c->next;
 		}
 		curs = curs->next;
 	}
+	del_g_lines();
 	return(tab);
 }
 
@@ -288,10 +288,14 @@ int							insert_word_in_g_line(char *word, t_line **line)
 
 	if (word == NULL || line == NULL || *line == NULL)
 		return (ERROR);
-	i = 0;
-	while (word[i] != '\0')
-		if (add_c_to_line(word[i++], line) == ERROR)
-			return (false);
+	if (ft_strlen(word) > 0)
+	{
+		fprintf(debug, "tes %d\n", __LINE__);
+		i = 0;
+		while (word[i] != '\0')
+			if (add_c_to_line(word[i++], line) == ERROR)
+				return (ERROR);
+	}
 	put_lines();
 	return (true);
 }
@@ -303,19 +307,14 @@ char						*make_tab(void)
 	t_line					*curs;
 
 	if ((curs = g_lines) == NULL)
-		return (NULL);
+		return (ft_strdup(""));
 	len_total = 0;
-	g_y = 0;
 	while (curs != NULL)
 	{
-		if (curs->next != NULL)
-		{
-			len_total += curs->len;
-			g_y += curs->y;
-		}
+		len_total += curs->len;
 		curs = curs->next;
 	}
-	if ((tab = ft_memalloc(sizeof(*tab) * len_total)) == NULL)
+	if ((tab = ft_memalloc(sizeof(*tab) * (len_total + 1))) == NULL)
 		return (NULL);
 	return (save_tab(tab));
 }
@@ -326,6 +325,7 @@ char						*get_line_entree(void)
 	del_g_lines();
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL)
 		return (NULL);
+	g_curs = g_lines;
 	if (get_line_cmd() == ERROR)
 		return (NULL);
 	return (make_tab());

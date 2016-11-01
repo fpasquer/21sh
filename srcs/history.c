@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 09:22:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/01 13:41:37 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static int					end_line(char *line)
 	if (line == NULL)
 		return (ERROR);
 	i = NONE;
+	quote = NONE;
 	while (line[i++] != '\0')
 		if (line[i - 1] == '\'' && (quote == NONE || quote == QUOTE))
 			quote = (quote == NONE) ? QUOTE : NONE;
@@ -64,12 +65,27 @@ static int					end_line(char *line)
 	return (quote);
 }
 
+static int					add_history_new_line(t_history **hist, char *line)
+{
+	t_history				*new;
+
+	if (hist == NULL || *hist == NULL || line == NULL)
+		return (ERROR);
+	if ((new = ft_memalloc(sizeof(*new))) == NULL)
+		return (ERROR);
+	if ((new->line = ft_strdup(line)) == NULL)
+		return (ERROR);
+	(*hist)->prev = new;
+	new->next = (*hist);
+	(*hist) = new;
+	return (true);
+}
+
 static int					add_history_line(t_history **hist, char *line)
 {
 	char					*new_line;
 	int						quote_prev;
 	t_history				*curs;
-	t_history				*new;
 
 	if (hist == NULL || *hist == NULL || line == NULL || (curs = *hist) == NULL)
 		return (ERROR);
@@ -84,15 +100,7 @@ static int					add_history_line(t_history **hist, char *line)
 		curs->line = new_line;
 	}
 	else
-	{
-		if ((new = ft_memalloc(sizeof(*new))) == NULL)
-			return (ERROR);
-		if ((new->line = ft_strdup(line)) == NULL)
-			return (ERROR);
-		(*hist)->prev = new;
-		new->next = (*hist);
-		(*hist) = new;
-	}
+		return (add_history_new_line(hist, line));
 	return(true);
 }
 
@@ -102,6 +110,8 @@ int							add_history(t_history **hist, char *line)
 
 	if (hist == NULL || line == NULL)
 		return (ERROR);
+	if (line[0] == '\n' || line[0] == '\0')
+		return (false);
 	if (*hist == NULL)
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)

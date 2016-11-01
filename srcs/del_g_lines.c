@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 20:08:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 21:37:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/01 10:22:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ void						del_g_lines()
 		loop_del_g_lines(&g_lines);
 		g_lines = tmp;
 	}
+	g_curs = NULL;
 }
