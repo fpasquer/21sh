@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 15:41:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 16:36:30 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,23 @@ int							move_left(void)
 	return (true);
 }
 
+static int					save_info_line(t_line **line)
+{
+	int						ret;
+	t_21sh					*sh;
+
+	if (line == NULL || *line == NULL || (sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	(*line)->i--;
+	(*line)->len--;
+	ret = save_y_x_line(line);
+	fprintf(debug, "y = %zu, x = %zu\n", (*line)->y, (*line)->x);
+	if ((*line)->x == sh->win.ws_col - 1)
+		if (put_cmd_term("cd") == ERROR)
+			return (ERROR);
+	return (ret);
+}
+
 int							del_right(void)
 {
 	t_line					*curs;
@@ -146,10 +163,10 @@ int							del_right(void)
 			curs->curs->prev->next = curs->curs->next;
 		if (curs->curs == curs->line)
 			curs->line = curs->line->next;
-		if (put_cmd_term("le") == ERROR)
+		if (put_cmd_term("le") == ERROR || put_cmd_term("dc") == ERROR)
 			return (ERROR);
-		curs->i--;
-		curs->len--;
+		if (save_info_line(&curs) == ERROR)
+			return (ERROR);
 		tmp = curs->curs->prev;
 		ft_memdel((void**)&curs->curs);
 		curs->curs = tmp;
