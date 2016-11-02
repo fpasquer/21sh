@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 09:28:18 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 13:22:09 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		print_history_up();
 	else if (ARROW_DOWN)
 		print_history_down();
-	/*else if (ARROW_RIGHT)
-		mouve_righ();
+	else if (ARROW_RIGHT)
+		move_right();
 	else if (ARROW_LEFT)
-		mouve_left();
-	else if (DEL)
+		move_left();
+	/*else if (DEL)
 		del_right();*/
 	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
 		return (b[0]);
@@ -132,8 +132,8 @@ static int					place_curs(void)
 
 	if (save_y_i(&y, &i) == ERROR || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	if (g_lines != NULL && g_lines->next != NULL && g_lines->x < sh->win.ws_col
-			&& g_lines->next->len == 2)
+	if (g_lines != NULL && g_lines->next != NULL &&
+			g_lines->x_i < sh->win.ws_col && g_lines->next->len == 2)
 		y++;
 	return (loop_place_curs(y, i));
 }
@@ -145,6 +145,22 @@ static int						clean_and_put_prompt(void)
 	ret = put_cmd_term("cd");
 	print_prompt();
 	return (ret);
+}
+
+static int					replace_i(void)
+{
+	size_t					i;
+	t_line					*curs;
+
+	if ((curs = g_lines) == NULL)
+		return (ERROR);
+	while (curs->next != NULL)
+		curs = curs->next;
+	i = curs->i;
+	while (i++ < curs->len)
+		if (put_cmd_term("le") == ERROR)
+			return (ERROR);
+	return (true);
 }
 
 static int					put_cmd(void)
@@ -172,7 +188,7 @@ static int					put_cmd(void)
 		}
 		curs = curs->next;
 	}
-	return (true);
+	return (replace_i());
 }
 
 static int					put_lines(void)
@@ -214,13 +230,17 @@ static int					save_y(t_line **lines)
 		return (false);
 	if ((*lines) == g_lines)
 	{
-		(*lines)->y = ((*lines)->i + sh->len_prompt) / sh->win.ws_col;
-		(*lines)->x = ((*lines)->i + sh->len_prompt) % sh->win.ws_col;
+		(*lines)->y = ((*lines)->len + sh->len_prompt) / sh->win.ws_col;
+		(*lines)->x = ((*lines)->len + sh->len_prompt) % sh->win.ws_col;
+		(*lines)->y_i = ((*lines)->i + sh->len_prompt) / sh->win.ws_col;
+		(*lines)->x_i = ((*lines)->i + sh->len_prompt) % sh->win.ws_col;
 	}
 	else
 	{
-		(*lines)->y = (*lines)->i / sh->win.ws_col;
-		(*lines)->x = (*lines)->i % sh->win.ws_col;
+		(*lines)->y = (*lines)->len / sh->win.ws_col;
+		(*lines)->x = (*lines)->len % sh->win.ws_col;
+		(*lines)->y_i = (*lines)->i / sh->win.ws_col;
+		(*lines)->x_i = (*lines)->i % sh->win.ws_col;
 	}
 	return (true);
 }
@@ -308,6 +328,29 @@ int							insert_word_in_g_line(char *word, t_line **line)
 	return (put_cmd());
 }
 
+static int					place_curs_end_line(void)
+{
+	size_t					i;
+	t_line					*curs;
+
+	if ((curs = g_lines) == NULL)
+		return (ERROR);
+	if (curs->next == NULL)
+		return (false);
+	while (curs->next != NULL)
+		curs =  curs->next;
+	i = curs->y_i;
+	while (i++ < curs->y)
+		if (put_cmd_term("do") == ERROR)
+			return (ERROR);
+	i = curs->x_i;
+	while (i++ < curs->x)
+		if (put_cmd_term("nd") == ERROR)
+			return (ERROR);
+	return (true);
+}
+
+
 static int					save_y_x(void)
 {
 	size_t					i;
@@ -327,7 +370,7 @@ static int					save_y_x(void)
 	}
 	if (i > 0)
 		g_y += i - 1;
-	return (true);
+	return (place_curs_end_line());
 }
 
 char						*make_tab(void)

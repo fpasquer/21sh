@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 07:53:11 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 12:07:27 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct				s_line
 	size_t					i;
 	size_t					x;
 	size_t					y;
+	size_t					x_i;
+	size_t					y_i;
 }							t_line;
 
 t_line						*g_lines;
@@ -200,6 +202,9 @@ int							print_history_up(void);
 int							print_history_down(void);
 int							search_history_up(char *beguin);
 int							search_history_down(char *beguin);
+int							move_right(void);
+int							move_left(void);
+
 
 int							get_y_x_line(char *line, unsigned int *y,
 		unsigned int *x);

@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 09:11:55 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 13:14:35 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,92 @@ int							print_history_down(void)
 	ret = search_history_down(tab);
 	ft_memdel((void**)&tab);
 	return (ret);
+}
+
+/*int							move_right(void)
+{
+	t_line					*curs;
+	t_21sh					*sh;
+
+	if ((curs = g_lines) == NULL)
+		return (ERROR);
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	while (curs->next != NULL)
+		curs = curs->next;
+	if (!(curs->i < curs->len))
+		return (true);
+	if (curs->i + sh->len_prompt + 1 > sh->win.ws_col)
+	{
+		curs->i += sh->len_prompt;
+		while (curs->i-- > 0)
+			if (put_cmd_term("le") == ERROR)
+				return (ERROR);
+		if (put_cmd_term("do") == ERROR)
+			return (ERROR);
+	}
+	else
+		if (put_cmd_term("nd") == ERROR)
+			return (ERROR);
+	curs->curs = curs->curs->next;
+	return (true);
+}*/
+
+static int					get_new_i(t_21sh *sh, t_line *curs)
+{
+	size_t					i;
+
+	if (sh == NULL || curs == NULL)
+		return (ERROR);
+	if ((curs->i + sh->len_prompt + 1) % sh->win.ws_col == 0)
+	{
+		i = curs->i + sh->len_prompt;
+		while (i-- > 0)
+			if (put_cmd_term("le") == ERROR)
+				return (ERROR);
+		if (put_cmd_term("do") == ERROR)
+			return (ERROR);
+		curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
+	}
+	curs->i++;
+	if (put_cmd_term("nd") == ERROR)
+		return (ERROR);
+	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
+	return (true);
+}
+
+int							move_right(void)
+{
+	t_line					*curs;
+	t_21sh					*sh;
+
+	if ((curs = g_lines) == NULL)
+		return (ERROR);
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	while (curs->next != NULL)
+		curs = curs->next;
+	if (curs->i >= curs->len)
+		return (true);
+	return (get_new_i(sh, curs));
+}
+
+
+int							move_left(void)
+{
+	t_line					*curs;
+
+	if ((curs = g_lines) == NULL)
+		return (ERROR);
+	while (curs->next != NULL)
+		curs = curs->next;
+	if (curs->curs != NULL)
+		if (curs == g_lines || curs->curs->prev != NULL)
+		{
+			if (put_cmd_term("le") == ERROR)
+				return (ERROR);
+			curs->i--;
+			curs->curs = curs->curs->prev;
+		}
+	return (true);
 }

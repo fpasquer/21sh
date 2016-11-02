@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 08:15:53 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 12:51:33 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,8 @@ int							exe_cmd(t_history **hist, char *line)
 	if (hist == NULL || line == NULL)
 		return (ERROR);
 	if (at_save_history(line) == true)
-	{
 		if (add_history(hist, line) == ERROR)
 			return (ERROR);
-		fprintf(debug, "line : @%s@ y = %zu, x = %zu\n", line, g_y, g_x);
-	}
 	return (true);
 }
 
