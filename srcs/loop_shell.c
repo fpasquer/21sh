@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/01 10:24:05 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 08:15:53 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void					put_line_entre(char *line)
 	{
 		if ((sh = get_21sh(NULL)) == NULL)
 			return ;
-		/*i = g_y;
+/*		i = g_y;
 		while (i-- > 0)
 			if (put_cmd_term("do") == ERROR)
 				return ;*/
@@ -95,12 +95,30 @@ int							print_prompt(void)
 	return (true);
 }
 
+static int					at_save_history(char *line)
+{
+	int						i;
+	bool					ret;
+
+	if (line == NULL)
+		return (ERROR);
+	i = 0;
+	ret = false;
+	while (line[i] != '\0')
+		ret = (ft_isspace(line[i++]) == true) ? ret : true;
+	return (ret);
+}
+
 int							exe_cmd(t_history **hist, char *line)
 {
 	if (hist == NULL || line == NULL)
 		return (ERROR);
-	if (add_history(hist, line) == ERROR)
-		return (ERROR);
+	if (at_save_history(line) == true)
+	{
+		if (add_history(hist, line) == ERROR)
+			return (ERROR);
+		fprintf(debug, "line : @%s@ y = %zu, x = %zu\n", line, g_y, g_x);
+	}
 	return (true);
 }
 

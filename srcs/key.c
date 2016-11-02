@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/01 14:09:08 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 08:09:53 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ static char					*save_tab(char *tab)
 		curent_c = curs->line;
 		while (curent_c != NULL)
 		{
-			if (curent_c->c != '\n')
+			if (!(curent_c->c == '\n' && curs->next == NULL))
 				tab[i++] = curent_c->c;
 			curent_c = curent_c->next;
 		}
@@ -290,13 +290,33 @@ int							insert_word_in_g_line(char *word, t_line **line)
 		return (ERROR);
 	if (ft_strlen(word) > 0)
 	{
-		fprintf(debug, "tes %d\n", __LINE__);
 		i = 0;
 		while (word[i] != '\0')
 			if (add_c_to_line(word[i++], line) == ERROR)
 				return (ERROR);
 	}
 	put_lines();
+	return (true);
+}
+
+static int					save_y_x(void)
+{
+	size_t					i;
+	t_line					*curs;
+
+	g_y = 0;
+	g_x = 0;
+	if ((curs = g_lines) == NULL)
+		return (ERROR);
+	i = 0;
+	while (curs->next != NULL)
+	{
+		g_y += curs->y;
+		i++;
+		g_x = curs->x;
+		curs = curs->next;
+	}
+	g_y += i - 1;
 	return (true);
 }
 
@@ -309,6 +329,8 @@ char						*make_tab(void)
 	if ((curs = g_lines) == NULL)
 		return (ft_strdup(""));
 	len_total = 0;
+	if (save_y_x() == ERROR)
+		return (NULL);
 	while (curs != NULL)
 	{
 		len_total += curs->len;

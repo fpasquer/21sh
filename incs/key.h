@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/01 10:40:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 07:53:11 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct				s_line
 
 t_line						*g_lines;
 t_line						*g_curs;
+size_t						g_y;
+size_t						g_x;
 
 # define DS					(b[0] == -62 && b[1] == -89 && b[2] ==  83 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //§ au dessus de tab
 # define PLUS_MINUS			(b[0] == -62 && b[1] == -79 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //±
