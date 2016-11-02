@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 07:37:39 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 09:32:21 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 09:35:57 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ int							search_history_up(char *beguin)
 		return (ERROR);
 	g_curs = g_lines;
 	if (sh->hist == NULL)
-		return (insert_word_in_g_line(beguin, &g_curs));
+		return (true);
+
+		//return (insert_word_in_g_line(beguin, &g_curs));
 	if (SHC == NULL)
 		SHC = sh->hist;
 	else
