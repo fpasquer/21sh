@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 08:09:53 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 09:28:18 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,31 +147,40 @@ static int						clean_and_put_prompt(void)
 	return (ret);
 }
 
-static void					put_lines(void)
+static int					put_cmd(void)
 {
 	char					buff[PRINT_MAX + 1];
 	unsigned int			i;
 	t_line					*curs;
 	t_entry					*c_line;
 
-	if (place_curs() == true && (curs = g_lines) != NULL &&
-			clean_and_put_prompt() == true)
-		while (curs != NULL)
+	if (clean_and_put_prompt() != true || (curs = g_lines) == NULL)
+		return (ERROR);
+	while (curs != NULL)
+	{
+		c_line = curs->line;
+		while (c_line != NULL)
 		{
-			c_line = curs->line;
-			while (c_line != NULL)
+			i = 0;
+			ft_bzero(buff, sizeof(buff));
+			while (c_line != NULL && i < PRINT_MAX)
 			{
-				i = 0;
-				ft_bzero(buff, sizeof(buff));
-				while (c_line != NULL && i < PRINT_MAX)
-				{
-					buff[i++] = c_line->c;
-					c_line = c_line->next;
-				}
-				ft_putstr(buff);
+				buff[i++] = c_line->c;
+				c_line = c_line->next;
 			}
-			curs = curs->next;
+			ft_putstr(buff);
 		}
+		curs = curs->next;
+	}
+	return (true);
+}
+
+static int					put_lines(void)
+{
+
+	if (place_curs() == true)
+		return (put_cmd());
+	return (ERROR);
 }
 
 static int					get_line_cmd(void)
@@ -185,7 +194,8 @@ static int					get_line_cmd(void)
 		{
 			if (add_c_to_line(c, &g_curs) == ERROR)
 				return (ERROR);
-			put_lines();
+			if (put_lines() == ERROR)
+				return (ERROR);
 		}
 		if ((ret = is_end(c)) != false)
 			break ;
@@ -295,8 +305,7 @@ int							insert_word_in_g_line(char *word, t_line **line)
 			if (add_c_to_line(word[i++], line) == ERROR)
 				return (ERROR);
 	}
-	put_lines();
-	return (true);
+	return (put_cmd());
 }
 
 static int					save_y_x(void)
@@ -316,7 +325,8 @@ static int					save_y_x(void)
 		g_x = curs->x;
 		curs = curs->next;
 	}
-	g_y += i - 1;
+	if (i > 0)
+		g_y += i - 1;
 	return (true);
 }
 

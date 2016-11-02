@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 07:37:39 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/01 14:09:36 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 09:32:21 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ int							move_cursor(unsigned int y, unsigned int x)
 	unsigned int			i;
 
 	i = 0;
-	while (i++ < y)
-		if (put_cmd_term("up") == ERROR)
-			return (ERROR);
+
+	if (y > 0)
+		while (i++ <= y)
+			if (put_cmd_term("up") == ERROR)
+				return (ERROR);
 	i = 0;
 	while (i++ < x)
 		if (put_cmd_term("le") == ERROR)
@@ -66,7 +68,7 @@ int							search_history_up(char *beguin)
 		return (ERROR);
 	g_curs = g_lines;
 	if (sh->hist == NULL)
-		return (insert_word_in_g_line("", &g_curs));
+		return (insert_word_in_g_line(beguin, &g_curs));
 	if (SHC == NULL)
 		SHC = sh->hist;
 	else
@@ -94,7 +96,7 @@ int							search_history_down(char *beguin)
 		return (ERROR);
 	g_curs = g_lines;
 	if (sh->hist == NULL || SHC == NULL)
-		return (insert_word_in_g_line("", &g_curs));
+		return (insert_word_in_g_line(beguin, &g_curs));
 	SHC = SHC->prev;
 	if (SHC == NULL || SHC->prev == NULL)
 		return (insert_word_in_g_line("", &g_curs));
