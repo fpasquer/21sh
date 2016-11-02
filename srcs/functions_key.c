@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 16:36:30 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 17:37:59 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ static int					save_info_line(t_line **line)
 		return (ERROR);
 	(*line)->i--;
 	(*line)->len--;
-	ret = save_y_x_line(line);
-	fprintf(debug, "y = %zu, x = %zu\n", (*line)->y, (*line)->x);
-	if ((*line)->x == sh->win.ws_col - 1)
-		if (put_cmd_term("cd") == ERROR)
+	if (save_y_x_line(line) == ERROR)
+		return (ERROR);
+	if ((*line)->y > 0)
+		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-	return (ret);
+	return (put_lines());
 }
 
 int							del_right(void)
@@ -155,7 +155,7 @@ int							del_right(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
-	if (curs->curs != NULL)
+	if (curs->curs != NULL && curs->curs->c != '\n')
 	{
 		if (curs->curs->next != NULL)
 			curs->curs->next->prev = curs->curs->prev;

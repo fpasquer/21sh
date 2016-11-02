@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 16:18:31 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 17:36:26 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ static int					put_cmd(void)
 	return (replace_i());
 }
 
-static int					put_lines(void)
+int							put_lines(void)
 {
 
 	if (place_curs() == true)
