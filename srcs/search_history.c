@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 07:37:39 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 09:35:57 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 14:19:32 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,10 @@ int							move_cursor(unsigned int y, unsigned int x)
 	unsigned int			i;
 
 	i = 0;
-
 	if (y > 0)
 		while (i++ <= y)
-			if (put_cmd_term("up") == ERROR)
-				return (ERROR);
+				if (put_cmd_term("up") == ERROR)
+					return (ERROR);
 	i = 0;
 	while (i++ < x)
 		if (put_cmd_term("le") == ERROR)
@@ -69,14 +68,13 @@ int							search_history_up(char *beguin)
 	g_curs = g_lines;
 	if (sh->hist == NULL)
 		return (true);
-
-		//return (insert_word_in_g_line(beguin, &g_curs));
 	if (SHC == NULL)
 		SHC = sh->hist;
 	else
 		SHC = (SHC->next != NULL) ? SHC->next : SHC;
 	if (get_y_x_line(beguin, &y, &x) == ERROR)
 		return (ERROR);
+	fprintf(debug, "\nx = %u, y = %u\n\n", x, y);
 	if (move_cursor(y, x) == ERROR)
 		return (ERROR);
 	return (insert_word_in_g_line(SHC->line, &g_curs));

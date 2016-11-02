@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 13:22:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 15:18:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		move_right();
 	else if (ARROW_LEFT)
 		move_left();
-	/*else if (DEL)
-		del_right();*/
+	else if (DEL)
+		del_right();
 	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
 		return (b[0]);
 	return (KEY_IGNORE);
@@ -335,8 +335,6 @@ static int					place_curs_end_line(void)
 
 	if ((curs = g_lines) == NULL)
 		return (ERROR);
-	if (curs->next == NULL)
-		return (false);
 	while (curs->next != NULL)
 		curs =  curs->next;
 	i = curs->y_i;
@@ -361,7 +359,7 @@ static int					save_y_x(void)
 	if ((curs = g_lines) == NULL)
 		return (ERROR);
 	i = 0;
-	while (curs->next != NULL)
+	while (curs != NULL)
 	{
 		g_y += curs->y;
 		i++;
