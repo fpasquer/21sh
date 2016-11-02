@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 07:33:56 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/02 08:40:07 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ static int					end_line(char *line)
 	int						quote;
 	unsigned int			i;
 
+
 	if (line == NULL)
 		return (ERROR);
-	i = NONE;
+	i = 0;
 	quote = NONE;
 	while (line[i++] != '\0')
 		if (line[i - 1] == '\'' && (quote == NONE || quote == QUOTE))
@@ -91,8 +92,6 @@ static int					add_history_line(t_history **hist, char *line)
 
 	if (hist == NULL || *hist == NULL || line == NULL || (curs = *hist) == NULL)
 		return (ERROR);
-	while (curs->next != NULL)
-		curs = curs->next;
 	if ((quote_prev = end_line(curs->line)) != NONE)
 	{
 		if ((new_line = ft_multijoin(3, curs->line,"\n" ,line)) == NULL)
@@ -116,7 +115,7 @@ int							add_history(t_history **hist, char *line)
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
 			return (ERROR);
-		if ((new->line = ft_strdup(line[0] == '\0' ? "\n" : line)) == NULL)
+		if ((new->line = ft_strdup(line)) == NULL)
 			return (ERROR);
 		new->len = ft_strlen(new->line);
 		(*hist) = new;
