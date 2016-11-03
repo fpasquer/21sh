@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 17:36:26 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/03 07:52:33 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,45 +82,43 @@ static int					is_end(char c)
 	return ((quote == NONE) ? true : false);
 }
 
-static int					loop_place_curs(size_t y, size_t i)
+static int					loop_place_curs(size_t y, size_t x)
 {
 	if (y > 0)
 		while (--y > 1)
 			if (put_cmd_term("up") == ERROR)
 				return (ERROR);
-	if (i > 0)
-		while (--i > 0)
+	if (x > 0)
+		while (--x > 0)
 			if (put_cmd_term("le") == ERROR)
 				return (ERROR);
+	getchar();
 	return (true);
 }
 
-static int					save_y_i(size_t *y, size_t *i)
+static int					save_y_i(size_t *y, size_t *x)
 {
 	size_t					len_last;
-	size_t					last_y;
 	t_line					*curs;
 	t_21sh					*sh;
 
 	sh = get_21sh(NULL);
-	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || i == NULL)
+	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || x == NULL)
 		return (ERROR);
 	len_last = 0;
-	(*i) = 0;
+	(*x) = 0;
 	(*y) = 0;
-	last_y = 0;
 	while (curs != NULL)
 	{
-		(*i) = (*i) + 1;
-		(*y) += curs->y;
-		last_y = curs->y;
-		len_last = curs->x;
+		(*x)++;
+		(*y) += curs->y_i;
+		len_last = curs->x_i;
 		curs = curs->next;
 	}
 	(*y) = g_lines->next && g_lines->x < sh->win.ws_col && g_lines->y == 0 &&
 			len_last > 2 ? (*y) + 1 : (*y);
-	(*y) += (*i);
-	(*i) = ((*y) == 1) ? sh->len_prompt + len_last : sh->win.ws_col + len_last;
+	(*y) += (*x);
+	(*x) = ((*y) == 1) ? sh->len_prompt + len_last : sh->win.ws_col + len_last;
 	return (true);
 }
 
@@ -133,7 +131,7 @@ static int					place_curs(void)
 	if (save_y_i(&y, &i) == ERROR || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	if (g_lines != NULL && g_lines->next != NULL &&
-			g_lines->x_i < sh->win.ws_col && g_lines->next->len == 2)
+			g_lines->x < sh->win.ws_col && g_lines->next->x_i == 2)
 		y++;
 	return (loop_place_curs(y, i));
 }
