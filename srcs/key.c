@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/03 13:18:19 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/03 19:21:19 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,40 +84,37 @@ static int					is_end(char c)
 
 static int					loop_place_curs(size_t y, size_t x)
 {
-	if (y > 0)
-		while (--y > 1)
-			if (put_cmd_term("up") == ERROR)
-				return (ERROR);
-	if (x > 0)
-		while (--x > 0)
-			if (put_cmd_term("le") == ERROR)
-				return (ERROR);
+	while (y-- > 1)
+		if (put_cmd_term("up") == ERROR)
+			return (ERROR);
+	while (x-- > 0)
+		if (put_cmd_term("le") == ERROR)
+			return (ERROR);
 	return (true);
 }
 
 static int					save_y_i(size_t *y, size_t *x)
 {
-	size_t					len_last;
+	size_t					loop;
 	t_line					*curs;
 	t_21sh					*sh;
 
 	sh = get_21sh(NULL);
 	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || x == NULL)
 		return (ERROR);
-	len_last = 0;
+	loop = 0;
 	(*x) = 0;
 	(*y) = 0;
 	while (curs != NULL)
 	{
-		(*x)++;
-		(*y) += curs->y_i;
-		len_last = curs->x_i;
+		loop = (curs->x_i == 0) ? loop : loop + 1;
+		(*y) = (curs->x_i == 0 && loop == 1 && curs->y_i == 1 && curs->next == NULL) ?
+				(*y) : (*y) + curs->y_i;
+		(*x) = (curs->x_i == 0) ? sh->win.ws_col - 1 : curs->x_i;
 		curs = curs->next;
 	}
-	(*y) = g_lines->next && g_lines->x < sh->win.ws_col && g_lines->y == 0 &&
-			len_last > 2 ? (*y) + 1 : (*y);
-	(*y) += (*x);
-	(*x) = ((*y) == 1) ? sh->len_prompt + len_last : sh->win.ws_col + len_last;
+	(*y) += loop;
+	fprintf(debug, "x = %3zu, y = %3zu\n", (*x), (*y));
 	return (true);
 }
 
@@ -125,13 +122,9 @@ static int					place_curs(void)
 {
 	size_t					i;
 	size_t					y;
-	t_21sh					*sh;
 
-	if (save_y_i(&y, &i) == ERROR || (sh = get_21sh(NULL)) == NULL)
+	if (save_y_i(&y, &i) == ERROR)
 		return (ERROR);
-	if (g_lines != NULL && g_lines->next != NULL &&
-			g_lines->x < sh->win.ws_col && g_lines->next->x_i == 2)
-		y++;
 	return (loop_place_curs(y, i));
 }
 
@@ -205,9 +198,11 @@ static int					get_line_cmd(void)
 	{
 		if ((c = get_char_keyboard()) != KEY_IGNORE)
 		{
+			if (place_curs() == ERROR)
+				return (ERROR);
 			if (add_c_to_line(c, &g_curs) == ERROR)
 				return (ERROR);
-			if (put_lines() == ERROR)
+			if (put_cmd() == ERROR)
 				return (ERROR);
 		}
 		if ((ret = is_end(c)) != false)
