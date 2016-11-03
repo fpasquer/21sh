@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/03 11:58:23 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/03 13:27:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,15 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	if (sh == NULL || curs == NULL)
 		return (ERROR);
 	i = (curs == g_lines) ? curs->i + sh->len_prompt : curs->i;
-	fprintf(debug, "i = %3zu len = %3zu\n", curs->i, curs->len);
 	if (i % sh->win.ws_col == sh->win.ws_col - 1)
 	{
+		i = sh->win.ws_col - 1;
 		while (i-- > 0)
+		{
+		fprintf(debug, "i = %3zu\n", i);
 			if (put_cmd_term("le") == ERROR)
 				return (ERROR);
+		}
 		if (put_cmd_term("do") == ERROR)
 			return (ERROR);
 	}
@@ -128,7 +131,7 @@ int							move_right(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
-	if (curs->i > curs->len)
+	if (curs->i >= curs->len)
 		return (true);
 	return (get_new_i(sh, curs));
 }
