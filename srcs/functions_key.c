@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/03 13:27:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/03 13:32:06 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,8 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	{
 		i = sh->win.ws_col - 1;
 		while (i-- > 0)
-		{
-		fprintf(debug, "i = %3zu\n", i);
 			if (put_cmd_term("le") == ERROR)
 				return (ERROR);
-		}
 		if (put_cmd_term("do") == ERROR)
 			return (ERROR);
 	}
