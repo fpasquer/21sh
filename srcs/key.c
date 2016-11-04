@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/03 19:21:19 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/04 08:05:10 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,17 @@ static int					loop_place_curs(size_t y, size_t x)
 	while (y-- > 1)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
+	getchar();
 	while (x-- > 0)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
+	getchar();
 	return (true);
 }
 
 static int					save_y_i(size_t *y, size_t *x)
 {
+	size_t					decalage;
 	size_t					loop;
 	t_line					*curs;
 	t_21sh					*sh;
@@ -107,14 +110,15 @@ static int					save_y_i(size_t *y, size_t *x)
 	(*y) = 0;
 	while (curs != NULL)
 	{
-		loop = (curs->x_i == 0) ? loop : loop + 1;
-		(*y) = (curs->x_i == 0 && loop == 1 && curs->y_i == 1 && curs->next == NULL) ?
+		decalage = curs == g_lines ? 0 : 1;
+		loop = (curs->x_i <= decalage && curs == g_lines) ? loop : loop + 1;
+		(*y) = (curs->x_i <= decalage && curs->next == NULL && curs->y_i == 1) ?
 				(*y) : (*y) + curs->y_i;
-		(*x) = (curs->x_i == 0) ? sh->win.ws_col - 1 : curs->x_i;
+		(*x) = (curs->x_i <= decalage) ? sh->win.ws_col - 1 : curs->x_i;
 		curs = curs->next;
 	}
 	(*y) += loop;
-	fprintf(debug, "x = %3zu, y = %3zu\n", (*x), (*y));
+	fprintf(debug, "x = %3zu, y = %3zu, loop = %3zu\n", (*x), (*y) - loop, loop);
 	return (true);
 }
 
