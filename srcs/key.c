@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/04 08:05:10 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/04 20:15:15 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #define NONE 0
 #define D_QUOTE '\"'
 #define QUOTE '\''
-#define PRINT_MAX 5
+#define PRINT_MAX 500
+#define CC curs->curs
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
@@ -87,38 +88,60 @@ static int					loop_place_curs(size_t y, size_t x)
 	while (y-- > 1)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
-	getchar();
-	while (x-- > 0)
+//	getchar();
+	while (x-- + 1 > 0)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-	getchar();
+//	getchar();
 	return (true);
+}
+
+char						last_c(t_line *line)
+{
+	if (line != NULL && line->curs != NULL)
+	{
+		while (line->curs->next != NULL)
+			line->curs = line->curs->next;
+		return (line->curs->c);
+	}
+	return ('0');
 }
 
 static int					save_y_i(size_t *y, size_t *x)
 {
-	size_t					decalage;
 	size_t					loop;
 	t_line					*curs;
 	t_21sh					*sh;
+	static unsigned int		i;
+	char					c;
 
 	sh = get_21sh(NULL);
 	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || x == NULL)
 		return (ERROR);
 	loop = 0;
-	(*x) = 0;
+	(*x) = sh->len_prompt;
 	(*y) = 0;
+	if (curs->x_i == 0 && curs->y_i == 0)
+		return (true);
 	while (curs != NULL)
 	{
-		decalage = curs == g_lines ? 0 : 1;
-		loop = (curs->x_i <= decalage && curs == g_lines) ? loop : loop + 1;
-		(*y) = (curs->x_i <= decalage && curs->next == NULL && curs->y_i == 1) ?
+		loop = loop + 1;
+		(*y) += curs->y_i;
+		(*x) = curs->x_i;
+		//(*y) = (curs->x_i ==  0 && curs->y_i <= 1) ? (*y) : (*y) + (curs->y_i);
+		//(*x) = (curs->x_i == 0) ? sh->win.ws_col - 1 : curs->x_i;
+		/*(*y) = (curs->x_i == 0 && curs->next == NULL && curs->y_i == 1) ?
 				(*y) : (*y) + curs->y_i;
-		(*x) = (curs->x_i <= decalage) ? sh->win.ws_col - 1 : curs->x_i;
+		(*x) = (curs->x_i == 0) ? sh->win.ws_col - 1 : curs->x_i;*/
+		if (curs->next == NULL)
+		{
+			fprintf(debug, "%3d x_i = %3zd y_i = %3zd ", i++, curs->x_i, curs->y_i);
+			c = last_c(curs);
+		}
 		curs = curs->next;
 	}
 	(*y) += loop;
-	fprintf(debug, "x = %3zu, y = %3zu, loop = %3zu\n", (*x), (*y) - loop, loop);
+	fprintf(debug, "x = %3zu, y = %3zu, loop = %3zu c = '%c'\n", (*x), (*y) - loop, loop, c);
 	return (true);
 }
 
@@ -255,6 +278,23 @@ static void					creat_new_line(t_line **lines, char c)
 	(*lines) = (*lines)->next;
 }
 
+static int					check_save_y_x(t_line **lines, char c)
+{
+	int						ret;
+
+	if (lines == NULL || *lines == NULL)
+		return (ERROR);
+	if (c == '\n')
+	{
+		g_lines->count_line++;
+		return (false);
+	}
+	ret = save_y_x_line(lines);
+	(*lines)->i++;
+	(*lines)->len++;
+	return (ret);
+}
+
 int							add_c_to_line(char c, t_line **lines)
 {
 	t_entry					*n;
@@ -279,9 +319,7 @@ int							add_c_to_line(char c, t_line **lines)
 		n->prev = (*lines)->curs;
 		(*lines)->curs = (*lines)->curs->next;
 	}
-	(*lines)->i++;
-	(*lines)->len++;
-	return (save_y_x_line(lines));
+	return (check_save_y_x(lines, c));
 }
 
 static char					*save_tab(char *tab)
@@ -375,7 +413,7 @@ char						*make_tab(void)
 
 	if ((curs = g_lines) == NULL)
 		return (ft_strdup(""));
-	len_total = 0;
+	len_total = g_lines->count_line;
 	if (save_y_x() == ERROR)
 		return (NULL);
 	while (curs != NULL)

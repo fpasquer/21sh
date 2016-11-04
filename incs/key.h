@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 17:04:32 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/04 10:59:08 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct				s_line
 	t_entry					*sel_end;
 	struct s_line			*next;
 	size_t					len;
+	size_t					count_line;
 	size_t					i;
 	size_t					x;
 	size_t					y;

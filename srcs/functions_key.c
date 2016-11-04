@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/03 16:47:42 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/04 12:25:10 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	if (sh == NULL || curs == NULL || g_lines == NULL)
 		return (ERROR);
 	i = (curs == g_lines) ? curs->i + sh->len_prompt : curs->i;
-	i = g_lines != NULL && g_lines->next != NULL ? i - 1 : i;
+	//i = g_lines != NULL && g_lines->next != NULL ? i : i;
 	if (i % sh->win.ws_col == sh->win.ws_col - 1)
 	{
 		i = sh->win.ws_col - 1;
