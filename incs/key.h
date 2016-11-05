@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/04 10:59:08 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/05 08:36:55 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,8 @@ int							search_history_down(char *beguin);
 int							move_right(void);
 int							move_left(void);
 int							del_right(void);
+int							place_curs(void);
+int							put_cmd(void);
 int							save_y_x_line(t_line **line);
 int							put_lines(void);
 

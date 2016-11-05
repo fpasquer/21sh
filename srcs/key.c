@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/04 20:15:15 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/05 09:54:06 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ static int					save_y_i(size_t *y, size_t *x)
 	size_t					loop;
 	t_line					*curs;
 	t_21sh					*sh;
-	static unsigned int		i;
-	char					c;
 
 	sh = get_21sh(NULL);
 	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || x == NULL)
@@ -128,24 +126,14 @@ static int					save_y_i(size_t *y, size_t *x)
 		loop = loop + 1;
 		(*y) += curs->y_i;
 		(*x) = curs->x_i;
-		//(*y) = (curs->x_i ==  0 && curs->y_i <= 1) ? (*y) : (*y) + (curs->y_i);
-		//(*x) = (curs->x_i == 0) ? sh->win.ws_col - 1 : curs->x_i;
-		/*(*y) = (curs->x_i == 0 && curs->next == NULL && curs->y_i == 1) ?
-				(*y) : (*y) + curs->y_i;
-		(*x) = (curs->x_i == 0) ? sh->win.ws_col - 1 : curs->x_i;*/
-		if (curs->next == NULL)
-		{
-			fprintf(debug, "%3d x_i = %3zd y_i = %3zd ", i++, curs->x_i, curs->y_i);
-			c = last_c(curs);
-		}
 		curs = curs->next;
 	}
 	(*y) += loop;
-	fprintf(debug, "x = %3zu, y = %3zu, loop = %3zu c = '%c'\n", (*x), (*y) - loop, loop, c);
+//	fprintf(debug, "y = %3zu x %3zu loop = %3zu\n", (*y), (*x), loop);
 	return (true);
 }
 
-static int					place_curs(void)
+int							place_curs(void)
 {
 	size_t					i;
 	size_t					y;
@@ -180,7 +168,7 @@ static int					replace_i(void)
 	return (true);
 }
 
-static int					put_cmd(void)
+int							put_cmd(void)
 {
 	char					buff[PRINT_MAX + 1];
 	unsigned int			i;
@@ -208,13 +196,13 @@ static int					put_cmd(void)
 	return (replace_i());
 }
 
-int							put_lines(void)
+/*int							put_lines(void)
 {
 
 	if (place_curs() == true)
 		return (put_cmd());
 	return (ERROR);
-}
+}*/
 
 static int					get_line_cmd(void)
 {
@@ -243,10 +231,9 @@ int							save_y_x_line(t_line **lines)
 	size_t					y;
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL)
+	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL ||
+			sh->win.ws_col == 0)
 		return (ERROR);
-	if (sh->win.ws_col == 0)
-		return (false);
 	if ((*lines) == g_lines)
 	{
 		(*lines)->y = ((*lines)->len + sh->len_prompt) / sh->win.ws_col;
@@ -292,6 +279,7 @@ static int					check_save_y_x(t_line **lines, char c)
 	ret = save_y_x_line(lines);
 	(*lines)->i++;
 	(*lines)->len++;
+//	fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 	return (ret);
 }
 
