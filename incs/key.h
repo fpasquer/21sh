@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 08:36:55 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/05 11:58:43 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,6 @@ size_t						g_x;
 # define TILD				(b[0] == 126 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //~
 # define DEL				(b[0] == 127 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //<- del gauche
 
-#define BUFF_SIZE_READ 5
-
 char						*get_line_entree(void);
 int							add_c_to_line(char c, t_line **lines);
 int							insert_word_in_g_line(char *word, t_line **line);
@@ -205,7 +203,7 @@ int							search_history_up(char *beguin);
 int							search_history_down(char *beguin);
 int							move_right(void);
 int							move_left(void);
-int							del_right(void);
+int							del_left(void);
 int							place_curs(void);
 int							put_cmd(void);
 int							save_y_x_line(t_line **line);

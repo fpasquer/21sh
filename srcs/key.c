@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 11:02:31 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/05 15:07:50 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (ARROW_LEFT)
 		move_left();
 	else if (DEL)
-		del_right();
+		del_left();
 	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
 		return (b[0]);
 	return (KEY_IGNORE);
@@ -88,13 +88,15 @@ static int					loop_place_curs(size_t y, size_t x)
 	while (y-- > 1)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
+//getchar();
 	while (x-- + 1 > 0)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
+//getchar();
 	return (true);
 }
 
-char						last_c(t_line *line)
+/*char						last_c(t_line *line)
 {
 	if (line != NULL && line->curs != NULL)
 	{
@@ -103,7 +105,7 @@ char						last_c(t_line *line)
 		return (line->curs->c);
 	}
 	return ('0');
-}
+}*/
 
 static int					save_y_i(size_t *y, size_t *x)
 {
@@ -111,12 +113,19 @@ static int					save_y_i(size_t *y, size_t *x)
 	t_line					*curs;
 	t_21sh					*sh;
 
+	size_t					i_last;
+	size_t					len_last;
+
 	sh = get_21sh(NULL);
 	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || x == NULL)
 		return (ERROR);
 	loop = 0;
 	(*x) = sh->len_prompt;
 	(*y) = 0;
+
+	i_last = 0;
+	len_last = 0;
+
 	if (curs->x_i == 0 && curs->y_i == 0)
 		return (true);
 	while (curs != NULL)
@@ -124,10 +133,12 @@ static int					save_y_i(size_t *y, size_t *x)
 		loop = loop + 1;
 		(*y) += curs->y_i;
 		(*x) = curs->x_i;
+		i_last = curs->i;
+		len_last = curs->len;
 		curs = curs->next;
 	}
 	(*y) += loop;
-//	fprintf(debug, "y = %3zu x %3zu loop = %3zu\n", (*y), (*x), loop);
+	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
 	return (true);
 }
 
@@ -277,7 +288,7 @@ static int					check_save_y_x(t_line **lines, char c)
 	ret = save_y_x_line(lines);
 	(*lines)->i++;
 	(*lines)->len++;
-//	fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
+	fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 	return (ret);
 }
 
