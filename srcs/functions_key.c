@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 10:15:16 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/05 11:02:13 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
 	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
 	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
-	fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu\n", curs->i, curs->x_i, curs->y_i);
+	fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu\n", curs->i, curs->x_i, curs->y_i, curs->len);
 	return (true);
 }
 
@@ -130,14 +130,14 @@ int							move_left(void)
 				return (ERROR);
 			curs->i--;
 			curs->curs = curs->curs->prev;
-			if (curs->x_i == 0)
+			if (curs->x_i == 0 && curs->i < curs->len - 1)
 			{
 				curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
 				curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
 			}
-			else
+			else if (curs->i < curs->len - 1)
 				curs->x_i--;
-			fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu\n", curs->i, curs->x_i, curs->y_i);
+			fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu len =%3zu\n", curs->i, curs->x_i, curs->y_i, curs->len);
 		}
 	return (true);
 }
@@ -152,12 +152,12 @@ static int					save_info_line(t_line **line)
 //	fprintf(debug, "1 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*line)->x_i, (*line)->y_i, (*line)->i, (*line)->len);
 	(*line)->i--;
 	(*line)->len--;
-	if ((*line)->x_i == 0)
+	if ((*line)->x_i == 0 && (*line)->i < (*line)->len - 1)
 	{
-		(*line)->x_i = ((*line)->y_i > 0) ? sh->win.ws_col : (*line)->x_i;
+		(*line)->x_i = ((*line)->y_i > 0) ? sh->win.ws_col - 1 : (*line)->x_i;
 		(*line)->y_i = ((*line)->y_i > 0) ? (*line)->y_i - 1 : (*line)->y_i;
 	}
-	else
+	else if ((*line)->i < (*line)->len - 1)
 		(*line)->x_i--;
 	if (save_y_x_line(line) == ERROR)
 		return (ERROR);
@@ -168,8 +168,7 @@ static int					del_right_line(t_line *curs, t_entry *tmp)
 {
 	if (curs == NULL || curs->curs == NULL || curs->curs->c == '\n')
 		return (ERROR);
-	if (put_cmd_term("le") == ERROR || put_cmd_term("dc") == ERROR ||
-			place_curs() == ERROR)
+	if (place_curs() == ERROR)
 		return (ERROR);
 	if (curs->curs->next != NULL)
 		curs->curs->next->prev = curs->curs->prev;

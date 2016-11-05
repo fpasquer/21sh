@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 09:54:06 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/05 11:02:31 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,9 @@ static int					loop_place_curs(size_t y, size_t x)
 	while (y-- > 1)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
-//	getchar();
 	while (x-- + 1 > 0)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-//	getchar();
 	return (true);
 }
 
