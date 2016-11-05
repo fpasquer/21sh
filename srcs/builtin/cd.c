@@ -97,10 +97,10 @@ int cd_less () {
 int cd (t_cmd *content) {
 	char *path = NULL;
 
-	if (content->argc > 1) {
+	if (content->arg && (len_y(content->arg) > 1)) {
 		path = content->arg[1];
 	}
-	if (content->argc == 1)
+	if (content->arg && (len_y(content->arg) == 1))
 		return (cd_home());
 	else if (path && ft_strequ("-", path))
 		return (cd_less());

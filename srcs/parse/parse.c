@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/29 17:21:05 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/05 15:52:18 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void					print_cmd(t_cmd *cmd) //DEBUG
 		printf("link done = %d\n", cmd->done);
 		printf("link cmd = %d\n", cmd->cmd);
 		printf("line = %s\n", cmd->line);
-		printf("argc = %d\n", cmd->argc);
 		i = 0;
 		if (cmd->arg)
 		{
@@ -155,7 +154,6 @@ void					print_cmd(t_cmd *cmd) //DEBUG
 			printf("link op = %d\n", curs->op);
 			printf("link cmd = %d\n", curs->cmd);
 			printf("line = %s\n", curs->line);
-			printf("argc = %d\n", curs->argc);
 			i = 0;
 			if (curs->arg)
 			{

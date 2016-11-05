@@ -8,17 +8,17 @@ int 		builtin_setenv(t_cmd *content) {
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	if (content->argc == 1) {
-		ft_putendl("Error: the name argument is a null pointer, or points to an empty string");
+	if (len_y(content->arg) == 1) {
+		ft_putendl_fd("Error: the name argument is a null pointer, or points to an empty string", STDERR_FILENO);
 		return (false);
 	}
-	if (content->argc > 1) {
+	if (len_y(content->arg) >1) {
 		if (ft_strchr(content->arg[1], '=') || ft_strequ("", content->arg[1])) {
-			ft_putendl("Error: the name argument points to a string containing an '=' character.");
+			ft_putendl_fd("Error: the name argument points to a string containing an '=' character.", STDERR_FILENO);
 			return (false);
 		}
-		env_name = content->argc > 1 ? content->arg[1] : NULL;
-		env_value = content->argc > 2 ? content->arg[2] : ft_strdup("");
+		env_name = len_y(content->arg) > 1 ? content->arg[1] : NULL;
+		env_value = len_y(content->arg) > 2 ? content->arg[2] : ft_strdup("");
 		if (check_if_env_exist(env_name) == false) {
 			add_env_(env_name, env_value);
 		}

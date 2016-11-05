@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
+/*   Updated: 2016/11/05 16:54:38 by fcapocci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSE_H
 # define PARSE_H
 
@@ -32,7 +44,6 @@ typedef struct			s_cmd
 {
 	int					cmd;
 	int					op;
-	int					argc;
 	int					fd;
 	int					tgt_fd;
 	int					done;
@@ -45,8 +56,9 @@ typedef struct			s_cmd
 /*
 **	cmd : numero de l'operateur de redirection
 **	op : numero de l'operateur de separation
-**	fd : files descriptor utilise (1 par defaut)
-**	done : reussite de l'execution de la cmd
+**	fd : filedes du fichier une fois cree/ouvert
+**	tgt_fd : filedes cible de notre redirection
+**	done : retour de l'execution de la cmd
 **	line : ligne de cmd des maillon pere emputer des redirections si il y en a
 **	arg : splite de line original pour chaque ligne redirection comprise
 **	left : acces au sous maillon de redirection s'il y en as

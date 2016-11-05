@@ -6,7 +6,7 @@
 /*   By: jchen <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:18:15 by jchen             #+#    #+#             */
-/*   Updated: 2016/10/22 15:28:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/05 16:31:11 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void			builtin_or_not(t_cmd *content, int i, int builtin)
 	char		**env;
 
 	env = NULL;
-	if (content->argc > 0)
+	if (content->arg && len_y(content->arg) > 0)
 	{
 		while (g_builtin_lst[i].str)
 		{

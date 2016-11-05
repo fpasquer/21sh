@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 04:49:01 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/29 16:59:06 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/05 16:01:10 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,25 @@ void				tacke_more_arg(t_cmd *cmd, t_cmd *red)
 	int				index;
 	char			**new_arg;
 
-	i = len_y(cmd->arg);
+	i = cmd->arg ? len_y(cmd->arg) : 0;
 	index = len_y(red->arg);
 	if ((new_arg = ft_memalloc(sizeof(char*) * (i + index))) == NULL)
 		ft_putendl_fd("error to allocate memory for **new_arg", STDERR_FILENO);
 	i = 0;
 	index = 1;
-	while (cmd->arg[i])
+	while (cmd->arg && cmd->arg[i])
 	{
 		new_arg[i] = ft_strdup(cmd->arg[i]);
 		i++;
 	}
-	while (red->arg[index])
+	while (red->arg && red->arg[index])
 	{
 		new_arg[i] = ft_strdup(red->arg[index]);
 		ft_memdel((void**)&(red->arg[index]));
 		index++;
 		i++;
 	}
-	new_arg[i] = NULL;
-	ft_free_strsplit(cmd->arg);
+	if (((new_arg[i] = NULL) == NULL) && cmd->arg)
+		ft_free_strsplit(cmd->arg);
 	cmd->arg = new_arg;
 }
