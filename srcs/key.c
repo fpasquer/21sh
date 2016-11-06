@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 15:07:50 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/06 08:39:03 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ static int					check_save_y_x(t_line **lines, char c)
 		return (false);
 	}
 	ret = save_y_x_line(lines);
-	(*lines)->i++;
+	(*lines)->i = (*lines)->len == 0 ? 0 : (*lines)->i + 1;
 	(*lines)->len++;
 	fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 	return (ret);
