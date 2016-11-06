@@ -6,12 +6,14 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/06 12:00:18 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/06 22:10:16 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
+
+static bool					g_move = false;
 
 void						key_exit(unsigned char val_exit)
 {
@@ -108,7 +110,10 @@ int							move_right(void)
 	while (curs->next != NULL)
 		curs = curs->next;
 	if (curs->i >= curs->len - 1)
+	{
+		g_move = false;
 		return (true);
+	}
 	return (get_new_i(sh, curs));
 }
 
@@ -127,6 +132,8 @@ int							move_left(void)
 	{
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
+		if (g_move == false)
+			return ((g_move = true));
 		curs->i--;
 		curs->curs = curs->curs->prev;
 		if (curs->x_i == 0 && curs->i < curs->len - 1)

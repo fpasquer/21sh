@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/06 18:12:27 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/06 22:17:49 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,24 @@ static int					loop_place_curs(size_t y, size_t x)
 	return (true);
 }
 
-/*char						last_c(t_line *line)
+char						last_c(t_line *line, size_t i)
 {
-	if (line != NULL && line->curs != NULL)
+	size_t					loop;
+	t_entry					*curs;
+
+	if (line != NULL && line->line != NULL)
 	{
-		while (line->curs->next != NULL)
-			line->curs = line->curs->next;
-		return (line->curs->c);
+		curs = line->line;
+		loop = 0;
+		while (curs != NULL)
+		{
+			if (loop++ == i)
+				return (curs->c);
+			curs = curs->next;
+		}
 	}
 	return ('0');
-}*/
+}
 
 static int					save_y_i(size_t *y, size_t *x)
 {
@@ -138,7 +146,7 @@ static int					save_y_i(size_t *y, size_t *x)
 		curs = curs->next;
 	}
 	(*y) += loop;
-	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
+//	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
 	return (true);
 }
 
@@ -257,6 +265,7 @@ int							save_y_x_line(t_line **lines)
 		(*lines)->y_i = (*lines)->i / sh->win.ws_col;
 		(*lines)->x_i = (*lines)->i % sh->win.ws_col;
 	}
+	fprintf(debug, "y = %3zu x %3zu i = %3zu len = %3zu c = %c\n", (*lines)->y_i , (*lines)->x, (*lines)->i, (*lines)->len, last_c(*lines, (*lines)->i));
 	return (true);
 }
 
@@ -303,7 +312,9 @@ int							add_c_to_line(char c, t_line **lines)
 	if ((*lines)->curs == NULL)
 	{
 		(*lines)->curs = n;
-		n->next = ((*lines)->line != NULL) ? (*lines)->line : NULL;
+		(*lines)->i = ULONG_MAX;
+		if ((n->next = (*lines)->line) != NULL)
+			(*lines)->line->prev = n;
 		(*lines)->line = n;
 	}
 	else
