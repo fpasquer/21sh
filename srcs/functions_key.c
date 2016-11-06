@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 15:05:27 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/06 12:00:18 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int							move_right(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
-	if (curs->i >= curs->len)
+	if (curs->i >= curs->len - 1)
 		return (true);
 	return (get_new_i(sh, curs));
 }
@@ -123,22 +123,21 @@ int							move_left(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
-	if (curs->curs != NULL)
-		if (curs == g_lines || curs->curs->prev != NULL)
+	if (curs->curs != NULL && curs->curs->prev != NULL)
+	{
+		if (put_cmd_term("le") == ERROR)
+			return (ERROR);
+		curs->i--;
+		curs->curs = curs->curs->prev;
+		if (curs->x_i == 0 && curs->i < curs->len - 1)
 		{
-			if (put_cmd_term("le") == ERROR)
-				return (ERROR);
-			curs->i--;
-			curs->curs = curs->curs->prev;
-			if (curs->x_i == 0 && curs->i < curs->len - 1)
-			{
-				curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
-				curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
-			}
-			else if (curs->i < curs->len - 1)
-				curs->x_i--;
-	fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu len = %3zu\n", curs->i, curs->x_i, curs->y_i, curs->len);
+			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
+			curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
 		}
+		else if (curs->i < curs->len - 1)
+			curs->x_i--;
+	fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu len = %3zu\n", curs->i, curs->x_i, curs->y_i, curs->len);
+	}
 	return (true);
 }
 

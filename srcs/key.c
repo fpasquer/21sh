@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 15:07:50 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/06 11:40:11 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ static int					replace_i(void)
 	while (curs->next != NULL)
 		curs = curs->next;
 	i = curs->i;
-	while (i++ < curs->len)
+	while (i++ + 1< curs->len)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 	return (true);
@@ -285,9 +285,9 @@ static int					check_save_y_x(t_line **lines, char c)
 		g_lines->count_line++;
 		return (false);
 	}
-	ret = save_y_x_line(lines);
-	(*lines)->i++;
+	(*lines)->i = ((*lines)->len == 0) ? 0 : (*lines)->i + 1;
 	(*lines)->len++;
+	ret = save_y_x_line(lines);
 	fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 	return (ret);
 }
