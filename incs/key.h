@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/05 11:58:43 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/07 08:36:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,5 +212,6 @@ int							put_lines(void);
 
 int							get_y_x_line(char *line, unsigned int *y,
 		unsigned int *x);
+char						last_c(t_line *line, size_t i);
 
 #endif
