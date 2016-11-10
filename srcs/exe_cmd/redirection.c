@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 15:36:23 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/10/29 17:44:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/10 22:19:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct		s_redirect_selec
 }					t_redirect_selec;
 
 t_redirect_selec	g_redirect_selec[] = {
-	{1, pipe_funct},
 	{2, read_funct},
 	{3, d_read_funct},
 	{4, write_funct},

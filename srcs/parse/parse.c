@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/11/05 15:52:18 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/10 22:32:39 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static int				check_and_parse(char *line, int i)
 			return (1);
 		if (line[i + 1] && line[i] == '&' && line[i + 1] == '&')
 			return (2);
-		if (line[i + 1] && line[i] == '|' && line[i + 1] == '|')
+		if (line[i + 1] && line[i] == '|' && line[i + 1] != '|')
 			return (3);
+		if (line[i + 1] && line[i] == '|' && line[i + 1] == '|')
+			return (4);
 	}
 	return (0);
 }
@@ -88,8 +90,8 @@ t_cmd					*parse_cmd(char *line, t_cmd *cmd, int i)
 			scop(line, &i, &size);
 		if ((cmd = create_cmd(cmd, line, size, i)) == NULL)
 			return (exit_parse(cmd, "error to allocate memory"));
-		i = (check_and_parse(line, i)) == 3 ? i + 2 :
-			i + check_and_parse(line, i);
+		i = (check_and_parse(line, i) == 3 || check_and_parse(line, i) == 4)
+			? i + check_and_parse(line, i) - 2 : i + check_and_parse(line, i);
 	}
 	if (parse_cmd2(cmd, 0) < 0)
 		return (exit_parse(cmd, "error parse cmd"));

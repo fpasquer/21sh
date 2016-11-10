@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/11/05 16:54:38 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/10 22:35:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 **  numero operateur :
 **	1 = ;
 ** 	2 = &&
-** 	3 = ||
+**	3 = pipe
+** 	4 = ||
 **
 **	cmd = type de redirection :
-**	1 = pipe
 ** 	2 = <
 **	3 = <<
 **	4 = >
@@ -32,9 +32,9 @@
 
 # define PV 1
 # define ET 2
-# define OU 3
+# define PIP 3
+# define OU 4
 
-# define BARRE 1
 # define DROITE 2
 # define D_DROITE 3
 # define GAUCHE 4

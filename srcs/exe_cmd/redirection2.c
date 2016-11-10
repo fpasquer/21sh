@@ -6,16 +6,12 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/11/05 19:01:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/10 22:20:01 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/key.h"
 #include "../../incs/shell_21sh.h"
-
-void				pipe_funct(t_cmd *redirect, int tgt_fd)
-{
-}
 
 void				read_funct(t_cmd *redirect, int tgt_fd)
 {
