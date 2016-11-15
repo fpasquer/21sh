@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/07 21:28:21 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/10 13:49:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int					is_end(char c)
 		return (false);
 	if ((curs = g_lines) == NULL)
 		return (ERROR);
+	g_lines->count_line++;
 	quote = NONE;
 	while (curs != NULL)
 	{
@@ -121,19 +122,12 @@ static int					save_y_i(size_t *y, size_t *x)
 	t_line					*curs;
 	t_21sh					*sh;
 
-	size_t					i_last;
-	size_t					len_last;
-
 	sh = get_21sh(NULL);
 	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || x == NULL)
 		return (ERROR);
 	loop = 0;
 	(*x) = sh->len_prompt;
 	(*y) = 0;
-
-	i_last = 0;
-	len_last = 0;
-
 	if (curs->x_i == 0 && curs->y_i == 0)
 		return (true);
 	while (curs != NULL)
@@ -141,8 +135,6 @@ static int					save_y_i(size_t *y, size_t *x)
 		loop = loop + 1;
 		(*y) += curs->y_i;
 		(*x) = curs->x_i;
-		i_last = curs->i;
-		len_last = curs->len;
 		curs = curs->next;
 	}
 	(*y) += loop;
@@ -208,7 +200,8 @@ int							put_cmd(void)
 			}
 			ft_putstr(buff);
 		}
-		curs = curs->next;
+		if ((curs = curs->next) != NULL)
+			ft_putchar('\n');
 	}
 	return (replace_i());
 }
@@ -269,18 +262,19 @@ int							save_y_x_line(t_line **lines)
 	return (true);
 }
 
-static void					creat_new_line(t_line **lines, char c)
+static int					creat_new_line(t_line **lines, char c)
 {
 	t_line					*new;
 
 	if (c != '\n')
-		return ;
-	if (lines == NULL || *lines == NULL)
-		return ;
+		return (false);
+	if (lines == NULL || *lines == NULL || g_lines == NULL)
+		return (ERROR);
 	if ((new = ft_memalloc(sizeof(t_line))) == NULL)
-		return ;
+		return (ERROR);
 	(*lines)->next = new;
 	(*lines) = (*lines)->next;
+	return (true);
 }
 
 static int					check_save_y_x(t_line **lines, char c)
@@ -289,44 +283,39 @@ static int					check_save_y_x(t_line **lines, char c)
 
 	if (lines == NULL || *lines == NULL)
 		return (ERROR);
-	if (c == '\n')
-	{
-		g_lines->count_line++;
-		return (false);
-	}
 	(*lines)->i = ((*lines)->len == 0) ? 0 : (*lines)->i + 1;
 	(*lines)->len++;
 	ret = save_y_x_line(lines);
 	return (ret);
 }
 
-int							add_c_to_line(char c, t_line **lines)
+int							add_c_to_line(char c, t_line **line)
 {
 	t_entry					*n;
 
-	creat_new_line(lines, c);
-	if ((n = ft_memalloc(sizeof(*n))) == NULL || lines == NULL ||
-			*lines == NULL)
+	if (creat_new_line(line, c) == true)
+		return (true);
+	if ((n = ft_memalloc(sizeof(*n))) == NULL || line == NULL || *line == NULL)
 		return (ERROR);
 	n->c = c;
-	if ((*lines)->curs == NULL)
+	if ((*line)->curs == NULL)
 	{
-		(*lines)->curs = n;
-		(*lines)->i = ULONG_MAX;
-		if ((n->next = (*lines)->line) != NULL)
-			(*lines)->line->prev = n;
-		(*lines)->line = n;
+		(*line)->curs = n;
+		(*line)->i = ULONG_MAX;
+		if ((n->next = (*line)->line) != NULL)
+			(*line)->line->prev = n;
+		(*line)->line = n;
 	}
 	else
 	{
-		if ((*lines)->curs->next != NULL)
-			(*lines)->curs->next->prev = n;
-		n->next = ((*lines)->curs->next != NULL) ? (*lines)->curs->next : NULL;
-		(*lines)->curs->next = n;
-		n->prev = (*lines)->curs;
-		(*lines)->curs = (*lines)->curs->next;
+		if ((*line)->curs->next != NULL)
+			(*line)->curs->next->prev = n;
+		n->next = ((*line)->curs->next != NULL) ? (*line)->curs->next : NULL;
+		(*line)->curs->next = n;
+		n->prev = (*line)->curs;
+		(*line)->curs = (*line)->curs->next;
 	}
-	return (check_save_y_x(lines, c));
+	return (check_save_y_x(line, c));
 }
 
 static char					*save_tab(char *tab)
@@ -343,11 +332,12 @@ static char					*save_tab(char *tab)
 		curent_c = curs->line;
 		while (curent_c != NULL)
 		{
-			if (!(curent_c->c == '\n' && curs->next == NULL))
+			if (curent_c->c != '\n')
 				tab[i++] = curent_c->c;
 			curent_c = curent_c->next;
 		}
-		curs = curs->next;
+		if ((curs = curs->next) != NULL)
+			tab[i++] = '\n';
 	}
 	del_g_lines();
 	return(tab);
@@ -420,14 +410,15 @@ char						*make_tab(void)
 
 	if ((curs = g_lines) == NULL)
 		return (ft_strdup(""));
-	len_total = g_lines->count_line;
 	if (save_y_x() == ERROR)
 		return (NULL);
+	len_total = g_lines->count_line;
 	while (curs != NULL)
 	{
 		len_total += curs->len;
 		curs = curs->next;
 	}
+	fprintf(debug, "len_total = %3zu\n", len_total);
 	if ((tab = ft_memalloc(sizeof(*tab) * (len_total + 1))) == NULL)
 		return (NULL);
 	return (save_tab(tab));

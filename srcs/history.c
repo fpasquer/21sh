@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 08:40:07 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/10 13:54:05 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int							del_hist(void)
 		tmp = sh->hist->prev;
 		if (sh->hist->line != NULL)
 		{
-			ft_putendl_fd(sh->hist->line, fd);
+			ft_putstr_fd(sh->hist->line, fd);
 			ft_memdel((void**)&sh->hist->line);
 		}
 		ft_memdel((void**)&sh->hist);

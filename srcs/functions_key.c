@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/07 21:32:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/10 13:31:51 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	if (sh == NULL || curs == NULL || g_lines == NULL)
 		return (ERROR);
 	i = (curs == g_lines) ? curs->i + sh->len_prompt : curs->i;
-	if (i % sh->win.ws_col == sh->win.ws_col - 1)
+	//if (i % sh->win.ws_col == sh->win.ws_col - 1)
+	if (curs->x_i == sh->win.ws_col - 2)
 	{
 		i = sh->win.ws_col - 1;
 		while (i-- > 0)
@@ -94,7 +95,7 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
 	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
 	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
-	fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", curs->i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
+	fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
 	return (true);
 }
 
@@ -137,14 +138,14 @@ int							move_left(void)
 			return (ERROR);
 		curs->i--;
 		curs->curs = curs->curs->prev;
-		if (g_move == false)
-			return ((g_move = true));
+//		if (g_move == false)
+//			return ((g_move = true));
 		if (curs->x_i == 0 && curs->i < curs->len - 1)
 		{
 			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
 			curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
 		}
-		else if (curs->i < curs->len - 1)
+		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
 			curs->x_i--;
 	fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", curs->i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
 	}
