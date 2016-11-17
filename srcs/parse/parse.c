@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/11/14 17:12:01 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/17 23:05:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int				check_and_parse(char *line, int i)
 		if (line[i + 1] && line[i] == '&' && line[i + 1] == '&')
 			return (2);
 		if ((line[i + 1] && line[i] == '|' && line[i + 1] != '|') ||
-		(line[i + 1] == 0 && line[i] == '|'))
+		(line[i] == '|' && line[i + 1] == 0))
 			return (3);
 		if (line[i + 1] && line[i] == '|' && line[i + 1] == '|')
 			return (4);
