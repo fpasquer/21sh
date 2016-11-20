@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/10 13:31:51 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/20 21:56:03 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int							print_history_up(void)
 		return (ERROR);
 	ret = search_history_up(tab);
 	ft_memdel((void**)&tab);
+	if (put_cmd() == ERROR)
+		return (ERROR);
 	return (ret);
 }
 

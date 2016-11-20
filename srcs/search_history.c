@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 07:37:39 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/02 14:19:32 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/20 21:52:51 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int							get_y_x_line(char *line, unsigned int *y,
 	i = 0;
 	while (line[i] != '\0')
 	{
-		(*x) = (line[i] == '\n') ? 1 : (*x) + 1;
+		(*x) = (line[i] == '\n') ? 0 : (*x) + 1;
 		(*y) = (line[i] == '\n') ? (*y) + 1 : (*y);
 		if ((*x) > sh->win.ws_col)
 		{
@@ -49,7 +49,7 @@ int							move_cursor(unsigned int y, unsigned int x)
 				if (put_cmd_term("up") == ERROR)
 					return (ERROR);
 	i = 0;
-	while (i++ < x)
+	while (i++ <= x)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 	return (put_cmd_term("cd"));

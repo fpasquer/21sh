@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/10 13:54:05 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/20 22:08:08 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,8 @@ int							del_hist(void)
 	t_history				*tmp;
 	t_21sh					*sh;
 
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	if ((fd = ft_fopen(HISTORY, "w+")) <= 0)
+	sh = get_21sh(NULL);
+	if (sh == NULL || (fd = ft_fopen(HISTORY, "w+")) <= 0)
 		return (ERROR);
 	while (sh->hist != NULL && sh->hist->next != NULL)
 		sh->hist = sh->hist->next;
@@ -185,7 +184,10 @@ int							del_hist(void)
 		tmp = sh->hist->prev;
 		if (sh->hist->line != NULL)
 		{
-			ft_putstr_fd(sh->hist->line, fd);
+			if (ft_strchr(sh->hist->line, '\n') == NULL)
+				ft_putendl_fd(sh->hist->line, fd);
+			else
+				ft_putstr_fd(sh->hist->line, fd);
 			ft_memdel((void**)&sh->hist->line);
 		}
 		ft_memdel((void**)&sh->hist);

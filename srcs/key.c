@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/10 13:49:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/20 21:57:51 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,11 +352,12 @@ int							insert_word_in_g_line(char *word, t_line **line)
 	if (ft_strlen(word) > 0)
 	{
 		i = 0;
-		while (word[i] != '\0')
-			if (add_c_to_line(word[i++], line) == ERROR)
-				return (ERROR);
+		while (word[i++] != '\0')
+			if (word[i - 1] != '\n' || word[i] != '\0')
+				if (add_c_to_line(word[i - 1], line) == ERROR)
+					return (ERROR);
 	}
-	return (put_cmd());
+	return (true);
 }
 
 static int					place_curs_end_line(void)
