@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 07:37:39 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/20 21:52:51 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/20 22:18:23 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int							move_cursor(unsigned int y, unsigned int x)
 
 	i = 0;
 	if (y > 0)
-		while (i++ <= y)
+		while (i++ < y)
 				if (put_cmd_term("up") == ERROR)
 					return (ERROR);
 	i = 0;
@@ -53,6 +53,25 @@ int							move_cursor(unsigned int y, unsigned int x)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 	return (put_cmd_term("cd"));
+}
+
+static int					put_back_beguin_line(char *beguin)
+{
+	char					*end;
+	char					c;
+
+	if ((end = ft_strrchr(beguin, '\n')) != NULL)
+	{
+		end++;
+		c = *end;
+		*end = '\0';
+		if (insert_word_in_g_line(beguin, &g_curs) == ERROR)
+			return (ERROR);
+		if (add_c_to_line('\n', &g_curs) == ERROR)
+					return (ERROR);
+		*end = c;
+	}
+	return (true);
 }
 
 int							search_history_up(char *beguin)
@@ -75,7 +94,7 @@ int							search_history_up(char *beguin)
 	if (get_y_x_line(beguin, &y, &x) == ERROR)
 		return (ERROR);
 	fprintf(debug, "\nx = %u, y = %u\n\n", x, y);
-	if (move_cursor(y, x) == ERROR)
+	if (move_cursor(y, x) == ERROR || put_back_beguin_line(beguin) == ERROR)
 		return (ERROR);
 	return (insert_word_in_g_line(SHC->line, &g_curs));
 }
