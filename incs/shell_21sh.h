@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 09:06:43 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/27 09:45:54 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ int							del_21sh(void);
 */
 void						loop_shell(void);
 int							print_prompt(void);
-int							exe_cmd(t_history **hist, char *line);
 
 /*
 **	sort_fonctions.c

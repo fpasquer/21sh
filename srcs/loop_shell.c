@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/07 22:17:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/27 09:46:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ static void					put_line_entre(char *line)
 	{
 		if ((sh = get_21sh(NULL)) == NULL)
 			return ;
-/*		i = g_y;
-		while (i-- > 0)
-			if (put_cmd_term("do") == ERROR)
-				return ;*/
 		if (put_cmd_term("cb") == ERROR)
 			return ;
 		i = 0;
@@ -109,13 +105,20 @@ static int					at_save_history(char *line)
 	return (ret);
 }
 
-int							exe_cmd(t_history **hist, char *line)
+static int					exe_cmd(char *line)
 {
-	if (hist == NULL || line == NULL)
+	t_21sh					*sh;
+
+	if (line == NULL || (sh = get_21sh(NULL)) == NULL || sh->hist == NULL)
 		return (ERROR);
 	if (at_save_history(line) == true)
-		if (add_history(hist, line) == ERROR)
+		if (add_history(&sh->hist, line) == ERROR)
 			return (ERROR);
+	if (tcsetattr(0, TCSADRAIN, &sh->reset) == -1)
+		return (ERROR);
+	//partie flo
+	if (tcsetattr(0, TCSADRAIN, &sh->term_param) == -1)
+		return (ERROR);
 	return (true);
 }
 
@@ -135,7 +138,7 @@ void						loop_shell(void)
 			if ((line = get_line_entree()) == NULL)
 				break ;
 			put_line_entre(line);
-			if (exe_cmd(&sh->hist, line) == ERROR)
+			if (exe_cmd(line) == ERROR)
 				break ;
 			ft_memdel((void**)&line);
 		}
