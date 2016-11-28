@@ -6,12 +6,14 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/20 21:56:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/28 21:48:34 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
+#define SHC sh->hist->curs
+
 
 static bool					g_move = false;
 
@@ -48,17 +50,19 @@ int							key_del_hist(void)
 
 int							print_history_up(void)
 {
-	char					*tab;
-	int						ret;
+	t_21sh					*sh;
 
-
-	if ((tab = make_tab()) == NULL)
+	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	ret = search_history_up(tab);
-	ft_memdel((void**)&tab);
-	if (put_cmd() == ERROR)
+	if (sh->hist == NULL)
+		return (true);
+	if (SHC == NULL)
+		SHC = sh->hist;
+	else
+		SHC = (SHC->next != NULL) ? SHC->next : SHC;
+	if (change_value_g_curs_line(SHC->line) == ERROR)
 		return (ERROR);
-	return (ret);
+	return (put_cmd());
 }
 
 int							print_history_down(void)
@@ -80,7 +84,6 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	if (sh == NULL || curs == NULL || g_lines == NULL)
 		return (ERROR);
 	i = (curs == g_lines) ? curs->i + sh->len_prompt : curs->i;
-	//if (i % sh->win.ws_col == sh->win.ws_col - 1)
 	if (curs->x_i == sh->win.ws_col - 2)
 	{
 		i = sh->win.ws_col - 1;
@@ -97,7 +100,6 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
 	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
 	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
-	fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
 	return (true);
 }
 
@@ -123,6 +125,25 @@ int							move_right(void)
 	return (get_new_i(sh, curs));
 }
 
+static int					is_enter_left(t_line **line)
+{
+	size_t					i;
+	t_21sh					*sh;
+
+	if (line == NULL || *line == NULL || (*line)->curs == NULL ||
+			(sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	(*line)->x_i = (*line)->i % sh->win.ws_col;
+	(*line)->y_i--;
+	fprintf(debug, "i = %3zu, x_i = %3zu, y_i = %3zu c = '%3d'\n", (*line)->i, (*line)->x_i, (*line)->y_i, (*line)->curs->c);
+	if (put_cmd_term("up") == ERROR)
+		return (ERROR);
+	i = 0;
+	while (i++ < (*line)->x_i)
+		if (put_cmd_term("nb") == ERROR)
+			return (ERROR);
+	return (true);
+}
 
 int							move_left(void)
 {
@@ -140,8 +161,8 @@ int							move_left(void)
 			return (ERROR);
 		curs->i--;
 		curs->curs = curs->curs->prev;
-//		if (g_move == false)
-//			return ((g_move = true));
+		if (curs->curs->c == '\n')
+			return (is_enter_left(&curs));
 		if (curs->x_i == 0 && curs->i < curs->len - 1)
 		{
 			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
@@ -149,7 +170,6 @@ int							move_left(void)
 		}
 		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
 			curs->x_i--;
-	fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", curs->i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
 	}
 	return (true);
 }
@@ -161,7 +181,6 @@ static int					save_info_line(t_line **line)
 
 	if (line == NULL || *line == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	//fprintf(debug, "1 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*line)->x_i, (*line)->y_i, (*line)->i, (*line)->len);
 	(*line)->i--;
 	(*line)->len--;
 	if ((*line)->x_i == 0)
@@ -171,10 +190,8 @@ static int					save_info_line(t_line **line)
 	}
 	else
 		(*line)->x_i--;
-	if (save_y_x_line(line) == ERROR)
+	if (save_y_x_line(line, '@') == ERROR)
 		return (ERROR);
-	//fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*line)->x_i, (*line)->y_i, (*line)->i, (*line)->len);
-//	fprintf(debug, " del i = %3zu x_i = %3zu y_i = %3zu len = %3zu\n", (*line)->i, (*line)->x_i, (*line)->y_i, (*line)->len);
 	return (put_cmd());
 }
 

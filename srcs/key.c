@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/20 21:57:51 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/28 22:12:29 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (ARROW_UP)
 		print_history_up();
 	else if (ARROW_DOWN)
-		print_history_down();
+		;//print_history_down();
 	else if (ARROW_RIGHT)
 		move_right();
 	else if (ARROW_LEFT)
@@ -89,11 +89,9 @@ static int					loop_place_curs(size_t y, size_t x)
 	while (y-- > 1)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
-//getchar();
 	while (x-- + 1 > 0)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-//getchar();
 	return (true);
 }
 
@@ -138,7 +136,6 @@ static int					save_y_i(size_t *y, size_t *x)
 		curs = curs->next;
 	}
 	(*y) += loop;
-//	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
 	return (true);
 }
 
@@ -206,62 +203,6 @@ int							put_cmd(void)
 	return (replace_i());
 }
 
-/*int							put_lines(void)
-{
-
-	if (place_curs() == true)
-		return (put_cmd());
-	return (ERROR);
-}*/
-
-static int					get_line_cmd(void)
-{
-	char					c;
-	int						ret;
-
-	while (1)
-	{
-		if ((c = get_char_keyboard()) != KEY_IGNORE)
-		{
-			if (place_curs() == ERROR)
-				return (ERROR);
-			if (add_c_to_line(c, &g_curs) == ERROR)
-				return (ERROR);
-			if (put_cmd() == ERROR)
-				return (ERROR);
-		}
-		if ((ret = is_end(c)) != false)
-			break ;
-	}
-	return (ret);
-}
-
-int							save_y_x_line(t_line **lines)
-{
-	size_t					y;
-	t_21sh					*sh;
-
-	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL ||
-			sh->win.ws_col == 0)
-		return (ERROR);
-	if ((*lines) == g_lines)
-	{
-		(*lines)->y = ((*lines)->len + sh->len_prompt) / sh->win.ws_col;
-		(*lines)->x = ((*lines)->len + sh->len_prompt) % sh->win.ws_col;
-		(*lines)->y_i = ((*lines)->i + sh->len_prompt) / sh->win.ws_col;
-		(*lines)->x_i = ((*lines)->i + sh->len_prompt) % sh->win.ws_col;
-	}
-	else
-	{
-		(*lines)->y = (*lines)->len / sh->win.ws_col;
-		(*lines)->x = (*lines)->len % sh->win.ws_col;
-		(*lines)->y_i = (*lines)->i / sh->win.ws_col;
-		(*lines)->x_i = (*lines)->i % sh->win.ws_col;
-	}
-	fprintf(debug, "y = %3zu x %3zu i = %3zu len = %3zu c = %c\n", (*lines)->y_i , (*lines)->x_i, (*lines)->i, (*lines)->len, last_c(*lines, (*lines)->i));
-	return (true);
-}
-
 static int					creat_new_line(t_line **lines, char c)
 {
 	t_line					*new;
@@ -277,6 +218,59 @@ static int					creat_new_line(t_line **lines, char c)
 	return (true);
 }
 
+static int					get_line_cmd(void)
+{
+	char					c;
+	int						ret;
+
+	while (1)
+	{
+		if ((c = get_char_keyboard()) != KEY_IGNORE)
+		{
+			if (place_curs() == ERROR)
+				return (ERROR);
+			if (creat_new_line(&g_curs, c) == false)
+				if (add_c_to_line(c, &g_curs) == ERROR)
+					return (ERROR);
+			if (put_cmd() == ERROR)
+				return (ERROR);
+		}
+		if ((ret = is_end(c)) != false)
+			break ;
+	}
+	return (ret);
+}
+
+int							save_y_x_line(t_line **lines, char c)
+{
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL ||
+			sh->win.ws_col == 0)
+		return (ERROR);
+	if (c == '\n')
+	{
+		(*lines)->x = 0;
+		(*lines)->y++;
+		(*lines)->x_i = 0;
+		(*lines)->y_i++;
+	//fprintf(debug, "1 %c x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", c, (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i,
+			//(*lines)->i, (*lines)->len);
+		return (true);
+	}
+	(*lines)->x = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x;
+	(*lines)->x_i = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x_i;
+	(*lines)->y_i = (*lines)->x_i + 1 >= sh->win.ws_col ? (*lines)->y_i + 1 :
+			(*lines)->y_i;
+	(*lines)->x_i = (*lines)->x_i + 1 >= sh->win.ws_col ? 0 : (*lines)->x_i + 1;
+	(*lines)->y = (*lines)->x + 1 >= sh->win.ws_col ? (*lines)->y + 1 :
+			(*lines)->y;
+	(*lines)->x = (*lines)->x + 1 >= sh->win.ws_col ? 0 : (*lines)->x + 1;
+	//fprintf(debug, "2 %c x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", c, (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i,
+	//		(*lines)->i, (*lines)->len);
+	return (true);
+}
+
 static int					check_save_y_x(t_line **lines, char c)
 {
 	int						ret;
@@ -285,16 +279,13 @@ static int					check_save_y_x(t_line **lines, char c)
 		return (ERROR);
 	(*lines)->i = ((*lines)->len == 0) ? 0 : (*lines)->i + 1;
 	(*lines)->len++;
-	ret = save_y_x_line(lines);
-	return (ret);
+	return (save_y_x_line(lines, c));
 }
 
 int							add_c_to_line(char c, t_line **line)
 {
 	t_entry					*n;
 
-	if (creat_new_line(line, c) == true)
-		return (true);
 	if ((n = ft_memalloc(sizeof(*n))) == NULL || line == NULL || *line == NULL)
 		return (ERROR);
 	n->c = c;
@@ -419,7 +410,6 @@ char						*make_tab(void)
 		len_total += curs->len;
 		curs = curs->next;
 	}
-	fprintf(debug, "len_total = %3zu\n", len_total);
 	if ((tab = ft_memalloc(sizeof(*tab) * (len_total + 1))) == NULL)
 		return (NULL);
 	return (save_tab(tab));
@@ -428,10 +418,18 @@ char						*make_tab(void)
 
 char						*get_line_entree(void)
 {
+	t_21sh					*sh;
+
+	if ((sh =get_21sh(NULL)) == NULL)
+		return (NULL);
 	del_g_lines();
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL)
 		return (NULL);
 	g_curs = g_lines;
+	g_curs->x = (sh->len_prompt - 1) % sh->win.ws_col;
+	g_curs->x_i = (sh->len_prompt - 1) % sh->win.ws_col;
+	g_curs->y = (sh->len_prompt - 1) / sh->win.ws_col;
+	g_curs->y_i = (sh->len_prompt - 1) / sh->win.ws_col;
 	if (get_line_cmd() == ERROR)
 		return (NULL);
 	return (make_tab());

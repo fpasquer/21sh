@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 07:37:39 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/20 22:18:23 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/27 10:17:42 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int							search_history_up(char *beguin)
 		SHC = (SHC->next != NULL) ? SHC->next : SHC;
 	if (get_y_x_line(beguin, &y, &x) == ERROR)
 		return (ERROR);
-	fprintf(debug, "\nx = %u, y = %u\n\n", x, y);
 	if (move_cursor(y, x) == ERROR || put_back_beguin_line(beguin) == ERROR)
 		return (ERROR);
 	return (insert_word_in_g_line(SHC->line, &g_curs));
