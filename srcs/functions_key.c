@@ -6,13 +6,14 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/28 21:48:34 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/01 21:53:29 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 #define SHC sh->hist->curs
+#define CC curs->curs
 
 
 static bool					g_move = false;
@@ -128,20 +129,22 @@ int							move_right(void)
 static int					is_enter_left(t_line **line)
 {
 	size_t					i;
+	t_entry					*c_prev;
 	t_21sh					*sh;
 
 	if (line == NULL || *line == NULL || (*line)->curs == NULL ||
 			(sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	(*line)->x_i = (*line)->i % sh->win.ws_col;
-	(*line)->y_i--;
-	fprintf(debug, "i = %3zu, x_i = %3zu, y_i = %3zu c = '%3d'\n", (*line)->i, (*line)->x_i, (*line)->y_i, (*line)->curs->c);
+	c_prev = (*line)->curs->prev;
+	(*line)->x_i = c_prev->x_i + 1;
+	(*line)->y_i = c_prev->y_i;
 	if (put_cmd_term("up") == ERROR)
 		return (ERROR);
 	i = 0;
-	while (i++ < (*line)->x_i)
-		if (put_cmd_term("nb") == ERROR)
-			return (ERROR);
+	if ((*line)->x_i > 0)
+		while (i++ <= (*line)->x_i)
+			if (put_cmd_term("nd") == ERROR)
+				return (ERROR);
 	return (true);
 }
 
@@ -153,22 +156,22 @@ int							move_left(void)
 	sh = get_21sh(NULL);
 	if ((curs = g_lines) == NULL || sh == NULL)
 		return (ERROR);
-	while (curs->next != NULL)
+	while (curs != NULL && curs->next != NULL)
 		curs = curs->next;
-	if (curs->curs != NULL)
+	if (curs != NULL && curs->curs != NULL)
 	{
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 		curs->i--;
 		curs->curs = curs->curs->prev;
-		if (curs->curs->c == '\n')
+		if (CC != NULL && CC->next != NULL && curs->curs->next->c == '\n')
 			return (is_enter_left(&curs));
-		if (curs->x_i == 0 && curs->i < curs->len - 1)
+		if (curs->curs != NULL && curs->x_i == 0 && curs->i < curs->len - 1)
 		{
 			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
 			curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
 		}
-		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
+		else if (CC != NULL && (curs->i < curs->len - 1 || curs->i == ULONG_MAX))
 			curs->x_i--;
 	}
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/27 09:46:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/29 22:27:45 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,11 @@ static int					exe_cmd(char *line)
 	if (at_save_history(line) == true)
 		if (add_history(&sh->hist, line) == ERROR)
 			return (ERROR);
-	if (tcsetattr(0, TCSADRAIN, &sh->reset) == -1)
+	/*if (tcsetattr(0, TCSADRAIN, &sh->reset) == -1)
 		return (ERROR);
 	//partie flo
 	if (tcsetattr(0, TCSADRAIN, &sh->term_param) == -1)
-		return (ERROR);
+		return (ERROR);*/
 	return (true);
 }
 

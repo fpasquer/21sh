@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 20:08:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/28 13:39:45 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/01 21:54:30 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int							change_value_g_curs_line(char *word)
 		ft_memdel((void**)&curs);
 		curs = mem;
 	}
-	//fprintf(debug, "g_curs = %p x = %zu y = %zu\n", g_curs, g_lines->x, g_lines->y);
 	if (reset_g_curs() == ERROR)
 		return (ERROR);
 	i = 0;
@@ -71,7 +70,6 @@ int							change_value_g_curs_line(char *word)
 		if (word[i - 1] != '\n' || (word[i - 1] == '\n' && word[i] != '\0'))
 			if (add_c_to_line(word[i - 1], &g_curs) == ERROR)
 				return (ERROR);
-	//fprintf(debug, "\n\n");
 	return (true);
 }
 

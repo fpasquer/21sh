@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 08:26:41 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/26 18:54:29 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/30 13:34:00 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int							put_cmd_term(char *cmd)
 {
 	char					*ret;
 
+	if (cmd == NULL)
+		return (ERROR);
 	if ((ret = tgetstr(cmd, NULL)) == NULL)
 		return (ERROR);
 	tputs(ret, 0, my_out_put);

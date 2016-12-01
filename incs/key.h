@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/28 22:12:48 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/11/29 21:22:05 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 typedef struct				s_entry
 {
 	char					c;
+	size_t					i;
+	size_t					x_i;
+	size_t					y_i;
 	struct s_entry			*next;
 	struct s_entry			*prev;
 }							t_entry;
