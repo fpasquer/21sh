@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/01 21:53:29 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/04 17:40:18 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../incs/key.h"
 #define SHC sh->hist->curs
 #define CC curs->curs
-
 
 static bool					g_move = false;
 
@@ -168,11 +167,15 @@ int							move_left(void)
 			return (is_enter_left(&curs));
 		if (curs->curs != NULL && curs->x_i == 0 && curs->i < curs->len - 1)
 		{
+																				//fprintf(debug, "line : %d\n", __LINE__);
 			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
 			curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
 		}
-		else if (CC != NULL && (curs->i < curs->len - 1 || curs->i == ULONG_MAX))
+		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
+																				{
+																					//fprintf(debug, "line : %d\n", __LINE__);
 			curs->x_i--;
+																				}
 	}
 	return (true);
 }

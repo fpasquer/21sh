@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/01 22:06:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/04 22:24:19 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static int					loop_place_curs(size_t y, size_t x)
 	while (x-- + 1 > 0)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
+																				getchar();
 	return (true);
 }
 
@@ -115,9 +116,6 @@ char						last_c(t_line *line, size_t i)
 }
 
 static int					save_y_i(size_t *y, size_t *x)
-/*
- * fonction fausse. Retourne mal les coordonnees de la position au debut du prompt sí la ligne a des entree
-*/
 {
 	size_t					loop;
 	t_line					*curs;
@@ -135,22 +133,22 @@ static int					save_y_i(size_t *y, size_t *x)
 	{
 		loop = loop + 1;
 		(*y) += curs->y_i;
-		(*x) = curs->x_i;
+		(*x) = curs->x_i + 1;
 		curs = curs->next;
 	}
 	(*y) += loop;
-	fprintf(debug, "x = %3zu, y = %3zu\n", *y, *x);
+																				//fprintf(debug, "(*x) = %3zu (*y) = %3zu\n", (*x), (*y));
 	return (true);
 }
 
 int							place_curs(void)
 {
-	size_t					i;
-	size_t					y;
+	size_t					x_i;
+	size_t					y_i;
 
-	if (save_y_i(&y, &i) == ERROR)
+	if (save_y_i(&y_i, &x_i) == ERROR)
 		return (ERROR);
-	return (loop_place_curs(y, i));
+	return (loop_place_curs(y_i, x_i));
 }
 
 static int						clean_and_put_prompt(void)
@@ -162,10 +160,8 @@ static int						clean_and_put_prompt(void)
 	return (ret);
 }
 
-static int					replace_i(void)
-/*
+/*static int					replace_i(void)
  *	Replace mal le curseur si la ligne a des entrees
- */
 {
 	size_t					i;
 	t_line					*curs;
@@ -178,6 +174,88 @@ static int					replace_i(void)
 	while (i++ + 1< curs->len)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
+	return (true);
+}*/
+
+static int					move_enter_line_1(void)
+{
+	size_t					i;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	i = 0;
+	while (i++ < sh->len_prompt)
+																				{
+																					fprintf(debug, "nd line 1\n");
+		if (put_cmd_term("nd") == ERROR)
+			return (ERROR);
+																				}
+	return (true);
+}
+
+static int					move_enter(t_entry *curs)
+{
+	size_t					i;
+	size_t					y;
+	t_entry					*tmp;
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	if ((tmp = curs->prev) == NULL)
+		return (true);
+	y = tmp->y_i;
+																				i = 0;
+																				fprintf(debug, "y = %3zu c = %c\n", y, tmp->c);
+	while (tmp != NULL && tmp->c != '\n')
+	{
+		if (put_cmd_term("nd") == ERROR)
+			return (ERROR);
+		tmp = tmp->prev;
+																				fprintf(debug, "nd i = %3zu\n", ++i);
+	}
+	i = 0;
+	if (g_curs == g_lines && y == 0)
+		while (i++ < sh->len_prompt)
+		{
+			if (put_cmd_term("nd") == ERROR)
+				return (ERROR);
+																				fprintf(debug, "nd line 1 i %3zu\n", i);
+		}
+	if (put_cmd_term("up") == ERROR)
+		return (ERROR);
+																				fprintf(debug, "up\n");
+	return (true);
+}
+
+static int					replace_i(void)
+{
+	int						ret;
+	size_t					i;
+	t_entry					*curs;
+
+	if (g_curs == NULL || (curs = g_curs->curs) == NULL)
+		return (g_curs == NULL ? ERROR : true);
+	while (curs->next != NULL)
+		curs = curs->next;
+	i = 0;
+																				//getchar();
+	while (g_curs->i + i < g_curs->len - 1 && curs != NULL)
+	{
+		if (curs->c == '\n')
+			ret = move_enter(curs);
+		else
+																				{
+																					fprintf(debug, "le\n");
+			ret = put_cmd_term("le");
+																				}
+		if (ret == ERROR)
+			return (ERROR);
+		curs = curs->prev;
+		i++;
+	}
+																				//getchar();
 	return (true);
 }
 
@@ -259,25 +337,23 @@ int							save_y_x_line(t_line **lines, char c)
 	if (prev_enter == true)
 	{
 		(*lines)->x = 0;
-		(*lines)->y = 0;
+		(*lines)->y = (*lines)->y + 1;
 		(*lines)->x_i = 0;
-		(*lines)->y_i = 0;
+		(*lines)->y_i = (*lines)->y_i + 1;
 		prev_enter = false;
-	//fprintf(debug, "%c x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", c, (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i,
-			//(*lines)->i, (*lines)->len);
+																				fprintf(debug, "%c x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", c, (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i,
+																				(*lines)->i, (*lines)->len);
 		return (true);
 	}
 	prev_enter = c == '\n' ? true : false;
 	(*lines)->x = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x;
 	(*lines)->x_i = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x_i;
-	(*lines)->y_i = (*lines)->x_i + 1 >= sh->win.ws_col ? (*lines)->y_i + 1 :
-			(*lines)->y_i;
+	(*lines)->y_i = (*lines)->x_i + 1 >= sh->win.ws_col ? (*lines)->y_i + 1 : (*lines)->y_i;
 	(*lines)->x_i = (*lines)->x_i + 1 >= sh->win.ws_col ? 0 : (*lines)->x_i + 1;
-	(*lines)->y = (*lines)->x + 1 >= sh->win.ws_col ? (*lines)->y + 1 :
-			(*lines)->y;
+	(*lines)->y = (*lines)->x + 1 >= sh->win.ws_col ? (*lines)->y + 1 : (*lines)->y;
 	(*lines)->x = (*lines)->x + 1 >= sh->win.ws_col ? 0 : (*lines)->x + 1;
-	//fprintf(debug, "%c x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", c, (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i,
-			//(*lines)->i, (*lines)->len);
+																				fprintf(debug, "%c x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", c, (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i,
+																				(*lines)->i, (*lines)->len);
 	return (true);
 }
 
@@ -299,12 +375,16 @@ static int					save_coord_c_next(t_line **lines)
 	while (curs != NULL)
 	{
 		curs->i = i++;
+		x = curs->c == '\n' ? 0 : x;
+		y = curs->c == '\n' ? y + 1 : y;
 		curs->x_i = x;
 		curs->y_i = y;
 		y = x + 1 >= sh->win.ws_col ? y + 1 : y;
 		x = x + 1 >= sh->win.ws_col ? 0 : x + 1;
+																				fprintf(debug, "%c x_i %3zu y_i %3zu i = %3zu\n", curs->c, curs->x_i, curs->y_i, curs->i);
 		curs = curs->next;
 	}
+																				fprintf(debug, "\n\n");
 	return (true);
 }
 
@@ -313,7 +393,7 @@ static int					check_save_y_x(t_line **lines, char c, t_entry *n)
 	static bool				prev_enter = false;
 	if (lines == NULL || *lines == NULL || n == NULL)
 		return (ERROR);
-	if (prev_enter == true)
+	/*if (prev_enter == true)
 	{
 		
 		(*lines)->i = 0;
@@ -321,10 +401,10 @@ static int					check_save_y_x(t_line **lines, char c, t_entry *n)
 		prev_enter = false;
 	}
 	else
-	{
+	{*/
 		(*lines)->i = ((*lines)->len == 0) ? 0 : (*lines)->i + 1;
 		(*lines)->len++;
-	}
+	//}
 	prev_enter = c == '\n' ? true : false;
 	if (save_y_x_line(lines, c) == ERROR)
 		return (ERROR);
