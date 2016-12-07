@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/04 17:40:18 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/07 21:44:14 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,13 +137,17 @@ static int					is_enter_left(t_line **line)
 	c_prev = (*line)->curs->prev;
 	(*line)->x_i = c_prev->x_i + 1;
 	(*line)->y_i = c_prev->y_i;
+																				fprintf(debug, "up is_enter_left\n");
 	if (put_cmd_term("up") == ERROR)
 		return (ERROR);
 	i = 0;
-	if ((*line)->x_i > 0)
+	if ((*line)->x_i > 0 && c_prev->c != '\n')
 		while (i++ <= (*line)->x_i)
+		{
+																				fprintf(debug, "nd %3zu is_enter_left\n", i - 1);
 			if (put_cmd_term("nd") == ERROR)
 				return (ERROR);
+		}
 	return (true);
 }
 
@@ -161,6 +165,7 @@ int							move_left(void)
 	{
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
+																				fprintf(debug, "le left\n");
 		curs->i--;
 		curs->curs = curs->curs->prev;
 		if (CC != NULL && CC->next != NULL && curs->curs->next->c == '\n')
