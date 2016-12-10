@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/11/17 23:05:28 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/10 16:55:39 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int				check_and_parse(char *line, int i)
 			return (1);
 		if (line[i + 1] && line[i] == '&' && line[i + 1] == '&')
 			return (2);
-		if ((line[i + 1] && line[i] == '|' && line[i + 1] != '|') ||
-		(line[i] == '|' && line[i + 1] == 0))
+		if ((line[i + 1] && line[i] == '|' && line[i + 1] != '|')
+				|| (line[i] == '|' && line[i + 1] == 0))
 			return (3);
 		if (line[i + 1] && line[i] == '|' && line[i + 1] == '|')
 			return (4);
@@ -42,7 +42,9 @@ static t_cmd			*create_cmd(t_cmd *cmd2, char *line, int size, int i)
 	cmd->left = NULL;
 	cmd->arg = NULL;
 	cmd->op = check_and_parse(line, i);
-	cmd->done = 0;
+	cmd->done = -1;
+	cmd->pipefd[0] = -1;
+	cmd->pipefd[1] = -1;
 	cmd->line = ft_strsub(line, i - size, size);
 	if (cmd2)
 	{
