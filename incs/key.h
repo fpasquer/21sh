@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/04 17:59:57 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/10 11:52:11 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ typedef struct				s_entry
 **	next :				si la commande est multi commande (avec des quotes)
 **	len :				longueur de la commande
 **	i :					position dans la commade
-**	x :					position dans l'ecran horizontalement
-**	y :					decalage de ligne par rapport au prompt
+**	x :					position dans l'ecran horizontalement du dernier caractere
+**	y :					decalage de ligne par rapport au prompt du dernier caractere
+**	x_i					position dans l'ecran horizontalement du caractere actuel
+**	y_i					decalage de ligne par rapport au prompt du carcatere actuel
 */
 typedef struct				s_line
 {

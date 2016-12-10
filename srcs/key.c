@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/07 21:46:30 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/10 12:27:39 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,12 @@ static int					loop_place_curs(size_t y, size_t x)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
 	while (x-- + 1 > 0)
+																				{
+																				//fprintf(debug, "le replace x = %3zu\n", x + 1);
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-																				getchar();
+																				}
+																				//getchar();
 	return (true);
 }
 
@@ -134,11 +137,12 @@ static int					save_y_i(size_t *y, size_t *x)
 	{
 		loop = loop + 1;
 		(*y) += curs->y_i;
+																				//fprintf(debug, "(*x) = %3zu (*y) = %3zu\n", (*x), (*y));
 		(*x) = curs->x_i + 1;
+																				//fprintf(debug, "(*x) = %3zu (*y) = %3zu\n", (*x), (*y));
 		curs = curs->next;
 	}
 	(*y) += loop;
-																				//fprintf(debug, "(*x) = %3zu (*y) = %3zu\n", (*x), (*y));
 	return (true);
 }
 
@@ -188,7 +192,7 @@ static int					move_enter_line_1(void)
 	i = 0;
 	while (i++ < sh->len_prompt)
 																				{
-																					fprintf(debug, "nd line 1\n");
+																					//fprintf(debug, "nd line 1\n");
 		if (put_cmd_term("nd") == ERROR)
 			return (ERROR);
 																				}
@@ -206,9 +210,11 @@ static int					move_enter(t_entry *curs)
 		return (ERROR);
 	if ((tmp = curs->prev) == NULL)
 		return (true);
-	y = tmp->y_i;
 																				//i = 0;
 																				//fprintf(debug, "y = %3zu x = %3zu c = %c\n", y, tmp->x_i, tmp->c);
+	if ((y = tmp->y_i) == tmp->y_i && tmp->x_i > 0)
+		if (put_cmd_term("nd") == ERROR)
+			return (ERROR);
 	while (tmp != NULL && tmp->c != '\n' && tmp->x_i > 0)
 	{
 		if (put_cmd_term("nd") == ERROR)
@@ -217,14 +223,13 @@ static int					move_enter(t_entry *curs)
 		tmp = tmp->prev;
 																				//fprintf(debug, "nd i = %3zu\n", ++i);
 	}
-	i = 0;
-	if (g_curs == g_lines && y == 0)
+	if (g_curs == g_lines && y == 0 && (i = 0) == 0)
 		while (i++ < sh->len_prompt)
-		{
+																				//{
 			if (put_cmd_term("nd") == ERROR)
 				return (ERROR);
 																				//fprintf(debug, "nd line 1 i %3zu\n", i);
-		}
+																				//}
 	if (put_cmd_term("up") == ERROR)
 		return (ERROR);
 																				//fprintf(debug, "up\n");
@@ -346,24 +351,22 @@ int							save_y_x_line(t_line **lines, char c)
 	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL ||
 			sh->win.ws_col == 0)
 		return (ERROR);
-	if (prev_enter == true)
+	if ((*lines)->curs != NULL && (*lines)->curs->prev != NULL && (*lines)->curs->prev->c == '\n')
 	{
 		(*lines)->x = 0;
-		(*lines)->y = (*lines)->y + 1;
+		(*lines)->y++;
 		(*lines)->x_i = 0;
-		(*lines)->y_i = (*lines)->y_i + 1;
-		prev_enter = c == '\n' ? true : false;
-																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
+		(*lines)->y_i = (*lines)->curs->prev->y_i + 1;
+																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu a\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 		return (true);
 	}
-	prev_enter = c == '\n' ? true : false;
 	(*lines)->x = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x;
 	(*lines)->x_i = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x_i;
 	(*lines)->y_i = (*lines)->x_i + 1 >= sh->win.ws_col ? (*lines)->y_i + 1 : (*lines)->y_i;
 	(*lines)->x_i = (*lines)->x_i + 1 >= sh->win.ws_col ? 0 : (*lines)->x_i + 1;
 	(*lines)->y = (*lines)->x + 1 >= sh->win.ws_col ? (*lines)->y + 1 : (*lines)->y;
 	(*lines)->x = (*lines)->x + 1 >= sh->win.ws_col ? 0 : (*lines)->x + 1;
-																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
+																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu b\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 	return (true);
 }
 
@@ -384,14 +387,15 @@ static int					save_coord_c_next(t_line **lines)
 	i = (*lines)->i;
 	while (curs != NULL)
 	{
+
 		curs->i = i++;
-		x = curs->prev != NULL && curs->prev->c == '\n' ? 0 : x;
-		y = curs->prev != NULL && curs->prev->c == '\n' ? y + 1 : y;
+		x = curs->prev != NULL && curs->prev->c == '\n' && curs != (*lines)->curs ? 0 : x;
+		y = curs->prev != NULL && curs->prev->c == '\n' && curs != (*lines)->curs ? y + 1 : y;
 		curs->x_i = x;
 		curs->y_i = y;
 		y = x + 1 >= sh->win.ws_col ? y + 1 : y;
 		x = x + 1 >= sh->win.ws_col ? 0 : x + 1;
-																				//fprintf(debug, "     %p                  x_i = %3zu y_i = %3zu, i = %3zu\n", curs, curs->x_i, curs->y_i, curs->i);
+																				fprintf(debug, "     %p                  x_i = %3zu y_i = %3zu, i = %3zu\n", curs, curs->x_i, curs->y_i, curs->i);
 		curs = curs->next;
 	}
 																				//fprintf(debug, "\n\n");
