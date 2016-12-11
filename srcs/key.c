@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/10 12:27:39 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/11 10:20:40 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,24 @@ char						last_c(t_line *line, size_t i)
 	return ('0');
 }
 
+static int					check_if_g_curs_c_is_enter(void)
+{
+	size_t					loop;
+
+	if (g_curs == NULL)
+		return (ERROR);
+	if (g_curs->curs != NULL && g_curs->curs->c == '\n')
+	{
+		if (put_cmd_term("up") == ERROR)
+			return (ERROR);
+		loop = 0;
+		while (loop++ < g_curs->curs->x_i)
+			if (put_cmd_term("nd") == ERROR)
+				return (ERROR);
+	}
+	return (true);
+}
+
 static int					save_y_i(size_t *y, size_t *x)
 {
 	size_t					loop;
@@ -143,7 +161,7 @@ static int					save_y_i(size_t *y, size_t *x)
 		curs = curs->next;
 	}
 	(*y) += loop;
-	return (true);
+	return (check_if_g_curs_c_is_enter());
 }
 
 int							place_curs(void)
@@ -343,6 +361,34 @@ static int					get_line_cmd(void)
 	return (ret);
 }
 
+static int					save_y_x_line2(t_entry *curs, size_t *x, size_t *y)
+{
+	size_t					mem_x;
+	size_t					mem_y;
+	t_entry					*tmp;
+	t_21sh					*sh;
+
+	sh = get_21sh(NULL);
+	if ((tmp = curs) == NULL || x == NULL || y == NULL || sh == NULL)
+		return (ERROR);
+	mem_x = 0;
+	mem_y = (*y) + 1;
+	if (tmp->next != NULL)
+		while (tmp != NULL)
+		{
+			mem_x = tmp->x_i;
+			mem_y = tmp->y_i;
+																				fprintf(debug, "a tmp %p \n ", tmp);
+			if (tmp->x_i == 0)
+				return (true);
+																				fprintf(debug, "b tmp %p\n", tmp);
+			tmp = tmp->next;
+		}
+	(*x) = mem_x;
+	(*y) = mem_y;
+	return (true);
+}
+
 int							save_y_x_line(t_line **lines, char c)
 {
 	static bool				prev_enter = false;
@@ -353,8 +399,10 @@ int							save_y_x_line(t_line **lines, char c)
 		return (ERROR);
 	if ((*lines)->curs != NULL && (*lines)->curs->prev != NULL && (*lines)->curs->prev->c == '\n')
 	{
-		(*lines)->x = 0;
-		(*lines)->y++;
+		if (save_y_x_line2((*lines)->curs, &(*lines)->x, &(*lines)->y) == ERROR)
+			return (ERROR);
+																				//(*lines)->x = 0;
+																				//(*lines)->y++;
 		(*lines)->x_i = 0;
 		(*lines)->y_i = (*lines)->curs->prev->y_i + 1;
 																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu a\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
