@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/10 17:19:58 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/11 19:44:21 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,17 +109,14 @@ static int					check_add_hist(t_history **hist, char **line)
 
 static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
-	int						save_done;
-
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
 		builtin_or_not(cmd, 0, 0);
-		save_done = cmd->done;
 		print_cmd(cmd); //DEBUG
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0 
 					&& cmd->right->done != -1)
-				|| (cmd->right && cmd->op == ET && save_done != 0)
-				|| (cmd->right && cmd->op == OU && save_done == 0))
+				|| (cmd->right && cmd->op == ET && cmd->done != 0)
+				|| (cmd->right && cmd->op == OU && cmd->done == 0))
 			cmd = cmd->right;
 		cmd = cmd->right;
 	}
