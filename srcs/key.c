@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/11 10:44:27 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/11 12:07:51 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,16 +403,23 @@ int							save_y_x_line(t_line **lines, char c)
 			return (ERROR);
 		(*lines)->x_i = 0;
 		(*lines)->y_i = (*lines)->curs->prev->y_i + 1;
-																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu a\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 		return (true);
 	}
 	(*lines)->x = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x;
 	(*lines)->x_i = (*lines)->i == 0 && g_lines != g_curs ? ULONG_MAX : (*lines)->x_i;
 	(*lines)->y_i = (*lines)->x_i + 1 >= sh->win.ws_col ? (*lines)->y_i + 1 : (*lines)->y_i;
 	(*lines)->x_i = (*lines)->x_i + 1 >= sh->win.ws_col ? 0 : (*lines)->x_i + 1;
-	(*lines)->y = (*lines)->x + 1 >= sh->win.ws_col ? (*lines)->y + 1 : (*lines)->y;
-	(*lines)->x = (*lines)->x + 1 >= sh->win.ws_col ? 0 : (*lines)->x + 1;
-																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu b\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
+	return (true);
+}
+
+static int					init_x_y_i(size_t *x, size_t *y, size_t *i,
+		t_line **lines)
+{
+	if (x == NULL || y == NULL || i == NULL || lines == NULL || *lines == NULL)
+		return (ERROR);
+	(*x) = (*lines)->x_i;
+	(*y) = (*lines)->y_i;
+	(*i) = (*lines)->i;
 	return (true);
 }
 
@@ -425,25 +432,24 @@ static int					save_coord_c_next(t_line **lines)
 	t_21sh					*sh;
 
 	if (lines == NULL || *lines == NULL || (*lines)->curs == NULL ||
-			(sh = get_21sh(NULL)) == NULL)
+		(sh = get_21sh(NULL)) == NULL || init_x_y_i(&x, &y, &i, lines) == ERROR)
 		return (ERROR);
 	curs = (*lines)->curs;
-	x = (*lines)->x_i;
-	y = (*lines)->y_i;
-	i = (*lines)->i;
 	while (curs != NULL)
 	{
-
 		curs->i = i++;
 		x = curs->prev != NULL && curs->prev->c == '\n' && curs != (*lines)->curs ? 0 : x;
 		y = curs->prev != NULL && curs->prev->c == '\n' && curs != (*lines)->curs ? y + 1 : y;
 		curs->x_i = x;
 		curs->y_i = y;
+		(*lines)->x = curs->x_i;
+		(*lines)->y = curs->y_i;
 		y = x + 1 >= sh->win.ws_col ? y + 1 : y;
 		x = x + 1 >= sh->win.ws_col ? 0 : x + 1;
 																				fprintf(debug, "     %p                  x_i = %3zu y_i = %3zu, i = %3zu\n", curs, curs->x_i, curs->y_i, curs->i);
 		curs = curs->next;
 	}
+																				fprintf(debug, "x = %3zu, y = %3zu x_i = %3zu y_i = %3zu, i = %3zu, len = %3zu b\n", (*lines)->x, (*lines)->y, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 																				//fprintf(debug, "\n\n");
 	return (true);
 }
