@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/11 19:44:21 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/16 22:25:11 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,27 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
+		ft_putendl_fd("PASS", 2);
 		builtin_or_not(cmd, 0, 0);
-		print_cmd(cmd); //DEBUG
+		//print_cmd(cmd); //DEBUG
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0 
 					&& cmd->right->done != -1)
 				|| (cmd->right && cmd->op == ET && cmd->done != 0)
 				|| (cmd->right && cmd->op == OU && cmd->done == 0))
+		{
+			ft_putendl_fd("SKIP_CMD", 2);
+			ft_putstr_fd("cmd->", 2);
+			ft_putstr_fd(cmd->arg[0], 2);
+			ft_putstr_fd("== ", 2);
+			ft_putnbr_fd(cmd->done, 2);
+			ft_putchar_fd('\n', 2);
 			cmd = cmd->right;
+		}
+		ft_putstr_fd("cmd->", 2);
+		ft_putstr_fd(cmd->arg[0], 2);
+		ft_putstr_fd("== ", 2);
+		ft_putnbr_fd(cmd->done, 2);
+		ft_putchar_fd('\n', 2);
 		cmd = cmd->right;
 	}
 	free_cmd(head);
@@ -135,10 +149,13 @@ void						loop_shell(void)
 	del_g_lines();
 	if ((sh = get_21sh(NULL)) != NULL)
 	{
-		print_header();
-		while (1)
+		while (42)
 		{
+			if (tcsetattr(0, TCSADRAIN, &(sh->term_param)) == -1)
+				break ;
 			if ((line = get_line_entree()) == NULL)
+				break ;
+			if (tcsetattr(0, TCSADRAIN, &(sh->reset)) == -1)
 				break ;
 			put_line_entre(line);
 			if (check_add_hist(&sh->hist, &line) == ERROR)

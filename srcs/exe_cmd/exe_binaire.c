@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/12 17:01:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/16 23:36:09 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,62 +76,62 @@ static void			other_exe(t_cmd *cmd, char **env)
 	pid_t			pid;
 	int				ret;
 
+	ft_putstr_fd("CMD_EN_COURS_IN_OTHER_EXE", 2);
+	ft_putendl_fd(cmd->arg[0], 2);
 	ret = 1;
 	if ((pid = fork()) != -1)
 	{
 		if (pid == 0)
 			ft_execve(cmd, env, NULL);
-		else
-			waitpid(pid, &ret, WUNTRACED);
 	}
+	waitpid(pid, &ret, WUNTRACED);
 	if (WIFEXITED(ret))
 	{
 		ret = WEXITSTATUS(ret);
 		cmd->done = ret;
 	}
-	if (cmd->pipefd[0] != -1)
-		close(cmd->pipefd[0]);
 }
 
-static void			ft_pipe(t_cmd **cmd, char **env)
+static void			ft_pipe(t_cmd *cmd, char **env)
 {
 	pid_t			pid;
 	int				ret;
 
+	ft_putstr_fd("CMD_EN_COURS_IN_FT_PIPE", 2);
+	ft_putendl_fd(cmd->arg[0], 2);
 	ret = 1;
+	pipe(cmd->right->pipefd);
 	if ((pid = fork()) != -1)
 	{
 		if (pid == 0)
-			ft_execve(*cmd, env, NULL);
+			ft_execve(cmd, env, NULL);
 		else
-			waitpid(pid, &ret, WUNTRACED);
+		{
+			if (cmd->right && cmd->right->op == PIP)
+				ft_pipe(cmd->right, env);
+			else if (cmd->right)
+				other_exe(cmd->right, env);
+		}
 	}
+	waitpid(pid, &ret, WUNTRACED);
 	if (WIFEXITED(ret))
 	{
 		ret = WEXITSTATUS(ret);
-		(*cmd)->done = ret;
+		cmd->done = ret;
 	}
-	if ((*cmd)->pipefd[0] != -1)
-		close((*cmd)->pipefd[0]);
-	close((*cmd)->right->pipefd[1]);
-	*cmd = (*cmd)->right;
 }
 
-int					exe_binaire(t_cmd *cmd, char **env)
+void				exe_binaire(t_cmd *cmd, char **env)
 {
-	t_21sh			*sh;
-
-	if (((sh = get_21sh(NULL)) == NULL) ||
-			tcsetattr(0, TCSADRAIN, &(sh->reset)) == -1)
-		return (false);
-	while (cmd->op == PIP)
+	ft_putendl_fd("START", 2);
+	if (cmd->op == PIP)
 	{
-		pipe(cmd->right->pipefd);
-		ft_pipe(&cmd, env);
+		ft_putendl_fd("IN", 2);
+		ft_pipe(cmd, env);
 	}
-	if (cmd->op != PIP && cmd->done == -1)
+	else
+	{
+		ft_putendl_fd("OUT", 2);
 		other_exe(cmd, env);
-	if (tcsetattr(0, TCSADRAIN, &(sh->term_param)) == -1)
-		return (false);
-	return (true);
+	}
 }
