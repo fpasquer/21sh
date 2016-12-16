@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/10 11:47:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/13 13:59:41 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,17 +138,18 @@ static int					is_enter_left(t_line **line)
 		return (true);
 	(*line)->x_i = c_prev->x_i + 1;
 	(*line)->y_i = c_prev->y_i;
-																				//fprintf(debug, "up is_enter_left\n");
+																				fprintf(debug, "up is_enter_left\n");
 	if (put_cmd_term("up") == ERROR)
 		return (ERROR);
 	i = 0;
-	if ((*line)->x_i > 0 && c_prev->c != '\n')
-		while (i++ <= (*line)->x_i)
+	if ((*line)->curs->x_i > 0)
+		while (i++ <= (*line)->curs->x_i)
 		{
-																				//fprintf(debug, "nd %3zu is_enter_left\n", i - 1);
+																				fprintf(debug, "nd %3zu is_enter_left\n", i - 1);
 			if (put_cmd_term("nd") == ERROR)
 				return (ERROR);
 		}
+																				fprintf(debug, "line->x_i = %3zu line->y_i = %3zu\n", (*line)->x_i, (*line)->y_i);
 	return (true);
 }
 
@@ -166,22 +167,23 @@ int							move_left(void)
 	{
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-																				//fprintf(debug, "le left\n");
 		curs->i--;
 		curs->curs = curs->curs->prev;
+																				fprintf(debug, "p = %p le left\n", curs->curs);
 		if (CC != NULL && CC->next != NULL && curs->curs->next->c == '\n')
 			return (is_enter_left(&curs));
 		if (curs->curs != NULL && curs->x_i == 0 && curs->i < curs->len - 1)
 		{
 																				//fprintf(debug, "line : %d\n", __LINE__);
-			curs->x_i = (CC->prev != NULL) ? CC->prev->x_i : CC->x_i;
-			curs->y_i = (CC->prev != NULL) ? CC->prev->y_i : CC->y_i;
+			curs->x_i = (CC->prev != NULL) ? CC->x_i : CC->x_i;
+			curs->y_i = (CC->prev != NULL) ? CC->y_i : CC->y_i;
 		}
 		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
 																				{
 																					//fprintf(debug, "line : %d\n", __LINE__);
 			curs->x_i--;
 																				}
+																				fprintf(debug, "line->x_i = %3zu line->y_i = %3zu\n", curs->x_i, curs->y_i);
 	}
 	return (true);
 }
