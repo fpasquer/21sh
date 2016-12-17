@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/16 23:36:09 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/17 19:07:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,6 @@ static int			check_access(t_cmd *cmd, char *cpy)
 
 static void			ft_execve(t_cmd *cmd, char **env, char *exe)
 {
-	if (cmd->pipefd[0] != -1)
-	{
-		close(cmd->pipefd[1]);
-		dup2(cmd->pipefd[0], STDIN_FILENO);
-	}
-	if (cmd->op == PIP)
-	{
-		close(cmd->right->pipefd[0]);
-		dup2(cmd->right->pipefd[1], STDOUT_FILENO);
-	}
 	redirecting(cmd->left, cmd->cmd, cmd->tgt_fd, 0);
 	if (check_access(cmd, NULL) == false)
 		exit(EXIT_FAILURE);
@@ -76,8 +66,7 @@ static void			other_exe(t_cmd *cmd, char **env)
 	pid_t			pid;
 	int				ret;
 
-	ft_putstr_fd("CMD_EN_COURS_IN_OTHER_EXE", 2);
-	ft_putendl_fd(cmd->arg[0], 2);
+	ft_putendl_fd("OTHER_EXE", 2);
 	ret = 1;
 	if ((pid = fork()) != -1)
 	{
@@ -86,9 +75,20 @@ static void			other_exe(t_cmd *cmd, char **env)
 	}
 	waitpid(pid, &ret, WUNTRACED);
 	if (WIFEXITED(ret))
+		cmd->done = WEXITSTATUS(ret);
+}
+
+static void			change_pipe(int pipefd[2], int choice)
+{
+	if (choice == 1)
 	{
-		ret = WEXITSTATUS(ret);
-		cmd->done = ret;
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+	}
+	if (choice == 2)
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
 	}
 }
 
@@ -96,42 +96,34 @@ static void			ft_pipe(t_cmd *cmd, char **env)
 {
 	pid_t			pid;
 	int				ret;
+	int				pipefd[2];
 
-	ft_putstr_fd("CMD_EN_COURS_IN_FT_PIPE", 2);
-	ft_putendl_fd(cmd->arg[0], 2);
+	ft_putendl_fd("FT_PIPE", 2);
 	ret = 1;
-	pipe(cmd->right->pipefd);
+	pipe(pipefd);
 	if ((pid = fork()) != -1)
 	{
 		if (pid == 0)
+		{
+			change_pipe(pipefd, 1);
 			ft_execve(cmd, env, NULL);
+		}
 		else
 		{
-			if (cmd->right && cmd->right->op == PIP)
-				ft_pipe(cmd->right, env);
-			else if (cmd->right)
-				other_exe(cmd->right, env);
+			change_pipe(pipefd, 2);
+			if (cmd->right)
+				exe_binaire(cmd->right, env);
 		}
 	}
 	waitpid(pid, &ret, WUNTRACED);
 	if (WIFEXITED(ret))
-	{
-		ret = WEXITSTATUS(ret);
-		cmd->done = ret;
-	}
+		cmd->done = WEXITSTATUS(ret);
 }
 
 void				exe_binaire(t_cmd *cmd, char **env)
 {
-	ft_putendl_fd("START", 2);
 	if (cmd->op == PIP)
-	{
-		ft_putendl_fd("IN", 2);
 		ft_pipe(cmd, env);
-	}
 	else
-	{
-		ft_putendl_fd("OUT", 2);
 		other_exe(cmd, env);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/16 22:25:11 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/17 19:02:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,10 @@ void						loop_shell(void)
 	{
 		while (42)
 		{
+			ft_putendl_fd("IN_WHILE(42)", 2);
 			if (tcsetattr(0, TCSADRAIN, &(sh->term_param)) == -1)
 				break ;
+			ft_putendl_fd("AFTER", 2);
 			if ((line = get_line_entree()) == NULL)
 				break ;
 			if (tcsetattr(0, TCSADRAIN, &(sh->reset)) == -1)

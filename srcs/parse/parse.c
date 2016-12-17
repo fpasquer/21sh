@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/10 16:55:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/17 14:53:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static t_cmd			*create_cmd(t_cmd *cmd2, char *line, int size, int i)
 	cmd->arg = NULL;
 	cmd->op = check_and_parse(line, i);
 	cmd->done = -1;
-	cmd->pipefd[0] = -1;
-	cmd->pipefd[1] = -1;
 	cmd->line = ft_strsub(line, i - size, size);
 	if (cmd2)
 	{

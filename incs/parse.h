@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/10 16:53:54 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/17 14:52:34 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct			s_cmd
 	int					op;
 	int					fd;
 	int					tgt_fd;
-	int					pipefd[2];
 	int					done;
 	char				*line; // UNIQUEMENT LA COMMANDE
 	char				**arg;

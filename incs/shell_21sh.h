@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/16 16:58:03 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/17 19:05:19 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,7 @@ int							check_if_env_exist(char *name);
 
 char						**l_l_to_arr_env();
 void						ft_print_env_array(char **env);
-int						delete_env_array(char **env);
+int							delete_env_array(char **env);
 
 /*
 ** Fonction execute les binaires
