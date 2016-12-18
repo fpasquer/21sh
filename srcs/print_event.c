@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 20:23:35 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/18 12:48:27 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void						print_g_line(void)
 	int						i;
 	t_entry					*curs;
 
-	curs = g_lines.line;
+	curs = g_lines->line;
 	while (curs != NULL)
 	{
 		i = 0;
@@ -76,7 +76,7 @@ static int					print_prompt_word(char *word, bool end)
 	if (word == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	len = ft_strlen(word);
-	g_lines.y = (len + sh->len_prompt + g_lines.len) / sh->win.ws_col;
+	g_lines->y = (len + sh->len_prompt + g_lines->len) / sh->win.ws_col;
 	if (end == false)
 	{
 		print_prompt();
@@ -100,7 +100,7 @@ static char					*print_words(t_list_print *lst, int  len,
 			print_prompt_word(lst->curs->word, false) == ERROR)
 		return (NULL);
 	curs = lst;
-	y = g_lines.y;
+	y = g_lines->y;
 	while (curs != NULL && (x = 0) == 0)
 	{
 		while (curs != NULL && x++ < nb_word_line)
@@ -115,7 +115,7 @@ static char					*print_words(t_list_print *lst, int  len,
 	return (put_curs(y, &lst->word));
 }
 
-int							put_cmd_term(char *cmd)
+/*int							put_cmd_term(char *cmd)
 {
 	char					*ret;
 
@@ -123,7 +123,7 @@ int							put_cmd_term(char *cmd)
 		return (ERROR);
 	tputs(ret, 0, my_out_put);
 	return (true);
-}
+}*/
 
 
 char						*put_words_event(t_list_print *l, int  len,

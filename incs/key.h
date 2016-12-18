@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 11:17:59 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/16 13:36:35 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,54 @@
 # define SIZE_BUFF 8
 # define SIZE_MEM 2000
 
+/*
+**	c :					carcatere de la commande
+**	next :				maillon suivant de la de la commande
+**	prev :				maillon precedent de la commande
+*/
 typedef struct				s_entry
 {
 	char					c;
+	size_t					i;
+	size_t					x_i;
+	size_t					y_i;
 	struct s_entry			*next;
 	struct s_entry			*prev;
 }							t_entry;
 
-
+/*
+**	line :				premier maillon de la commande
+**	curs :				position du maillon dans la commande
+**	sel_start :			debut de la selection												pas utilise
+**	sel_end :			fin de la selection													pas utilise
+**	next :				si la commande est multi commande (avec des quotes)
+**	len :				longueur de la commande
+**	i :					position dans la commade
+**	x :					position dans l'ecran horizontalement du dernier caractere
+**	y :					decalage de ligne par rapport au prompt du dernier caractere
+**	x_i					position dans l'ecran horizontalement du caractere actuel
+**	y_i					decalage de ligne par rapport au prompt du carcatere actuel
+*/
 typedef struct				s_line
 {
 	t_entry					*line;
 	t_entry					*curs;
 	t_entry					*sel_start;
 	t_entry					*sel_end;
+	struct s_line			*next;
 	size_t					len;
+	size_t					count_line;
 	size_t					i;
-	int						y;
+	size_t					x;
+	size_t					y;
+	size_t					x_i;
+	size_t					y_i;
 }							t_line;
 
-t_line						g_lines;
+t_line						*g_lines;
+t_line						*g_curs;
+size_t						g_y;
+size_t						g_x;
 
 # define DS					(b[0] == -62 && b[1] == -89 && b[2] ==  83 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //§ au dessus de tab
 # define PLUS_MINUS			(b[0] == -62 && b[1] == -79 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //±
@@ -166,15 +194,30 @@ t_line						g_lines;
 # define TILD				(b[0] == 126 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //~
 # define DEL				(b[0] == 127 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //<- del gauche
 
-#define BUFF_SIZE_READ 5
-
 char						*get_line_entree(void);
-int							my_out_put(int c);
-t_line						*add_new_line(t_line **lst, char *line,
-		unsigned int i);
-int							add_c_to_line(char c);
-int							insert_word_in_g_line(char *word);
-void						del_g_lines(void);
+int							add_c_to_line(char c, t_line **lines);
+int							insert_word_in_g_line(char *word, t_line **line);
 char						*make_tab(void);
+void						del_g_lines(void);
+
+void						key_exit(unsigned char val_exit);
+int							key_del_hist(void);
+int							print_history_up(void);
+int							print_history_down(void);
+int							search_history_up(char *beguin);
+int							search_history_down(char *beguin);
+int							move_right(void);
+int							move_left(void);
+int							del_left(void);
+int							place_curs(void);
+int							put_cmd(void);
+int							save_y_x_line(t_line **line, char c);
+int							put_lines(void);
+
+
+int							get_y_x_line(char *line, unsigned int *y,
+		unsigned int *x);
+char						last_c(t_line *line, size_t i);
+int							change_value_g_curs_line(char *word);
 
 #endif

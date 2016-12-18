@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 17:10:58 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 08:55:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/18 12:40:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static char					**make_list_bin(char *path, char *begin_name,
 	return (save_list(&list_bin, path, begin_name));
 }
 
-int							list_all_bin(char *path, char *begin_name)
+/*int							list_all_bin(char *path, char *begin_name)
 {
 	char					**list_bin;
 	char					*ret;
@@ -129,4 +129,4 @@ int							list_all_bin(char *path, char *begin_name)
 	ret = print_list_term(sh, list_bin, true);
 	ft_free_strsplit(list_bin);
 	return (put_pompt_word(&ret));
-}
+}*/

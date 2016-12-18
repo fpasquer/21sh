@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21sh.h                                             :+:      :+:    :+:   */
+/*   shell_21sh.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/19 18:22:33 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/18 12:39:13 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef struct				s_bin
 typedef struct				s_history
 {
 	char					*line;
+	size_t					y;
+	size_t					len;
 	struct s_history		*curs;
 	struct s_history		*next;
 	struct s_history		*prev;
@@ -240,7 +242,6 @@ int							tab_env(char **l_cmd, char ***tab);
 */
 void						loop_shell(void);
 int							print_prompt(void);
-int							exe_cmd(t_history **hist, char **line);
 
 /*
 **	list_bin.c
@@ -251,6 +252,8 @@ int							list_all_bin(char *path, char *begin_name);
 **	term.c
 */
 int							init_term(t_21sh **sh);
+int							my_out_put(int c);
+int							put_cmd_term(char *cmd);
 
 /*
 **	functions_key.c
@@ -269,7 +272,7 @@ int							autocompletion(void);
 */
 int							init_history(void);
 int							del_hist(void);
-int							add_history(t_history **hist, char **line);
+int							add_history(t_history **hist, char *line);
 int							print_history(void);
 //int							add_to_g_lines(char *line);
 
