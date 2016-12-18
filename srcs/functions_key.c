@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/13 13:59:41 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/16 13:38:49 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int							print_history_up(void)
 	return (put_cmd());
 }
 
-int							print_history_down(void)
+/*int							print_history_down(void)
 {
 	char					*tab;
 	int						ret;
@@ -75,7 +75,25 @@ int							print_history_down(void)
 	ret = search_history_down(tab);
 	ft_memdel((void**)&tab);
 	return (ret);
+}*/
+
+int							print_history_down(void)
+{
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	if (sh->hist == NULL)
+		return (true);
+	if (SHC == NULL)
+		SHC = sh->hist;
+	else
+		SHC = (SHC->prev != NULL) ? SHC->prev : SHC;
+	if (change_value_g_curs_line(SHC->line) == ERROR)
+		return (ERROR);
+	return (put_cmd());
 }
+
 
 static int					get_new_i(t_21sh *sh, t_line *curs)
 {

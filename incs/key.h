@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/10 11:52:11 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/16 13:36:35 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ typedef struct				s_entry
 }							t_entry;
 
 /*
-**	line :				premier maillon de la commade
+**	line :				premier maillon de la commande
 **	curs :				position du maillon dans la commande
-**	sel_start :			debut de la selection
-**	sel_end :			fin de la selection
+**	sel_start :			debut de la selection												pas utilise
+**	sel_end :			fin de la selection													pas utilise
 **	next :				si la commande est multi commande (avec des quotes)
 **	len :				longueur de la commande
 **	i :					position dans la commade
