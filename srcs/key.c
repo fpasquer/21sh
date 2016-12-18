@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/13 13:45:43 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/18 13:30:11 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 #define CC curs->curs
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
+/*
+**	check si la touche utilise est un event ou un caractere
+*/
 {
 	if (ESC)
 		key_exit(EXIT_SUCCESS);
@@ -47,6 +50,9 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 }
 
 static char					get_char_keyboard(void)
+/*
+**	recupere la touche presse
+*/
 {
 	char					b[SIZE_BUFF];
 
@@ -57,6 +63,9 @@ static char					get_char_keyboard(void)
 }
 
 static int					is_end(char c)
+/*
+**	regarde si c'est la fin de ligne en fonction les quotes simple ou double
+*/
 {
 	int						quote;
 	t_entry					*curent_c;
@@ -85,6 +94,9 @@ static int					is_end(char c)
 }
 
 static int					loop_place_curs(size_t y, size_t x)
+/*
+**	boucles qui replace le curseur au debut du prompt suite a l'ajout d'un caractere
+*/
 {
 																				//getchar();
 	while (y-- > 1)
@@ -101,6 +113,9 @@ static int					loop_place_curs(size_t y, size_t x)
 }
 
 char						last_c(t_line *line, size_t i)
+/*
+**	POur debug. Fonction qui recupere le dernier caractere entre au clavier Peut etre supprimee
+*/
 {
 	size_t					loop;
 	t_entry					*curs;
@@ -120,6 +135,9 @@ char						last_c(t_line *line, size_t i)
 }
 
 static int					check_if_g_curs_c_is_enter(void)
+/*
+**	regarde si le caractere ou le cuseur de la ligne ce trouve est un \n pour retourner au debut de la ligne du dessus
+*/
 {
 	size_t					loop;
 
@@ -138,6 +156,9 @@ static int					check_if_g_curs_c_is_enter(void)
 }
 
 static int					save_y_i(size_t *y, size_t *x)
+/*
+**	pour savoir le deplacement a faire pour placer le curseur au debut du promt
+*/
 {
 	size_t					loop;
 	t_line					*curs;
@@ -165,6 +186,9 @@ static int					save_y_i(size_t *y, size_t *x)
 }
 
 int							place_curs(void)
+/*
+**	repalce le curseur au debut du promt
+*/
 {
 	size_t					x_i;
 	size_t					y_i;
@@ -175,6 +199,9 @@ int							place_curs(void)
 }
 
 static int						clean_and_put_prompt(void)
+/*
+**	efface l'ensemble des caracteres qui ce trouve apres le curseur et ecrit le promt
+*/
 {
 	int							ret;
 
@@ -201,6 +228,9 @@ static int						clean_and_put_prompt(void)
 }*/
 
 static int					move_enter_line_1(void)
+/*
+ *	petite variande de mouve_entre a cause du decalage du promt
+*/
 {
 	size_t					i;
 	t_21sh					*sh;
@@ -218,6 +248,9 @@ static int					move_enter_line_1(void)
 }
 
 static int					move_enter(t_entry *curs)
+/*
+**	
+*/
 {
 	size_t					i;
 	size_t					y;
@@ -255,6 +288,9 @@ static int					move_enter(t_entry *curs)
 }
 
 static int					replace_i(unsigned int ntr)
+/*
+**	replace le curseur juste apres le caratere qui vient detre ajoute
+*/
 {
 	int						ret;
 	size_t					i;
@@ -293,6 +329,9 @@ static int					replace_i(unsigned int ntr)
 }
 
 int							put_cmd(void)
+/*
+**	parcour toute les lignes pour afficher l'ensemble des caracteres
+*/
 {
 	char					buff[PRINT_MAX + 1];
 	unsigned int			i;
@@ -324,6 +363,9 @@ int							put_cmd(void)
 }
 
 static int					creat_new_line(t_line **lines, char c)
+/*
+**	creat un nouveau maillon de liste chainee pour recevoir la nouvelle ligne (commande sur plusieurs lignes avec des quotes simple ou double)
+*/
 {
 	t_line					*new;
 
@@ -339,6 +381,9 @@ static int					creat_new_line(t_line **lines, char c)
 }
 
 static int					get_line_cmd(void)
+/*
+**	fonction qui place le curseur au debut du promt ajoute le caractere et ecrit le promt suivait des lignes
+*/
 {
 	char					c;
 	int						ret;
@@ -362,6 +407,9 @@ static int					get_line_cmd(void)
 }
 
 static int					save_y_x_line2(t_entry *curs, size_t *x, size_t *y)
+/*
+**	sauvegarde les coordonnees du caractere qui vient detre ajoute je ne sais plus pk j'ai une variante avec save_y_x_line
+*/
 {
 	size_t					mem_x;
 	size_t					mem_y;
@@ -390,6 +438,10 @@ static int					save_y_x_line2(t_entry *curs, size_t *x, size_t *y)
 }
 
 int							save_y_x_line(t_line **lines, char c)
+/*
+**	calcul et sauvegarde les coordonnees du caractere ajoute
+**	ULONG_MAX est normal, il y a 1 d'ajoute au valeurs x et x_i donc ca fait 0
+*/
 {
 	static bool				prev_enter = false;
 	t_21sh					*sh;
@@ -414,6 +466,9 @@ int							save_y_x_line(t_line **lines, char c)
 
 static int					init_x_y_i(size_t *x, size_t *y, size_t *i,
 		t_line **lines)
+/*
+**	jsute pour gagner de la place dans la focntion du dessous
+*/
 {
 	if (x == NULL || y == NULL || i == NULL || lines == NULL || *lines == NULL)
 		return (ERROR);
@@ -424,6 +479,9 @@ static int					init_x_y_i(size_t *x, size_t *y, size_t *i,
 }
 
 static int					save_coord_c_next(t_line **lines)
+/*
+**	saremplace les coordonnes des caracteres qui suivent le caractere qui vient d'etre ajoute
+*/
 {
 	size_t					x;
 	size_t					y;
@@ -455,6 +513,9 @@ static int					save_coord_c_next(t_line **lines)
 }
 
 static int					check_save_y_x(t_line **lines, char c)
+/*
+**	sauvegarde le i et la len de la ligne sauvegarde le x_i et y_i de la ligne
+*/
 {
 	if (lines == NULL || *lines == NULL)
 		return (ERROR);
@@ -466,6 +527,9 @@ static int					check_save_y_x(t_line **lines, char c)
 }
 
 int							add_c_to_line(char c, t_line **line)
+/*
+**	ajoute le caractere a la ligne sauvegarde les coordonnes du caractere et des suivant
+*/
 {
 	t_entry					*n;
 
@@ -497,6 +561,9 @@ int							add_c_to_line(char c, t_line **line)
 }
 
 static char					*save_tab(char *tab)
+/*
+**	sauvegarde dans un tableau l'ensemble de la listes chainees des lignes
+*/
 {
 	size_t					i;
 	t_line					*curs;
@@ -522,6 +589,9 @@ static char					*save_tab(char *tab)
 }
 
 int							insert_word_in_g_line(char *word, t_line **line)
+/*
+**	ajoute a la position du curseur une string dans line
+*/
 {
 	unsigned int			i;
 
@@ -539,6 +609,9 @@ int							insert_word_in_g_line(char *word, t_line **line)
 }
 
 static int					place_curs_end_line(void)
+/*
+**	place le curseur a la fin de l'ensemble des lignes
+*/
 {
 	size_t					i;
 	t_line					*curs;
@@ -560,6 +633,9 @@ static int					place_curs_end_line(void)
 
 
 static int					save_y_x(void)
+/*
+**	cette fonction n'est plus utilisee. elle sauvegarde dans 2 variable globale les coordonnees de fin des lignes (les coordonnees du dernier caractere de la ligne)
+*/
 {
 	size_t					i;
 	t_line					*curs;
@@ -582,6 +658,9 @@ static int					save_y_x(void)
 }
 
 char						*make_tab(void)
+/*
+**	transforme les g_lines en un tableau 1 dimension
+*/
 {
 	char					*tab;
 	size_t					len_total;
@@ -604,6 +683,9 @@ char						*make_tab(void)
 
 
 char						*get_line_entree(void)
+/*
+**	main qui gere la nouvelle ligne qui sera entree
+*/
 {
 	t_21sh					*sh;
 

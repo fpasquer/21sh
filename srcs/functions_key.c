@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/16 13:38:49 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/18 13:52:31 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ int							print_history_down(void)
 
 
 static int					get_new_i(t_21sh *sh, t_line *curs)
+/*
+**	enregistre dans le struture de type line les coordonnes x_i et y_i du cuseur suite a un deplacement vers la droite
+*/
 {
 	size_t					i;
 
@@ -122,6 +125,9 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 }
 
 int							move_right(void)
+/*
+**	fonction a revoir, elle ne gere pas les entrees
+*/
 {
 	t_line					*curs;
 	t_21sh					*sh;
@@ -144,6 +150,9 @@ int							move_right(void)
 }
 
 static int					is_enter_left(t_line **line)
+/*
+ *	deplacement du curseur vers la gauche si c'ets un entree
+*/
 {
 	size_t					i;
 	t_entry					*c_prev;
@@ -172,6 +181,9 @@ static int					is_enter_left(t_line **line)
 }
 
 int							move_left(void)
+/*
+ *	deplacement du curseur vers la gauche gere normalement les entrees
+*/
 {
 	t_line					*curs;
 	t_21sh					*sh;
@@ -207,6 +219,9 @@ int							move_left(void)
 }
 
 static int					save_info_line(t_line **line)
+/*
+ * suite a un suppression du caractere de gauche, enregistre les coordonnes des caractes. Fonction a revoir apres la gestion des entrees
+*/
 {
 	int						ret;
 	t_21sh					*sh;
@@ -228,6 +243,9 @@ static int					save_info_line(t_line **line)
 }
 
 static int					del_left_line(t_line *curs, t_entry *tmp)
+/*
+ * supprime le caractere de gauche. Ne gere pas les entrees
+*/
 {
 	if (curs == NULL || curs->curs == NULL || curs->curs->c == '\n')
 		return (ERROR);
@@ -248,6 +266,9 @@ static int					del_left_line(t_line *curs, t_entry *tmp)
 }
 
 int							del_left(void)
+/*
+ * main de suppresion du caractere de gauche
+*/
 {
 	t_line					*curs;
 	t_entry					*tmp;
