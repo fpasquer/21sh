@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/17 19:07:54 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/18 23:36:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ static void			change_pipe(int pipefd[2], int choice)
 {
 	if (choice == 1)
 	{
-		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[0]);
 	}
-	if (choice == 2)
+	else if (choice == 2)
 	{
-		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[1]);
 	}
 }
 
@@ -115,9 +115,8 @@ static void			ft_pipe(t_cmd *cmd, char **env)
 				exe_binaire(cmd->right, env);
 		}
 	}
-	waitpid(pid, &ret, WUNTRACED);
-	if (WIFEXITED(ret))
-		cmd->done = WEXITSTATUS(ret);
+	waitpid(pid, &ret, WUNTRACED | WNOHANG);
+	cmd->done = WIFEXITED(ret) ?  WEXITSTATUS(ret) : 0;
 }
 
 void				exe_binaire(t_cmd *cmd, char **env)
