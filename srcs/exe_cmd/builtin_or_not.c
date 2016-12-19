@@ -6,7 +6,7 @@
 /*   By: jchen <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 18:18:15 by jchen             #+#    #+#             */
-/*   Updated: 2016/12/17 19:05:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/19 21:45:12 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void			builtin_or_not(t_cmd *content, int i, int builtin)
 			{
 				g_builtin_lst[i].p(content);
 				builtin = 1;
+				content->done = 0;
 				break ;
 			}
 			i++;

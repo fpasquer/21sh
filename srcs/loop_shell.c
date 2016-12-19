@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/17 19:02:53 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/19 21:04:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
-		ft_putendl_fd("PASS", 2);
 		builtin_or_not(cmd, 0, 0);
 		//print_cmd(cmd); //DEBUG
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0 
@@ -151,13 +150,11 @@ void						loop_shell(void)
 	{
 		while (42)
 		{
-			ft_putendl_fd("IN_WHILE(42)", 2);
-			if (tcsetattr(0, TCSADRAIN, &(sh->term_param)) == -1)
+			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
 				break ;
-			ft_putendl_fd("AFTER", 2);
 			if ((line = get_line_entree()) == NULL)
 				break ;
-			if (tcsetattr(0, TCSADRAIN, &(sh->reset)) == -1)
+			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
 				break ;
 			put_line_entre(line);
 			if (check_add_hist(&sh->hist, &line) == ERROR)

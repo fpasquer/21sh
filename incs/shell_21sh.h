@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/17 19:05:19 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/19 22:39:33 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,10 @@ typedef struct				s_21sh
 ** Tableau sur pointeur sur fonction permettant de verifier si le binaire
 ** entree est un builtin
 **
+*/
+
+/*
+**	builtin_or_not.c
 */
 
 typedef struct 				s_builtin_lst
@@ -345,16 +349,35 @@ void						ft_print_env_array(char **env);
 int							delete_env_array(char **env);
 
 /*
-** Fonction execute les binaires
+**	split_quotes.c
 */
 
-void						exe_binaire(t_cmd *cmd, char **env);
 char						**split_quotes(char *str);
 
 /*
-**	redirection
+**	exe_binaire.c
+**	Fonction execute les binaires
+*/
+
+void						exe_binaire(t_cmd *cmd, char **env);
+
+/*
+**	exe_binaire2.c
+**	Fonction execute les binaires
+*/
+
+void						ft_execve(t_cmd *cmd, char **env, char *exe);
+
+/*
+**	redirection.c
 **	check le redirections et renvoie vers des fonctions aproprie
 */
+
+typedef struct				s_redirect_selec
+{
+	int						num;
+	void					(*p)(t_cmd *redirect, int tgt_fd);
+}							t_redirect_selec;
 
 void						redirecting(t_cmd *redirect, int index, int tgt_fd,
 							int i);

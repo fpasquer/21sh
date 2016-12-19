@@ -6,18 +6,12 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 15:36:23 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/11/10 22:19:43 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/19 22:24:19 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/key.h"
 #include "../../incs/shell_21sh.h"
-
-typedef struct		s_redirect_selec
-{
-	int				num;
-	void			(*p)(t_cmd *redirect, int tgt_fd);
-}					t_redirect_selec;
 
 t_redirect_selec	g_redirect_selec[] = {
 	{2, read_funct},
