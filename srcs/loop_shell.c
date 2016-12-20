@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/19 21:04:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/20 19:31:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,29 @@ static int					print_header(void)
 	return (true);
 }
 
+static void					put_line_entre(char *line)
+{
+	int						i;
+	t_21sh					*sh;
+
+	if (line != NULL && line[0] != '\0' && line[0] != '\n')
+	{
+		if ((sh = get_21sh(NULL)) == NULL)
+			return ;
+		if (put_cmd_term("cb") == ERROR)
+			return ;
+		i = 0;
+		while (i++ < sh->len_prompt)
+			ft_putchar(' ');
+		ft_putstr(COLOR_LINE);
+		ft_putstr(line);
+		ft_putstr(RESET_COLOR);
+		sh->pos = 0;
+		del_g_lines();
+	}
+}
+
+
 int							print_prompt(void)
 {
 	char					promt[SIZE_PROMT + 5];
@@ -68,42 +91,31 @@ int							print_prompt(void)
 	return (true);
 }
 
-static void					put_line_entre(char *line)
+static int					at_save_history(char *line)
 {
 	int						i;
-	t_21sh					*sh;
+	bool					ret;
 
-	if (line != NULL && line[0] != '\0' && line[0] != '\n')
-	{
-		if ((sh = get_21sh(NULL)) == NULL)
-			return ;
-		i = g_lines.len / sh->win.ws_col;
-		put_cmd_term("cd");
-		while (i-- > 0)
-			if (put_cmd_term("kd") == ERROR)
-				return ;
-		//je ne comprends pas pourquoi j' ai des B qui pop
-		i = sh->win.ws_col;
-		while (i-- > 0)
-			put_cmd_term("le");
-		//pour moi la boucle du dessus est a supprimer, mais des B peuvent POP sur les commandes sur plusieurs lignes
-		i = 0;
-		while (i++ < sh->len_prompt)
-			ft_putchar(' ');
-		ft_putstr(COLOR_LINE);
-		ft_putstr(line);
-		ft_putendl(RESET_COLOR);
-		sh->pos = 0;
-		del_g_lines();
-	}
+	if (line == NULL)
+		return (ERROR);
+	i = 0;
+	ret = false;
+	while (line[i] != '\0')
+		ret = (ft_isspace(line[i++]) == true) ? ret : true;
+	return (ret);
 }
 
-static int					check_add_hist(t_history **hist, char **line)
+static int					exe_cmd(char *line)
 {
-	if (hist == NULL || line == NULL)
+	t_21sh					*sh;
+
+	if (line == NULL || (sh = get_21sh(NULL)) == NULL || sh->hist == NULL)
 		return (ERROR);
-	if (add_history(hist, line) == ERROR)
+	/*if (tcsetattr(0, TCSADRAIN, &sh->reset) == -1)
 		return (ERROR);
+	//partie flo
+	if (tcsetattr(0, TCSADRAIN, &sh->term_param) == -1)
+		return (ERROR);*/
 	return (true);
 }
 
@@ -144,11 +156,10 @@ void						loop_shell(void)
 	t_cmd 					*cmd;
 
 	line = NULL;
-	cmd = NULL;
-	del_g_lines();
+	g_lines = NULL;
 	if ((sh = get_21sh(NULL)) != NULL)
 	{
-		while (42)
+		while (print_prompt())
 		{
 			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
 				break ;
@@ -156,11 +167,13 @@ void						loop_shell(void)
 				break ;
 			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
 				break ;
+			if (at_save_history(line) == true)
+				if (add_history(&sh->hist, line) == ERROR)
+					break ;
 			put_line_entre(line);
-			if (check_add_hist(&sh->hist, &line) == ERROR)
-				break ;
 			if ((cmd = parse_cmd(line, NULL, 0)) != NULL)
 				loop_cmd(cmd, cmd);
+			ft_memdel((void**)&line);
 		}
 		del_21sh();
 	}
