@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/20 19:31:38 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/20 19:51:39 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,6 @@ static int					at_save_history(char *line)
 	return (ret);
 }
 
-static int					exe_cmd(char *line)
-{
-	t_21sh					*sh;
-
-	if (line == NULL || (sh = get_21sh(NULL)) == NULL || sh->hist == NULL)
-		return (ERROR);
-	/*if (tcsetattr(0, TCSADRAIN, &sh->reset) == -1)
-		return (ERROR);
-	//partie flo
-	if (tcsetattr(0, TCSADRAIN, &sh->term_param) == -1)
-		return (ERROR);*/
-	return (true);
-}
-
 static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
@@ -156,7 +142,6 @@ void						loop_shell(void)
 	t_cmd 					*cmd;
 
 	line = NULL;
-	g_lines = NULL;
 	if ((sh = get_21sh(NULL)) != NULL)
 	{
 		while (print_prompt())
