@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/21 21:34:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/21 22:03:11 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,13 +395,8 @@ static int					get_line_cmd(void)
 			if (place_curs() == ERROR)
 				return (ERROR);
 			if (creat_new_line(&g_curs, c) == false)
-			{
 				if (add_c_to_line(c, &g_curs) == ERROR)
-				{
-					ft_putendl_fd("PASSLA", 2);
 					return (ERROR);
-				}
-			}
 			if (put_cmd() == ERROR)
 				return (ERROR);
 		}
