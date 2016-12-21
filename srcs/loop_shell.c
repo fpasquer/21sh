@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/21 15:16:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/21 19:51:08 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 			ft_putstr_fd(cmd->arg[0], 2);
 			ft_putstr_fd("== ", 2);
 			ft_putnbr_fd(cmd->done, 2);
+			ft_putstr_fd("\nlen == ", 2);
+			ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
 			ft_putchar_fd('\n', 2);
 			cmd = cmd->right;
 		}
@@ -128,6 +130,8 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 		ft_putstr_fd(cmd->arg[0], 2);
 		ft_putstr_fd("== ", 2);
 		ft_putnbr_fd(cmd->done, 2);
+		ft_putstr_fd("\nlen == ", 2);
+		ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
 		ft_putchar_fd('\n', 2);
 		cmd = cmd->right;
 	}
@@ -146,18 +150,19 @@ void						loop_shell(void)
 	{
 		while (print_prompt())
 		{
-			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
-				break ;
 			if ((line = get_line_entree()) == NULL)
 				break ;
-			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
-				break ;
 			if (at_save_history(line) == true)
+
 				if (add_history(&sh->hist, line) == ERROR)
 					break ;
 			put_line_entre(line);
+			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
+				break ;
 			if ((cmd = parse_cmd(line, NULL, 0)) != NULL)
 				loop_cmd(cmd, cmd);
+			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
+				break ;
 			ft_memdel((void**)&line);
 		}
 		del_21sh();

@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/21 16:06:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/21 21:34:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,14 +390,18 @@ static int					get_line_cmd(void)
 
 	while (1)
 	{
-		ft_putendl_fd("PASSLA", 2);
 		if ((c = get_char_keyboard()) != KEY_IGNORE)
 		{
 			if (place_curs() == ERROR)
 				return (ERROR);
 			if (creat_new_line(&g_curs, c) == false)
+			{
 				if (add_c_to_line(c, &g_curs) == ERROR)
+				{
+					ft_putendl_fd("PASSLA", 2);
 					return (ERROR);
+				}
+			}
 			if (put_cmd() == ERROR)
 				return (ERROR);
 		}
@@ -583,7 +587,13 @@ static char					*save_tab(char *tab)
 			curent_c = curent_c->next;
 		}
 		if ((curs = curs->next) != NULL)
+		{
+			ft_putendl_fd("_IN_SAVE_TAB_", 2);
+			ft_putstr_fd("tab[i - 1] == ", 2);
+			ft_putchar_fd(tab[i - 1], 2);
+			ft_putchar_fd('\n', 2);
 			tab[i++] = '\n';
+		}
 	}
 	del_g_lines();
 	return(tab);
@@ -702,6 +712,5 @@ char						*get_line_entree(void)
 	g_curs->y_i = (sh->len_prompt - 1) / sh->win.ws_col;
 	if (get_line_cmd() == ERROR)
 		return (NULL);
-	ft_putendl_fd("passsssssssssssssss", 2);
 	return (make_tab());
 }
