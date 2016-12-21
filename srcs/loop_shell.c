@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/20 20:33:29 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/21 14:37:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,10 @@ void						loop_shell(void)
 		{
 			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
 				break ;
+			ft_putendl_fd("PASS1", 2);
 			if ((line = get_line_entree()) == NULL)
 				break ;
+			ft_putendl_fd("PASS2", 2);
 			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
 				break ;
 			if (at_save_history(line) == true)
