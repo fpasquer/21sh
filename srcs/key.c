@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/21 22:03:11 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/22 19:46:01 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -583,11 +583,14 @@ static char					*save_tab(char *tab)
 		}
 		if ((curs = curs->next) != NULL)
 		{
-			ft_putendl_fd("_IN_SAVE_TAB_", 2);
-			ft_putstr_fd("tab[i - 1] == ", 2);
-			ft_putchar_fd(tab[i - 1], 2);
-			ft_putchar_fd('\n', 2);
-			tab[i++] = '\n';
+		//	ft_putendl_fd("_IN_SAVE_TAB_", 2);
+		//	ft_putstr_fd("tab[i - 1] == ", 2);
+		//	ft_putchar_fd(tab[i - 1], 2);
+		//	ft_putchar_fd('\n', 2);
+			if (curs->line && curs->line->c)
+				tab[i++] = '\n';
+			else
+				tab[i++] = '\0';
 		}
 	}
 	del_g_lines();

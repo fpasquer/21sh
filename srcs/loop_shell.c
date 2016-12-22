@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/21 19:51:08 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/22 20:20:30 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void					put_line_entre(char *line)
 		while (i++ < sh->len_prompt)
 			ft_putchar(' ');
 		ft_putstr(COLOR_LINE);
-		ft_putstr(line);
+		ft_putendl(line);
 		ft_putstr(RESET_COLOR);
 		sh->pos = 0;
 		del_g_lines();
@@ -153,7 +153,6 @@ void						loop_shell(void)
 			if ((line = get_line_entree()) == NULL)
 				break ;
 			if (at_save_history(line) == true)
-
 				if (add_history(&sh->hist, line) == ERROR)
 					break ;
 			put_line_entre(line);
