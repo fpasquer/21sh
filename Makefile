@@ -37,12 +37,16 @@ GCC				= gcc
 CFLAGS			= -Wall -Wextra -Werror -g
 OBJ_NAME		= $(SRC_NAME:.c=.o)
 
-SRCDIR			= srcs
+SRCDIR_BIN		= srcs/bin
 SRCDIR_BUILTIN	= srcs/builtin
-SRCDIR_EXE_CMD	= srcs/exe_cmd
+SRCDIR_COMPLET	= srcs/completion
 SRCDIR_ENV		= srcs/env
+SRCDIR_EXE_CMD	= srcs/exe_cmd
+SRCDIR_HISTORY	= srcs/history
+SRCDIR_KEYBORD	= srcs/keybord
 SRCDIR_PARSE	= srcs/parse
-SRCDIR_TERMCAPS	= srcs/parse
+SRCDIR_SHELL	= srcs/shell
+SRCDIR_SIG		= srcs/sig
 
 OBJDIR			= objs
 INCDIR			= incs
@@ -62,28 +66,45 @@ $(LIBRARY) :
 	@echo "\033[0;32mCOMPILE LIBFT\033[0m"
 	make -C libft
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.c $(INC)
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+$(OBJDIR)/%.o : $(SRCDIR_BIN)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE BIN\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
 
 $(OBJDIR)/%.o : $(SRCDIR_BUILTIN)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE BUILTIN\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
-$(OBJDIR)/%.o : $(SRCDIR_EXE_CMD)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE CMD\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+$(OBJDIR)/%.o : $(SRCDIR_COMPLET)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE COMPLETION\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE ENV\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
+
+$(OBJDIR)/%.o : $(SRCDIR_EXE_CMD)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE CMD\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
+
+$(OBJDIR)/%.o : $(SRCDIR_HISTORY)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE HISTORY\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
+
+$(OBJDIR)/%.o : $(SRCDIR_KEYBORD)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE KEYBORD\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
 
 $(OBJDIR)/%.o : $(SRCDIR_PARSE)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE PARSE\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
-$(OBJDIR)/%.o : $(SRCDIR_TERMCAPS)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE PARSE\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+$(OBJDIR)/%.o : $(SRCDIR_SHELL)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE SHELL\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
+
+$(OBJDIR)/%.o : $(SRCDIR_SIG)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE SIG\033[0m"
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR) :
 	mkdir -p $(OBJDIR)
@@ -98,13 +119,6 @@ fclean : clean
 	make -C libft fclear
 
 re : fclean All
-
-#push : fclean
-#	git add $(SRCDIR) $(INCDIR) $(OTHERS) ./libft
-#	git commit -m "$(DATE)"
-#	echo "Enter Your Commit : "
-#	read root_path ; git commit -m "$$root_path"
-#	git push
 
 norm:
 	norminette $(SRC) $(INC)

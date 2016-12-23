@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 09:30:35 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 20:56:41 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/23 21:53:20 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static int					change_flag(char *flags, char **l_cmd)
 static char					get_flags_env(char  **l_cmd)
 {
 	char					flags;
-	char					c_prev;
 	int						ret;
 	t_env					*curs;
 	t_21sh					*sh;

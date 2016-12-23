@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 04:49:01 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/11/05 16:01:10 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/23 22:01:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void				scop(char *line, int *i, int *size)
 {
 	char			selec;
-	int				dup_i;
-	int				dup_size;
+	size_t			dup_i;
+	size_t			dup_size;
 
 	dup_i = (*i) + 1;
 	dup_size = (*size) + 1;

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/17 14:53:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/23 22:29:34 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_cmd					*parse_cmd(char *line, t_cmd *cmd, int i)
 {
 	int					size;
 
-	if (i != 0 || cmd != NULL || line == NULL)
+	if (i != 0 || cmd != NULL || line == NULL || line[0] == '\0')
 		return (NULL);
 	while (i < (int)ft_strlen(line))
 	{

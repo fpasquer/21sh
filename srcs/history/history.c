@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/20 22:08:08 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/23 22:07:35 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static bool					at_add_history(char *line)
 
 static size_t				get_y_line(size_t len_line)
 {
-	size_t					rest;
 	size_t					y;
 	t_21sh					*sh;
 
@@ -170,7 +169,6 @@ int							print_history(void)
 int							del_hist(void)
 {
 	int						fd;
-	t_history				*curs;
 	t_history				*tmp;
 	t_21sh					*sh;
 

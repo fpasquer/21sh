@@ -6,12 +6,12 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 09:25:53 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/23 21:07:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/shell_21sh.h"
-#include "../incs/key.h"
+#include "../../incs/shell_21sh.h"
+#include "../../incs/key.h"
 
 #define QUOTE 2
 #define D_QUOTE 3

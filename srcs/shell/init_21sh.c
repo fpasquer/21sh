@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 09:22:44 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 08:11:33 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/23 21:52:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_21sh						*init_21sh2(t_21sh **sh)
 
 t_21sh						*init_21sh(void)
 {
-	char					*tmp;
 	extern char				**environ;
 	t_21sh					*sh;
 

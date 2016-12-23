@@ -6,14 +6,14 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/22 20:20:30 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/23 22:26:27 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 #include <term.h>
-
+/*
 static int					put_line_header(char *name, char *value)
 {
 	if (name == NULL)
@@ -47,10 +47,10 @@ static int					print_header(void)
 	ft_putstr("\n\n");
 	return (true);
 }
-
+*/
 static void					put_line_entre(char *line)
 {
-	int						i;
+	size_t					i;
 	t_21sh					*sh;
 
 	if (line != NULL && line[0] != '\0' && line[0] != '\n')
@@ -141,7 +141,6 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 void						loop_shell(void)
 {
 	char					*line;
-	int						ret;
 	t_21sh					*sh;
 	t_cmd 					*cmd;
 
