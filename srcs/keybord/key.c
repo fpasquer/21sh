@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/23 22:22:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/24 01:28:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 	else if (F1)
 		key_del_hist();
 	/*else if (F2)
-		print_history();*/
-	/*else if (TAB)
+		print_history();
+	else if (TAB)
 		autocompletion();*/
 	else if (ARROW_UP)
 		print_history_up();
-	else if (ARROW_DOWN)
-		;//print_history_down();
+	/*else if (ARROW_DOWN)
+		print_history_down();*/
 	else if (ARROW_RIGHT)
 		move_right();
 	else if (ARROW_LEFT)

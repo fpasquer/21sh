@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/20 19:06:28 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/24 00:30:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ FILE *debug;
 # define SIZE_DICO 27
 # define NAME_SHELL "xterm-256color"
 # define SIZE_PROMT 2000
-# define SIZE_PID_MAX 100
 
 # define HISTORY "/tmp/history.txt"
 
@@ -148,7 +147,6 @@ typedef struct				s_21sh
 	int						pos_prev;
 	int						nb_var_env;
 	size_t					len_prompt;
-	pid_t					**pid_lunch[SIZE_PID_MAX];
 	t_bin					*hash[SIZE_HASH];
 	t_bin					*dico[SIZE_DICO];
 	t_env					*env;

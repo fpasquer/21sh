@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 08:45:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/23 21:07:31 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/24 01:32:00 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int							put_pompt_word(char **word)
 	print_g_line();
 	if (*word != NULL)
 	{
-		insert_word_in_g_line(*word);
+		//insert_word_in_g_line(*word);
 		ft_putstr(*word);
 		ft_memdel((void**)word);
 	}
@@ -86,13 +86,12 @@ static int					put_autocompletion(char *line, t_21sh *sh,
 	char					**list;
 	char					*ret;
 	unsigned int			loop;
-	t_bin					*curs;
 
 	if (line == NULL || sh == NULL)
 		return (ERROR);
 	if ((loop = nb_match_word(sh->dico[i], line)) <= 0)
 	{
-		insert_word_in_g_line(line);
+		//insert_word_in_g_line(line);
 		return (false);
 	}
 	if ((list = make_tab_list(sh->dico[i], loop, line)) == NULL)
@@ -135,14 +134,13 @@ static char					*put_new_line(char *line, int mem)
 		return (NULL);
 	i = 0;
 	while (i < mem)
-		if (add_c_to_line(line[i++]) == ERROR)
+		//if (add_c_to_line(line[i++]) == ERROR)
 			return (NULL);
 	return (ft_strdup(&line[mem]));
 }
 
 static char					*get_new_line(char *line)
 {
-	char					*tmp;
 	int						ignore;
 	int						i;
 	int						mem;
@@ -230,15 +228,15 @@ int							list_bin(char *path)
 	ret = ERROR;
 	curs = path;
 	while (curs < end)
-		if (add_c_to_line(*curs++) == ERROR)
+		//if (add_c_to_line(*curs++) == ERROR)
 			return (ERROR);
 	if ((begin_name = ft_strdup(curs)) == NULL)
 		return (ERROR);
 	*curs = '\0';
 	if (path[0] == '\0')
-		ret = list_all_bin("./", begin_name);
-	else
-		ret = list_all_bin(path, begin_name);
+		//ret = list_all_bin("./", begin_name);
+	//else
+		//ret = list_all_bin(path, begin_name);
 	ft_memdel((void**)&begin_name);
 	return (ret);
 }
@@ -260,7 +258,7 @@ int							autocompletion_path(t_21sh *sh, char *new_line)
 	if (new_line[end] == ' ')
 		end++;
 	while (i < end)
-		if (add_c_to_line(new_line[i++]) == ERROR)
+		//if (add_c_to_line(new_line[i++]) == ERROR)
 			return (ERROR);
 	if ((path = ft_strdup(&new_line[end])) == NULL)
 		return (ERROR);
