@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/18 13:52:31 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/28 22:10:12 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ static int					del_left_line(t_line *curs, t_entry *tmp)
 		curs->line = curs->line->next;
 	if (save_info_line(&curs) == ERROR)
 		return (ERROR);
-	tmp = curs->curs->prev;
+	tmp = !curs->curs->prev ? curs->curs->next : curs->curs->prev;
 	ft_memdel((void**)&curs->curs);
 	curs->curs = tmp;
 	return (true);
