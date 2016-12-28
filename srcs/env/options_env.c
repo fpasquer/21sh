@@ -6,26 +6,13 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 14:07:56 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 19:32:44 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/28 20:50:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 
 #include <stdio.h>
-
-static int					mush_be_save(char **lst_del, char *env)
-{
-	int						i;
-
-	if (lst_del == NULL || env == NULL)
-		return (ERROR);
-	i = 0;
-	while (lst_del[i] != NULL)
-		if (ft_strcmp(lst_del[i++], env) == 0)
-			return (i - 1);
-	return (-1);
-}
 
 static int					moove_l_cmd(char **l_cmd)
 {

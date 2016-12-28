@@ -16,7 +16,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					sort_fonctions.c sort_list.c env.c builtin_env.c key.c		\
 					parse.c parse2.c setenv.c add_env_.c unsetenv.c  			\
 					exe_binaire.c linked_list_to_array_env.c builtin_exit.c		\
-					quotes.c split_quotes.c list_bin.c redirection.c			\
+					quotes.c split_quotes.c redirection.c						\
 					redirection2.c exe_binaire2.c								\
 					history.c print_list_term.c functions_signaux.c 			\
 					options_env.c loop_shell.c term.c functions_key.c 			\
@@ -68,7 +68,7 @@ $(LIBRARY) :
 
 $(OBJDIR)/%.o : $(SRCDIR_BIN)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE BIN\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_BUILTIN)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE BUILTIN\033[0m"
@@ -80,7 +80,7 @@ $(OBJDIR)/%.o : $(SRCDIR_COMPLET)/%.c $(INC)
 
 $(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE ENV\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_EXE_CMD)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE CMD\033[0m"
