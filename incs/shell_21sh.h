@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/24 00:30:43 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/29 17:22:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,8 +309,6 @@ void						ctrl_d(int val);
 /*
 **	Supprimer
 */
-int							print_all_bin(void);
-int							print_all_env(void);
 void						print_dico(void);
 
 /*
@@ -388,7 +386,6 @@ void						redirecting(t_cmd *redirect, int index, int tgt_fd,
 **	fonctions effectuant la redirection voulu
 */
 
-void						pipe_funct(t_cmd *redeirect, int tgt_fd);
 void						read_funct(t_cmd *redeirect, int tgt_fd);
 void						d_read_funct(t_cmd *redeirect, int tgt_fd);
 void						write_funct(t_cmd *redeirect, int tgt_fd);

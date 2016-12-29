@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/13 13:05:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 21:44:21 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/29 17:02:41 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,13 @@ static TYPE					*fusion_lst(TYPE **lg, TYPE **ld,
 	}
 }
 
-void					sort_list(TYPE **liste,
-				int (fonc_tri)(void *, void *))
+void						sort_list(TYPE **liste,
+		int (fonc_tri)(void *, void *))
 {
-	TYPE				*aux;
+	TYPE					*aux;
 
 	if (liste != NULL && (*liste) != NULL)
+	{
 		if ((*liste)->NEXT != NULL)
 		{
 			aux = separer_lst(*liste);
@@ -64,4 +65,5 @@ void					sort_list(TYPE **liste,
 			sort_list(&aux, fonc_tri);
 			(*liste) = fusion_lst(liste, &aux, fonc_tri);
 		}
+	}
 }

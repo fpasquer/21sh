@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/15 20:38:33 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/15 21:37:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/29 16:32:25 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 static int					add_new_sort_bin(t_bin **n)
 {
-
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL || n == NULL || *n == NULL)
 		return (ERROR);
-	if ((*n)->i_sort > SIZE_DICO -1)
+	if ((*n)->i_sort > SIZE_DICO - 1)
 		return (ERROR);
 	if (sh->dico[(*n)->i_sort] != NULL)
 		(*n)->n_dico = sh->dico[(*n)->i_sort];
@@ -29,7 +28,6 @@ static int					add_new_sort_bin(t_bin **n)
 
 int							save_dico(t_bin **n)
 {
-
 	if (n == NULL || *n == NULL || SIZE_DICO < 27)
 		return (ERROR);
 	if ((*n)->name == NULL || (*n)->name[0] == '\0')
@@ -40,9 +38,8 @@ int							save_dico(t_bin **n)
 		(*n)->i_sort = (*n)->name[0] - 'A';
 	else
 		(*n)->i_sort = SIZE_DICO - 1;
-	return(add_new_sort_bin(n));
+	return (add_new_sort_bin(n));
 }
-
 
 void						print_dico2(t_bin *lst)
 {
@@ -64,5 +61,5 @@ void						print_dico(void)
 		i = 0;
 		while (i < SIZE_DICO)
 			print_dico2(sh->dico[i++]);
-	}	
+	}
 }

@@ -1,76 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/29 17:52:55 by fcapocci          #+#    #+#             */
+/*   Updated: 2016/12/29 19:06:14 by fcapocci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/shell_21sh.h"
 #include "../../incs/key.h"
 
-int cd_change_pwd (char *path) {
-	char *new_path;
-	char *old_pwd;
-	t_21sh *sh;
-
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (false);
+static int			cd_change_pwd(char *path)
+{
+	char			*new_path;
+	char			*old_pwd;
 
 	old_pwd = getcwd(NULL, 0);
-
 	if (chdir(path) == ERROR)
 		return (false);
-
 	new_path = getcwd(NULL, 0);
-
-	/*
-	** CHANGE PWD
-	** EN VERIFIANT SI OLD_PWD EST SET
-	*/
-	if (check_if_env_exist("PWD") == false) {
-		ft_putendl("OK");
+	if (check_if_env_exist("PWD") == false)
+	{
 		if (add_env_("PWD", new_path) == ERROR)
 			return (false);
 	}
-	else if (modify_env_value("PWD", new_path) == false) {
+	else if (modify_env_value("PWD", new_path) == false)
 		return (false);
-	}
-
-	/*
-	** CHANGE OLD PWD
-	** EN VERIFIANT SI OLWD_PWD EST SET
-	*/
-
-	if (check_if_env_exist("OLDPWD") == false) {
+	if (check_if_env_exist("OLDPWD") == false)
+	{
 		if (add_env_("OLDPWD", old_pwd) == ERROR)
 			return (false);
 	}
-	else if (modify_env_value("OLDPWD", old_pwd) == false) {
+	else if (modify_env_value("OLDPWD", old_pwd) == false)
 		return (false);
-	}
-
 	free(new_path);
 	free(old_pwd);
 	return (true);
 }
 
-int check_if_valid_path (char *path) {
-	t_stat information;
+static int			check_if_valid_path(char *path)
+{
+	t_stat			information;
 
-	if (lstat(path, &information) == -1) {
+	if (lstat(path, &information) == -1)
 		return (false);
+	if (information.st_mode & S_IFREG)
+	{
+		ft_putstr_fd("cd: not a directory: ", STDERR_FILENO);
+		ft_putendl_fd(path, STDERR_FILENO);
 	}
-	if (information.st_mode & S_IFREG) {
-		ft_putstr("cd: not a directory: ");
-		ft_putendl(path);
-	}
-	else if (access(path, R_OK) == ERROR) {
-		ft_putstr("cd: permission denied: ");
-		ft_putendl(path);
+	else if (access(path, R_OK) == ERROR)
+	{
+		ft_putstr_fd("cd: permission denied: ", STDERR_FILENO);
+		ft_putendl_fd(path, STDERR_FILENO);
 	}
 	return (true);
 }
 
-int cd_home () {
-	char *path;
+static int			cd_home(void)
+{
+	char			*path;
 
-	if (!check_if_env_exist("HOME")) {
-		ft_putendl("cd: HOME not set");
-	}
-	else {
+	if (!check_if_env_exist("HOME"))
+		ft_putendl_fd("cd: HOME not set", STDERR_FILENO);
+	else
+	{
 		if ((path = getenv_value("HOME")) == NULL)
 			return (false);
 		cd_change_pwd(path);
@@ -78,13 +75,14 @@ int cd_home () {
 	return (true);
 }
 
-int cd_less () {
-	char *path;
+static int			cd_less(void)
+{
+	char			*path;
 
-	if (!check_if_env_exist("OLDPWD")) {
-		ft_putendl("cd: OLDPWD not set");
-	}
-	else {
+	if (!check_if_env_exist("OLDPWD"))
+		ft_putendl_fd("cd: OLDPWD not set", STDERR_FILENO);
+	else
+	{
 		if ((path = getenv_value("OLDPWD")) == NULL)
 			return (false);
 		path = ft_strdup(path);
@@ -94,23 +92,24 @@ int cd_less () {
 	return (true);
 }
 
-int cd (t_cmd *content) {
-	char *path = NULL;
+int					cd(t_cmd *content)
+{
+	char			*path;
 
-	if (content->arg && (len_y(content->arg) > 1)) {
+	path = NULL;
+	if (content->arg && (len_y(content->arg) > 1))
 		path = content->arg[1];
-	}
 	if (content->arg && (len_y(content->arg) == 1))
 		return (cd_home());
 	else if (path && ft_strequ("-", path))
 		return (cd_less());
-	else if (check_if_valid_path(path)) {
+	else if (check_if_valid_path(path))
 		return (cd_change_pwd(path));
-	}
-	else {
-		ft_putstr("cd: ");
-		ft_putstr(path);
-		ft_putendl(": No such file or directory");
+	else
+	{
+		ft_putstr_fd("cd: ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 	}
 	return (1);
 }

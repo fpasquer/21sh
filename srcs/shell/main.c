@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:57:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/21 19:00:20 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/29 16:52:00 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ int							main(void)
 		signal(SIGWINCH, resize_win);
 		loop_shell();
 		ft_putendl("Erreur 21 sh");
-		//print_dico();
-		//print_all_bin();
-		//print_history();
-		//del_21sh();
 	}
 	return (EXIT_SUCCESS);
 }

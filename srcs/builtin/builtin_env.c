@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 09:30:35 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/23 21:53:20 by fcapocci         ###   ########.fr       */
+/*   Created: 2016/12/29 17:50:51 by fcapocci          #+#    #+#             */
+/*   Updated: 2016/12/29 20:55:20 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
-# define FLAG_I 1
-# define FLAG_P 2
-# define FLAG_S 4
-# define FLAG_U 8
-# define FLAG_V 16
+#define FLAG_I 1
+#define FLAG_P 2
+#define FLAG_S 4
+#define FLAG_U 8
+#define FLAG_V 16
 
-# define OPT_WRONG -2
-# define PARAM -3
+#define OPT_WRONG -2
+#define PARAM -3
 
 #include <stdio.h>
 
@@ -67,7 +67,7 @@ static int					change_flag(char *flags, char **l_cmd)
 	return (true);
 }
 
-static char					get_flags_env(char  **l_cmd)
+static char					get_flags_env(char **l_cmd)
 {
 	char					flags;
 	int						ret;
@@ -89,7 +89,7 @@ static char					get_flags_env(char  **l_cmd)
 			*(*l_cmd + 3) == ' ')
 	{
 		l_cmd[0] += 4;
-		if ((ret = change_flag(&flags, l_cmd)) == OPT_WRONG  || ret == PARAM)
+		if ((ret = change_flag(&flags, l_cmd)) == OPT_WRONG || ret == PARAM)
 			return (ret);
 	}
 	return (flags);
@@ -99,12 +99,12 @@ static int					error_env(char flags, char *l_cmd)
 {
 	if (flags == OPT_WRONG)
 	{
-		ft_putstr("env: illegal option -- ");
-		ft_putchar(*l_cmd);
-		ft_putchar('\n');
+		ft_putstr_fd("env: illegal option -- ", STDERR_FILENO);
+		ft_putchar_fd(*l_cmd, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
 	}
 	else if (flags == PARAM)
-		ft_putendl("env: option requires an argument -- u");
+		ft_putendl_fd("env: option requires an argument -- u", STDERR_FILENO);
 	return (ERROR);
 }
 
@@ -113,8 +113,7 @@ int							builtin_env(t_cmd *content)
 	char					flags;
 	char					**tab;
 	int						ret;
-	char 					*tmp_line;
-
+	char					*tmp_line;
 
 	tmp_line = content->line;
 	tab = NULL;
@@ -126,10 +125,8 @@ int							builtin_env(t_cmd *content)
 		ret = tab_env_i(&tmp_line, &tab);
 	else if ((flags & FLAG_U) != 0)
 		ret = tab_env_u(&tmp_line, &tab);
-	else {
+	else
 		ret = tab_env(&tmp_line, &tab);
-	
-	}
 	if (ret == ERROR)
 		return (-1);
 	if (tab != NULL)//a finir

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   options_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 14:07:56 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/28 20:50:26 by fcapocci         ###   ########.fr       */
+/*   Created: 2016/12/29 17:25:40 by fcapocci          #+#    #+#             */
+/*   Updated: 2016/12/29 17:25:41 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int					moove_l_cmd(char **l_cmd)
 		while (tmp_line[i] != '\0' && tmp_line[i] != ' ')
 			egal_find = (tmp_line[i++] == '=') ? true : egal_find;
 		if (egal_find == false)
-			break;
+			break ;
 		l_cmd[0] += (tmp_line + i) - l_cmd[0];
 	}
 	return (true);
@@ -66,12 +66,12 @@ static int					len_list_env(t_env *lst)
 
 	curs = lst;
 	count = 0;
-	 while (curs != NULL)
-	 {
-		 curs = curs->next;
-		 count++;
-	 }
-	 return (count);
+	while (curs != NULL)
+	{
+		curs = curs->next;
+		count++;
+	}
+	return (count);
 }
 
 static int					add_in_tab(int i, char **tab, t_env *lst)
@@ -84,7 +84,7 @@ static int					add_in_tab(int i, char **tab, t_env *lst)
 	while (curs != NULL)
 	{
 		if (curs->add == true)
-			if ((tab[i++] = ft_multijoin(3, curs->name, "=", curs->value)) == NULL)
+			if (!(tab[i++] = ft_multijoin(3, curs->name, "=", curs->value)))
 				return (ERROR);
 		curs = curs->next;
 	}
@@ -124,7 +124,6 @@ static int					save_tab_env(t_env *base, char **l_cmd, char ***tab)
 		del_list_env(&at_add);
 	ft_free_strsplit(new_env);
 	return (true);
-
 }
 
 int							tab_env_i(char **l_cmd, char ***tab)

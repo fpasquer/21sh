@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/13 13:31:58 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/09 08:13:52 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/29 16:42:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int					tri_ascii(char *a, char *b)
 {
-	unsigned int		i;
+	unsigned int			i;
 
 	i = 0;
 	while (a[i] == (char)b[i] && a[i] != '\0' && b[i] != '\0')
@@ -45,7 +45,6 @@ int							name_tri(void *node1, void *node2)
 	tmp2 = node2;
 	return (tri_ascii((*tmp1)->name, (*tmp2)->name));
 }
-
 
 int							len_tri(void *node1, void *node2)
 {

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 17:00:14 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/20 19:05:45 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/12/29 16:59:07 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,51 +85,5 @@ int							save_bin(t_21sh *sh)
 	while (sh->tab_path[i] != NULL)
 		if (add_bin_directory(sh, sh->tab_path[i++]) == ERROR)
 			return (ERROR);
-	return (true);
-}
-
-static int					print_bin_list(t_bin *lst)
-{
-	int						loop;
-	t_bin					*tmp;
-
-	tmp = lst;
-	loop = 0;
-	while (tmp != NULL)
-	{
-		loop++;
-		ft_putendl(tmp->name);
-		tmp = tmp->next;
-	}
-	if (loop > 0)
-		ft_putchar('\n');
-	return (loop);
-}
-
-int							print_all_bin(void)
-{
-	int						index;
-	int						loop;
-	int						mem;
-	t_21sh					*sh;
-
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (-1);
-	index = 0;
-	loop = 0;
-	mem = 0;
-	while (index < SIZE_HASH)
-	{
-		loop = print_bin_list(sh->hash[index++]);
-		mem = (mem < loop) ? loop : mem;
-	}
-	if (mem != 0)
-	{
-		ft_putstr("le nombre max de loop est ");
-		ft_putnbr(mem);
-		ft_putchar('\n');
-	}
-	else
-		ft_putendl("Pas de Binaire");
 	return (true);
 }

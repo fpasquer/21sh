@@ -1,25 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_env_.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/29 17:06:06 by fcapocci          #+#    #+#             */
+/*   Updated: 2016/12/29 17:06:08 by fcapocci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 
-int add_env_(char *name, char *value) {
-	t_21sh *sh;
-	t_env *env;
+int				add_env_(char *name, char *value)
+{
+	t_21sh		*sh;
+	t_env		*env;
 
 	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);	
+		return (ERROR);
 	env = sh->env;
-	if (env) {
-		while (env->next) {
+	if (env)
+	{
+		while (env->next)
 			env = env->next;
-		}
-		if (((env->next = ft_memalloc(sizeof(t_env))) == NULL)) {
+		if (((env->next = ft_memalloc(sizeof(t_env))) == NULL))
 			return (ERROR);
-		}
 		env = env->next;
 	}
-	else if (((env = ft_memalloc(sizeof(t_env))) == NULL)) {
+	else if (((env = ft_memalloc(sizeof(t_env))) == NULL))
 		return (ERROR);
-	}
 	if (!sh->env)
 		sh->env = env;
 	sh->nb_var_env++;
