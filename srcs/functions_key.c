@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/10 13:31:51 by fpasquer         ###   ########.fr       */
+/*   Updated: 2016/12/29 13:30:31 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int							move_right(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
+	if (curs->len == 0)
+		return (true);
 	if (curs->i >= curs->len - 1 && curs->i != ULONG_MAX)
 	{
 		if (g_move == true)
