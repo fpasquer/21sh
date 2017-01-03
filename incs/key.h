@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/20 19:47:59 by fcapocci         ###   ########.fr       */
+/*   Updated: 2016/11/07 08:36:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,20 @@
 typedef struct				s_entry
 {
 	char					c;
-	size_t					i;
-	size_t					x_i;
-	size_t					y_i;
 	struct s_entry			*next;
 	struct s_entry			*prev;
 }							t_entry;
 
 /*
-**	line :				premier maillon de la commande
+**	line :				premier maillon de la commade
 **	curs :				position du maillon dans la commande
-**	sel_start :			debut de la selection												pas utilise
-**	sel_end :			fin de la selection													pas utilise
+**	sel_start :			debut de la selection
+**	sel_end :			fin de la selection
 **	next :				si la commande est multi commande (avec des quotes)
 **	len :				longueur de la commande
 **	i :					position dans la commade
-**	x :					position dans l'ecran horizontalement du dernier caractere
-**	y :					decalage de ligne par rapport au prompt du dernier caractere
-**	x_i					position dans l'ecran horizontalement du caractere actuel
-**	y_i					decalage de ligne par rapport au prompt du carcatere actuel
+**	x :					position dans l'ecran horizontalement
+**	y :					decalage de ligne par rapport au prompt
 */
 typedef struct				s_line
 {
@@ -211,13 +206,12 @@ int							move_left(void);
 int							del_left(void);
 int							place_curs(void);
 int							put_cmd(void);
-int							save_y_x_line(t_line **line, char c);
+int							save_y_x_line(t_line **line);
 int							put_lines(void);
 
 
 int							get_y_x_line(char *line, unsigned int *y,
 		unsigned int *x);
 char						last_c(t_line *line, size_t i);
-int							change_value_g_curs_line(char *word);
 
 #endif

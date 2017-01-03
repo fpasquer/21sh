@@ -6,14 +6,12 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/28 22:10:12 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/03 17:54:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
-#define SHC sh->hist->curs
-#define CC curs->curs
 
 static bool					g_move = false;
 
@@ -48,24 +46,20 @@ int							key_del_hist(void)
 	return (true);
 }
 
-int							print_history_up(void)
+/*int							print_history_up(void)
 {
-	t_21sh					*sh;
+	char					*tab;
+	int						ret;
 
-	if ((sh = get_21sh(NULL)) == NULL)
+
+	if ((tab = make_tab()) == NULL)
 		return (ERROR);
-	if (sh->hist == NULL)
-		return (true);
-	if (SHC == NULL)
-		SHC = sh->hist;
-	else
-		SHC = (SHC->next != NULL) ? SHC->next : SHC;
-	if (change_value_g_curs_line(SHC->line) == ERROR)
-		return (ERROR);
-	return (put_cmd());
+	ret = search_history_up(tab);
+	ft_memdel((void**)&tab);
+	return (ret);
 }
 
-/*int							print_history_down(void)
+int							print_history_down(void)
 {
 	char					*tab;
 	int						ret;
@@ -77,34 +71,14 @@ int							print_history_up(void)
 	return (ret);
 }*/
 
-int							print_history_down(void)
-{
-	t_21sh					*sh;
-
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	if (sh->hist == NULL)
-		return (true);
-	if (SHC == NULL)
-		SHC = sh->hist;
-	else
-		SHC = (SHC->prev != NULL) ? SHC->prev : SHC;
-	if (change_value_g_curs_line(SHC->line) == ERROR)
-		return (ERROR);
-	return (put_cmd());
-}
-
-
 static int					get_new_i(t_21sh *sh, t_line *curs)
-/*
-**	enregistre dans le struture de type line les coordonnes x_i et y_i du cuseur suite a un deplacement vers la droite
-*/
 {
 	size_t					i;
 
 	if (sh == NULL || curs == NULL || g_lines == NULL)
 		return (ERROR);
 	i = (curs == g_lines) ? curs->i + sh->len_prompt : curs->i;
+	//if (i % sh->win.ws_col == sh->win.ws_col - 1)
 	if (curs->x_i == sh->win.ws_col - 2)
 	{
 		i = sh->win.ws_col - 1;
@@ -121,13 +95,11 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
 	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
 	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
+	fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
 	return (true);
 }
 
 int							move_right(void)
-/*
-**	fonction a revoir, elle ne gere pas les entrees
-*/
 {
 	t_line					*curs;
 	t_21sh					*sh;
@@ -138,6 +110,8 @@ int							move_right(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
+	if (curs->len == 0)
+		return (true);
 	if (curs->i >= curs->len - 1 && curs->i != ULONG_MAX)
 	{
 		if (g_move == true)
@@ -149,41 +123,8 @@ int							move_right(void)
 	return (get_new_i(sh, curs));
 }
 
-static int					is_enter_left(t_line **line)
-/*
- *	deplacement du curseur vers la gauche si c'ets un entree
-*/
-{
-	size_t					i;
-	t_entry					*c_prev;
-	t_21sh					*sh;
-
-	if (line == NULL || *line == NULL || (*line)->curs == NULL ||
-			(sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	if ((c_prev = (*line)->curs->prev) == NULL)
-		return (true);
-	(*line)->x_i = c_prev->x_i + 1;
-	(*line)->y_i = c_prev->y_i;
-																				fprintf(debug, "up is_enter_left\n");
-	if (put_cmd_term("up") == ERROR)
-		return (ERROR);
-	i = 0;
-	if ((*line)->curs->x_i > 0)
-		while (i++ <= (*line)->curs->x_i)
-		{
-																				fprintf(debug, "nd %3zu is_enter_left\n", i - 1);
-			if (put_cmd_term("nd") == ERROR)
-				return (ERROR);
-		}
-																				fprintf(debug, "line->x_i = %3zu line->y_i = %3zu\n", (*line)->x_i, (*line)->y_i);
-	return (true);
-}
 
 int							move_left(void)
-/*
- *	deplacement du curseur vers la gauche gere normalement les entrees
-*/
 {
 	t_line					*curs;
 	t_21sh					*sh;
@@ -191,43 +132,36 @@ int							move_left(void)
 	sh = get_21sh(NULL);
 	if ((curs = g_lines) == NULL || sh == NULL)
 		return (ERROR);
-	while (curs != NULL && curs->next != NULL)
+	while (curs->next != NULL)
 		curs = curs->next;
-	if (curs != NULL && curs->curs != NULL)
+	if (curs->curs != NULL)
 	{
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 		curs->i--;
 		curs->curs = curs->curs->prev;
-																				fprintf(debug, "p = %p le left\n", curs->curs);
-		if (CC != NULL && CC->next != NULL && curs->curs->next->c == '\n')
-			return (is_enter_left(&curs));
-		if (curs->curs != NULL && curs->x_i == 0 && curs->i < curs->len - 1)
+//		if (g_move == false)
+//			return ((g_move = true));
+		if (curs->x_i == 0 && curs->i < curs->len - 1)
 		{
-																				//fprintf(debug, "line : %d\n", __LINE__);
-			curs->x_i = (CC->prev != NULL) ? CC->x_i : CC->x_i;
-			curs->y_i = (CC->prev != NULL) ? CC->y_i : CC->y_i;
+			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
+			curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
 		}
 		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
-																				{
-																					//fprintf(debug, "line : %d\n", __LINE__);
 			curs->x_i--;
-																				}
-																				fprintf(debug, "line->x_i = %3zu line->y_i = %3zu\n", curs->x_i, curs->y_i);
+	fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", curs->i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
 	}
 	return (true);
 }
 
 static int					save_info_line(t_line **line)
-/*
- * suite a un suppression du caractere de gauche, enregistre les coordonnes des caractes. Fonction a revoir apres la gestion des entrees
-*/
 {
 	int						ret;
 	t_21sh					*sh;
 
 	if (line == NULL || *line == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
+	//fprintf(debug, "1 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*line)->x_i, (*line)->y_i, (*line)->i, (*line)->len);
 	(*line)->i--;
 	(*line)->len--;
 	if ((*line)->x_i == 0)
@@ -237,15 +171,14 @@ static int					save_info_line(t_line **line)
 	}
 	else
 		(*line)->x_i--;
-	if (save_y_x_line(line, '@') == ERROR)
+	if (save_y_x_line(line) == ERROR)
 		return (ERROR);
+	//fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*line)->x_i, (*line)->y_i, (*line)->i, (*line)->len);
+//	fprintf(debug, " del i = %3zu x_i = %3zu y_i = %3zu len = %3zu\n", (*line)->i, (*line)->x_i, (*line)->y_i, (*line)->len);
 	return (put_cmd());
 }
 
 static int					del_left_line(t_line *curs, t_entry *tmp)
-/*
- * supprime le caractere de gauche. Ne gere pas les entrees
-*/
 {
 	if (curs == NULL || curs->curs == NULL || curs->curs->c == '\n')
 		return (ERROR);
@@ -259,16 +192,13 @@ static int					del_left_line(t_line *curs, t_entry *tmp)
 		curs->line = curs->line->next;
 	if (save_info_line(&curs) == ERROR)
 		return (ERROR);
-	tmp = !curs->curs->prev ? curs->curs->next : curs->curs->prev;
+	tmp = curs->curs->prev;
 	ft_memdel((void**)&curs->curs);
 	curs->curs = tmp;
 	return (true);
 }
 
 int							del_left(void)
-/*
- * main de suppresion du caractere de gauche
-*/
 {
 	t_line					*curs;
 	t_entry					*tmp;
