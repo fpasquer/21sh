@@ -6,28 +6,24 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/17 14:52:34 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/04 17:08:16 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
-// # include "shell_21sh.h"
-
 /*
-**  numero operateur :
+**	numero operateur :
 **	1 = ;
-** 	2 = &&
+**	2 = &&
 **	3 = pipe
-** 	4 = ||
-**
+**	4 = ||
 **	cmd = type de redirection :
-** 	2 = <
+**	2 = <
 **	3 = <<
 **	4 = >
 **	5 = >>
-**
 */
 
 # define PV 1
@@ -47,7 +43,7 @@ typedef struct			s_cmd
 	int					fd;
 	int					tgt_fd;
 	int					done;
-	char				*line; // UNIQUEMENT LA COMMANDE
+	char				*line;
 	char				**arg;
 	struct s_cmd		*left;
 	struct s_cmd		*right;
@@ -72,7 +68,7 @@ typedef struct			s_cmd
 t_cmd					*parse_cmd(char *line, t_cmd *cmd, int i);
 void					free_cmd(t_cmd *cmd);
 
-void					print_cmd(t_cmd *cmd); // debug
+void					print_cmd(t_cmd *cmd);
 
 /*
 **	parse2.c

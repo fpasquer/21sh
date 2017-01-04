@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 08:36:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/10 20:38:25 by fpasquer         ###   ########.fr       */
+/*   Created: 2017/01/04 15:19:33 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 15:56:27 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ int							add_env(t_env **env, char *str, int index, bool add)
 	t_env					*new;
 	t_env					*curs;
 
-	if (env == NULL || str == NULL)
-		return (ERROR);
-	if ((new = ft_memalloc(sizeof(*new))) == NULL)
+	if (env == NULL || str == NULL || !(new = ft_memalloc(sizeof(*new))))
 		return (ERROR);
 	if ((egal = ft_strchr(str, '=')) == NULL)
 		return (ERROR);
 	*egal = '\0';
-	if ((new->name = ft_strdup(str)) && (new->value = ft_strdup(egal + 1)))
+	new->name = ft_strdup(str);
+	if (new->name && (new->value = ft_strdup(egal + 1)))
 	{
 		new->index = index;
 		new->add = add;

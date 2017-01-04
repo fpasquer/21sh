@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:50:51 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 20:55:20 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/04 15:00:22 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ int							builtin_env(t_cmd *content)
 	char					**tab;
 	int						ret;
 	char					*tmp_line;
+	int						i;
 
+	i = 0;
 	tmp_line = content->line;
 	tab = NULL;
 	if ((flags = get_flags_env(&tmp_line)) == PARAM || flags == OPT_WRONG)
@@ -129,13 +131,11 @@ int							builtin_env(t_cmd *content)
 		ret = tab_env(&tmp_line, &tab);
 	if (ret == ERROR)
 		return (-1);
-	if (tab != NULL)//a finir
+	if (tab != NULL)
 	{
-		for (int i = 0; tab[i] != NULL; i ++)
-			printf("line %2d, tab[%2d]=%s\n", __LINE__, i, tab[i]);
-		printf("line = %2d, ret = %d\n", __LINE__, ret);
+		while (tab[i] != NULL)
+			ft_putendl_fd(tab[i++], STDOUT_FILENO);
 		ft_free_strsplit(tab);
 	}
-	ft_putendl(tmp_line);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 14:29:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/04 17:26:04 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "../incs/key.h"
 #include <term.h>
 
-/*static int					put_line_header(char *name, char *value)
+/*
+static int					put_line_header(char *name, char *value)
 {
 	if (name == NULL)
 		return (false);

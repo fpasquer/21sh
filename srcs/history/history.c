@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/23 22:07:35 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/04 17:22:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int					end_line(char *line)
 	int						quote;
 	unsigned int			i;
 
-
 	if (line == NULL)
 		return (ERROR);
 	i = 0;
@@ -93,7 +92,7 @@ static int					add_history_line(t_history **hist, char *line)
 		return (ERROR);
 	if ((quote_prev = end_line(curs->line)) != NONE)
 	{
-		if ((new_line = ft_multijoin(3, curs->line,"\n" ,line)) == NULL)
+		if ((new_line = ft_multijoin(3, curs->line, "\n", line)) == NULL)
 			return (ERROR);
 		if (curs->line != NULL)
 			ft_memdel((void**)&curs->line);
@@ -101,7 +100,7 @@ static int					add_history_line(t_history **hist, char *line)
 	}
 	else
 		return (add_history_new_line(hist, line));
-	return(true);
+	return (true);
 }
 
 int							add_history(t_history **hist, char *line)
@@ -134,7 +133,7 @@ int							init_history(void)
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	if ((fd = ft_fopen(HISTORY, "r+")) <= 0)
-		if ((fd = ft_fopen(HISTORY, "w+")) <=0)
+		if ((fd = ft_fopen(HISTORY, "w+")) <= 0)
 			return (ERROR);
 	line = NULL;
 	while ((ret = get_next_line(fd, &line)) > 0)

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/23 22:29:34 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/04 16:35:21 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,56 +121,5 @@ void					free_cmd(t_cmd *cmd)
 			ft_memdel((void**)&(cmd->arg));
 		}
 		ft_memdel((void**)&cmd);
-	}
-}
-
-void					print_cmd(t_cmd *cmd) //DEBUG
-{
-	int					cmpt;
-	int					cmpt2;
-	int					i;
-	t_cmd				*curs;
-
-	cmpt = 0;
-	if (cmd)
-	{
-		printf("father link num = %d\n", cmpt);
-		printf("link op = %d\n", cmd->op);
-		printf("link done = %d\n", cmd->done);
-		printf("link cmd = %d\n", cmd->cmd);
-		printf("line = %s\n", cmd->line);
-		i = 0;
-		if (cmd->arg)
-		{
-			while (cmd->arg[i])
-			{
-				printf("cmd->arg[%d] = %s\n", i, cmd->arg[i]);
-				i++;
-			}
-		}
-		ft_putchar('\n');
-		curs = cmd->left;
-		cmpt2 = 1;
-		while (curs)
-		{
-			printf("child link num = %d.%d\n", cmpt, cmpt2);
-			printf("link op = %d\n", curs->op);
-			printf("link cmd = %d\n", curs->cmd);
-			printf("line = %s\n", curs->line);
-			i = 0;
-			if (curs->arg)
-			{
-				while (curs->arg[i])
-				{
-					printf("cmd->arg[%d] = %s\n", i, curs->arg[i]);
-					i++;
-				}
-			}
-			ft_putchar('\n');
-			cmpt2++;
-			curs = curs->left;
-		}
-		cmpt++;
-		cmd = cmd->right;
 	}
 }

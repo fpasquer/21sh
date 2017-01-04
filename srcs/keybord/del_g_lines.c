@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   del_g_lines.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/26 20:08:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/01 21:54:30 by fpasquer         ###   ########.fr       */
+/*   Created: 2017/01/04 17:28:25 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 17:28:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int							change_value_g_curs_line(char *word)
 	return (true);
 }
 
-void						del_g_lines()
+void						del_g_lines(void)
 {
 	t_line					*tmp;
 

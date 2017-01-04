@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/07 08:36:38 by fpasquer         ###   ########.fr       */
+/*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 17:17:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define KEY_H
 
-#include "shell_21sh.h"
+# include "shell_21sh.h"
 
 # define MAX_LEN_LINE 10
 # define SIZE_BUFF 8
@@ -208,7 +208,6 @@ int							place_curs(void);
 int							put_cmd(void);
 int							save_y_x_line(t_line **line);
 int							put_lines(void);
-
 
 int							get_y_x_line(char *line, unsigned int *y,
 		unsigned int *x);

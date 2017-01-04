@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_21sh.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/29 17:22:52 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 17:18:34 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,22 +156,18 @@ typedef struct				s_21sh
 	struct winsize			win;
 }							t_21sh;
 
-
 /*
-**
-** Tableau sur pointeur sur fonction permettant de verifier si le binaire
-** entree est un builtin
-**
+**	Tableau sur pointeur sur fonction permettant de verifier si le binaire
+**	entree est un builtin
 */
 
 /*
 **	builtin_or_not.c
 */
-
-typedef struct 				s_builtin_lst
+typedef struct				s_builtin_lst
 {
-	char 					*str;
-	int 					(*p)(t_cmd *stin);
+	char					*str;
+	int						(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
 void						builtin_or_not(t_cmd *content, int i, int builtin);
@@ -180,6 +176,10 @@ void						builtin_or_not(t_cmd *content, int i, int builtin);
 **	init_21sh.c
 */
 t_21sh						*init_21sh(void);
+
+/*
+**	get_and_del_21sh.c
+*/
 t_21sh						*get_21sh(t_21sh *shell_21sh);
 int							del_21sh(void);
 
@@ -219,14 +219,12 @@ void						sort_list(t_bin **liste,
 */
 int							save_dico(t_bin **n);
 
-
 /*
 **	env.c
 */
-
 int							save_env(t_env **env);
 int							add_env(t_env **env, char *str, int index, bool ad);
-int 						add_env_(char *name, char *value);
+int							add_env_(char *name, char *value);
 int							del_list_env(t_env **list);
 int							del_env(void);
 
@@ -237,6 +235,13 @@ int							builtin_env(t_cmd *contentst);
 
 /*
 **	options_env.c
+*/
+int							moove_l_cmd(char **l_cmd);
+t_env						*get_at_add(char **list_env);
+char						**get_new_tab(t_env *lst_1, t_env *lst_2);
+
+/*
+**	options_env2.c
 */
 int							tab_env_i(char **l_cmd, char ***tab);
 int							tab_env_u(char **l_cmd, char ***tab);
@@ -279,13 +284,12 @@ int							init_history(void);
 int							del_hist(void);
 int							add_history(t_history **hist, char *line);
 int							print_history(void);
-//int							add_to_g_lines(char *line);
 
 /*
 **	print_event.c
 */
-char						*put_words_event(t_list_print *lst, int  len,
-		int nb_word_line,t_21sh  *sh);
+char						*put_words_event(t_list_print *lst, int len,
+		int nb_word_line, t_21sh *sh);
 int							put_cmd_term(char *cmd);
 void						print_g_line(void);
 
@@ -312,37 +316,31 @@ void						ctrl_d(int val);
 void						print_dico(void);
 
 /*
-** BUILTIN
+**	BUILTIN
 */
-
-int	 						cd(t_cmd *cmd);
-int 						builtin_setenv(t_cmd *cmd);
-int 						builtin_unsetenv(t_cmd *content);
+int							cd(t_cmd *cmd);
+int							builtin_setenv(t_cmd *cmd);
+int							builtin_unsetenv(t_cmd *content);
 int							builtin_exit(t_cmd *cmd);
 
 /*
-** Renvoi la valeur de l'environnement.
+**	Renvoi la valeur de l'environnement.
 */
-
 char						*getenv_value(char *name);
 
 /*
-** Change la valeur de l'environnement.
+**	Change la valeur de l'environnement.
 */
-
-int 						modify_env_value(char *name, char *value);
+int							modify_env_value(char *name, char *value);
 
 /*
-** Verifie sur l'env existe
+**	Verifie sur l'env existe
 */
-
 int							check_if_env_exist(char *name);
 
-
 /*
-** Permet de recuperer l'environnement en array.
+**	Permet de recuperer l'environnement en array.
 */
-
 char						**l_l_to_arr_env();
 void						ft_print_env_array(char **env);
 int							delete_env_array(char **env);
@@ -350,28 +348,24 @@ int							delete_env_array(char **env);
 /*
 **	split_quotes.c
 */
-
 char						**split_quotes(char *str);
 
 /*
 **	exe_binaire.c
 **	Fonction execute les binaires
 */
-
 void						exe_binaire(t_cmd *cmd, char **env);
 
 /*
 **	exe_binaire2.c
 **	Fonction execute les binaires
 */
-
 void						ft_execve(t_cmd *cmd, char **env, char *exe);
 
 /*
 **	redirection.c
 **	check le redirections et renvoie vers des fonctions aproprie
 */
-
 typedef struct				s_redirect_selec
 {
 	int						num;
@@ -385,7 +379,6 @@ void						redirecting(t_cmd *redirect, int index, int tgt_fd,
 **	redirection2
 **	fonctions effectuant la redirection voulu
 */
-
 void						read_funct(t_cmd *redeirect, int tgt_fd);
 void						d_read_funct(t_cmd *redeirect, int tgt_fd);
 void						write_funct(t_cmd *redeirect, int tgt_fd);
