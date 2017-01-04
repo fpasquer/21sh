@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list_term.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/12 10:34:05 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/20 09:58:04 by fpasquer         ###   ########.fr       */
+/*   Created: 2017/01/04 22:43:05 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 22:43:07 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int					add_list_term(t_list_print **lst, char **word)
 	return (true);
 }
 
-static t_list_print				*get_list_term(char **list)
+static t_list_print			*get_list_term(char **list)
 {
 	unsigned int			i;
 	t_list_print			*lst;
@@ -138,17 +138,15 @@ static char					*put_words1(t_21sh *sh, t_list_print *lst,
 		return (NULL);
 	}
 	if (select == true)
-		return (put_words_event(lst, len, nb_word_line, sh));
+		return (put_words_event(lst, len, nb_word_line));
 	else
 		return (put_words2(lst, len, nb_word_line));
 }
-
 
 char						*print_list_term(t_21sh *sh, char **list,
 		bool select)
 {
 	char					*adr;
-	unsigned int			y;
 	t_list_print			*lst;
 
 	if (sh == NULL)

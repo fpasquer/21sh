@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/12 15:45:29 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/20 19:02:17 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/04 22:43:19 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 22:43:21 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char					*put_curs(int y, char **ret)
 	return (*ret);
 }
 
-static int				put_word(t_list_print *curs, int len,
+static int					put_word(t_list_print *curs, int len,
 		t_list_print *lst)
 {
 	int						i;
@@ -89,8 +89,8 @@ static int					print_prompt_word(char *word, bool end)
 	return (true);
 }
 
-static char					*print_words(t_list_print *lst, int  len,
-		int nb_word_line,t_21sh  *sh)
+static char					*print_words(t_list_print *lst, int len,
+		int nb_word_line)
 {
 	int						x;
 	int						y;
@@ -105,7 +105,7 @@ static char					*print_words(t_list_print *lst, int  len,
 	{
 		while (curs != NULL && x++ < nb_word_line)
 		{
-			if (put_word(curs, len ,lst) == ERROR)
+			if (put_word(curs, len, lst) == ERROR)
 				return (NULL);
 			curs = curs->next;
 		}
@@ -125,9 +125,8 @@ static char					*print_words(t_list_print *lst, int  len,
 	return (true);
 }*/
 
-
-char						*put_words_event(t_list_print *l, int  len,
-		int nb_word_line,t_21sh  *sh)
+char						*put_words_event(t_list_print *l, int len,
+		int nb_word_line)
 {
 	char					*ret;
 	char					b[SIZE_BUFF];
@@ -137,11 +136,11 @@ char						*put_words_event(t_list_print *l, int  len,
 	if (l == NULL || len <= 0 || nb_word_line <= 0)
 		return (NULL);
 	l->curs = l;
-	while ((ret = print_words(l, len, nb_word_line, sh)) != NULL)
+	while ((ret = print_words(l, len, nb_word_line)) != NULL)
 	{
 		ft_bzero(b, sizeof(b));
 		if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0 || put_cmd_term("cd") == -1
-				|| ENTER  || ESC)
+				|| ENTER || ESC)
 			break ;
 		l->curs = (ARROW_LEFT) && (l->curs->prev) ? l->curs->prev : l->curs;
 		l->curs = (ARROW_RIGHT) && (l->curs->next) ? l->curs->next : l->curs;

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 17:18:34 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/04 22:33:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ int							print_history(void);
 **	print_event.c
 */
 char						*put_words_event(t_list_print *lst, int len,
-		int nb_word_line, t_21sh *sh);
+		int nb_word_line);
 int							put_cmd_term(char *cmd);
 void						print_g_line(void);
 
