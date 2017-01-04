@@ -6,7 +6,7 @@
 /*   By: fpasquer <florianpasquereau37@gmail.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/02 21:31:48 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/08 15:24:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/04 22:22:04 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,6 @@ char				**ft_strsplit_guil(char *s, char c);
 int					ft_is_number(char *s);
 int					ft_atoi_base(const char *s, int base, int *nb);
 int					count_char(char *line, char c);
-char 				**ft_add_to_array(char *str, char **list);
+char				**ft_add_to_array(char *str, char **list);
 
 #endif
