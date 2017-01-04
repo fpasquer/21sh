@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/19 17:10:58 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/28 21:10:44 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/04 14:32:46 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 14:32:48 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ static int					count_objets(char *path, char *begin_name)
 	if ((dirent = opendir(path)) != NULL)
 	{
 		while ((str_dirent = readdir(dirent)) != NULL)
+		{
 			if (len == 0)
 				count++;
-			else
-				if (ft_strncmp(str_dirent->d_name, begin_name, len) == 0)
-					count++;
+			else if (ft_strncmp(str_dirent->d_name, begin_name, len) == 0)
+				count++;
+		}
 		closedir(dirent);
 	}
 	return (count);

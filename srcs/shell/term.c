@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 08:26:41 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/30 13:34:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/04 14:17:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int							init_term(t_21sh **sh)
 		return (ERROR);
 	return (save_win_size());
 }
-
 
 int							put_cmd_term(char *cmd)
 {

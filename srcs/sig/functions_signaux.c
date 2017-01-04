@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_signaux.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/13 14:23:46 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/23 22:14:22 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/04 14:30:40 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 14:30:41 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void						resize_win(int val)
 {
 	t_21sh					*sh;
 
-	val = val + 0; //voir avec flo
+	val = val + 0;
 	if ((sh = get_21sh(NULL)) != NULL)
 		ioctl(0, TIOCGWINSZ, &sh->win);
 }
 
 void						ctrl_d(int val)
 {
-	val = val + 0; //voir avec flo
+	val = val + 0;
 	del_21sh();
 	exit(EXIT_SUCCESS);
 }

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   loop_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 15:09:24 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/23 22:26:27 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/04 14:29:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 #include <term.h>
-/*
-static int					put_line_header(char *name, char *value)
+
+/*static int					put_line_header(char *name, char *value)
 {
 	if (name == NULL)
 		return (false);
@@ -46,8 +46,8 @@ static int					print_header(void)
 	ft_putnbr(sh->win.ws_col);
 	ft_putstr("\n\n");
 	return (true);
-}
-*/
+}*/
+
 static void					put_line_entre(char *line)
 {
 	size_t					i;
@@ -69,7 +69,6 @@ static void					put_line_entre(char *line)
 		del_g_lines();
 	}
 }
-
 
 int							print_prompt(void)
 {
@@ -110,9 +109,8 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
 		builtin_or_not(cmd, 0, 0);
-		//print_cmd(cmd); //DEBUG
-		while ((cmd->right && cmd->op == PIP && cmd->done >= 0 
-					&& cmd->right->done != -1)
+		while ((cmd->right && cmd->op == PIP && cmd->done >= 0
+				&& cmd->right->done != -1)
 				|| (cmd->right && cmd->op == ET && cmd->done != 0)
 				|| (cmd->right && cmd->op == OU && cmd->done == 0))
 		{
@@ -142,7 +140,7 @@ void						loop_shell(void)
 {
 	char					*line;
 	t_21sh					*sh;
-	t_cmd 					*cmd;
+	t_cmd					*cmd;
 
 	line = NULL;
 	if ((sh = get_21sh(NULL)) != NULL)
