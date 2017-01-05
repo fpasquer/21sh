@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/03 19:35:04 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/05 23:14:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,17 @@ int							save_y_x_line(t_line **lines)
 	}
 	else
 	{
+					####
+					####
+					####
+					####				##	######	##
+				############			##	##		##
+				 ##########				##	##		##
+				  ########				##	######	##
+				   ######
+				    ####
+					 ##
+					 
 		(*lines)->y = (*lines)->len / sh->win.ws_col;
 		(*lines)->x = (*lines)->len % sh->win.ws_col;
 		(*lines)->y_i = (*lines)->i / sh->win.ws_col;
