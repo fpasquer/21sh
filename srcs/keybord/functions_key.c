@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:14:54 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 19:39:27 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/05 22:49:18 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,10 +208,6 @@ int							del_left(void)
 	while (curs->next != NULL)
 		curs = curs->next;
 	if (curs->curs != NULL && curs->curs->c != '\n')
-	{
-		ft_putendl_fd("NIAEFEFE", 2);
-		sleep(2);
 		return (del_left_line(curs, tmp));
-	}
 	return(true);
 }
