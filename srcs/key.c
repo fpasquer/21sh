@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/12/28 21:46:12 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/07 09:10:31 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,22 +123,41 @@ static int					save_y_i(size_t *y, size_t *x)
 	t_21sh					*sh;
 
 	sh = get_21sh(NULL);
+																				//fprintf(debug, "%d y_i = %3zu %11p ", __LINE__, g_lines->y_i, g_lines->curs);
 	if (sh == NULL || (curs = g_lines) == NULL || y == NULL || x == NULL)
 		return (ERROR);
+																				//fprintf(debug, "%d y_i = %3zu %11p 'line : %d'\n", __LINE__, curs->y_i, curs->curs, __LINE__);
 	loop = 0;
 	(*x) = sh->len_prompt;
 	(*y) = 0;
+																				//fprintf(debug, "%d y_i = %3zu %11p 'line : %d'\n", __LINE__, curs->y_i, curs->curs, __LINE__);
 	if (curs->x_i == 0 && curs->y_i == 0)
 		return (true);
+
+																				//fprintf(debug, "%d y_i = %3zu %11p 'line : %d'\n", __LINE__, curs->y_i, curs->curs, __LINE__);
+																				//fprintf(debug, "%d y_i = %3zu ", __LINE__, (*y));
 	while (curs != NULL)
 	{
-		loop = loop + 1;
+																				//fprintf(debug, " acteul = %3zu ", curs->y_i);
+		loop++;
+																				//fprintf(debug, "loop = %3zu\n", loop);
+																				//fprintf(debug, "(*y) = %3zu\n", (*y));
+																				//fprintf(debug, "%d y_i = %3zu %11p 'line : %d'\n", __LINE__, curs->y_i, curs->curs, __LINE__);
 		(*y) += curs->y_i;
+																				//fprintf(debug, "(*y) = %3zu\n", (*y));
 		(*x) = curs->x_i;
+																				//fprintf(debug, "(*x) = %3zu\n", (*x));
 		curs = curs->next;
 	}
+																				//fprintf(debug, " ret = %3zu\n", (*y));
 	(*y) += loop;
-//	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
+																				if ((*y) > 10)
+																				{
+																					//fprintf(debug, "y = %3zu loop = %3zu\n", (*y), loop);
+																					exit(0);
+																				}
+																			//	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
+																				//fprintf(debug, "%d y_i = %3zu ", __LINE__, g_lines->y_i);
 	return (true);
 }
 
@@ -147,6 +166,7 @@ int							place_curs(void)
 	size_t					i;
 	size_t					y;
 
+																				//fprintf(debug, "%d y_i = %3zu ", __LINE__, g_lines->y_i);
 	if (save_y_i(&y, &i) == ERROR)
 		return (ERROR);
 	return (loop_place_curs(y, i));
@@ -229,6 +249,7 @@ static int					get_line_cmd(void)
 				return (ERROR);
 			if (put_cmd() == ERROR)
 				return (ERROR);
+																				//fprintf(debug, "%d y_i = %3zu\n", __LINE__, g_lines->y_i);
 		}
 		if ((ret = is_end(c)) != false)
 			break ;
@@ -244,8 +265,11 @@ int							save_y_x_line(t_line **lines)
 	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL ||
 			sh->win.ws_col == 0)
 		return (ERROR);
+
+																				//fprintf(debug, "\ty = %3zu x %3zu i = %3zu len = %3zu line : %d\n", (*lines)->y_i , (*lines)->x_i, (*lines)->i, (*lines)->len, __LINE__);
 	if ((*lines) == g_lines)
 	{
+																				//fprintf(debug, "ici");
 		(*lines)->y = ((*lines)->len + sh->len_prompt) / sh->win.ws_col;
 		(*lines)->x = ((*lines)->len + sh->len_prompt) % sh->win.ws_col;
 		(*lines)->y_i = ((*lines)->i + sh->len_prompt) / sh->win.ws_col;
@@ -253,12 +277,14 @@ int							save_y_x_line(t_line **lines)
 	}
 	else
 	{
+																				//fprintf(debug, "la");
 		(*lines)->y = (*lines)->len / sh->win.ws_col;
 		(*lines)->x = (*lines)->len % sh->win.ws_col;
-		(*lines)->y_i = (*lines)->i / sh->win.ws_col;
-		(*lines)->x_i = (*lines)->i % sh->win.ws_col;
+		(*lines)->y_i = (*lines)->i == ULONG_MAX ? 0 : (*lines)->i / sh->win.ws_col;
+		(*lines)->x_i = (*lines)->i == ULONG_MAX ? 0 : (*lines)->i % sh->win.ws_col;
 	}
-	fprintf(debug, "y = %3zu x %3zu i = %3zu len = %3zu c = %c\n", (*lines)->y_i , (*lines)->x_i, (*lines)->i, (*lines)->len, last_c(*lines, (*lines)->i));
+
+																				fprintf(debug, " y = %3zu x %3zu i = %3zu len = %3zu line : %d\n", (*lines)->y_i , (*lines)->x_i, (*lines)->i, (*lines)->len, __LINE__);
 	return (true);
 }
 
@@ -298,8 +324,10 @@ int							add_c_to_line(char c, t_line **line)
 	if ((n = ft_memalloc(sizeof(*n))) == NULL || line == NULL || *line == NULL)
 		return (ERROR);
 	n->c = c;
-	if ((*line)->curs == NULL)
+																				fprintf(debug, "c = %2c = %p", c, n);
+	if ((*line)->curs == NULL || (*line)->i == ULONG_MAX)
 	{
+																				fprintf(debug, "%d c = %c ", __LINE__, c);
 		(*line)->curs = n;
 		(*line)->i = ULONG_MAX;
 		if ((n->next = (*line)->line) != NULL)
@@ -308,6 +336,7 @@ int							add_c_to_line(char c, t_line **line)
 	}
 	else
 	{
+																				//fprintf(debug, "\n%d c = %c\n", __LINE__,  c);
 		if ((*line)->curs->next != NULL)
 			(*line)->curs->next->prev = n;
 		n->next = ((*line)->curs->next != NULL) ? (*line)->curs->next : NULL;
@@ -418,7 +447,7 @@ char						*make_tab(void)
 		len_total += curs->len;
 		curs = curs->next;
 	}
-	fprintf(debug, "len_total = %3zu\n", len_total);
+																			//fprintf(debug, "len_total = %3zu\n", len_total);
 	if ((tab = ft_memalloc(sizeof(*tab) * (len_total + 1))) == NULL)
 		return (NULL);
 	return (save_tab(tab));
