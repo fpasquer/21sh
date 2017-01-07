@@ -6,14 +6,12 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:14:54 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/05 22:49:18 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/07 15:53:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
-
-static bool					g_move = false;
 
 void						key_exit(unsigned char val_exit)
 {
@@ -71,89 +69,6 @@ int							print_history_down(void)
 	return (ret);
 }*/
 
-static int					get_new_i(t_21sh *sh, t_line *curs)
-{
-	size_t					i;
-
-	if (sh == NULL || curs == NULL || g_lines == NULL)
-		return (ERROR);
-	i = (curs == g_lines) ? curs->i + sh->len_prompt : curs->i;
-	//if (i % sh->win.ws_col == sh->win.ws_col - 1)
-	if (curs->x_i == sh->win.ws_col - 2)
-	{
-		i = sh->win.ws_col - 1;
-		while (i-- > 0)
-			if (put_cmd_term("le") == ERROR)
-				return (ERROR);
-		if (put_cmd_term("do") == ERROR)
-			return (ERROR);
-	}
-	else
-		if (put_cmd_term("nd") == ERROR)
-			return (ERROR);
-	curs->i++;
-	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
-	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
-	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
-	fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
-	return (true);
-}
-
-int							move_right(void)
-{
-	t_line					*curs;
-	t_21sh					*sh;
-
-	if ((curs = g_lines) == NULL)
-		return (ERROR);
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	while (curs->next != NULL)
-		curs = curs->next;
-	if (curs->len == 0)
-		return (true);
-	if (curs->i >= curs->len - 1 && curs->i != ULONG_MAX)
-	{
-		if (g_move == true)
-			if (put_cmd_term("nb") == ERROR)
-				return (ERROR);
-		g_move = false;
-		return (true);
-	}
-	return (get_new_i(sh, curs));
-}
-
-
-int							move_left(void)
-{
-	t_line					*curs;
-	t_21sh					*sh;
-
-	sh = get_21sh(NULL);
-	if ((curs = g_lines) == NULL || sh == NULL)
-		return (ERROR);
-	while (curs->next != NULL)
-		curs = curs->next;
-	if (curs->curs != NULL)
-	{
-		if (put_cmd_term("le") == ERROR)
-			return (ERROR);
-		curs->i--;
-		curs->curs = curs->curs->prev;
-//		if (g_move == false)
-//			return ((g_move = true));
-		if (curs->x_i == 0 && curs->i < curs->len - 1)
-		{
-			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
-			curs->y_i = (curs->y_i > 0) ? curs->y_i - 1 : curs->y_i;
-		}
-		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
-			curs->x_i--;
-	fprintf(debug, "left i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c\n", curs->i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i));
-	}
-	return (true);
-}
-
 static int					save_info_line(t_line **line)
 {
 	int						ret;
@@ -161,7 +76,6 @@ static int					save_info_line(t_line **line)
 
 	if (line == NULL || *line == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	//fprintf(debug, "1 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*line)->x_i, (*line)->y_i, (*line)->i, (*line)->len);
 	(*line)->i--;
 	(*line)->len--;
 	if ((*line)->x_i == 0)
@@ -173,8 +87,6 @@ static int					save_info_line(t_line **line)
 		(*line)->x_i--;
 	if (save_y_x_line(line) == ERROR)
 		return (ERROR);
-	//fprintf(debug, "2 x = %3zu, y = %3zu i = %3zu len = %3zu\n", (*line)->x_i, (*line)->y_i, (*line)->i, (*line)->len);
-//	fprintf(debug, " del i = %3zu x_i = %3zu y_i = %3zu len = %3zu\n", (*line)->i, (*line)->x_i, (*line)->y_i, (*line)->len);
 	return (put_cmd());
 }
 
@@ -189,10 +101,14 @@ static int					del_left_line(t_line *curs, t_entry *tmp)
 	if (curs->curs->prev != NULL)
 		curs->curs->prev->next = curs->curs->next;
 	if (curs->curs == curs->line)
+	{
 		curs->line = curs->line->next;
+		tmp = curs->line;
+	}
+	else
+		tmp = curs->curs->prev;
 	if (save_info_line(&curs) == ERROR)
 		return (ERROR);
-	tmp = curs->curs->prev;
 	ft_memdel((void**)&curs->curs);
 	curs->curs = tmp;
 	return (true);

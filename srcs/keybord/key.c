@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/05 23:14:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/07 15:40:50 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,9 @@ static int					loop_place_curs(size_t y, size_t x)
 	while (y-- > 1)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
-//getchar();
 	while (x-- + 1 > 0)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-//getchar();
 	return (true);
 }
 
@@ -132,13 +130,12 @@ static int					save_y_i(size_t *y, size_t *x)
 		return (true);
 	while (curs != NULL)
 	{
-		loop = loop + 1;
+		loop++;
 		(*y) += curs->y_i;
 		(*x) = curs->x_i;
 		curs = curs->next;
 	}
 	(*y) += loop;
-//	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
 	return (true);
 }
 
@@ -206,14 +203,6 @@ int							put_cmd(void)
 	return (replace_i());
 }
 
-/*int							put_lines(void)
-{
-
-	if (place_curs() == true)
-		return (put_cmd());
-	return (ERROR);
-}*/
-
 static int					get_line_cmd(void)
 {
 	char					c;
@@ -253,23 +242,11 @@ int							save_y_x_line(t_line **lines)
 	}
 	else
 	{
-					####
-					####
-					####
-					####				##	######	##
-				############			##	##		##
-				 ##########				##	##		##
-				  ########				##	######	##
-				   ######
-				    ####
-					 ##
-					 
 		(*lines)->y = (*lines)->len / sh->win.ws_col;
 		(*lines)->x = (*lines)->len % sh->win.ws_col;
-		(*lines)->y_i = (*lines)->i / sh->win.ws_col;
-		(*lines)->x_i = (*lines)->i % sh->win.ws_col;
+		(*lines)->y_i = (*lines)->i == ULONG_MAX ? 0 : (*lines)->i / sh->win.ws_col;
+		(*lines)->x_i = (*lines)->i == ULONG_MAX ? 0 : (*lines)->i % sh->win.ws_col;
 	}
-	fprintf(debug, "y = %3zu x %3zu i = %3zu len = %3zu c = %c\n", (*lines)->y_i , (*lines)->x_i, (*lines)->i, (*lines)->len, last_c(*lines, (*lines)->i));
 	return (true);
 }
 
@@ -309,7 +286,7 @@ int							add_c_to_line(char c, t_line **line)
 	if ((n = ft_memalloc(sizeof(*n))) == NULL || line == NULL || *line == NULL)
 		return (ERROR);
 	n->c = c;
-	if ((*line)->curs == NULL)
+	if ((*line)->curs == NULL || (*line)->i == ULONG_MAX)
 	{
 		(*line)->curs = n;
 		(*line)->i = ULONG_MAX;

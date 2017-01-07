@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 17:17:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/07 15:16:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct				s_entry
 **	i :					position dans la commade
 **	x :					position dans l'ecran horizontalement
 **	y :					decalage de ligne par rapport au prompt
+**	x_i :				place du caracter horizontalement
+**	y_i :				place du caracter verticalement
 */
 typedef struct				s_line
 {
