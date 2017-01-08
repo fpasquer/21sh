@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/07 09:10:31 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/08 11:33:32 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,7 @@ int							add_c_to_line(char c, t_line **line)
 																				fprintf(debug, "c = %2c = %p", c, n);
 	if ((*line)->curs == NULL || (*line)->i == ULONG_MAX)
 	{
-																				fprintf(debug, "%d c = %c ", __LINE__, c);
+																				//fprintf(debug, "%d c = %c ", __LINE__, c);
 		(*line)->curs = n;
 		(*line)->i = ULONG_MAX;
 		if ((n->next = (*line)->line) != NULL)
