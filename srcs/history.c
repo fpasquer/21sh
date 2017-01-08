@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 19:55:00 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/10 13:54:05 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/08 12:24:07 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define D_QUOTE '\"'
 #define NONE 0
 
-static bool					at_add_history(char *line)
+/*static bool					at_add_history(char *line)
 {
 	int						i;
 	bool					ret;
@@ -35,7 +35,6 @@ static bool					at_add_history(char *line)
 
 static size_t				get_y_line(size_t len_line)
 {
-	size_t					rest;
 	size_t					y;
 	t_21sh					*sh;
 
@@ -48,7 +47,7 @@ static size_t				get_y_line(size_t len_line)
 		y = len_line / sh->win.ws_col;
 	}
 	return (y);
-}
+}*/
 
 static int					end_line(char *line)
 {
@@ -170,7 +169,6 @@ int							print_history(void)
 int							del_hist(void)
 {
 	int						fd;
-	t_history				*curs;
 	t_history				*tmp;
 	t_21sh					*sh;
 

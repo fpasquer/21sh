@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/08 11:33:32 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/08 12:26:55 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,6 @@ static int					get_line_cmd(void)
 
 int							save_y_x_line(t_line **lines)
 {
-	size_t					y;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL ||
@@ -303,7 +302,7 @@ static int					creat_new_line(t_line **lines, char c)
 	return (true);
 }
 
-static int					check_save_y_x(t_line **lines, char c)
+static int					check_save_y_x(t_line **lines)
 {
 	int						ret;
 
@@ -344,7 +343,7 @@ int							add_c_to_line(char c, t_line **line)
 		n->prev = (*line)->curs;
 		(*line)->curs = (*line)->curs->next;
 	}
-	return (check_save_y_x(line, c));
+	return (check_save_y_x(line));
 }
 
 static char					*save_tab(char *tab)

@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 18:25:34 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/07 22:17:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/08 12:26:07 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int					print_header(void)
 
 static void					put_line_entre(char *line)
 {
-	int						i;
+	size_t					i;
 	t_21sh					*sh;
 
 	if (line != NULL && line[0] != '\0' && line[0] != '\n')
@@ -122,7 +122,6 @@ int							exe_cmd(t_history **hist, char *line)
 void						loop_shell(void)
 {
 	char					*line;
-	int						ret;
 	t_21sh					*sh;
 
 	line = NULL;

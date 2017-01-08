@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/08 12:03:00 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/08 12:28:35 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ int							move_left(void)
 
 static int					save_info_line(t_line **line)
 {
-	int						ret;
 	t_21sh					*sh;
 
 	if (line == NULL || *line == NULL || (sh = get_21sh(NULL)) == NULL)
@@ -222,6 +221,7 @@ int							del_left(void)
 	while (curs->next != NULL)
 		curs = curs->next;
 																				//fprintf(debug, "line %d curs->curs = %p, curs->y_i = %3zu\n", __LINE__, curs->curs, curs->y_i);
+	tmp = NULL;
 	if (curs->curs != NULL && curs->i != ULONG_MAX && curs->curs->c != '\n')
 		return (del_left_line(curs, tmp));
 	return(true);

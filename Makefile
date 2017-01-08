@@ -55,7 +55,7 @@ $(LIBRARY) :
 	make -C libft
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(INC)
-	$(GCC) -I $(INCDIR)/ $(CFLAG) -o $@ -c $<
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR) :
 	mkdir -p $(OBJDIR)
