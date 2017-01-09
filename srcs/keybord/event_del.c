@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:14:54 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/08 20:20:08 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/09 18:09:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static int					del_left_line(t_line *curs, t_entry *tmp)
 	if (curs->curs == curs->line)
 	{
 		curs->line = curs->line->next;
-		tmp = curs->line;
+		tmp = NULL;
 	}
 	else
 		tmp = curs->curs->prev;
