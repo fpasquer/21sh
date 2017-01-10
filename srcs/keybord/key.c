@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/08 20:30:16 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/10 02:01:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static char					get_char_keyboard(void)
 	ft_bzero(b, sizeof(b));
 	if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0)
 		return (ERROR);
+	fprintf(debug, "b[0] = %3zu  b[1] = %3zu  b[2] = %3zu  b[3] = %3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3]);
 	return (cmd_keyboard(b));
 }
 
