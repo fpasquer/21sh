@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/11 18:02:43 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/12 20:32:17 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,10 @@ size_t						g_x;
 # define ARROW_DOWN			(b[0] ==  27 && b[1] ==  91 && b[2] ==  66 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //fleche bas
 # define ARROW_RIGHT		(b[0] ==  27 && b[1] ==  91 && b[2] ==  67 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //fleche droite
 # define ARROW_LEFT			(b[0] ==  27 && b[1] ==  91 && b[2] ==  68 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //fleche gauche
+# define CTRL_UP			(b[0] ==  23 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_w
+# define CTRL_DOWN			(b[0] ==  19 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_s
+# define CTRL_LEFT			(b[0] ==   1 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_a
+# define CTRL_RIGHT			(b[0] ==   4 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_d
 
 # define SPACE				(b[0] ==  32 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //' '
 # define EXCLAM_MACK		(b[0] ==  33 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //!
@@ -215,4 +219,8 @@ int							get_y_x_line(char *line, unsigned int *y,
 		unsigned int *x);
 char						last_c(t_line *line, size_t i);
 
+int							line_up(void);
+int							line_down(void);
+int							word_left(void);
+int							word_right(void);
 #endif

@@ -6,7 +6,7 @@
 #*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2016/05/17 16:07:18 by fpasquer          #+#    #+#             *#
-#*   Updated: 2016/10/24 15:09:46 by fcapocci         ###   ########.fr       *#
+#*   Updated: 2017/01/12 21:26:18 by fcapocci         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -23,7 +23,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					cd.c builtin_or_not.c getenv_value.c						\
 					modify_env_value.c check_if_env_exist.c dico.c				\
 					print_event.c del_g_lines.c list_bin.c autocompletion.c		\
-					get_and_del_21sh.c event_del.c event_move.c
+					get_and_del_21sh.c event_del.c event_move.c event_move2.c
 
 INCLUDES		= shell_21sh.h key.h
 
