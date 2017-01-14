@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 18:34:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/13 19:48:33 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/14 23:41:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int				word_left(void)
 {
 	t_line		*c;
 
-	if ((c = g_curs) == NULL)
-		return (false);
-	if (c->curs == NULL || c->curs == NULL)
+	if ((c = g_curs) == NULL || c->curs == NULL)
 		return (false);
 	if (c->curs->c == ' ')
 		while (c->curs && c->curs->c == ' ')
@@ -45,9 +43,19 @@ int				word_right(void)
 
 	if ((c = g_curs) == NULL)
 		return (false);
-	if (c->curs == NULL || c->curs->next == NULL)
+	if ((c->curs == NULL || c->curs->next == NULL) && c->i != ULONG_MAX)
 		return (false);
-	if (c->curs->next->c == ' ')
+	else if (c->i == ULONG_MAX && c->line)
+	{
+		move_right();
+		if (c->line->c == ' ')
+			while (c->curs && c->curs->next && c->curs->next->c == ' ')
+				move_right();
+		else
+			while (c->curs && c->curs->next && c->curs->next->c != ' ')
+				move_right();
+	}
+	else if (c->curs->next->c == ' ')
 		while (c->curs && c->curs->next && c->curs->next->c == ' ')
 			move_right();
 	else

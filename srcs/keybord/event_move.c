@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 15:46:46 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/13 19:34:23 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/14 19:32:04 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
 	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
 	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
-	//fprintf(debug, "move right curs == %c , %c , %c\n", curs->curs && curs->curs->prev ? curs->curs->prev->c : '0', curs->curs ? curs->curs->c : '0', curs->curs && curs->curs->next ? curs->curs->next->c : '0');
 	return (true);
 }
 
@@ -90,6 +89,5 @@ int							move_left(void)
 		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
 			curs->x_i--;
 	}
-	//fprintf(debug, "move left curs == %c , %c , %c\n", curs->curs && curs->curs->prev ? curs->curs->prev->c : '0', curs->curs ? curs->curs->c : '0', curs->curs && curs->curs->next ? curs->curs->next->c : '0');
 	return (true);
 }
