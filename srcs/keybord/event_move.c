@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 15:46:46 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/14 19:32:04 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/16 03:36:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,27 @@ int							move_left(void)
 		else if (curs->i < curs->len - 1 || curs->i == ULONG_MAX)
 			curs->x_i--;
 	}
+	return (true);
+}
+
+int							move_start_line(void)
+{
+	t_line					*curs;
+
+	if ((curs = g_curs) == NULL || curs->curs == NULL)
+		return (false);
+	while (curs->i != ULONG_MAX)
+		move_left();
+	return (true);
+}
+
+int							move_end_line(void)
+{
+	t_line					*curs;
+
+	if ((curs = g_curs) == NULL || !curs->curs || !curs->curs->next)
+		return (false);
+	while (curs->curs->next)
+		move_right();
 	return (true);
 }

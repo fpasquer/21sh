@@ -14,10 +14,13 @@ DEL         : Del
 
 TAB         : autocompletion
 
+HOME        : move on start line
+
+END         : move on end line
 
 CTRL-a      : left moves for words
 
-CTRL-d      : right moves for words
+CTRL-e      : right moves for words
 
 CTRL-w      : up moves for lines
 

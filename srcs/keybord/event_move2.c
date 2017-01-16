@@ -6,21 +6,42 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 18:34:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/14 23:41:38 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/16 02:35:05 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/key.h"
 #include "../../incs/shell_21sh.h"
 
-/*int				line_up(void)
+int				line_up(void)
 {
+	t_line		*c;
+	size_t		save_x;
+	size_t		save_y;
+
+	if ((c = g_curs) == NULL || c->curs == NULL || c->y_i == 0)
+		return (false);
+	save_x = c->x_i;
+	save_y = c->y_i;
+	while (c->curs && (c->y_i > (save_y - 1) || c->x_i != save_x))
+		move_left();
+	return (true);
 }
 
 int				line_down(void)
 {
+	t_line		*c;
+	size_t		save_x;
+	size_t		save_y;
+
+	if ((c = g_curs) == NULL || c->curs == NULL || c->y_i == c->y)
+		return (false);
+	save_x = c->x_i;
+	save_y = c->y_i;
+	while (c->curs->next && (c->y_i < (save_y + 1) || c->x_i != save_x))
+		move_right();
+	return (true);
 }
-*/
 
 int				word_left(void)
 {
@@ -45,7 +66,7 @@ int				word_right(void)
 		return (false);
 	if ((c->curs == NULL || c->curs->next == NULL) && c->i != ULONG_MAX)
 		return (false);
-	else if (c->i == ULONG_MAX && c->line)
+	else if (c->i == ULONG_MAX && c->line && c->line->c)
 	{
 		move_right();
 		if (c->line->c == ' ')
@@ -55,7 +76,7 @@ int				word_right(void)
 			while (c->curs && c->curs->next && c->curs->next->c != ' ')
 				move_right();
 	}
-	else if (c->curs->next->c == ' ')
+	else if (c->curs && c->curs->next && c->curs->next->c == ' ')
 		while (c->curs && c->curs->next && c->curs->next->c == ' ')
 			move_right();
 	else

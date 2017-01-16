@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/14 22:49:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/16 03:24:41 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct				s_entry
 **	next :				si la commande est multi commande (avec des quotes)
 **	len :				longueur de la commande
 **	i :					position dans la commade
-**	x :					position dans l'ecran horizontalement
+**	x :					position fin de ligne horizontalement
 **	y :					decalage de ligne par rapport au prompt
 **	x_i :				place du caracter horizontalement
 **	y_i :				place du caracter verticalement
@@ -93,10 +93,12 @@ size_t						g_x;
 # define ARROW_DOWN			(b[0] ==  27 && b[1] ==  91 && b[2] ==  66 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //fleche bas
 # define ARROW_RIGHT		(b[0] ==  27 && b[1] ==  91 && b[2] ==  67 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //fleche droite
 # define ARROW_LEFT			(b[0] ==  27 && b[1] ==  91 && b[2] ==  68 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //fleche gauche
+# define HOME				(b[0] ==  27 && b[1] ==  91 && b[2] ==  72 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //home
+# define END				(b[0] ==  27 && b[1] ==  91 && b[2] ==  70 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //end
 # define CTRL_UP			(b[0] ==  23 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_w
 # define CTRL_DOWN			(b[0] ==  19 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_s
 # define CTRL_LEFT			(b[0] ==   1 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_a
-# define CTRL_RIGHT			(b[0] ==   4 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_d
+# define CTRL_RIGHT			(b[0] ==   5 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_e
 
 # define SPACE				(b[0] ==  32 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //' '
 # define EXCLAM_MACK		(b[0] ==  33 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //!
@@ -223,4 +225,6 @@ int							line_up(void);
 int							line_down(void);
 int							word_left(void);
 int							word_right(void);
+int							move_start_line(void);
+int							move_end_line(void);
 #endif
