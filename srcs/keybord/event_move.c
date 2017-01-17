@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 15:46:46 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/16 03:36:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/17 19:37:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ int							move_end_line(void)
 {
 	t_line					*curs;
 
-	if ((curs = g_curs) == NULL || !curs->curs || !curs->curs->next)
+	if ((curs = g_curs) == NULL || curs->len == 0)
 		return (false);
+	if (curs->i == ULONG_MAX)
+		move_right();
 	while (curs->curs->next)
 		move_right();
 	return (true);

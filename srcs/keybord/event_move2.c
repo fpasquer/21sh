@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 18:34:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/16 02:35:05 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/18 00:11:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,11 @@ int				word_right(void)
 {
 	t_line		*c;
 
-	if ((c = g_curs) == NULL)
+	if ((c = g_curs) == NULL || c->len == 0)
 		return (false);
-	if ((c->curs == NULL || c->curs->next == NULL) && c->i != ULONG_MAX)
-		return (false);
-	else if (c->i == ULONG_MAX && c->line && c->line->c)
-	{
+	if (c->i == ULONG_MAX && c->len != 0)
 		move_right();
-		if (c->line->c == ' ')
-			while (c->curs && c->curs->next && c->curs->next->c == ' ')
-				move_right();
-		else
-			while (c->curs && c->curs->next && c->curs->next->c != ' ')
-				move_right();
-	}
-	else if (c->curs && c->curs->next && c->curs->next->c == ' ')
+	if (c->curs && c->curs->next && c->curs->next->c == ' ')
 		while (c->curs && c->curs->next && c->curs->next->c == ' ')
 			move_right();
 	else
