@@ -18,13 +18,13 @@ HOME        : move on start line
 
 END         : move on end line
 
-CTRL-a      : left moves for words
+CTRL-w      : left moves for words
 
 CTRL-e      : right moves for words
 
-CTRL-w      : up moves for lines
+CTRL-a      : up moves for lines
 
-CTRL-s      : down moves for lines
+CTRL-z      : down moves for lines
 
 
 #History
