@@ -23,7 +23,8 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					cd.c builtin_or_not.c getenv_value.c						\
 					modify_env_value.c check_if_env_exist.c dico.c				\
 					print_event.c del_g_lines.c list_bin.c autocompletion.c		\
-					get_and_del_21sh.c event_del.c event_move.c event_move2.c
+					get_and_del_21sh.c event_del.c event_move.c event_move2.c	\
+					event_selec.c
 
 INCLUDES		= shell_21sh.h key.h
 

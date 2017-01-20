@@ -26,6 +26,7 @@ CTRL-a      : up moves for lines
 
 CTRL-z      : down moves for lines
 
+CTRL-t      : change to select mode
 
 #History
 Arrow-up    : last/prev history lines

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/18 15:05:09 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/20 17:12:45 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct				s_entry
 {
 	char					c;
+	bool					select;
 	struct s_entry			*next;
 	struct s_entry			*prev;
 }							t_entry;
@@ -59,6 +60,7 @@ typedef struct				s_line
 	size_t					y;
 	size_t					x_i;
 	size_t					y_i;
+	bool					activity;
 }							t_line;
 
 t_line						*g_lines;
@@ -99,6 +101,7 @@ size_t						g_x;
 # define CTRL_DOWN			(b[0] ==  26 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_z
 # define CTRL_LEFT			(b[0] ==  23 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_w
 # define CTRL_RIGHT			(b[0] ==   5 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_e
+# define SEL_MOD			(b[0] ==  20 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_t
 
 # define SPACE				(b[0] ==  32 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //' '
 # define EXCLAM_MACK		(b[0] ==  33 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //!
@@ -227,4 +230,5 @@ int							word_left(void);
 int							word_right(void);
 int							move_start_line(void);
 int							move_end_line(void);
+int							selec_mode(void);
 #endif
