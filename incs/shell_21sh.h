@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 22:33:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/20 17:48:05 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ FILE *debug;
 # define COLOR_POMT "\033[032;1m"
 # define RESET_COLOR "\033[0m"
 # define COLOR_LINE "\033[034;1;4m"
+# define SELECTED_COLOR "\033[0;7m"
 # define SPACE_CHAR 32
 
 typedef struct stat			t_stat;

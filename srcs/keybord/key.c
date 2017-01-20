@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/20 17:13:21 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/20 18:42:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,63 @@ static int					replace_i(void)
 	return (true);
 }
 
+static t_entry				*put_cmd_char_in_tab(char buff[], t_entry *c,
+		size_t i)
+{
+	size_t					end;
+	size_t					l_select_color;
+	size_t					l_reset_color;
+	bool					select;
+
+	l_select_color = ft_strlen(SELECTED_COLOR);
+	l_reset_color = ft_strlen(RESET_COLOR);
+	end = PRINT_MAX - l_select_color - l_reset_color;
+	select = false;
+	i = 0;
+	while (i < end && c != NULL)
+	{
+		fprintf(debug, "select == %d activity == %d\n", (int)c->select, (int)g_curs->activity);
+		if (c->select == true && select == false)
+			ft_strcat(buff, SELECTED_COLOR);
+		else if (c->select == false && select == true)
+			ft_strcat(buff, RESET_COLOR);
+		if (c->select != select)
+			i = c->select == true ? l_select_color + i : l_reset_color + i;
+		select = c->select;
+		buff[i++] = c->c;
+		c = c->next;
+	}
+	if (select == true)
+		ft_strcat(buff, RESET_COLOR);
+	return (c);
+}
+
 int							put_cmd(void)
+{
+	char					buff[PRINT_MAX + 1];
+	size_t					i;
+	t_line					*curs;
+	t_entry					*c_line;
+
+	if (clean_and_put_prompt() != true || (curs = g_lines) == NULL)
+		return (ERROR);
+	i = 0;
+	while (curs != NULL)
+	{
+		c_line = curs->line;
+		while (c_line != NULL)
+		{
+			ft_bzero(buff, sizeof(buff));
+			c_line = put_cmd_char_in_tab(buff, c_line, i);
+			ft_putstr(buff);
+		}
+		if ((curs = curs->next) != NULL)
+			ft_putchar('\n');
+	}
+	return (replace_i());
+}
+
+/*int							put_cmd(void)
 {
 	char					buff[PRINT_MAX + 1];
 	unsigned int			i;
@@ -216,7 +272,7 @@ int							put_cmd(void)
 			ft_putchar('\n');
 	}
 	return (replace_i());
-}
+}*/
 
 static int					get_line_cmd(void)
 {

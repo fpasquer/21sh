@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 20:12:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/20 17:31:28 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/20 18:43:10 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static bool			reset_selec(bool ret)
 	cpy = curs->curs;
 	while (cpy)
 	{
-		cpy->select = 0;
+		cpy->select = false;
 		cpy = cpy->next;
 	}
-	curs->activity = 0;
+	curs->activity = false;
 	return (ret);
 }
 
@@ -38,7 +38,7 @@ int					selec_mode(void)
 	ft_bzero(b, sizeof(b));
 	if ((curs = g_curs) == NULL)
 		return (false);
-	curs->activity = 1;
+	curs->activity = true;
 	while (curs->len > 0 && !SEL_MOD)
 	{
 		ft_bzero(b, sizeof(b));
