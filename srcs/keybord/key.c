@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/20 18:42:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/23 16:57:48 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
-	if (ESC)
+	if (g_curs->activity == false && ESC)
 		key_exit(EXIT_SUCCESS);
-	else if (F1)
+	else if (g_curs->activity == false && F1)
 		key_del_hist();
 	/*else if (F2)
 		print_history();
@@ -55,7 +55,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		move_left();
 	else if (DEL)
 		del_left();
-	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
+	else if (g_curs->activity == false && ((b[0] >= 32 && b[0] <= 126) || ENTER))
 		return (b[0]);
 	return (KEY_IGNORE);
 }
@@ -204,7 +204,6 @@ static t_entry				*put_cmd_char_in_tab(char buff[], t_entry *c,
 	i = 0;
 	while (i < end && c != NULL)
 	{
-		fprintf(debug, "select == %d activity == %d\n", (int)c->select, (int)g_curs->activity);
 		if (c->select == true && select == false)
 			ft_strcat(buff, SELECTED_COLOR);
 		else if (c->select == false && select == true)
@@ -281,15 +280,14 @@ static int					get_line_cmd(void)
 
 	while (1)
 	{
-		if ((c = get_char_keyboard()) != KEY_IGNORE)
-		{
-			if (place_curs() == ERROR)
-				return (ERROR);
+		c = get_char_keyboard();
+		if (place_curs() == ERROR)
+			return (ERROR);
+		if (c != KEY_IGNORE)
 			if (add_c_to_line(c, &g_curs) == ERROR)
 				return (ERROR);
-			if (put_cmd() == ERROR)
-				return (ERROR);
-		}
+		if (put_cmd() == ERROR)
+			return (ERROR);
 		if ((ret = is_end(c)) != false)
 			break ;
 	}

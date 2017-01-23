@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 15:46:46 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/20 18:15:59 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/23 17:26:22 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	if (sh == NULL || curs == NULL || g_lines == NULL)
 		return (ERROR);
 	i = (curs == g_lines) ? curs->i + sh->len_prompt : curs->i;
+	if (curs->curs && curs->curs->next)
+		curs->curs->next->select = curs->activity == true
+			&& curs->curs->next->select == false ? true : false;
 	if (curs->x_i == sh->win.ws_col - 2)
 	{
 		i = sh->win.ws_col - 1;
@@ -36,7 +39,6 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 			return (ERROR);
 	curs->i++;
 	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
-	curs->curs->select = curs->activity;
 	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
 	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
 	return (true);
@@ -78,12 +80,12 @@ int							move_left(void)
 		curs = curs->next;
 	if (curs->curs != NULL)
 	{
+		if (curs->curs && curs->curs->next)
+			curs->curs->next->select = curs->activity && curs->curs->next->select == false ? true : false;
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 		curs->i--;
 		curs->curs = curs->curs->prev;
-		if (curs->curs)
-			curs->curs->select = curs->activity;
 		if (curs->x_i == 0 && curs->i < curs->len - 1)
 		{
 			curs->x_i = (curs->y_i > 0) ? sh->win.ws_col - 1 : curs->x_i;
