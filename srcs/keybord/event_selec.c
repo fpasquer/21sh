@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 20:12:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/24 16:26:06 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/24 16:27:20 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ int					selec_mode(void)
 		return (false);
 	if (curs->activity == true)
 	{
-		if (curs->sel_start && curs->sel_end)
-		{
-			fprintf(debug, "sel_start == %c sel_end == %c line cpy == ", curs->sel_start->c, curs->sel_end->c);
-			while (curs->sel_start != curs->sel_end)
-			{
-				fprintf(debug, "%c", curs->sel_start->c);
-				curs->sel_start = curs->sel_start->prev && curs->sel_start->prev->select == true ? curs->sel_start->prev : curs->sel_start->next;
-			}
-			fprintf(debug, "%c\n", curs->sel_start->c);
-		}
+	//	if (curs->sel_start && curs->sel_end)
+	//	{
+	//		fprintf(debug, "sel_start == %c sel_end == %c line cpy == ", curs->sel_start->c, curs->sel_end->c);
+	//		while (curs->sel_start != curs->sel_end)
+	//		{
+	//			fprintf(debug, "%c", curs->sel_start->c);
+	//			curs->sel_start = curs->sel_start->next;
+	//		}
+	//		fprintf(debug, "%c\n", curs->sel_start->c);
+	//	}
 		reset_selec(true);
 	}
 	else
