@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/20 18:43:03 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/24 15:45:45 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct				s_line
 	size_t					y;
 	size_t					x_i;
 	size_t					y_i;
+	size_t					last_dir;
+	bool					cp_mode;
 	bool					activity;
 }							t_line;
 
@@ -231,4 +233,5 @@ int							word_right(void);
 int							move_start_line(void);
 int							move_end_line(void);
 int							selec_mode(void);
+int							selec_manager(size_t r_l);
 #endif

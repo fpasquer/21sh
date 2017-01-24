@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_key.c                                    :+:      :+:    :+:   */
+/*   event_del.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/04 14:14:54 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/09 18:09:36 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/24 16:21:19 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/24 16:22:57 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void						key_exit(unsigned char val_exit)
 
 int							key_del_hist(void)
 {
-	t_history					*next;
+	t_history				*next;
 	t_21sh					*sh;
 
 	ft_putendl(COLOR_LINE);
@@ -43,31 +43,6 @@ int							key_del_hist(void)
 	print_prompt();
 	return (true);
 }
-
-/*int							print_history_up(void)
-{
-	char					*tab;
-	int						ret;
-
-
-	if ((tab = make_tab()) == NULL)
-		return (ERROR);
-	ret = search_history_up(tab);
-	ft_memdel((void**)&tab);
-	return (ret);
-}
-
-int							print_history_down(void)
-{
-	char					*tab;
-	int						ret;
-
-	if ((tab = make_tab()) == NULL)
-		return (ERROR);
-	ret = search_history_down(tab);
-	ft_memdel((void**)&tab);
-	return (ret);
-}*/
 
 static int					save_info_line(t_line **line)
 {
@@ -126,5 +101,5 @@ int							del_left(void)
 	tmp = NULL;
 	if (curs->curs != NULL && curs->i != ULONG_MAX && curs->curs->c != '\n')
 		return (del_left_line(curs, tmp));
-	return(true);
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 18:34:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/18 20:02:35 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/24 16:20:40 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ int				line_up(void)
 int				line_down(void)
 {
 	t_line		*c;
-	size_t		save_x;
-	size_t		save_y;
+	size_t		sv_x;
+	size_t		sv_y;
 
 	if ((c = g_curs) == NULL || c->len == 0 || c->y_i == c->y)
 		return (false);
-	save_y = c->y_i;
-	save_x = c->i == ULONG_MAX ? g_lines->x_i : c->x_i;
-	if (c->i == ULONG_MAX && c->y_i < (save_y + 1))
+	sv_y = c->y_i;
+	sv_x = c->i == ULONG_MAX ? g_lines->x_i : c->x_i;
+	if (c->i == ULONG_MAX && c->y_i < (sv_y + 1))
 		move_right();
-	while (c->curs && c->curs->next && (c->y_i < (save_y + 1) || c->x_i != save_x))
+	while (c->curs && c->curs->next && (c->y_i < (sv_y + 1) || c->x_i != sv_x))
 		move_right();
 	return (true);
 }
