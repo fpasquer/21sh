@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/20 17:48:05 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/25 22:07:37 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ typedef struct				s_21sh
 	char					*user;
 	char					*path;
 	char					**tab_path;
+	char					*cpy_tmp;
 	int						sh_lvl;
 	int						pos;
 	int						pos_prev;

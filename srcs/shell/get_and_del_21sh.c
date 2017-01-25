@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:21:14 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 14:23:28 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/25 22:14:14 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static int					del_struct_21sh(t_21sh **sh)
 		ft_memdel((void**)&(*sh)->user);
 	if ((*sh)->pwd != NULL)
 		ft_memdel((void**)&(*sh)->pwd);
+	if ((*sh)->cpy_tmp != NULL)
+		ft_memdel((void**)&(*sh)->cpy_tmp);
 	del_bin();
 	del_env();
 	del_hist();
