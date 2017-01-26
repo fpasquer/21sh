@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/23 16:57:48 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/26 17:02:46 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		word_left();
 	else if (CTRL_RIGHT)
 		word_right();
+	//else if (CPY)
+	//	cpy_event();
+	//else if (PAST)
+	//	past_event();
 	else if (ARROW_RIGHT)
 		move_right();
 	else if (ARROW_LEFT)
@@ -67,7 +71,7 @@ static char					get_char_keyboard(void)
 	ft_bzero(b, sizeof(b));
 	if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0)
 		return (ERROR);
-	//fprintf(debug, "b[0]=%3zu b[1]=%3zu b[2]=%3zu b[3]=%3zu b[4]=%3zu b[5]=%3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3], (size_t)b[4], (size_t)b[5]);
+	fprintf(debug, "b[0]=%3zu b[1]=%3zu b[2]=%3zu b[3]=%3zu b[4]=%3zu b[5]=%3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3], (size_t)b[4], (size_t)b[5]);
 	return (cmd_keyboard(b));
 }
 

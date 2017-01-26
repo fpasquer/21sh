@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/25 20:32:41 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/26 17:02:15 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ typedef struct				s_entry
 **	y :					decalage de ligne par rapport au prompt
 **	x_i :				place du caracter horizontalement
 **	y_i :				place du caracter verticalement
+**	last_dir :			derniere direction employer dans le mode selec_mode
+**	lft_rgt :			balance pr savoir si end et a gauche ou droit de start
+**	activity :			si le selec_mode est actif ? 1 : 0
 */
 typedef struct				s_line
 {
@@ -62,7 +65,6 @@ typedef struct				s_line
 	size_t					y_i;
 	size_t					last_dir;
 	int						lft_rgt;
-	bool					cp_mode;
 	bool					activity;
 }							t_line;
 
@@ -105,6 +107,8 @@ size_t						g_x;
 # define CTRL_LEFT			(b[0] ==  23 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_w
 # define CTRL_RIGHT			(b[0] ==   5 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_e
 # define SEL_MOD			(b[0] ==  20 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_t
+# define CPY				(b[0] ==   3 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_c
+# define PAST				(b[0] ==  16 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_p
 
 # define SPACE				(b[0] ==  32 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //' '
 # define EXCLAM_MACK		(b[0] ==  33 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //!
@@ -236,4 +240,7 @@ int							move_end_line(void);
 int							selec_mode(void);
 int							reset_selec(int ret);
 int							selec_manager(size_t r_l);
+int							cpy_event(void);
+int							cut_event(void);
+int							past_event(void);
 #endif

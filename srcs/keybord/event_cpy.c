@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 19:40:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/25 23:17:20 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/26 16:37:19 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char			*selec_dup(t_line *c)
 
 	if (c == NULL)
 		return (NULL);
-	len = (c->lft_rgt * 1) + 1;
+	len = (c->lft_rgt * c->lft_rgt < 0 ? -1 : 1) + 1;
 	if ((ft_memalloc(sizeof(char) * (len + 1))) == NULL)
 		return (NULL);
 	while (c->sel_start != c->sel_end)
@@ -39,8 +39,7 @@ int					cpy_event(void)
 		ft_memdel((void**)&sh->cpy_tmp);
 	if ((sh->cpy_tmp = selec_dup(g_curs)) == NULL)
 		return (reset_selec(false));
-	reset_selec(true);
-	return (true);
+	return (reset_selec(true));
 }
 
 int					cut_event(void)

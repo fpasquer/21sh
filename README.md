@@ -28,6 +28,10 @@ CTRL-z      : down moves for lines
 
 CTRL-t      : change to select mode
 
+CTRL-c      : copy curs/selection
+
+CTRL-p      : past the last copy/cut
+
 #History
 Arrow-up    : last/prev history lines
 
