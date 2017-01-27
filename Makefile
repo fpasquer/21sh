@@ -1,14 +1,14 @@
-#* ************************************************************************** *#
-#*                                                                            *#
-#*                                                        :::      ::::::::   *#
-#*   Makefile                                           :+:      :+:    :+:   *#
-#*                                                    +:+ +:+         +:+     *#
-#*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        *#
-#*                                                +#+#+#+#+#+   +#+           *#
-#*   Created: 2016/05/17 16:07:18 by fpasquer          #+#    #+#             *#
-#*   Updated: 2017/01/12 21:26:18 by fcapocci         ###   ########.fr       *#
-#*                                                                            *#
-#* ************************************************************************** *#
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/01/27 22:05:26 by fcapocci          #+#    #+#              #
+#    Updated: 2017/01/27 22:05:27 by fcapocci         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME			= 21sh
 
@@ -24,7 +24,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					modify_env_value.c check_if_env_exist.c dico.c				\
 					print_event.c del_g_lines.c list_bin.c autocompletion.c		\
 					get_and_del_21sh.c event_del.c event_move.c event_move2.c	\
-					event_selec.c
+					event_selec.c event_cpy.c
 
 INCLUDES		= shell_21sh.h key.h
 

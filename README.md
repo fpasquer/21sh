@@ -4,40 +4,42 @@
 ##Options
 
 ##Lines edition
-Arrow-left  : left moves
+Arrow-left        : left moves
 
-Arrow-right : right moves
-
-
-DEL         : Del
+Arrow-right       : right moves
 
 
-TAB         : autocompletion
+DEL               : Del
 
-HOME        : move on start line
 
-END         : move on end line
+TAB               : autocompletion
 
-CTRL-w      : left moves for words
+HOME              : move on start line
 
-CTRL-e      : right moves for words
+END               : move on end line
 
-CTRL-a      : up moves for lines
+SHIFT ARROW LEFT  : left moves for words
 
-CTRL-z      : down moves for lines
+SHIFT ARROW RIGHT : right moves for words
 
-CTRL-t      : change to select mode
+SHIFT ARROW UP    : up moves for lines
 
-CTRL-c      : copy curs/selection
+SHIFT ARROW DOWN  : down moves for lines
 
-CTRL-p      : past the last copy/cut
+CTRL-t            : change to select mode
+
+CTRL-i            : copy curs/selection
+
+CTRL-u            : cut  curs/selection
+
+CTRL-p            : past the last copy/cut
 
 #History
-Arrow-up    : last/prev history lines
+Arrow-up          : last/prev history lines
 
-Arrow-down  : next history lines
+Arrow-down        : next history lines
 
 
-F1          : Del history
+F1                : Del history
 
-F2          : Print history
+F2                : Print history

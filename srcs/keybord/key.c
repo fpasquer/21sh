@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/26 17:02:46 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/27 21:29:01 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,20 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		move_start_line();
 	else if (END)
 		move_end_line();
-	else if (CTRL_UP)
+	else if (SHIFT_UP)
 		line_up();
-	else if (CTRL_DOWN)
+	else if (SHIFT_DOWN)
 		line_down();
-	else if (CTRL_LEFT)
+	else if (SHIFT_LEFT)
 		word_left();
-	else if (CTRL_RIGHT)
+	else if (SHIFT_RIGHT)
 		word_right();
-	//else if (CPY)
-	//	cpy_event();
-	//else if (PAST)
-	//	past_event();
+	else if (CPY)
+		cpy_event();
+	//else if (CUT)
+	//	cut_event();
+	else if (g_curs->activity == false && PAST)
+		past_event();
 	else if (ARROW_RIGHT)
 		move_right();
 	else if (ARROW_LEFT)
@@ -71,7 +73,7 @@ static char					get_char_keyboard(void)
 	ft_bzero(b, sizeof(b));
 	if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0)
 		return (ERROR);
-	fprintf(debug, "b[0]=%3zu b[1]=%3zu b[2]=%3zu b[3]=%3zu b[4]=%3zu b[5]=%3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3], (size_t)b[4], (size_t)b[5]);
+	// fprintf(debug, "b[0]=%3zu b[1]=%3zu b[2]=%3zu b[3]=%3zu b[4]=%3zu b[5]=%3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3], (size_t)b[4], (size_t)b[5]);
 	return (cmd_keyboard(b));
 }
 
@@ -168,7 +170,7 @@ int							place_curs(void)
 	return (loop_place_curs(y, i));
 }
 
-static int						clean_and_put_prompt(void)
+static int					clean_and_put_prompt(void)
 {
 	int							ret;
 
@@ -247,35 +249,6 @@ int							put_cmd(void)
 	}
 	return (replace_i());
 }
-
-/*int							put_cmd(void)
-{
-	char					buff[PRINT_MAX + 1];
-	unsigned int			i;
-	t_line					*curs;
-	t_entry					*c_line;
-
-	if (clean_and_put_prompt() != true || (curs = g_lines) == NULL)
-		return (ERROR);
-	while (curs != NULL)
-	{
-		c_line = curs->line;
-		while (c_line != NULL)
-		{
-			i = 0;
-			ft_bzero(buff, sizeof(buff));
-			while (c_line != NULL && i < PRINT_MAX)
-			{
-				buff[i++] = c_line->c;
-				c_line = c_line->next;
-			}
-			ft_putstr(buff);
-		}
-		if ((curs = curs->next) != NULL)
-			ft_putchar('\n');
-	}
-	return (replace_i());
-}*/
 
 static int					get_line_cmd(void)
 {
@@ -406,7 +379,7 @@ static char					*save_tab(char *tab)
 		}
 	}
 	del_g_lines();
-	return(tab);
+	return (tab);
 }
 
 int							insert_word_in_g_line(char *word, t_line **line)

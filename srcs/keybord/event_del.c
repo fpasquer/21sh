@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 16:21:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/24 16:22:57 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/27 22:08:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,8 @@ int							del_left(void)
 	t_line					*curs;
 	t_entry					*tmp;
 
-	if ((curs = g_lines) == NULL)
+	if ((curs = g_curs) == NULL)
 		return (ERROR);
-	while (curs->next != NULL)
-		curs = curs->next;
 	tmp = NULL;
 	if (curs->curs != NULL && curs->i != ULONG_MAX && curs->curs->c != '\n')
 		return (del_left_line(curs, tmp));
