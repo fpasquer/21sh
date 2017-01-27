@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 16:21:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 22:08:43 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/28 00:51:45 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,19 @@ static int					del_left_line(t_line *curs, t_entry *tmp)
 
 int							del_left(void)
 {
-	t_line					*curs;
+	t_line					*c;
 	t_entry					*tmp;
 
-	if ((curs = g_curs) == NULL)
+	if ((c = g_curs) == NULL)
 		return (ERROR);
 	tmp = NULL;
-	if (curs->curs != NULL && curs->i != ULONG_MAX && curs->curs->c != '\n')
-		return (del_left_line(curs, tmp));
+	if (c->activity == true)
+	{
+		while (c->curs && c->curs->c != '\n' && c->curs->select == true)
+			del_left_line(c, tmp);
+		return (reset_selec(true));
+	}
+	else if (c->curs != NULL && c->curs->c != '\n')
+			return (del_left_line(c, tmp));
 	return (true);
 }
