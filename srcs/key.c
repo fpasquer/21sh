@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/20 21:47:02 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/28 18:04:55 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,30 @@
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
+	char					ret;
+
+	ret = true;
 	if (ESC)
 		key_exit(EXIT_SUCCESS);
 	else if (F1)
-		key_del_hist();
+		ret = key_del_hist();
 	/*else if (F2)
 		print_history();*/
-	/*else if (TAB)
-		autocompletion();*/
+	else if (TAB)
+		ret = autocompletion();
 	else if (ARROW_UP)
-		print_history_up();
+		ret = print_history_up();
 	else if (ARROW_DOWN)
-		print_history_down();
+		ret = print_history_down();
 	else if (ARROW_RIGHT)
-		move_right();
+		ret = move_right();
 	else if (ARROW_LEFT)
-		move_left();
+		ret = move_left();
 	else if (DEL)
-		del_left();
+		ret = del_left();
 	else if ((b[0] >= 32 && b[0] <= 126) || ENTER)
 		return (b[0]);
-	return (KEY_IGNORE);
+	return (ret == (ERROR) ? ERROR : KEY_IGNORE);
 }
 
 static char					get_char_keyboard(void)
@@ -194,12 +197,12 @@ static int					replace_i(void)
 	//i = curs->x == 0 ? curs->i + 1 : curs->i;
 	i = curs->i;
 	while (i++ + 1< curs->len)
-																				{
-																					fprintf(debug, "len = %3zu, i = %3zu, x = %3zu", curs->len, i - 1, curs->x);
+																				//{
+																				//	fprintf(debug, "len = %3zu, i = %3zu, x = %3zu", curs->len, i - 1, curs->x);
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
-																				}
-																				fprintf(debug, "\n");
+																				//}
+																				//fprintf(debug, "\n");
 	return (true);
 }
 
@@ -305,7 +308,8 @@ static int					get_line_cmd(void)
 
 	while (1)
 	{
-		c = get_char_keyboard();
+		if ((c = get_char_keyboard()) == ERROR)
+			return (ERROR);
 		if (place_curs() == ERROR)
 			return (ERROR);
 		if (c != KEY_IGNORE)
@@ -387,6 +391,7 @@ int							add_c_to_line(char c, t_line **line)
 		return (ERROR);
 	n->c = c;
 																				//fprintf(debug, "c = %2c = %p", c, n);
+																				fprintf(debug, "n = %p line = %d\n", n, __LINE__);
 	if ((*line)->curs == NULL || (*line)->i == ULONG_MAX)
 	{
 																				//fprintf(debug, "%d c = %c ", __LINE__, c);
