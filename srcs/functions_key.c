@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/08 12:28:35 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/10 18:39:45 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int					get_new_i(t_21sh *sh, t_line *curs)
 	curs->curs = curs->curs == NULL ? curs->line : curs->curs->next;
 	curs->y_i = (curs->x_i == sh->win.ws_col - 1) ? curs->y_i + 1 : curs->y_i;
 	curs->x_i = (curs->x_i == sh->win.ws_col - 1) ? 0 : curs->x_i + 1;
-																				fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c, %p\n", i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i), curs->curs);
+																				//fprintf(debug, "righ i = %3zu x_i = %3zu y_i = %3zu len = %3zu c = %c, %p\n", i, curs->x_i, curs->y_i, curs->len, last_c(curs, curs->i), curs->curs);
 	return (true);
 }
 

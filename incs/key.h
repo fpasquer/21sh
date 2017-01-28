@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/11/07 08:36:38 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/18 21:54:26 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct				s_entry
 {
 	char					c;
+	bool					selected;
 	struct s_entry			*next;
 	struct s_entry			*prev;
 }							t_entry;

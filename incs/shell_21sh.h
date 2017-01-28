@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2016/10/31 09:06:43 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/19 21:23:31 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ FILE *debug;
 
 # define COLOR_POMT "\033[032;1m"
 # define RESET_COLOR "\033[0m"
+# define SELECTED_COLOR "\033[0;7m"
 # define COLOR_LINE "\033[034;1;4m"
 # define SPACE_CHAR 32
 

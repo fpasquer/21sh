@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 19:27:10 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/08 12:26:55 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/20 21:47:02 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static char					get_char_keyboard(void)
 	ft_bzero(b, sizeof(b));
 	if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0)
 		return (ERROR);
+																				//fprintf(debug, "[0] = %3d, [1] = %3d, [2] = %3d, [3] = %3d, [4] = %3d, [5] = %3d, [6] = %3d, [7] = %3d\n", b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7]);
 	return (cmd_keyboard(b));
 }
 
@@ -151,11 +152,11 @@ static int					save_y_i(size_t *y, size_t *x)
 	}
 																				//fprintf(debug, " ret = %3zu\n", (*y));
 	(*y) += loop;
-																				if ((*y) > 10)
-																				{
-																					//fprintf(debug, "y = %3zu loop = %3zu\n", (*y), loop);
-																					exit(0);
-																				}
+																				//if ((*y) > 10)
+																				//{
+																				//	fprintf(debug, "y = %3zu loop = %3zu\n", (*y), loop);
+																				//	exit(0);
+																				//}
 																			//	fprintf(debug, "y = %3zu x %3zu loop = %3zu i = %3zu len = %3zu\n", (*y) - loop, (*x), loop, i_last, len_last);
 																				//fprintf(debug, "%d y_i = %3zu ", __LINE__, g_lines->y_i);
 	return (true);
@@ -190,14 +191,75 @@ static int					replace_i(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
+	//i = curs->x == 0 ? curs->i + 1 : curs->i;
 	i = curs->i;
 	while (i++ + 1< curs->len)
+																				{
+																					fprintf(debug, "len = %3zu, i = %3zu, x = %3zu", curs->len, i - 1, curs->x);
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
+																				}
+																				fprintf(debug, "\n");
 	return (true);
 }
 
+static t_entry				*put_cmd_char_in_tab(char buff[], t_entry *c,
+		size_t i)
+{
+	size_t					end;
+	size_t					l_select_color;
+	size_t					l_reset_color;
+	bool					select;
+
+	l_select_color = ft_strlen(SELECTED_COLOR);
+	l_reset_color = ft_strlen(RESET_COLOR);
+	end = PRINT_MAX - l_select_color - l_reset_color;
+	select = false;
+	i = 0;
+	while (i < end && c != NULL)
+	{
+		if (c->selected == true && select == false)
+			ft_strcat(buff, SELECTED_COLOR);
+		else if (c->selected == false && select == true)
+			ft_strcat(buff, RESET_COLOR);
+		if (c->selected != select)
+			i = c->selected == true ? l_select_color + i : l_reset_color + i;
+		select = c->selected;
+		buff[i++] = c->c;
+		c = c->next;
+	}
+	if (select == true)
+		ft_strcat(buff, RESET_COLOR);
+	return (c);
+}
+
 int							put_cmd(void)
+{
+	char					buff[PRINT_MAX + 1];
+	size_t					i;
+	t_line					*curs;
+	t_entry					*c_line;
+
+	if (clean_and_put_prompt() != true || (curs = g_lines) == NULL)
+		return (ERROR);
+	i = 0;
+	while (curs != NULL)
+	{
+		c_line = curs->line;
+		while (c_line != NULL)
+		{
+			ft_bzero(buff, sizeof(buff));
+			c_line = put_cmd_char_in_tab(buff, c_line, i);
+			ft_putstr(buff);
+		}
+		if ((curs = curs->next) != NULL)
+			ft_putchar('\n');
+	}
+	return (replace_i());
+}
+
+
+/*int							put_cmd(void)
 {
 	char					buff[PRINT_MAX + 1];
 	unsigned int			i;
@@ -215,7 +277,8 @@ int							put_cmd(void)
 			ft_bzero(buff, sizeof(buff));
 			while (c_line != NULL && i < PRINT_MAX)
 			{
-				buff[i++] = c_line->c;
+				//buff[i++] = c_line->c;
+				i = put_cmd_char_in_tab(buff, i, c_line)
 				c_line = c_line->next;
 			}
 			ft_putstr(buff);
@@ -224,7 +287,8 @@ int							put_cmd(void)
 			ft_putchar('\n');
 	}
 	return (replace_i());
-}
+}*/
+
 
 /*int							put_lines(void)
 {
@@ -241,16 +305,15 @@ static int					get_line_cmd(void)
 
 	while (1)
 	{
-		if ((c = get_char_keyboard()) != KEY_IGNORE)
-		{
-			if (place_curs() == ERROR)
-				return (ERROR);
+		c = get_char_keyboard();
+		if (place_curs() == ERROR)
+			return (ERROR);
+		if (c != KEY_IGNORE)
 			if (add_c_to_line(c, &g_curs) == ERROR)
 				return (ERROR);
-			if (put_cmd() == ERROR)
-				return (ERROR);
+		if (put_cmd() == ERROR)
+			return (ERROR);
 																				//fprintf(debug, "%d y_i = %3zu\n", __LINE__, g_lines->y_i);
-		}
 		if ((ret = is_end(c)) != false)
 			break ;
 	}
@@ -283,7 +346,7 @@ int							save_y_x_line(t_line **lines)
 		(*lines)->x_i = (*lines)->i == ULONG_MAX ? 0 : (*lines)->i % sh->win.ws_col;
 	}
 
-																				fprintf(debug, " y = %3zu x %3zu i = %3zu len = %3zu line : %d\n", (*lines)->y_i , (*lines)->x_i, (*lines)->i, (*lines)->len, __LINE__);
+																				//fprintf(debug, " y = %3zu x %3zu i = %3zu len = %3zu line : %d\n", (*lines)->y_i , (*lines)->x_i, (*lines)->i, (*lines)->len, __LINE__);
 	return (true);
 }
 
@@ -323,7 +386,7 @@ int							add_c_to_line(char c, t_line **line)
 	if ((n = ft_memalloc(sizeof(*n))) == NULL || line == NULL || *line == NULL)
 		return (ERROR);
 	n->c = c;
-																				fprintf(debug, "c = %2c = %p", c, n);
+																				//fprintf(debug, "c = %2c = %p", c, n);
 	if ((*line)->curs == NULL || (*line)->i == ULONG_MAX)
 	{
 																				//fprintf(debug, "%d c = %c ", __LINE__, c);
