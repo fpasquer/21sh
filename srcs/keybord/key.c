@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:29:01 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/28 13:35:01 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		move_right();
 	else if (ARROW_LEFT)
 		move_left();
-	else if (DEL)
+	else if (g_curs->activity == false && DEL)
 		del_left();
+	//else if (g_curs->activity == true && DEL)
+	//	del_selec();
 	else if (g_curs->activity == false && ((b[0] >= 32 && b[0] <= 126) || ENTER))
 		return (b[0]);
 	return (KEY_IGNORE);

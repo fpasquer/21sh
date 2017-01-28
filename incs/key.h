@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 17:54:45 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/28 17:42:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,4 +244,5 @@ int							selec_manager(size_t r_l);
 int							cpy_event(void);
 int							cut_event(void);
 int							past_event(void);
+int							del_selec(void);
 #endif

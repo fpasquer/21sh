@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 19:40:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/28 00:41:15 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/28 18:00:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int					cut_event(void)
 
 	if ((sh = get_21sh(NULL)) == NULL || g_curs == NULL)
 		return (false);
-	cpy_event();
-	del_left();
-	return (true);
+	if (cpy_event() == false || del_left() == false)
+		return (reset_selec(false));
+	return (reset_selec(true));
 }
 
 int					past_event(void)
