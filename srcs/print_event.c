@@ -71,7 +71,7 @@ static int					print_prompt_word(char *word, bool end)
 		print_g_line();
 		ft_putstr(word);
 		ft_putstr(COLOR_LINE);
-		ft_putstr("\nrecherches");
+		ft_putstr("\nrecherche : ");
 		ft_putendl(RESET_COLOR);
 	}
 	return (true);
