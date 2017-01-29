@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:11:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 21:24:38 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 22:52:34 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static int					count_objets(char *path, char *begin_name)
 	return (count);
 }
 
-static char					*get_path_begin(t_entry *c)
+static char					*get_path_with_begin(t_entry *c)
 {
 	char					mem[SIZE_BUFF_M + 1];
 	char					*tmp;
@@ -142,7 +142,7 @@ static char					*get_path_begin(t_entry *c)
 	return (buff);
 }
 
-static char					*get_begin(char *path_begin)
+/*static char					*get_begin(char *path_begin)
 {
 	char					*addr;
 	size_t					len;
@@ -158,7 +158,7 @@ static char					*get_begin(char *path_begin)
 	if (*(addr + 1) != '\0')
 		*addr = '\0';
 	return (addr + 1);
-}
+}*/
 
 static int					put_list_objets(char **list_obj, char *begin)
 {
@@ -171,31 +171,55 @@ static int					put_list_objets(char **list_obj, char *begin)
 	return (add_word_to_g_line(&resul, begin));
 }
 
+static int					get_path_begin(t_entry *c, char **path, char **begin)
+{
+	char					*path_begin;
+	char					*addr;
+	size_t					len;
+
+	if (c == NULL || path == NULL || begin == NULL ||
+			(path_begin = get_path_with_begin(c)) == NULL)
+		return (ERROR);
+	if ((addr = ft_strrchr(path_begin, '/')) == NULL)
+	{
+		*path = ft_strdup(path_begin);
+		*begin = ft_strdup("");
+	}
+	else
+	{
+		len = addr - path_begin;
+		*path = ft_strndup(path_begin, len + 1);
+		*begin = ft_strdup(&path_begin[len + 1]);
+	}
+	if (*path == NULL || *begin == NULL)
+		return (ERROR);
+	ft_memdel((void**)&path_begin);
+	return (true);
+}
+
 int							autocompletion_path(t_entry *c)
 {
 	char					*begin;
-	char					*path_begin;
+	char					*path;
 	char					**list_obj;
 	int						nb_obj;
 	size_t					len;
 
-	if (c == NULL || (path_begin = get_path_begin(c)) == NULL)
+	if (c == NULL || get_path_begin(c, &path, &begin) == ERROR)
 		return (ERROR);
-	if ((begin = get_begin(path_begin)) == NULL)
-		return (ERROR);
-	if ((nb_obj = count_objets(path_begin, begin)) == ERROR)
+	if ((nb_obj = count_objets(path, begin)) == ERROR || begin == NULL ||
+			del_car_begin_in_g_line(ft_strlen(begin)) == ERROR)
 		return (ERROR);
 	if (nb_obj > 0)
 	{
-		if ((list_obj = make_list_object(path_begin, begin, nb_obj)) == NULL ||
+		if ((list_obj = make_list_object(path, begin, nb_obj)) == NULL ||
 				put_list_objets(list_obj, begin) == ERROR)
 			return (ERROR);
 		ft_free_strsplit(list_obj);
 	}
-	if ((len = ft_strlen(path_begin)) == 0 || begin == path_begin)
+	if ((len = ft_strlen(path)) == 0 || begin == path)
 			return (ERROR);
-	if (*(begin - 1) != '/')
-		*begin = '/';
-	ft_memdel((void**)&path_begin);
+	ft_memdel((void**)&path);
+	ft_memdel((void**)&begin);
 	return (true);
 }

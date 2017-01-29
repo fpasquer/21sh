@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:47:54 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 21:31:40 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 22:53:09 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,30 @@ static int					is_autocompletion_bin(t_entry *c)
 	}
 	return (true);
 }
+
+int					del_car_begin_in_g_line(size_t len)
+{
+	if (g_curs == NULL)
+		return (ERROR);
+	if (len == 0)
+		return (false);
+	g_curs->curs = g_curs->line;
+	while (g_curs->curs != NULL && g_curs->curs->next != NULL)
+		g_curs->curs = g_curs->curs->next;
+	while (g_curs->curs != NULL && g_curs->curs->c == ' ')
+		del_left();
+																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
+	del_left();
+	len--;
+	while (len > 0)
+	{
+		del_left();
+																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
+		len--;
+	}
+	return (true);
+}
+
 
 int							add_word_to_g_line(char **ret, char *begin)
 {

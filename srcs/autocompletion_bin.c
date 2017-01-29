@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 12:25:16 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 21:36:38 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 22:41:58 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,27 +90,6 @@ static int					is_end_loop(t_entry *c)
 	return (true);
 }
 
-static int					del_car_begin_in_g_line(size_t len)
-{
-	if (g_curs == NULL)
-		return (ERROR);
-	g_curs->curs = g_curs->line;
-	while (g_curs->curs != NULL && g_curs->curs->next != NULL)
-		g_curs->curs = g_curs->curs->next;
-	while (g_curs->curs != NULL && g_curs->curs->c == ' ')
-		del_left();
-																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
-	del_left();
-	len--;
-	while (len > 0)
-	{
-		del_left();
-																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
-		len--;
-	}
-	return (true);
-}
-
 static char					*get_begin_bin(t_entry *c)
 {
 	char					*begin;
@@ -120,17 +99,14 @@ static char					*get_begin_bin(t_entry *c)
 
 	if ((curs = c) == NULL)
 		return (NULL);
-																				DEBUG;
 	len = 0;
 	while (is_end_loop(curs))
 	{
 		len++;
 		curs = curs->prev;
 	}
-																				DEBUG;
 	if (len == 0)
 		return (NULL);
-																				DEBUG;
 	if ((begin = ft_memalloc(sizeof(begin) * (len + 1))) == NULL)
 		return (NULL);
 	mem_len = len;
@@ -153,10 +129,7 @@ int							autocompletion_bin(t_entry *c)
 	if ((curs = g_curs) == NULL)
 		return (ERROR);
 	if ((beg = get_begin_bin(c)) == NULL)
-																				{
-																					DEBUG;
 		return (false);
-																				}
 	if ((beg[0] >= 'a' && beg[0] <= 'z') || (beg[0] >= 'A' && beg[0] <= 'Z'))
 		i = (beg[0] >= 'a' && beg[0] <= 'z') ? beg[0] - 'a' : beg[0] - 'A';
 	else

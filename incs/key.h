@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 21:04:15 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 22:42:30 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ int							autocompletion(void);
 int							autocompletion_bin(t_entry *c);
 int							autocompletion_path(t_entry *c);
 int							add_word_to_g_line(char **ret, char *begin);
+int							del_car_begin_in_g_line(size_t len);
 int							save_y_x_line(t_line **line);
 int							put_lines(void);
 
