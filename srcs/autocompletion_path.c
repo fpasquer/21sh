@@ -6,13 +6,14 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:11:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 21:05:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 21:24:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
-# define SIZE_BUFF_M 3
+
+# define SIZE_BUFF_M 90
 
 static int					check_file(char ***list, char *path, char *name,
 		int i)
@@ -22,8 +23,6 @@ static int					check_file(char ***list, char *path, char *name,
 
 	if (list == NULL || path == NULL || name == NULL || i < 0)
 		return (ERROR);
-																				//fprintf(debug, "path = '%s', name = '%s', i = %d\n", path, name, i);
-																				//DEBUG;
 	if (ft_strcmp(name, ".") != 0 && ft_strcmp(name, "..") != 0)
 	{
 		if ((tmp_path = ft_strjoin(path, name)) == NULL)
@@ -37,7 +36,6 @@ static int					check_file(char ***list, char *path, char *name,
 				list[0][i] = ft_strdup(name);
 			if (list[0][i] == NULL)
 				return (ERROR);
-
 		}
 		ft_memdel((void**)&tmp_path);
 		return (true);
@@ -66,7 +64,6 @@ static char					**save_list(char ***list, char *path,
 		while ((str_dir = readdir(dirent)) != NULL)
 			if (len == 0 || ft_strncmp(str_dir->d_name, begin_name, len) == 0)
 			{
-
 				if ((ret = check_file(list, path, str_dir->d_name, i))
 						== ERROR)
 					break ;
@@ -82,7 +79,6 @@ static char					**make_list_object(char *path, char *begin_name,
 {
 	char					**list_bin;
 
-																				//fprintf(debug, "path = '%s', name = '%s', line = %d\n", path, begin_name, __LINE__);
 	if (path == NULL || begin_name == NULL)
 		return (NULL);
 	if (count == 0)
@@ -174,7 +170,6 @@ static int					put_list_objets(char **list_obj, char *begin)
 	resul = print_list_term(sh, list_obj, true);
 	return (add_word_to_g_line(&resul, begin));
 }
-
 
 int							autocompletion_path(t_entry *c)
 {

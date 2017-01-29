@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:47:54 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 21:03:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 21:31:40 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int							autocompletion(void)
 	t_entry					*c;
 
 	if (move_line_end() == ERROR || (c = get_last_addr_c()) == NULL)
-																				{
-																					fprintf(debug, "ici line %d\n", __LINE__);
+																				//{
+																				//	fprintf(debug, "ici line %d\n", __LINE__);
 		return ((g_curs == NULL) ? ERROR : false);
-																				}
+																				//}
 	if ((ret = is_autocompletion_bin(c)) == ERROR)
 		return (ERROR);
-																				fprintf(debug, "ret = %d\n", ret);
+																				//fprintf(debug, "ret = %d\n", ret);
 	if (ret == true)
 		return autocompletion_bin(c);
 	return (autocompletion_path(c));

@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 12:25:16 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 21:04:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 21:36:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,17 @@ static char					*get_begin_bin(t_entry *c)
 
 	if ((curs = c) == NULL)
 		return (NULL);
+																				DEBUG;
 	len = 0;
 	while (is_end_loop(curs))
 	{
 		len++;
 		curs = curs->prev;
 	}
+																				DEBUG;
 	if (len == 0)
 		return (NULL);
+																				DEBUG;
 	if ((begin = ft_memalloc(sizeof(begin) * (len + 1))) == NULL)
 		return (NULL);
 	mem_len = len;
@@ -136,6 +139,7 @@ static char					*get_begin_bin(t_entry *c)
 		begin[--len] = c->c;
 		c = c->prev;
 	}
+
 	return (del_car_begin_in_g_line(mem_len) == ERROR ? NULL : begin);
 }
 
@@ -149,7 +153,10 @@ int							autocompletion_bin(t_entry *c)
 	if ((curs = g_curs) == NULL)
 		return (ERROR);
 	if ((beg = get_begin_bin(c)) == NULL)
-		return (ERROR);
+																				{
+																					DEBUG;
+		return (false);
+																				}
 	if ((beg[0] >= 'a' && beg[0] <= 'z') || (beg[0] >= 'A' && beg[0] <= 'Z'))
 		i = (beg[0] >= 'a' && beg[0] <= 'z') ? beg[0] - 'a' : beg[0] - 'A';
 	else
