@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 21:42:08 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/10 18:39:45 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 15:53:11 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ int							move_right(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
-	if (curs->len == 0)
-		return (true);
+	if (curs->len == 0 || curs->i == curs->len - 1)
+		return (false);
 	if (curs->i >= curs->len - 1 && curs->i != ULONG_MAX)
 	{
 		if (g_move == true)
@@ -206,7 +206,7 @@ static int					del_left_line(t_line *curs, t_entry *tmp)
 	curs->curs = tmp;
 																				//fprintf(debug, "%d curs = %3zu\n",__LINE__, g_lines->y_i);
 																				//fprintf(debug, "line %d curs->curs = %p curs->y_i = %3zu\n", __LINE__, curs->curs, curs->y_i);
-																				//fprintf(debug, " curs->curs = %p , %d", curs->curs, __LINE__);
+																				//fprintf(debug, " curs->curs = %p , %d\n", curs->curs, __LINE__);
 	return (true);
 }
 
@@ -215,7 +215,7 @@ int							del_left(void)
 	t_line					*curs;
 	t_entry					*tmp;
 
-																				//fprintf(debug, "%d curs = %p ",__LINE__, g_lines->curs);
+																				//fprintf(debug, "%d curs = %p\n",__LINE__, g_lines->curs);
 	if ((curs = g_lines) == NULL)
 		return (ERROR);
 	while (curs->next != NULL)

@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/19 21:23:31 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 15:57:39 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ FILE *debug;
 # define COLOR_LINE "\033[034;1;4m"
 # define SPACE_CHAR 32
 
+# define DEBUG fprintf(debug, "line : %d file : %s\n", __LINE__, __FILE__)
+
 typedef struct stat			t_stat;
 
 /*
@@ -70,7 +72,8 @@ typedef struct				s_env
 **	i_hash :		position dans la table de hash
 **	len_name :		len de name
 **	stat :			retour de lstat sur le binaire
-**	next :			adresse du maillon suivant
+**	next :			adresse du maillon suivant de la table de hash
+**	n_dico :		next du dico
 */
 
 typedef struct				s_bin
@@ -251,5 +254,19 @@ int							get_path_bin(char *name_bin, char **path_name);
 int							init_term(t_21sh **sh);
 int							my_out_put(int c);
 int							put_cmd_term(char *cmd);
+
+/*
+**	print_list_term
+*/
+char						*print_list_term(t_21sh *sh, char **list,
+		bool select);
+
+/*
+**	print_event.c
+*/
+char						*put_words_event(t_list_print *l, int  len,
+		int nb_word_line);
+
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 13:01:40 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/18 21:54:26 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 12:29:50 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,8 @@ int							move_left(void);
 int							del_left(void);
 int							place_curs(void);
 int							put_cmd(void);
+int							autocompletion(void);
+int							autocompletion_bin(t_entry *c);
 int							save_y_x_line(t_line **line);
 int							put_lines(void);
 
