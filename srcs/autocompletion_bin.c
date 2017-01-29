@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 12:25:16 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 16:03:49 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/29 16:13:42 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static int					add_word_to_g_line(char **ret, char *beggin)
 	tmp = *ret;
 	if (tmp == NULL || (len_ret = ft_strlen(tmp)) == 0)
 	{
-		if (insert_word_in_g_line(beggin, &curs) == ERROR)
-			return (ERROR);
+		//if (insert_word_in_g_line(beggin, &curs) == ERROR)
+		//	return (ERROR);
 		return (false);
 	}
 	i = 0;
