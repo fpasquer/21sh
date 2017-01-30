@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 12:25:16 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 22:41:58 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/30 21:59:53 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int					put_autocompletion_bin(char *begin, int i)
 	nb_match_word = get_nb_match_word(dico, begin);
 	if ((list_match = make_list_match(nb_match_word, begin, dico)) == NULL)
 																				{
-																					DEBUG;
+																					//DEBUG;
 		return (nb_match_word == 0 ? false : ERROR);
 																				}
 	ret = print_list_term(sh, list_match, true);
@@ -134,13 +134,9 @@ int							autocompletion_bin(t_entry *c)
 		i = (beg[0] >= 'a' && beg[0] <= 'z') ? beg[0] - 'a' : beg[0] - 'A';
 	else
 		i = SIZE_DICO - 1;
-																				//fprintf(debug, "begin = '%s' i = %i\n", beg, i);
 	if ((ret = put_autocompletion_bin(beg, i)) == false)
-	{
-																					DEBUG;
-		place_curs();
-		insert_word_in_g_line(beg, &curs);
-	}
+		if (put_back_begin_and_reset_curs(beg) == ERROR)
+			return (ERROR);
 	ft_memdel((void**)&beg);
 	return (ret);
 }

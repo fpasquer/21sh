@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 08:58:42 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 18:57:31 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/30 21:12:54 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ typedef struct				s_21sh
 	char					*user;
 	char					*path;
 	char					**tab_path;
+	int						len_begin;
 	int						sh_lvl;
 	int						pos;
 	int						pos_prev;

@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 21:47:54 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 22:53:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/30 21:56:59 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,23 @@ static t_entry				*get_last_addr_c(void)
 	c = curs->curs;
 	while (c != NULL && c->next != NULL)
 		c = c->next;
-	while (c != NULL && c->c == ' ')
-		c = c->prev;
 	return (c);
 }
 
 static int					move_line_end(void)
 {
 	int						mem;
+	t_21sh					*sh;
 
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
 	mem = true;
+	sh->len_begin = 0;
 	while (mem != false)
 	{
 		if ((mem = move_right()) == ERROR)
 			return (ERROR);
+		sh->len_begin++;
 	}
 	return (true);
 }
@@ -58,7 +61,35 @@ static int					is_autocompletion_bin(t_entry *c)
 	return (true);
 }
 
-int					del_car_begin_in_g_line(size_t len)
+static int					autocompletion_reset_curs(void)
+{
+	t_21sh					*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	if (sh->len_begin == 0)
+		return (false);
+	while (--sh->len_begin > 0)
+		if (move_left() == ERROR)
+			break ;
+	return (true);
+}
+
+int							put_back_begin_and_reset_curs(char *begin)
+{
+	t_line					*curs;
+
+	if ((curs = g_curs) == NULL)
+		return (ERROR);
+	if (begin == NULL)
+		return (ERROR);
+	if (place_curs() == ERROR || insert_word_in_g_line(begin, &curs) == ERROR ||
+			autocompletion_reset_curs() == ERROR)
+		return (ERROR);
+	return (true);
+}
+
+int							del_car_begin_in_g_line(size_t len)
 {
 	if (g_curs == NULL)
 		return (ERROR);
@@ -69,13 +100,11 @@ int					del_car_begin_in_g_line(size_t len)
 		g_curs->curs = g_curs->curs->next;
 	while (g_curs->curs != NULL && g_curs->curs->c == ' ')
 		del_left();
-																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
 	del_left();
 	len--;
 	while (len > 0)
 	{
 		del_left();
-																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
 		len--;
 	}
 	return (true);
@@ -109,13 +138,9 @@ int							autocompletion(void)
 	t_entry					*c;
 
 	if (move_line_end() == ERROR || (c = get_last_addr_c()) == NULL)
-																				//{
-																				//	fprintf(debug, "ici line %d\n", __LINE__);
 		return ((g_curs == NULL) ? ERROR : false);
-																				//}
 	if ((ret = is_autocompletion_bin(c)) == ERROR)
 		return (ERROR);
-																				//fprintf(debug, "ret = %d\n", ret);
 	if (ret == true)
 		return autocompletion_bin(c);
 	return (autocompletion_path(c));
