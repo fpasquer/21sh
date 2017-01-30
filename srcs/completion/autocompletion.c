@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   autocompletion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/28 21:47:54 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 22:53:09 by fpasquer         ###   ########.fr       */
+/*   Created: 2017/01/30 21:30:55 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/30 21:30:57 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static t_entry				*get_last_addr_c(void)
 	c = curs->curs;
 	while (c != NULL && c->next != NULL)
 		c = c->next;
-	while (c != NULL && c->c == ' ')
-		c = c->prev;
 	return (c);
 }
 
@@ -58,7 +56,7 @@ static int					is_autocompletion_bin(t_entry *c)
 	return (true);
 }
 
-int					del_car_begin_in_g_line(size_t len)
+int							del_car_begin_in_g_line(size_t len)
 {
 	if (g_curs == NULL)
 		return (ERROR);
@@ -69,18 +67,15 @@ int					del_car_begin_in_g_line(size_t len)
 		g_curs->curs = g_curs->curs->next;
 	while (g_curs->curs != NULL && g_curs->curs->c == ' ')
 		del_left();
-																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
 	del_left();
 	len--;
 	while (len > 0)
 	{
 		del_left();
-																				//fprintf(debug, "len = %3zu line : %d\n", len, __LINE__);
 		len--;
 	}
 	return (true);
 }
-
 
 int							add_word_to_g_line(char **ret, char *begin)
 {
@@ -102,21 +97,16 @@ int							add_word_to_g_line(char **ret, char *begin)
 	return (true);
 }
 
-
 int							autocompletion(void)
 {
 	int						ret;
 	t_entry					*c;
 
 	if (move_line_end() == ERROR || (c = get_last_addr_c()) == NULL)
-																				//{
-																				//	fprintf(debug, "ici line %d\n", __LINE__);
 		return ((g_curs == NULL) ? ERROR : false);
-																				//}
 	if ((ret = is_autocompletion_bin(c)) == ERROR)
 		return (ERROR);
-																				//fprintf(debug, "ret = %d\n", ret);
 	if (ret == true)
-		return autocompletion_bin(c);
+		return (autocompletion_bin(c));
 	return (autocompletion_path(c));
 }

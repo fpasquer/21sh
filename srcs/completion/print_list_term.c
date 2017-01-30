@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 22:43:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 22:43:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/30 22:14:32 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,11 @@ char						*print_list_term(t_21sh *sh, char **list,
 
 	if (sh == NULL)
 		return (NULL);
+	if (len_y(list) == 1 && select == true)
+	{
+		place_curs();
+		return (ft_strdup(list[0]));
+	}
 	if ((lst = get_list_term(list)) == NULL)
 		return (NULL);
 	adr = NULL;

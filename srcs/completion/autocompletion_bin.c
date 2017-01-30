@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   autocompletion_bin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/29 12:25:16 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/30 19:31:13 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/01/30 21:31:08 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/01/30 21:33:48 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,8 @@ static int					put_autocompletion_bin(char *begin, int i)
 		return (ERROR);
 	nb_match_word = get_nb_match_word(dico, begin);
 	if ((list_match = make_list_match(nb_match_word, begin, dico)) == NULL)
-																				{
-																					//DEBUG;
 		return (nb_match_word == 0 ? false : ERROR);
-																				}
 	ret = print_list_term(sh, list_match, true);
-																				//fprintf(debug, "nb_match_word = %u ret = '%s'\n", nb_match_word, ret);
 	ft_free_strsplit(list_match);
 	return (add_word_to_g_line(&ret, begin));
 }
@@ -115,7 +111,6 @@ static char					*get_begin_bin(t_entry *c)
 		begin[--len] = c->c;
 		c = c->prev;
 	}
-
 	return (del_car_begin_in_g_line(mem_len) == ERROR ? NULL : begin);
 }
 
@@ -134,10 +129,8 @@ int							autocompletion_bin(t_entry *c)
 		i = (beg[0] >= 'a' && beg[0] <= 'z') ? beg[0] - 'a' : beg[0] - 'A';
 	else
 		i = SIZE_DICO - 1;
-																				//fprintf(debug, "begin = '%s' i = %i\n", beg, i);
 	if ((ret = put_autocompletion_bin(beg, i)) == false)
 	{
-																					//DEBUG;
 		place_curs();
 		insert_word_in_g_line(beg, &curs);
 	}
