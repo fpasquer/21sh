@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 18:11:06 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 22:52:34 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/30 20:16:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int					check_file(char ***list, char *path, char *name,
 	}
 	return (false);
 }
-
 
 static char					**save_list(char ***list, char *path,
 		char *begin_name)
@@ -141,24 +140,6 @@ static char					*get_path_with_begin(t_entry *c)
 	}
 	return (buff);
 }
-
-/*static char					*get_begin(char *path_begin)
-{
-	char					*addr;
-	size_t					len;
-
-	if (path_begin == NULL)
-		return (NULL);
-	if ((addr = ft_strrchr(path_begin, '/')) == NULL)
-	{
-		if ((len = ft_strlen(path_begin)) == 0)
-			return (NULL);
-		return (path_begin + len);
-	}
-	if (*(addr + 1) != '\0')
-		*addr = '\0';
-	return (addr + 1);
-}*/
 
 static int					put_list_objets(char **list_obj, char *begin)
 {

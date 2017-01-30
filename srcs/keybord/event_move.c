@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/07 15:46:46 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/30 19:57:45 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/30 20:12:40 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int							move_right(void)
 		return (ERROR);
 	while (curs->next != NULL)
 		curs = curs->next;
-	if (curs->len == 0 && curs->i == curs->len - 1)
+	if (curs->len == 0 || curs->i == curs->len - 1)
 		return (false);
 	if (curs->i >= curs->len - 1 && curs->i != ULONG_MAX)
 	{
