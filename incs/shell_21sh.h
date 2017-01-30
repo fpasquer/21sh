@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/25 22:07:37 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/30 19:24:58 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,11 +256,6 @@ void						loop_shell(void);
 int							print_prompt(void);
 
 /*
-**	list_bin.c
-*/
-int							list_all_bin(char *path, char *begin_name);
-
-/*
 **	term.c
 */
 int							init_term(t_21sh **sh);
@@ -292,13 +287,7 @@ int							print_history(void);
 */
 char						*put_words_event(t_list_print *lst, int len,
 		int nb_word_line);
-int							put_cmd_term(char *cmd);
 void						print_g_line(void);
-
-/*
-**	autocompletion.c
-*/
-int							put_pompt_word(char **word);
 
 /*
 **	print_list_term.c
@@ -307,15 +296,17 @@ char						*print_list_term(t_21sh *sh, char **list,
 		bool select);
 
 /*
+**	autocompletion.c
+*/
+int							autocompletion(void);
+int							add_word_to_g_line(char **ret, char *begin);
+int							del_car_begin_in_g_line(size_t len);
+
+/*
 **	functions_signaux.c
 */
 void						resize_win(int val);
 void						ctrl_d(int val);
-
-/*
-**	Supprimer
-*/
-void						print_dico(void);
 
 /*
 **	BUILTIN

@@ -28,7 +28,7 @@ SHIFT ARROW DOWN  : down moves for lines
 
 CTRL-t            : change to select mode
 
-CTRL-i            : copy curs/selection
+CTRL-l            : copy curs/selection
 
 CTRL-u            : cut  curs/selection
 

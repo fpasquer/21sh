@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:30:27 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:30:31 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/30 19:08:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,4 @@ int							save_dico(t_bin **n)
 	else
 		(*n)->i_sort = SIZE_DICO - 1;
 	return (add_new_sort_bin(n));
-}
-
-void						print_dico2(t_bin *lst)
-{
-	while (lst != NULL)
-	{
-		ft_putendl(lst->name);
-		lst = lst->n_dico;
-	}
-	ft_putchar('\n');
-}
-
-void						print_dico(void)
-{
-	int						i;
-	t_21sh					*sh;
-
-	if ((sh = get_21sh(NULL)) != NULL)
-	{
-		i = 0;
-		while (i < SIZE_DICO)
-			print_dico2(sh->dico[i++]);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/28 13:35:01 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/30 19:42:27 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		key_del_hist();
 	/*else if (F2)
 		print_history();
-	else if (TAB)
-		autocompletion();
 	else if (ARROW_UP)
 		print_history_up();
 	else if (ARROW_DOWN)
 		print_history_down();*/
+	else if (TAB)
+		autocompletion();
 	else if (SEL_MOD)
 		selec_mode();
 	else if (HOME)
@@ -75,7 +75,7 @@ static char					get_char_keyboard(void)
 	ft_bzero(b, sizeof(b));
 	if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0)
 		return (ERROR);
-	// fprintf(debug, "b[0]=%3zu b[1]=%3zu b[2]=%3zu b[3]=%3zu b[4]=%3zu b[5]=%3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3], (size_t)b[4], (size_t)b[5]);
+	//fprintf(debug, "b[0]=%3zu b[1]=%3zu b[2]=%3zu b[3]=%3zu b[4]=%3zu b[5]=%3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3], (size_t)b[4], (size_t)b[5]);
 	return (cmd_keyboard(b));
 }
 

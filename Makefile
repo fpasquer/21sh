@@ -6,7 +6,7 @@
 #    By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 22:05:26 by fcapocci          #+#    #+#              #
-#    Updated: 2017/01/27 22:05:27 by fcapocci         ###   ########.fr        #
+#    Updated: 2017/01/30 19:29:08 by fcapocci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,10 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					options_env2.c loop_shell.c term.c							\
 					cd.c builtin_or_not.c getenv_value.c						\
 					modify_env_value.c check_if_env_exist.c dico.c				\
-					print_event.c del_g_lines.c list_bin.c autocompletion.c		\
+					print_event.c del_g_lines.c									\
 					get_and_del_21sh.c event_del.c event_move.c event_move2.c	\
-					event_selec.c event_cpy.c
+					event_selec.c event_cpy.c									\
+					autocompletion.c autocompletion_bin.c autocompletion_path.c
 
 INCLUDES		= shell_21sh.h key.h
 
@@ -77,7 +78,7 @@ $(OBJDIR)/%.o : $(SRCDIR_BUILTIN)/%.c $(INC)
 
 $(OBJDIR)/%.o : $(SRCDIR_COMPLET)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE COMPLETION\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
+	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
 
 $(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE ENV\033[0m"

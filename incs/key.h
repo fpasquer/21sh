@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/28 17:42:53 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/30 20:01:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ size_t						g_x;
 # define SHIFT_LEFT			(b[0] ==  27 && b[1] ==  91 && b[2] ==  49 && b[3] ==  59 && b[4] ==  50 && b[5] ==  68) //shift flech gauche
 # define SHIFT_RIGHT		(b[0] ==  27 && b[1] ==  91 && b[2] ==  49 && b[3] ==  59 && b[4] ==  50 && b[5] ==  67) //shift flech haut
 # define SEL_MOD			(b[0] ==  20 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_t
-# define CPY				(b[0] ==   9 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_i
+# define CPY				(b[0] ==  12 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_l
 # define CUT				(b[0] ==  21 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_u
 # define PAST				(b[0] ==  16 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_p
 
@@ -245,4 +245,7 @@ int							cpy_event(void);
 int							cut_event(void);
 int							past_event(void);
 int							del_selec(void);
+
+int							autocompletion_bin(t_entry *c);
+int							autocompletion_path(t_entry *c);
 #endif
