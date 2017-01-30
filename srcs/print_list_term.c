@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 11:40:41 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/29 11:48:15 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/01/30 22:10:55 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,11 @@ char						*print_list_term(t_21sh *sh, char **list,
 
 	if (sh == NULL)
 		return (NULL);
+	if (len_y(list) == 1 && select == true)
+	{
+		place_curs();
+		return (ft_strdup(list[0]));
+	}
 	if ((lst = get_list_term(list)) == NULL)
 		return (NULL);
 	adr = NULL;
