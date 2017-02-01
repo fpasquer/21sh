@@ -11,6 +11,7 @@ Arrow-right       : right moves
 
 DEL               : Del
 
+DEL RIGHT         : Del right caracters
 
 TAB               : autocompletion
 

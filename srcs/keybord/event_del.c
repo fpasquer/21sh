@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 16:21:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/28 17:43:00 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/01 00:51:55 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int							key_del_hist(void)
 
 static int					save_info_line(t_line **line)
 {
-	int						ret;
 	t_21sh					*sh;
 
 	if (line == NULL || *line == NULL || (sh = get_21sh(NULL)) == NULL)

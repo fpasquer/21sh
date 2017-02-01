@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/30 19:42:27 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/01 01:55:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		print_history_up();
 	else if (ARROW_DOWN)
 		print_history_down();*/
-	else if (TAB)
+	else if (g_curs->activity == false && TAB)
 		autocompletion();
 	else if (SEL_MOD)
 		selec_mode();
@@ -51,8 +51,8 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		word_right();
 	else if (CPY)
 		cpy_event();
-	//else if (CUT)
-	//	cut_event();
+	else if (CUT)
+		cut_event();
 	else if (g_curs->activity == false && PAST)
 		past_event();
 	else if (ARROW_RIGHT)
@@ -61,8 +61,10 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		move_left();
 	else if (g_curs->activity == false && DEL)
 		del_left();
-	//else if (g_curs->activity == true && DEL)
-	//	del_selec();
+	else if (g_curs->activity == false && DEL_R)
+		del_right();
+	else if (g_curs->activity == true && (DEL || DEL_R))
+		del_selec();
 	else if (g_curs->activity == false && ((b[0] >= 32 && b[0] <= 126) || ENTER))
 		return (b[0]);
 	return (KEY_IGNORE);

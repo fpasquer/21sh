@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 20:12:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/28 18:06:46 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/01/31 23:09:18 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,35 +73,5 @@ int					selec_manager(size_t l_r)
 		c->sel_end = c->line;
 	c->lft_rgt = l_r == 1 ? (c->lft_rgt - 1) : (c->lft_rgt + 1);
 	c->last_dir = l_r;
-	return (true);
-}
-
-static int			del_curs(t_line *orig, t_entry *c)
-{
-	if (orig == NULL || c == NULL)
-		return (false);
-
-	return (true);
-}
-
-int					del_selec(void)
-{
-	t_entry			*c;
-
-	if (g_curs == NULL || (c = g_curs->line) == NULL)
-		return (false);
-	if (g_curs->curs && g_curs->curs->next)
-		g_curs->curs->next->select = true;
-	else if (g_curs->curs && g_curs->curs->next == NULL)
-		g_curs->curs->select = true;
-	else
-		c->select = true;
-	while (c)
-	{
-		if (c->select == true)
-			if (del_curs(g_curs, c) == false)
-				return (false);
-		c = c->next;
-	}
 	return (true);
 }

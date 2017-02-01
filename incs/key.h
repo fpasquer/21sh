@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/30 20:01:53 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/01 01:06:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ size_t						g_x;
 # define BRASE_CLOSE		(b[0] == 125 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //}
 # define TILD				(b[0] == 126 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //~
 # define DEL				(b[0] == 127 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //<- del gauche
+# define DEL_R				(b[0] ==  27 && b[1] ==  91 && b[2] ==  51 && b[3] == 126 && b[4] ==   0 && b[5] ==   0) //-> del droite
 
 char						*get_line_entree(void);
 int							add_c_to_line(char c, t_line **lines);
@@ -223,6 +224,7 @@ int							search_history_down(char *beguin);
 int							move_right(void);
 int							move_left(void);
 int							del_left(void);
+int							del_right(void);
 int							place_curs(void);
 int							put_cmd(void);
 int							save_y_x_line(t_line **line);
