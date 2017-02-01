@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/31 22:00:38 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/01 02:30:48 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/01 16:06:33 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,16 @@ int					del_selec(void)
 	}
 	else
 	{
-		move_left();
 		while (c->curs ? c->curs->next && c->curs->next->next
 			&& c->curs->next->next->select == 1 : c->line && c->line->next
 				&& c->line->next->select == 1)
 			del_right();
+		if (c->curs || (!c->curs && c->line))
+		{
+			move_right();
+			del_left();
+		}
+		return (reset_selec(true));
 	}
 	return (reset_selec(false));
 }

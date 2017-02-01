@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 20:12:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/31 23:09:18 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/01 22:56:57 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ int					selec_manager(size_t l_r)
 	if ((c = g_curs) == NULL || c->len == 0 || c->activity == false)
 		return (false);
 	if (c->last_dir == 0)
-	{
 		c->last_dir = l_r;
+	if (c->sel_start == NULL)
 		c->sel_start = c->curs == NULL ? c->line : c->curs->next;
-	}
 	if (c->curs && c->curs->next && c->lft_rgt == 0)
 		c->curs->next->select = true;
 	else if (c->curs && c->curs->next && c->last_dir == l_r)

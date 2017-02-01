@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 19:40:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/01 01:58:25 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/01 22:47:23 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static char			*selec_dup(t_line *c, t_entry *cpy_start, t_entry *cpy_end)
 			cpy_start = cpy_start->next;
 	}
 	cpy[i] = cpy_start->c;
-	c->sel_start = NULL;
 	c->sel_end = NULL;
 	return (cpy);
 }

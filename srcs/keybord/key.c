@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/01 01:55:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/01 17:21:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,39 @@
 #define PRINT_MAX 500
 #define CC curs->curs
 
-static char					cmd_keyboard(char b[SIZE_BUFF])
+static char					cmd_keyboard_2(char b[SIZE_BUFF])
 {
 	if (g_curs->activity == false && ESC)
 		key_exit(EXIT_SUCCESS);
+	else if (ARROW_RIGHT)
+		return (move_right());
+	else if (ARROW_LEFT)
+		return (move_left());
+	else if (SEL_MOD)
+		return (selec_mode());
+	else if (HOME)
+		return (move_start_line());
+	else if (END)
+		return (move_end_line());
+	else if (SHIFT_UP)
+		return (line_up());
+	else if (SHIFT_DOWN)
+		return (line_down());
+	else if (SHIFT_LEFT)
+		return (word_left());
+	else if (SHIFT_RIGHT)
+		return (word_right());
+	else if (CPY)
+		return (cpy_event());
+	else if (CUT)
+		return (cut_event());
+	return (KEY_IGNORE);
+}
+
+static char					cmd_keyboard(char b[SIZE_BUFF])
+{
+	if (cmd_keyboard_2(b) != KEY_IGNORE)
+		return (KEY_IGNORE);
 	else if (g_curs->activity == false && F1)
 		key_del_hist();
 	/*else if (F2)
@@ -35,37 +64,15 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		print_history_down();*/
 	else if (g_curs->activity == false && TAB)
 		autocompletion();
-	else if (SEL_MOD)
-		selec_mode();
-	else if (HOME)
-		move_start_line();
-	else if (END)
-		move_end_line();
-	else if (SHIFT_UP)
-		line_up();
-	else if (SHIFT_DOWN)
-		line_down();
-	else if (SHIFT_LEFT)
-		word_left();
-	else if (SHIFT_RIGHT)
-		word_right();
-	else if (CPY)
-		cpy_event();
-	else if (CUT)
-		cut_event();
 	else if (g_curs->activity == false && PAST)
 		past_event();
-	else if (ARROW_RIGHT)
-		move_right();
-	else if (ARROW_LEFT)
-		move_left();
 	else if (g_curs->activity == false && DEL)
 		del_left();
 	else if (g_curs->activity == false && DEL_R)
 		del_right();
 	else if (g_curs->activity == true && (DEL || DEL_R))
 		del_selec();
-	else if (g_curs->activity == false && ((b[0] >= 32 && b[0] <= 126) || ENTER))
+	else if (g_curs->activity == 0 && ((b[0] >= 32 && b[0] <= 126) || ENTER))
 		return (b[0]);
 	return (KEY_IGNORE);
 }
@@ -77,7 +84,6 @@ static char					get_char_keyboard(void)
 	ft_bzero(b, sizeof(b));
 	if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0)
 		return (ERROR);
-	//fprintf(debug, "b[0]=%3zu b[1]=%3zu b[2]=%3zu b[3]=%3zu b[4]=%3zu b[5]=%3zu\n", (size_t)b[0], (size_t)b[1], (size_t)b[2], (size_t)b[3], (size_t)b[4], (size_t)b[5]);
 	return (cmd_keyboard(b));
 }
 
@@ -193,7 +199,7 @@ static int					replace_i(void)
 	while (curs->next != NULL)
 		curs = curs->next;
 	i = curs->i;
-	while (i++ + 1< curs->len)
+	while (i++ + 1 < curs->len)
 		if (put_cmd_term("le") == ERROR)
 			return (ERROR);
 	return (true);
@@ -294,8 +300,10 @@ int							save_y_x_line(t_line **lines)
 	{
 		(*lines)->y = (*lines)->len / sh->win.ws_col;
 		(*lines)->x = (*lines)->len % sh->win.ws_col;
-		(*lines)->y_i = (*lines)->i == ULONG_MAX ? 0 : (*lines)->i / sh->win.ws_col;
-		(*lines)->x_i = (*lines)->i == ULONG_MAX ? 0 : (*lines)->i % sh->win.ws_col;
+		(*lines)->y_i = (*lines)->i == ULONG_MAX ?
+			0 : (*lines)->i / sh->win.ws_col;
+		(*lines)->x_i = (*lines)->i == ULONG_MAX ?
+			0 : (*lines)->i % sh->win.ws_col;
 	}
 	return (true);
 }
@@ -362,7 +370,7 @@ static char					*save_tab(char *tab)
 	t_line					*curs;
 	t_entry					*curent_c;
 
-	if((curs = g_lines) == NULL || tab == NULL)
+	if ((curs = g_lines) == NULL || tab == NULL)
 		return (NULL);
 	i = 0;
 	while (curs != NULL)
@@ -375,12 +383,7 @@ static char					*save_tab(char *tab)
 			curent_c = curent_c->next;
 		}
 		if ((curs = curs->next) != NULL)
-		{
-			if (curs->line && curs->line->c)
-				tab[i++] = '\n';
-			else
-				tab[i++] = '\0';
-		}
+			tab[i++] = curs->line && curs->line->c ? '\n' : '\0';
 	}
 	del_g_lines();
 	return (tab);
@@ -410,7 +413,7 @@ static int					place_curs_end_line(void)
 	if ((curs = g_lines) == NULL)
 		return (ERROR);
 	while (curs->next != NULL)
-		curs =  curs->next;
+		curs = curs->next;
 	i = curs->y_i;
 	while (i++ < curs->y)
 		if (put_cmd_term("do") == ERROR)
@@ -421,7 +424,6 @@ static int					place_curs_end_line(void)
 			return (ERROR);
 	return (true);
 }
-
 
 static int					save_y_x(void)
 {
@@ -461,12 +463,10 @@ char						*make_tab(void)
 		len_total += curs->len;
 		curs = curs->next;
 	}
-	fprintf(debug, "len_total = %3zu\n", len_total);
 	if ((tab = ft_memalloc(sizeof(*tab) * (len_total + 1))) == NULL)
 		return (NULL);
 	return (save_tab(tab));
 }
-
 
 char						*get_line_entree(void)
 {
