@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 20:12:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/01 22:56:57 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/03 05:32:46 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ int					reset_selec(int ret)
 
 	if ((curs = g_curs) == NULL || curs->activity == false)
 		return (false);
-	cpy = curs->line;
-	while (cpy)
+	if ((cpy = curs->line) != NULL)
 	{
-		cpy->select = false;
-		cpy = cpy->next;
+		while (cpy)
+		{
+			cpy->select = false;
+			cpy = cpy->next;
+		}
 	}
 	curs->sel_start = NULL;
 	curs->sel_end = NULL;
@@ -55,8 +57,10 @@ int					selec_manager(size_t l_r)
 		return (false);
 	if (c->last_dir == 0)
 		c->last_dir = l_r;
-	if (c->sel_start == NULL)
-		c->sel_start = c->curs == NULL ? c->line : c->curs->next;
+	if (c->sel_start == NULL && c->curs == NULL)
+		c->sel_start = c->line;
+	else if (c->sel_start == NULL && c->curs)
+		c->sel_start = c->curs->next ? c->curs->next : c->curs;
 	if (c->curs && c->curs->next && c->lft_rgt == 0)
 		c->curs->next->select = true;
 	else if (c->curs && c->curs->next && c->last_dir == l_r)
@@ -64,12 +68,12 @@ int					selec_manager(size_t l_r)
 			&& c->curs->next->select == 0 ? 1 : 0;
 	else if (c->curs == NULL && c->line && c->last_dir == l_r)
 		c->line->select = c->activity == 1 && c->line->select == 0 ? 1 : 0;
-	if (l_r == 1 && c->curs)
-		c->sel_end = c->curs;
+	if (l_r == 1 && c->line)
+		c->sel_end = c->curs ? c->curs : c->line;
 	else if (l_r == 2 && c->curs && c->curs->next)
 		c->sel_end = c->curs->next->next ? c->curs->next->next : c->curs->next;
-	else
-		c->sel_end = c->line;
+	else if (l_r == 2 && c->curs && c->curs->next == NULL)
+		c->sel_end = c->curs;
 	c->lft_rgt = l_r == 1 ? (c->lft_rgt - 1) : (c->lft_rgt + 1);
 	c->last_dir = l_r;
 	return (true);
