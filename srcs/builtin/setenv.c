@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 19:08:27 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 19:30:04 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/03 23:00:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int				builtin_setenv(t_cmd *content)
 		else
 			modify_env_value(env_name, env_value);
 		if (ft_strequ(env_name, "PATH"))
+		{
 			del_bin();
+			save_path(&sh, content->arg[2]);
+		}
 	}
 	return (true);
 }

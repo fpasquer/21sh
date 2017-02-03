@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 20:12:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/03 05:32:46 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/03 21:06:47 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int					selec_mode(void)
 	if (curs->activity == true)
 		reset_selec(true);
 	else
+	{
+		curs->sel_start = NULL;
 		curs->activity = true;
+	}
 	return (true);
 }
 
@@ -55,8 +58,7 @@ int					selec_manager(size_t l_r)
 
 	if ((c = g_curs) == NULL || c->len == 0 || c->activity == false)
 		return (false);
-	if (c->last_dir == 0)
-		c->last_dir = l_r;
+	c->last_dir = c->last_dir == 0 ? l_r : c->last_dir;
 	if (c->sel_start == NULL && c->curs == NULL)
 		c->sel_start = c->line;
 	else if (c->sel_start == NULL && c->curs)

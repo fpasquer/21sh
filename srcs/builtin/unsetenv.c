@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 19:32:24 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 20:44:59 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/03 22:50:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void				loop_check(t_env **env, t_env **env_next, char *arg)
 	{
 		if (ft_strequ((*env_next)->name, arg))
 		{
+			if (ft_strequ(arg, "PATH"))
+				del_bin();
 			(*env)->next = (*env_next)->next;
 			del_env_(env_next);
 			sh->nb_var_env--;
@@ -65,6 +67,8 @@ int						builtin_unsetenv(t_cmd *content)
 	env_next = sh->env->next;
 	if (ft_strequ(env->name, content->arg[1]))
 	{
+		if (ft_strequ(content->arg[1], "PATH"))
+			del_bin();
 		sh->env = env->next;
 		del_env_(&env);
 		sh->nb_var_env--;

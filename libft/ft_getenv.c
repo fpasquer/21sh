@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:50:12 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:50:13 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/03 22:30:58 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ char						*ft_getenv(char **env, const char *name_tmp)
 		return (NULL);
 	i = 0;
 	while (env[i] != NULL)
+	{
 		if (ft_strncmp(env[i++], name, len_name) == 0)
 		{
 			ft_memdel((void**)&name);
 			return (env[i - 1] + len_name);
 		}
+	}
 	ft_memdel((void**)&name);
 	return (NULL);
 }

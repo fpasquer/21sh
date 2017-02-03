@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 19:40:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/03 05:34:18 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/03 18:03:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int					cpy_event(void)
 		return (false);
 	if ((c = g_curs) == NULL || c->line == NULL)
 		return (false);
-	if (c->sel_start == NULL && c->sel_end == NULL && c->line)
+	if ((c->sel_start == NULL && c->sel_end == NULL && c->line)
+			|| (c->activity == false && c->line))
 	{
 		c->sel_start = c->curs ? c->curs->next : c->line;
 		c->sel_end = c->curs ? c->curs->next : c->line;
