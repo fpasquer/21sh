@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:07:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 18:53:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/04 17:04:22 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int							modify_env_value(char *name, char *value)
 		if (curs->name && ft_strcmp(name, curs->name) == 0)
 		{
 			ft_memdel((void**)&(curs->value));
-			if ((curs->value = ft_strdup(value)) == NULL)
+			if ((curs->value = value ? ft_strdup(value)
+				: ft_strdup("")) == NULL)
 				return (false);
 			return (true);
 		}

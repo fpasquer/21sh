@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:06:06 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 17:06:08 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/04 17:07:06 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				add_env_(char *name, char *value)
 		sh->env = env;
 	sh->nb_var_env++;
 	env->name = ft_strdup(name);
-	env->value = (value) ? ft_strdup(value) : ft_strdup("");
+	env->value = value ? ft_strdup(value) : ft_strdup("");
 	env->add = true;
 	env->index = sh->nb_var_env;
 	return (true);

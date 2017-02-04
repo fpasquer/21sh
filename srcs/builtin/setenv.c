@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 19:08:27 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/03 23:00:56 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/04 18:31:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int				builtin_setenv(t_cmd *content)
 		if (ft_strchr(content->arg[1], '=') || ft_strequ("", content->arg[1]))
 			return (ft_put_error(2));
 		env_name = len_y(content->arg) > 1 ? content->arg[1] : NULL;
-		env_value = len_y(content->arg) > 2 ? content->arg[2] : ft_strdup("");
+		env_value = len_y(content->arg) > 2 ? content->arg[2] : NULL;
 		if (check_if_env_exist(env_name) == false)
 			add_env_(env_name, env_value);
 		else

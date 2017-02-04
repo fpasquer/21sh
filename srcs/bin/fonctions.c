@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:30:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:30:43 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/04 18:32:09 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int							save_path(t_21sh **sh, char *path)
 		return (ERROR);
 	if (path == NULL)
 	{
+		if ((*sh)->path != NULL)
+			ft_memdel((void**)&(*sh)->path);
 		if (((*sh)->path = ft_strdup("")) == NULL)
 			return (ERROR);
 		return (false);
