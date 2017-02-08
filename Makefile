@@ -17,7 +17,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					parse.c parse2.c setenv.c add_env_.c unsetenv.c  			\
 					exe_binaire.c linked_list_to_array_env.c builtin_exit.c		\
 					quotes.c split_quotes.c redirection.c						\
-					redirection2.c exe_binaire2.c history.c						\
+					redirection2.c exe_binaire2.c								\
 					print_list_term.c functions_signaux.c options_env.c			\
 					options_env2.c loop_shell.c term.c							\
 					cd.c builtin_or_not.c getenv_value.c						\
@@ -25,7 +25,8 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					print_event.c del_g_lines.c									\
 					get_and_del_21sh.c event_del.c event_del2.c					\
 					event_move.c event_move2.c event_selec.c event_cpy.c		\
-					autocompletion.c autocompletion_bin.c autocompletion_path.c
+					autocompletion.c autocompletion_bin.c autocompletion_path.c	\
+					init_history.c del_history.c print_history.c
 
 INCLUDES		= shell_21sh.h key.h
 

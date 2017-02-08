@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/30 19:24:58 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 11:37:58 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,12 +275,20 @@ int							del_right(void);
 int							autocompletion(void);
 
 /*
-**	history.c
+**	print_history.c
+*/
+int							print_history(void);
+
+/*
+**	del_history.c
+*/
+int							del_hist(void);
+
+/*
+**	init_history.c
 */
 int							init_history(void);
-int							del_hist(void);
 int							add_history(t_history **hist, char *line);
-int							print_history(void);
 
 /*
 **	print_event.c

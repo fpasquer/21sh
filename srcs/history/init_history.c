@@ -1,53 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   init_and_del_history.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/27 21:39:42 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:39:44 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/02/08 11:24:58 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/02/08 11:33:42 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
-#include <term.h>
 #define QUOTE '\''
 #define D_QUOTE '\"'
 #define NONE 0
-
-static bool					at_add_history(char *line)
-{
-	int						i;
-	bool					ret;
-
-	if (line == NULL)
-		return (false);
-	if (line[0] == '\n')
-		return (true);
-	i = 0;
-	ret = false;
-	while (line[i] != '\0')
-		ret = (ft_isspace(line[i++]) == true) ? ret : true;
-	return (ret);
-}
-
-static size_t				get_y_line(size_t len_line)
-{
-	size_t					y;
-	t_21sh					*sh;
-
-	y = 0;
-	if ((sh = get_21sh(NULL)) != NULL)
-	{
-		if (sh->win.ws_col == 0)
-			return (0);
-		len_line -= len_line % sh->win.ws_col;
-		y = len_line / sh->win.ws_col;
-	}
-	return (y);
-}
 
 static int					end_line(char *line)
 {
@@ -145,50 +112,4 @@ int							init_history(void)
 	if (close(fd) != 0)
 		return (ERROR);
 	return (true);
-}
-
-int							print_history(void)
-{
-	int						i;
-	t_history				*curs;
-	t_21sh					*sh;
-
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	curs = sh->hist;
-	i = 0;
-	while (curs != NULL)
-	{
-		printf("%3d : \n\t%s\n", i++, curs->line);
-		curs = curs->next;
-	}
-	return (true);
-}
-
-int							del_hist(void)
-{
-	int						fd;
-	t_history				*tmp;
-	t_21sh					*sh;
-
-	sh = get_21sh(NULL);
-	if (sh == NULL || (fd = ft_fopen(HISTORY, "w+")) <= 0)
-		return (ERROR);
-	while (sh->hist != NULL && sh->hist->next != NULL)
-		sh->hist = sh->hist->next;
-	while (sh->hist != NULL)
-	{
-		tmp = sh->hist->prev;
-		if (sh->hist->line != NULL)
-		{
-			if (ft_strchr(sh->hist->line, '\n') == NULL)
-				ft_putendl_fd(sh->hist->line, fd);
-			else
-				ft_putstr_fd(sh->hist->line, fd);
-			ft_memdel((void**)&sh->hist->line);
-		}
-		ft_memdel((void**)&sh->hist);
-		sh->hist = tmp;
-	}
-	return ((close(fd) != 0) ? ERROR : true);
 }
