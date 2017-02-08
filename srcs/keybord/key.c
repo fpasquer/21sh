@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/01 17:21:38 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 10:30:45 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static char					cmd_keyboard_2(char b[SIZE_BUFF])
 		return (word_right());
 	else if (CPY)
 		return (cpy_event());
-	else if (CUT)
-		return (cut_event());
 	return (KEY_IGNORE);
 }
 
@@ -56,9 +54,7 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		return (KEY_IGNORE);
 	else if (g_curs->activity == false && F1)
 		key_del_hist();
-	/*else if (F2)
-		print_history();
-	else if (ARROW_UP)
+	/*else if (ARROW_UP)
 		print_history_up();
 	else if (ARROW_DOWN)
 		print_history_down();*/
@@ -72,6 +68,8 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		del_right();
 	else if (g_curs->activity == true && (DEL || DEL_R))
 		del_selec();
+	else if (g_curs->activity == true && CUT)
+		cut_event();
 	else if (g_curs->activity == 0 && ((b[0] >= 32 && b[0] <= 126) || ENTER))
 		return (b[0]);
 	return (KEY_IGNORE);

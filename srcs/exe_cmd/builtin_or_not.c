@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:39:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 10:49:32 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ void			builtin_or_not(t_cmd *content, int i, int builtin)
 		{
 			if (ft_strequ(content->arg[0], g_builtin_lst[i].str))
 			{
-				g_builtin_lst[i].p(content);
+				if (g_builtin_lst[i].p(content) == true)
+					content->done = 0;
+				else
+					content->done = 1;
 				builtin = 1;
-				content->done = 0;
 				break ;
 			}
 			i++;

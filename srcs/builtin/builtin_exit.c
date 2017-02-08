@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:52:22 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 17:52:23 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 11:02:41 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int							builtin_exit(t_cmd *cmd)
 
 	if (cmd != NULL && cmd->arg[0] != NULL &&
 			ft_strcmp(cmd->arg[0], "exit") == 0 &&
-			cmd->arg[1] != NULL && ft_is_number(cmd->arg[1]) == true)
+				cmd->arg[1] != NULL && ft_is_number(cmd->arg[1]) == true)
 	{
 		val = ft_atoi(cmd->arg[1]);
 		key_exit((unsigned char)val);
 	}
-	key_exit(0);
+	key_exit(EXIT_SUCCESS);
 	return (true);
 }
