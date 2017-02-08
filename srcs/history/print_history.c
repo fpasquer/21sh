@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   print_history.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/27 21:39:42 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 11:31:21 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/02/08 12:49:57 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/02/08 13:17:17 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int							print_history(void)
 	i = 0;
 	while (curs != NULL)
 	{
-		printf("%3d : \n\t%s\n", i++, curs->line);
+		ft_putnbr_fd(i++, STDOUT_FILENO);
+		ft_putstr_fd("  ", STDOUT_FILENO);
+		ft_putendl_fd(curs->line, STDOUT_FILENO);
 		curs = curs->next;
 	}
 	return (true);

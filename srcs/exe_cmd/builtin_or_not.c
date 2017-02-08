@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 10:49:32 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 15:46:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_builtin_lst g_builtin_lst[] = {
 	{"env", builtin_env},
 	{"setenv", builtin_setenv},
 	{"unsetenv", builtin_unsetenv},
+	{"history", builtin_history},
 	{"exit", builtin_exit},
 	{NULL, NULL},
 };

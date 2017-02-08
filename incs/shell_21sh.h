@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 11:37:58 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 13:25:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,7 @@ int							cd(t_cmd *cmd);
 int							builtin_setenv(t_cmd *cmd);
 int							builtin_unsetenv(t_cmd *content);
 int							builtin_exit(t_cmd *cmd);
+int							builtin_history(t_cmd *cmd);
 
 /*
 **	Renvoi la valeur de l'environnement.
