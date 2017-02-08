@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/19 22:52:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 16:46:47 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,17 @@ static void			other_exe(t_cmd *cmd, char **env)
 	int				ret;
 
 	ret = 1;
-	if ((pid = fork()) != -1)
+	if (builtin_or_not(cmd, 0) == false)
 	{
-		if (pid == 0)
-			ft_execve(cmd, env, NULL);
+		if ((pid = fork()) != -1)
+		{
+			if (pid == 0)
+				ft_execve(cmd, env, NULL);
+		}
+		waitpid(pid, &ret, WUNTRACED);
+		if (WIFEXITED(ret))
+			cmd->done = WEXITSTATUS(ret);
 	}
-	waitpid(pid, &ret, WUNTRACED);
-	if (WIFEXITED(ret))
-		cmd->done = WEXITSTATUS(ret);
 }
 
 static void			ft_pipe(t_cmd *cmd, char **env)

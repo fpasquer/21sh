@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 17:08:16 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 16:03:24 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ typedef struct			s_cmd
 
 t_cmd					*parse_cmd(char *line, t_cmd *cmd, int i);
 void					free_cmd(t_cmd *cmd);
-
-void					print_cmd(t_cmd *cmd);
 
 /*
 **	parse2.c

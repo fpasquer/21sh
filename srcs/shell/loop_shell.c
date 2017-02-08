@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/11 16:07:00 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 16:04:14 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,14 @@ static int					at_save_history(char *line)
 
 static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
+	char					**env;
+
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
-		builtin_or_not(cmd, 0, 0);
+		env = l_l_to_arr_env();
+		exe_binaire(cmd, env);
+		delete_env_array(env);
+		//builtin_or_not(cmd, 0, 0);
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0
 				&& cmd->right->done != -1)
 				|| (cmd->right && cmd->op == ET && cmd->done != 0)

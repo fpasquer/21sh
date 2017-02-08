@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 15:46:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 16:05:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_builtin_lst g_builtin_lst[] = {
 	{NULL, NULL},
 };
 
-void			builtin_or_not(t_cmd *content, int i, int builtin)
+int				builtin_or_not(t_cmd *content, int i)
 {
 	char		**env;
 
@@ -38,16 +38,10 @@ void			builtin_or_not(t_cmd *content, int i, int builtin)
 					content->done = 0;
 				else
 					content->done = 1;
-				builtin = 1;
-				break ;
+				return (true);
 			}
 			i++;
 		}
-		if (!builtin)
-		{
-			env = l_l_to_arr_env();
-			exe_binaire(content, env);
-			delete_env_array(env);
-		}
 	}
+	return (false);
 }

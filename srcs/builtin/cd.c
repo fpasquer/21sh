@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:52:55 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 19:06:14 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 17:00:37 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ static int			cd_home(void)
 	char			*path;
 
 	if (!check_if_env_exist("HOME"))
+	{
 		ft_putendl_fd("cd: HOME not set", STDERR_FILENO);
+		return (false);
+	}
 	else
 	{
 		if ((path = getenv_value("HOME")) == NULL)
@@ -80,7 +83,10 @@ static int			cd_less(void)
 	char			*path;
 
 	if (!check_if_env_exist("OLDPWD"))
+	{
 		ft_putendl_fd("cd: OLDPWD not set", STDERR_FILENO);
+		return (false);
+	}
 	else
 	{
 		if ((path = getenv_value("OLDPWD")) == NULL)
@@ -110,6 +116,7 @@ int					cd(t_cmd *content)
 		ft_putstr_fd("cd: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		return (false);
 	}
-	return (1);
+	return (true);
 }
