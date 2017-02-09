@@ -6,11 +6,12 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:52:22 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 11:02:41 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 22:15:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+#include "../incs/key.h"
 
 int							builtin_exit(t_cmd *cmd)
 {

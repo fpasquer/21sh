@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 16:05:28 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/08 22:12:22 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,8 @@ typedef struct				s_builtin_lst
 	int						(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
-int							builtin_or_not(t_cmd *content, int i);
+int							builtin_or_not(t_cmd *content, int i, int pipfd[2],
+						int s_fd);
 
 /*
 **	init_21sh.c
@@ -263,18 +264,6 @@ int							my_out_put(int c);
 int							put_cmd_term(char *cmd);
 
 /*
-**	functions_key.c
-*/
-void						key_exit(unsigned char val_exit);
-int							key_del_hist(void);
-int							print_history_up(void);
-int							print_history_down(void);
-int							mouve_righ(void);
-int							mouve_left(void);
-int							del_right(void);
-int							autocompletion(void);
-
-/*
 **	print_history.c
 */
 int							print_history(void);
@@ -356,7 +345,8 @@ char						**split_quotes(char *str);
 **	exe_binaire.c
 **	Fonction execute les binaires
 */
-void						exe_binaire(t_cmd *cmd, char **env);
+void						change_pipe(int pipfd[2], int save_fd, int choice);
+void						exe_binaire(t_cmd *cmd);
 
 /*
 **	exe_binaire2.c

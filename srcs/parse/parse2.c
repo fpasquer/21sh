@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 16:36:08 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/09 01:47:16 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
 	cmd->cmd = check_and_parse2(line, i);
 	cmd->op = 0;
 	cmd->done = -1;
-	cmd->tgt_fd = STDOUT_FILENO;
+	cmd->tgt_fd = cmd->cmd != 2 ? STDOUT_FILENO : STDIN_FILENO;
 	cmd->line = ft_strsub(line, i - size, size);
 	cmd->arg = split_quotes(cmd->line);
 	ft_memdel((void**)&(cmd->line));
@@ -55,7 +55,7 @@ static t_cmd			*creat_cmd2(t_cmd *cmd2, char *line, int size, int i)
 		cmd2->cmd = check_and_parse2(line, i);
 		cmd2->arg = split_quotes(cmd2->line);
 		cmd2->done = -1;
-		cmd2->tgt_fd = STDOUT_FILENO;
+		cmd2->tgt_fd = cmd2->cmd != 2 ? STDOUT_FILENO : STDIN_FILENO;
 	}
 	else
 	{
