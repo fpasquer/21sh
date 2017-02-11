@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:50:51 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 15:00:22 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/11 01:34:33 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,7 @@ int							builtin_env(t_cmd *content)
 	char					**tab;
 	int						ret;
 	char					*tmp_line;
-	int						i;
 
-	i = 0;
 	tmp_line = content->line;
 	tab = NULL;
 	if ((flags = get_flags_env(&tmp_line)) == PARAM || flags == OPT_WRONG)
@@ -124,18 +122,13 @@ int							builtin_env(t_cmd *content)
 	if (flags == ERROR)
 		return (ERROR);
 	if ((flags & FLAG_I) != 0)
-		ret = tab_env_i(&tmp_line, &tab);
+		//ret = tab_env_i(&tmp_line, &tab);
+		ret = take_cmd_if_exist(&tmp_line, tab);
 	else if ((flags & FLAG_U) != 0)
 		ret = tab_env_u(&tmp_line, &tab);
 	else
 		ret = tab_env(&tmp_line, &tab);
 	if (ret == ERROR)
 		return (-1);
-	if (tab != NULL)
-	{
-		while (tab[i] != NULL)
-			ft_putendl_fd(tab[i++], STDOUT_FILENO);
-		ft_free_strsplit(tab);
-	}
-	return (true);
+	return (print_env(tab));
 }

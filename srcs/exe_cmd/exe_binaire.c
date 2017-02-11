@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 23:25:38 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:24:18 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void				change_pipe(int pipefd[2], int save_fd, int choice)
 	}
 }
 
-static void			other_exe(t_cmd *cmd, char **env)
+void				other_exe(t_cmd *cmd, char **env)
 {
 	pid_t			pid;
 	int				ret;

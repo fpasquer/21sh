@@ -6,7 +6,7 @@
 #    By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 22:05:26 by fcapocci          #+#    #+#              #
-#*   Updated: 2017/01/31 23:16:10 by fcapocci         ###   ########.fr       *#
+#*   Updated: 2017/02/11 00:55:22 by fcapocci         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					builtin_exit.c quotes.c split_quotes.c redirection.c		\
 					redirection2.c exe_binaire.c exe_binaire2.c					\
 					print_list_term.c functions_signaux.c options_env.c			\
-					options_env2.c loop_shell.c term.c							\
+					options_env2.c options_env3.c loop_shell.c term.c			\
 					cd.c builtin_or_not.c getenv_value.c						\
 					modify_env_value.c check_if_env_exist.c dico.c				\
 					print_event.c del_g_lines.c									\
