@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:50:51 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/11 01:34:33 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/20 14:02:01 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static char					get_flags_env(char **l_cmd)
 	while (ft_isspace((*(*l_cmd))))
 		l_cmd[0]++;
 	if (*(*l_cmd) == 'e' && *(*l_cmd + 1) == 'n' && *(*l_cmd + 2) == 'v' &&
-			*(*l_cmd + 3) == ' ')
+			(*(*l_cmd + 3) == ' ' || *(*l_cmd + 3) == '\0'))
 	{
 		l_cmd[0] += 4;
 		if ((ret = change_flag(&flags, l_cmd)) == OPT_WRONG || ret == PARAM)
@@ -123,11 +123,13 @@ int							builtin_env(t_cmd *content)
 		return (ERROR);
 	if ((flags & FLAG_I) != 0)
 		//ret = tab_env_i(&tmp_line, &tab);
-		ret = take_cmd_if_exist(&tmp_line, tab);
+		ret = take_cmd_if_exist(&tmp_line, &tab, 1);
 	else if ((flags & FLAG_U) != 0)
-		ret = tab_env_u(&tmp_line, &tab);
+		//ret = tab_env_u(&tmp_line, &tab);
+		ret = take_cmd_if_exist(&tmp_line, &tab, 2);
 	else
-		ret = tab_env(&tmp_line, &tab);
+		//ret = tab_env(&tmp_line, &tab);
+		ret = take_cmd_if_exist(&tmp_line, &tab, 3);
 	if (ret == ERROR)
 		return (-1);
 	return (print_env(tab));

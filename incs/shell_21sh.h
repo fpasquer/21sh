@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/11 01:34:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/20 13:52:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,8 @@ int							print_env(char **tab);
 /*
 **	options_env3.c
 */
-int							take_cmd_if_exist(char **tmp_line, char **tab);
+int							take_cmd_if_exist(char **tmp_line, char ***tab,
+				int choice);
 
 /*
 **	loop_shell.c
