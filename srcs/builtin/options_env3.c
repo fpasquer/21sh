@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 22:56:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/21 18:00:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/21 22:03:35 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_env		*save_env_modif(char **environ)
 }
 
 int					take_cmd_if_exist(char **tmp_line, char ***tab,
-			t_env *sub_env, int choice)
+			int choice)
 {
 	int				ret;
 	t_cmd			*cmd;
