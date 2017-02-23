@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/16 15:02:13 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/23 13:29:29 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,46 @@
 # define D_DROITE 3
 # define GAUCHE 4
 # define D_GAUCHE 5
+
+# define MSG_ERR(hist, val, ret) hist.type_error = val;return (ret)
+
+# define NONE 0
+# define CLEAR 1
+# define APPEND 2
+# define NAPPEND 4
+# define DELETE 8
+
+# define FUNC_NONE 0
+# define FUNC_CLEAR 1
+# define FUNC_APPEND 2
+# define FUNC_NAPPEND 3
+# define FUNC_DELETE 4
+
+# define WRONG_BUILTIN 1
+# define ERROR_INCONNU 2
+# define ERROR_PARAM 3
+
+typedef struct		s_options_hist
+{
+	int				i;
+	int				(*f)(int);
+}					t_options_hist;
+
+int					option_none(int offset);
+int					option_clear(int offset);
+int					option_append(int offset);
+int					option_nappend(int offset);
+int					option_delete(int offset);
+
+typedef struct		s_hist
+{
+	int				flags;
+	int				offset;
+	int				i;
+	int				type_error;
+}					t_hist;
+
+t_options_hist		g_options_hist[5];
 
 typedef struct			s_cmd
 {

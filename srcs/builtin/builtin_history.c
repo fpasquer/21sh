@@ -6,77 +6,22 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:20:14 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/22 22:48:50 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/02/23 13:31:01 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/parse.h"
 #include "../../incs/shell_21sh.h"
 
-# define MSG_ERR(hist, val, ret) hist.type_error = val;return (ret)
-
-# define NONE 0
-# define CLEAR 1
-# define APPEND 2
-# define NAPPEND 4
-# define DELETE 8
-
-# define WRONG_BUILTIN 1
-# define ERROR_INCONNU 2
-# define ERROR_PARAM 3
-
-typedef struct		s_options_hist
-{
-	int				i;
-	int				(*f)(int);
-}					t_options_hist;
-
-int					option_none(int offset);
-int					option_clear(int offset);
-int					option_append(int offset);
-int					option_nappend(int offset);
-int					option_delete(int offset);
-
 t_options_hist		g_options_hist[] =
 {
-	{NONE, option_none},
-	{CLEAR, option_clear},
-	{APPEND, option_append},
-	{NAPPEND, option_nappend},
-	{DELETE, option_delete}
+	{FUNC_NONE, option_none},
+	{FUNC_CLEAR, option_clear},
+	{FUNC_APPEND, option_append},
+	{FUNC_NAPPEND, option_nappend},
+	{FUNC_DELETE, option_delete}
 };
 
-typedef struct		s_hist
-{
-	int				flags;
-	int				offset;
-	int				i;
-	int				type_error;
-}					t_hist;
-
-int					option_none(int offset)
-{
-	unsigned int	i;
-	t_21sh			*sh;
-	t_history		*tmp;
-
-	offset = (int)offset;
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
-	if ((tmp = sh->hist) != NULL)
-	{
-		i = 1;
-		while (tmp != NULL)
-		{
-			ft_putnbr_fd(i, STDOUT_FILENO);
-			ft_putstr_fd(": ", STDOUT_FILENO);
-			ft_putendl_fd(tmp->line, STDOUT_FILENO);
-			tmp = tmp->next;
-			i++;
-		}
-	}
-	return (i == 0 ? false : true);
-}
 
 static int			save_flags(t_hist **hist, char *cmd)
 {
@@ -141,9 +86,9 @@ static t_hist		init_hist(t_cmd *cmd)
 static void			exe_hist(t_hist hist)
 {
 	if (hist.flags == NONE)
-		g_options_hist[NONE].f(0);
+		g_options_hist[FUNC_NONE].f(0);
 	if (hist.flags & CLEAR)
-		g_options_hist[CLEAR].f(0);
+		g_options_hist[FUNC_CLEAR].f(0);
 }
 
 int					builtin_history(t_cmd *cmd)
