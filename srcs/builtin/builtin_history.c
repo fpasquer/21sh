@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:20:14 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/23 13:31:01 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/02/23 22:38:17 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,26 @@ static t_hist		init_hist(t_cmd *cmd)
 	}
 	if (get_flags(&hist, cmd) == ERROR)
 		return (hist);
+	if (hist.flags & CLEAR)
+	{
+		if (cmd->arg[1] == NULL || cmd->arg[2] == NULL)
+		{
+			MSG_ERR(hist, ERROR_OFFSET, hist);
+		}
+		if ((hist.offset = ft_atoi(cmd->arg[2])) <= 0)
+		{
+			MSG_ERR(hist, WRONG_OFFSET, hist);
+		}
+	}
 	return (hist);
 }
 
 static void			exe_hist(t_hist hist)
 {
 	if (hist.flags == NONE)
-		g_options_hist[FUNC_NONE].f(0);
+		g_options_hist[FUNC_NONE].f(hist.offset);
 	if (hist.flags & CLEAR)
-		g_options_hist[FUNC_CLEAR].f(0);
+		g_options_hist[FUNC_CLEAR].f(hist.offset);
 }
 
 int					builtin_history(t_cmd *cmd)

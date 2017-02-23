@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/23 13:29:29 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/02/23 21:52:20 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@
 # define WRONG_BUILTIN 1
 # define ERROR_INCONNU 2
 # define ERROR_PARAM 3
+# define ERROR_OFFSET 4
+# define WRONG_OFFSET 5
 
 typedef struct		s_options_hist
 {
