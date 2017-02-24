@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:08:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/16 15:51:42 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/24 19:37:16 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,52 @@ int							tab_env_i(char **l_cmd, char ***tab)
 	return (save_tab_env(NULL, l_cmd, tab));
 }
 
-int							tab_env_u(char **l_cmd, char ***tab)
+int							tab_env_u(char **l_cmd, char ***tab, t_env *sub_env)
 {
 	t_21sh					*sh;
 
+	/*t_env *cpy = sub_env;
+	if (cpy == NULL)
+		fprintf(debug, "cpy == NULL\n");
+	else
+	{
+		while (cpy)
+		{
+			fprintf(debug, "%s=%s\n", cpy->name, cpy->value);
+			cpy = cpy->next;
+		}
+	}*/
+	fprintf(debug, "pass -u\n");
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	return (save_tab_env(sh->env, l_cmd, tab));
+	return (save_tab_env(sub_env ? sub_env : sh->env, l_cmd, tab));
 }
 
-int							tab_env(char **l_cmd, char ***tab)
+int							tab_env(char **l_cmd, char ***tab, t_env *sub_env)
 {
 	t_env					*curs;
 	t_21sh					*sh;
 
+	/*t_env *cpy = sub_env;
+	if (cpy == NULL)
+		fprintf(debug, "cpy == NULL\n");
+	else
+	{
+		while (cpy)
+		{
+			fprintf(debug, "%s=%s\n", cpy->name, cpy->value);
+			cpy = cpy->next;
+		}
+	}*/
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	curs = sh->env;
+	curs = sub_env ? sub_env : sh->env;
 	while (curs != NULL)
 	{
 		curs->add = true;
 		curs = curs->next;
 	}
-	return (save_tab_env(sh->env, l_cmd, tab));
+	return (save_tab_env(sub_env ? sub_env : sh->env, l_cmd, tab));
 }
 
 int							print_env(char **tab)

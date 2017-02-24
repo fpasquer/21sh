@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 22:56:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/21 18:00:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/24 17:03:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int					take_cmd_if_exist(char **tmp_line, char ***tab,
 	if (choice == 1)
 		ret = tab_env_i(tmp_line, tab);
 	else if (choice == 2)
-		ret = tab_env_u(tmp_line, tab);
+		ret = tab_env_u(tmp_line, tab, sub_env);
 	else if (choice == 3)
-		ret = tab_env(tmp_line, tab);
+		ret = tab_env(tmp_line, tab, sub_env);
 	if ((cmd = parse_cmd(*tmp_line, NULL, 0)) != NULL && cmd->line != NULL)
 	{
 		cmd->env = save_env_modif(*tab);
