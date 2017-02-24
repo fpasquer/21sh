@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 13:30:41 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/02/23 22:50:47 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/02/24 13:24:09 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int					option_clear(int offset)
 				tmp->prev->next = tmp->next;
 			if (tmp->next != NULL)
 				tmp->next->prev = tmp->prev;
+			ft_memdel((void**)&tmp->line);
 			ft_memdel((void**)&tmp);
 			return (true);
 		}
