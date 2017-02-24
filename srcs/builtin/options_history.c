@@ -6,7 +6,7 @@
 /*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 13:30:41 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/02/24 13:24:09 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/02/24 22:48:08 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static int				loop_print_history(t_history *tmp, int nb_cmd_history)
 	return (true);
 }
 
-int					option_none(int offset)
+int					option_none(t_hist hist)
 {
 	unsigned int	i;
 	t_21sh			*sh;
 	t_history		*tmp;
 
-	offset = (int)offset;
+	hist.offset = (int)hist.offset;
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
 	i = 0;
@@ -63,21 +63,63 @@ int					option_none(int offset)
 	return (i == 0 ? false : true);
 }
 
-int					option_clear(int offset)
+int					option_clear(t_hist hist)
+{
+	t_21sh			*sh;
+	t_history		*tmp;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	if (sh->hist == NULL)
+		return (false);
+	hist.offset++;
+	while (sh->hist != NULL)
+	{
+		tmp = sh->hist->next;
+		ft_memdel((void**)&sh->hist->line);
+		ft_memdel((void**)&sh->hist);
+		sh->hist = tmp;
+	}
+	ft_memdel((void**)&sh->hist);
+	return (true);
+}
+
+int					option_append(t_hist hist)
+{
+	t_21sh			*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
+	hist.offset = (int)hist.offset;
+	if (hist.line == NULL || hist.line[0] == '\0')
+		return (hist.line == NULL ? ERROR : false);
+																				fprintf(debug, "append = %s %d\n", hist.line, __LINE__);
+	if (add_history(&sh->hist, hist.line) == ERROR)
+		return (ERROR);
+	return (true);
+}
+
+int					option_nappend(t_hist hist)
+{
+	hist.offset = (int)hist.offset;
+	return (true);
+}
+
+int					option_delete(t_hist hist)
 {
 	int				i;
 	t_21sh			*sh;
 	t_history		*tmp;
 
-	if ((sh = get_21sh(NULL)) == NULL || offset <= 0)
-		return (offset <= 0 ? false : ERROR);
+	if ((sh = get_21sh(NULL)) == NULL || hist.offset <= 0)
+		return (hist.offset <= 0 ? false : ERROR);
 	if ((tmp = sh->hist) != NULL && (i = 0) == 0)
 	{
 		while (tmp != NULL && tmp->next != NULL)
 			tmp = tmp->next;
-		while (tmp != NULL && ++i < offset)
+		while (tmp != NULL && ++i < hist.offset)
 			tmp = tmp->prev;
-		if (i == offset)
+		if (i == hist.offset)
 		{
 			if (tmp->prev != NULL)
 				tmp->prev->next = tmp->next;
@@ -89,23 +131,4 @@ int					option_clear(int offset)
 		}
 	}
 	return (false);
-}
-
-int					option_append(int offset)
-{
-	offset = (int)offset;
-	return (true);
-}
-
-int					option_nappend(int offset)
-{
-	offset = (int)offset;
-	return (true);
-}
-
-int					option_delete(int offset)
-{
-	if (offset <= 0)
-		return (ERROR);
-	return (true);
 }

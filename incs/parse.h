@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/23 21:52:20 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/02/24 21:36:11 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,28 @@
 # define ERROR_OFFSET 4
 # define WRONG_OFFSET 5
 
-typedef struct		s_options_hist
-{
-	int				i;
-	int				(*f)(int);
-}					t_options_hist;
 
-int					option_none(int offset);
-int					option_clear(int offset);
-int					option_append(int offset);
-int					option_nappend(int offset);
-int					option_delete(int offset);
 
 typedef struct		s_hist
 {
+	char			*line;
 	int				flags;
 	int				offset;
 	int				i;
 	int				type_error;
 }					t_hist;
+
+typedef struct		s_options_hist
+{
+	int				i;
+	int				(*f)(t_hist);
+}					t_options_hist;
+
+int					option_none(t_hist hist);
+int					option_clear(t_hist hist);
+int					option_append(t_hist hist);
+int					option_nappend(t_hist hist);
+int					option_delete(t_hist hist);
 
 t_options_hist		g_options_hist[5];
 
