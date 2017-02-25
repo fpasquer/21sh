@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/24 16:57:49 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/25 20:45:49 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,7 @@ int							modify_env_value(char *name, char *value);
 /*
 **	Verifie sur l'env existe
 */
-int							check_if_env_exist(char *name);
+int							check_if_env_exist(char *name, t_env *sub_env);
 
 /*
 **	Permet de recuperer l'environnement en array.

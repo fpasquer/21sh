@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:52:55 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 17:00:37 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/25 20:49:10 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static int			cd_change_pwd(char *path)
 	if (chdir(path) == ERROR)
 		return (false);
 	new_path = getcwd(NULL, 0);
-	if (check_if_env_exist("PWD") == false)
+	if (check_if_env_exist("PWD", NULL) == false)
 	{
 		if (add_env_("PWD", new_path) == ERROR)
 			return (false);
 	}
 	else if (modify_env_value("PWD", new_path) == false)
 		return (false);
-	if (check_if_env_exist("OLDPWD") == false)
+	if (check_if_env_exist("OLDPWD", NULL) == false)
 	{
 		if (add_env_("OLDPWD", old_pwd) == ERROR)
 			return (false);
@@ -64,7 +64,7 @@ static int			cd_home(void)
 {
 	char			*path;
 
-	if (!check_if_env_exist("HOME"))
+	if (!check_if_env_exist("HOME", NULL))
 	{
 		ft_putendl_fd("cd: HOME not set", STDERR_FILENO);
 		return (false);
@@ -82,7 +82,7 @@ static int			cd_less(void)
 {
 	char			*path;
 
-	if (!check_if_env_exist("OLDPWD"))
+	if (!check_if_env_exist("OLDPWD", NULL))
 	{
 		ft_putendl_fd("cd: OLDPWD not set", STDERR_FILENO);
 		return (false);

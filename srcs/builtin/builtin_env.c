@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:50:51 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/24 18:17:20 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/25 21:44:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 
-static int					option_u_env(char **l_cmd)
+static int					option_u_env(char **l_cmd, t_env *sub_env)
 {
 	char					*end;
 	int						decalage;
@@ -38,14 +38,14 @@ static int					option_u_env(char **l_cmd)
 			end = l_cmd[0] + ft_strlen(*l_cmd);
 		decalage = (*end == '\0') ? -1 : 0;
 		*end = '\0';
-		check_if_env_exist(*l_cmd);
+		check_if_env_exist(*l_cmd, sub_env);
 		l_cmd[0] = end + decalage;
 		return (true);
 	}
 	return (PARAM);
 }
 
-static int					change_flag(char *flags, char **l_cmd)
+static int					change_flag(char *flags, char **l_cmd, t_env *sub)
 {
 	if (flags == NULL || l_cmd == NULL)
 		return (ERROR);
@@ -57,7 +57,7 @@ static int					change_flag(char *flags, char **l_cmd)
 			else if ((*(*l_cmd)) == 'u')
 			{
 				*flags = *flags | FLAG_U;
-				if (option_u_env(l_cmd) == PARAM)
+				if (option_u_env(l_cmd, sub) == PARAM)
 					return (PARAM);
 			}
 			else
@@ -67,7 +67,7 @@ static int					change_flag(char *flags, char **l_cmd)
 	return (true);
 }
 
-static char					get_flags_env(char **l_cmd)
+static char					get_flags_env(char **l_cmd, t_env *sb)
 {
 	char					flags;
 	int						ret;
@@ -88,8 +88,8 @@ static char					get_flags_env(char **l_cmd)
 	if (*(*l_cmd) == 'e' && *(*l_cmd + 1) == 'n' && *(*l_cmd + 2) == 'v' &&
 			(*(*l_cmd + 3) == ' ' || *(*l_cmd + 3) == '\0'))
 	{
-		l_cmd[0] += 4;
-		if ((ret = change_flag(&flags, l_cmd)) == OPT_WRONG || ret == PARAM)
+		l_cmd[0] += 3;
+		if ((ret = change_flag(&flags, l_cmd, sb)) == OPT_WRONG || ret == PARAM)
 			return (ret);
 	}
 	return (flags);
@@ -117,18 +117,16 @@ int							builtin_env(t_cmd *content)
 
 	tmp_line = content->line;
 	tab = NULL;
-	if ((flags = get_flags_env(&tmp_line)) == PARAM || flags == OPT_WRONG)
+	if ((flags = get_flags_env(&tmp_line, content->env)) == PARAM
+			|| flags == OPT_WRONG)
 		return (error_env(flags, content->line));
 	if (flags == ERROR)
 		return (ERROR);
 	if ((flags & FLAG_I) != 0)
-		//ret = tab_env_i(&tmp_line, &tab);
 		ret = take_cmd_if_exist(&tmp_line, &tab, content->env, 1);
 	else if ((flags & FLAG_U) != 0)
-		//ret = tab_env_u(&tmp_line, &tab);
 		ret = take_cmd_if_exist(&tmp_line, &tab, content->env, 2);
 	else
-		//ret = tab_env(&tmp_line, &tab);
 		ret = take_cmd_if_exist(&tmp_line, &tab, content->env, 3);
 	if (ret == ERROR)
 		return (-1);

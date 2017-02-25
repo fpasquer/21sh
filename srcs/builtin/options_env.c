@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:25:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/24 19:02:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/25 18:04:08 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,6 @@ t_env						*get_at_add(char **list_env)
 		if ((add_env(&at_add, list_env[i - 1], i - 1, true)) == ERROR)
 			return (NULL);
 	}
-	/*t_env *cpy = at_add;
-	if (cpy == NULL)
-		fprintf(debug, "at_add == NULL\n");
-	else
-	{
-		while (cpy)
-		{
-			fprintf(debug, "%s=%s\n", cpy->name, cpy->value);
-			cpy = cpy->next;
-		}
-	}*/
 	return (at_add);
 }
 
