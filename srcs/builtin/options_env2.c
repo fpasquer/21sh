@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:08:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/25 19:38:45 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/28 00:17:08 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,31 @@ int							tab_env_i(char **l_cmd, char ***tab)
 	return (save_tab_env(NULL, l_cmd, tab));
 }
 
-int							tab_env_u(char **l_cmd, char ***tab, t_env *sub_env)
+int							tab_env_u(char **l_cmd, char ***tab, t_cmd *content)
 {
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	return (save_tab_env(sub_env ? sub_env : sh->env, l_cmd, tab));
+	return (save_tab_env((content->env || content->env_i == 1) ?
+				content->env : sh->env, l_cmd, tab));
 }
 
-int							tab_env(char **l_cmd, char ***tab, t_env *sub_env)
+int							tab_env(char **l_cmd, char ***tab, t_cmd *content)
 {
 	t_env					*curs;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (ERROR);
-	curs = sub_env ? sub_env : sh->env;
+	curs = (content->env || content->env_i == 1) ? content->env : sh->env;
 	while (curs != NULL)
 	{
 		curs->add = true;
 		curs = curs->next;
 	}
-	return (save_tab_env(sub_env ? sub_env : sh->env, l_cmd, tab));
+	return (save_tab_env((content->env || content->env_i == 1 ) ?
+				content->env : sh->env, l_cmd, tab));
 }
 
 int							print_env(char **tab)

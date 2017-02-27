@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 22:56:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/25 22:39:21 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/28 00:18:09 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ static t_env		*save_env_modif(char **environ)
 	while (environ[i] != NULL)
 	{
 		if (add_env(&lst_env, environ[i], i, true) == ERROR)
-			return (NULL);
+			break ;
 		i++;
 	}
 	return (lst_env);
 }
 
 int					take_cmd_if_exist(char **tmp_line, char ***tab,
-			t_env *sub_env, int choice)
+			t_cmd *content, int choice)
 {
 	int				ret;
 	t_cmd			*cmd;
@@ -40,12 +40,13 @@ int					take_cmd_if_exist(char **tmp_line, char ***tab,
 	if (choice == 1)
 		ret = tab_env_i(tmp_line, tab);
 	else if (choice == 2)
-		ret = tab_env_u(tmp_line, tab, sub_env);
+		ret = tab_env_u(tmp_line, tab, content);
 	else if (choice == 3)
-		ret = tab_env(tmp_line, tab, sub_env);
+		ret = tab_env(tmp_line, tab, content);
 	if ((cmd = parse_cmd(*tmp_line, NULL, 0)) != NULL && cmd->line != NULL)
 	{
 		cmd->env = save_env_modif(*tab);
+		cmd->env_i = choice;
 		other_exe(cmd, *tab);
 		del_list_env(&(cmd->env));
 		*tab = *tab != NULL ? ft_free_strsplit(*tab) : *tab;

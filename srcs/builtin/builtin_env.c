@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:50:51 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/25 21:44:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/27 23:13:46 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,11 @@ int							builtin_env(t_cmd *content)
 	if (flags == ERROR)
 		return (ERROR);
 	if ((flags & FLAG_I) != 0)
-		ret = take_cmd_if_exist(&tmp_line, &tab, content->env, 1);
+		ret = take_cmd_if_exist(&tmp_line, &tab, content, 1);
 	else if ((flags & FLAG_U) != 0)
-		ret = take_cmd_if_exist(&tmp_line, &tab, content->env, 2);
+		ret = take_cmd_if_exist(&tmp_line, &tab, content, 2);
 	else
-		ret = take_cmd_if_exist(&tmp_line, &tab, content->env, 3);
+		ret = take_cmd_if_exist(&tmp_line, &tab, content, 3);
 	if (ret == ERROR)
 		return (-1);
 	return (print_env(tab));

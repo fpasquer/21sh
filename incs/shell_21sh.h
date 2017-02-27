@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/25 20:45:49 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/27 23:15:14 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,15 +247,15 @@ char						**get_new_tab(t_env *lst_1, t_env *lst_2);
 **	options_env2.c
 */
 int							tab_env_i(char **l_cmd, char ***tab);
-int							tab_env_u(char **l_cmd, char ***tab, t_env *sub_en);
-int							tab_env(char **l_cmd, char ***tab, t_env *sub_env);
+int							tab_env_u(char **l_cmd, char ***tab, t_cmd *cntt);
+int							tab_env(char **l_cmd, char ***tab, t_cmd *content);
 int							print_env(char **tab);
 
 /*
 **	options_env3.c
 */
 int							take_cmd_if_exist(char **tmp_line, char ***tab,
-				t_env *sub_env, int choice);
+				t_cmd *content, int choice);
 
 /*
 **	loop_shell.c

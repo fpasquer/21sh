@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/25 22:28:12 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/02/27 22:57:02 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct			s_cmd
 	int					done;
 	char				*line;
 	char				**arg;
+	int					env_i;
 	struct s_env		*env;
 	struct s_cmd		*left;
 	struct s_cmd		*right;
