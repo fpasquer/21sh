@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:08:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/28 00:17:08 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/02 17:36:22 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int							tab_env(char **l_cmd, char ***tab, t_cmd *content)
 		curs->add = true;
 		curs = curs->next;
 	}
-	return (save_tab_env((content->env || content->env_i == 1 ) ?
+	return (save_tab_env((content->env || content->env_i == 1) ?
 				content->env : sh->env, l_cmd, tab));
 }
 
