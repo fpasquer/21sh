@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 15:06:16 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/02 22:49:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/03 21:36:10 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,24 @@
 #define FLAG_WRONG 8
 #define FLAG_N 2
 
-static char		take_flags(char *str)
+static char			take_flags(char *str)
 {
-	int			i;
+	int				i;
 
 	i = 0;
+	if (!str)
+		return (FLAG_NONE);
 	while (ft_isspace(str[i]))
 		i++;
-	if (str[i] == '-')
-	{
+	if (str[i++] == '-')
 		if (str[i] == 'n' && (str[i + 1] == '\0' || str[i + 1] == ' '))
-		{
 			return (FLAG_N);
-	//		else
-		}
-		i++;
-	}
 	return (FLAG_NONE);
 }
 
-static void		print_echo(char *str)
+static void			print_echo(char *str)
 {
-	int			i;
+	int				i;
 
 	i = 0;
 	if (str && str[i] != '\0')
@@ -52,19 +48,27 @@ static void		print_echo(char *str)
 	}
 }
 
-int				builtin_echo(t_cmd *cmd)
+int					builtin_echo(t_cmd *cmd)
 {
-	int			i;
-	int			flags;
+	int				i;
+	unsigned char	flags;
+	unsigned char	ret;
 
 	i = 1;
 	flags = FLAG_NONE;
+	ret = FLAG_NONE;
 	if (!cmd->arg)
 		return (false);
-	while (cmd->arg[i] && (flags = take_flags(cmd->arg[i])) != FLAG_NONE)
-		i++;
 	while (cmd->arg[i])
-		print_echo(cmd->arg[i++]);
+	{
+		while((ret = take_flags(cmd->arg[i])) > 0)
+		{
+			flags = ret;
+			i++;
+		}
+		if (cmd->arg[i])
+			print_echo(cmd->arg[i++]);
+	}
 	if (flags == FLAG_NONE)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (true);
