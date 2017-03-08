@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/02 22:31:40 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/08 18:04:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static void		builtin_pipe_manager(int pipefd[2], int sav, int s_fd, t_cmd *c)
 		dup2(pipefd[0], STDIN_FILENO);
 		exe_binaire(c->right);
 		change_pipe(pipefd, s_fd, 3);
+	}
+	else if (c->left)
+	{
+		close(STDOUT_FILENO);
+		dup2(sav, STDOUT_FILENO);
 	}
 }
 

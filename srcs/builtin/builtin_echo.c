@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 15:06:16 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/07 19:11:10 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/08 17:28:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ static int				take_flags(char *str, unsigned char *flags)
 				*flags = *flags | FLAG_N;
 			else
 			{
-				*flags = *flags | FLAG_NONE;
-				ft_putstr_fd("error: -", STDERR_FILENO);
-				ft_putchar_fd(str[i], STDERR_FILENO);
-				ft_putendl_fd(" echo wrong option", STDERR_FILENO);
+				*flags = FLAG_NONE;
 				return (-1);
 			}
 		}
@@ -52,7 +49,7 @@ static void				print_echo(char *str)
 	{
 		while (str[i] && str[i] != '\0')
 		{
-			if (str[i] != '\"' && str[i] != '\\' && str[i] != '\'')
+			if (str[i] != '\\')
 				ft_putchar_fd(str[i], STDOUT_FILENO);
 			i++;
 		}
@@ -62,6 +59,7 @@ static void				print_echo(char *str)
 int						builtin_echo(t_cmd *cmd)
 {
 	int					i;
+	int					save;
 	unsigned char		flags;
 
 	i = 1;
@@ -70,9 +68,14 @@ int						builtin_echo(t_cmd *cmd)
 		return (false);
 	while (take_flags(cmd->arg[i], &flags) == 1)
 		i++;
+	save = i;
 	while (cmd->arg[i])
+	{
+		if (i != save)
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		print_echo(cmd->arg[i++]);
-	if ((flags & FLAG_NONE) == 0)
+	}
+	if ((flags & FLAG_N) == 0)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (true);
 }

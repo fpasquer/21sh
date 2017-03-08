@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/09 01:38:16 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/08 17:59:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void				write_funct(t_cmd *redirect, int tgt_fd)
 	if (redirect->arg && redirect->arg[0])
 	{
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "w+")) >= 0)
+		{
 			dup2(redirect->fd, tgt_fd);
+			close(redirect->fd);
+		}
 		else
 		{
 			ft_putstr_fd("error :", STDERR_FILENO);
@@ -58,7 +61,10 @@ void				d_write_funct(t_cmd *redirect, int tgt_fd)
 	if (redirect->arg && redirect->arg[0])
 	{
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "a")) >= 0)
+		{
 			dup2(redirect->fd, tgt_fd);
+			close(redirect->fd);
+		}
 		else
 		{
 			ft_putstr_fd("error :", STDERR_FILENO);
