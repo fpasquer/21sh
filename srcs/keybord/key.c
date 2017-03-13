@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 10:30:45 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/13 22:15:30 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		return (KEY_IGNORE);
 	else if (g_curs->activity == false && F1)
 		key_del_hist();
-	/*else if (ARROW_UP)
+	else if (g_curs->activity == false && ARROW_UP)
 		print_history_up();
-	else if (ARROW_DOWN)
-		print_history_down();*/
+	else if (g_curs->activity == false && ARROW_DOWN)
+		print_history_down();
 	else if (g_curs->activity == false && TAB)
 		autocompletion();
 	else if (g_curs->activity == false && PAST)
@@ -281,7 +281,6 @@ static int					get_line_cmd(void)
 
 int							save_y_x_line(t_line **lines)
 {
-	size_t					y;
 	t_21sh					*sh;
 
 	if ((sh = get_21sh(NULL)) == NULL || lines == NULL || *lines == NULL ||
@@ -468,8 +467,6 @@ char						*make_tab(void)
 
 char						*get_line_entree(void)
 {
-	t_21sh					*sh;
-
 	del_g_lines();
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL)
 		return (NULL);

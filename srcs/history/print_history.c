@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 12:49:57 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 13:17:17 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/13 15:36:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../incs/key.h"
 #define NONE 0
 
-static bool					at_add_history(char *line)
+/*static bool					at_add_history(char *line)
 {
 	int						i;
 	bool					ret;
@@ -44,7 +44,7 @@ static size_t				get_y_line(size_t len_line)
 		y = len_line / sh->win.ws_col;
 	}
 	return (y);
-}
+}*/
 
 int							print_history(void)
 {

@@ -25,6 +25,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					print_event.c del_g_lines.c									\
 					get_and_del_21sh.c event_del.c event_del2.c					\
 					event_move.c event_move2.c event_selec.c event_cpy.c		\
+					event_print_history.c										\
 					autocompletion.c autocompletion_bin.c autocompletion_path.c	\
 					init_history.c del_history.c print_history.c
 
@@ -79,7 +80,7 @@ $(OBJDIR)/%.o : $(SRCDIR_BUILTIN)/%.c $(INC)
 
 $(OBJDIR)/%.o : $(SRCDIR_COMPLET)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE COMPLETION\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_ENV)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE ENV\033[0m"
@@ -91,11 +92,11 @@ $(OBJDIR)/%.o : $(SRCDIR_EXE_CMD)/%.c $(INC)
 
 $(OBJDIR)/%.o : $(SRCDIR_HISTORY)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE HISTORY\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_KEYBORD)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE KEYBORD\033[0m"
-	$(GCC) -I $(INCDIR)/ $(CFLA) -o $@ -c $< #REMETTRE LES FLAGS QUAND FICHIERS OK
+	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_PARSE)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE PARSE\033[0m"
