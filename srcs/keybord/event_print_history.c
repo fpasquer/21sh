@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:13:38 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/13 22:16:09 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/13 23:00:43 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int							print_history_up(void)
 		return (false);
 	else
 		sh->hist->curs = sh->hist->curs->next;
-	place_curs();
-	insert_word_in_g_line(sh->hist->curs->line, &g_lines);
+	change_value_g_curs_line(sh->hist->curs->line);
 	return (true);
 }
 
