@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/15 18:08:22 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/15 23:00:39 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ static char					cmd_keyboard_2(char b[SIZE_BUFF])
 
 static char					cmd_keyboard(char b[SIZE_BUFF])
 {
-	if (cmd_keyboard_2(b) != KEY_IGNORE)
+	if (g_curs->activity == 0 && ((b[0] >= 32 && b[0] <= 126) || ENTER))
+		return (b[0]);
+	else if (cmd_keyboard_2(b) != KEY_IGNORE)
 		return (KEY_IGNORE);
 	else if (g_curs->activity == false && F1)
 		key_del_hist();
@@ -70,8 +72,6 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		del_selec();
 	else if (g_curs->activity == true && CUT)
 		cut_event();
-	else if (g_curs->activity == 0 && ((b[0] >= 32 && b[0] <= 126) || ENTER))
-		return (b[0]);
 	return (KEY_IGNORE);
 }
 
