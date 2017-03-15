@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/13 22:58:59 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/15 18:27:25 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,6 @@ int							add_c_to_line(char c, t_line **lines);
 int							insert_word_in_g_line(char *word, t_line **line);
 char						*make_tab(void);
 void						del_g_lines(void);
-int							change_value_g_curs_line(char *word);
 
 void						key_exit(unsigned char val_exit);
 int							key_del_hist(void);
@@ -231,8 +230,6 @@ int							put_cmd(void);
 int							save_y_x_line(t_line **line);
 int							put_lines(void);
 
-int							get_y_x_line(char *line, unsigned int *y,
-		unsigned int *x);
 char						last_c(t_line *line, size_t i);
 
 int							line_up(void);
