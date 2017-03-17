@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/15 22:54:48 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/17 19:26:01 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ size_t						g_x;
 # define CPY				(b[0] ==  12 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_l
 # define CUT				(b[0] ==  21 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_u
 # define PAST				(b[0] ==  16 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_p
-# define H_SRC				(b[0] ==  18 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_r
+# define H_SRCH				(b[0] ==  18 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //ctrl_r
 
 # define SPACE				(b[0] ==  32 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //' '
 # define EXCLAM_MACK		(b[0] ==  33 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //!
@@ -250,4 +250,6 @@ int							del_selec(void);
 
 int							autocompletion_bin(t_entry *c);
 int							autocompletion_path(t_entry *c);
+
+char						get_char_keyboard(void);
 #endif

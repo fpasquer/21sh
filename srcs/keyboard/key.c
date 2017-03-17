@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/15 23:00:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/17 19:24:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,70 +20,6 @@
 #define QUOTE '\''
 #define PRINT_MAX 500
 #define CC curs->curs
-
-static char					cmd_keyboard_2(char b[SIZE_BUFF])
-{
-	if (g_curs->activity == false && ESC)
-		key_exit(EXIT_SUCCESS);
-	else if (ARROW_RIGHT)
-		return (move_right());
-	else if (ARROW_LEFT)
-		return (move_left());
-	else if (SEL_MOD)
-		return (selec_mode());
-	else if (HOME)
-		return (move_start_line());
-	else if (END)
-		return (move_end_line());
-	else if (SHIFT_UP)
-		return (line_up());
-	else if (SHIFT_DOWN)
-		return (line_down());
-	else if (SHIFT_LEFT)
-		return (word_left());
-	else if (SHIFT_RIGHT)
-		return (word_right());
-	else if (CPY)
-		return (cpy_event());
-	return (KEY_IGNORE);
-}
-
-static char					cmd_keyboard(char b[SIZE_BUFF])
-{
-	if (g_curs->activity == 0 && ((b[0] >= 32 && b[0] <= 126) || ENTER))
-		return (b[0]);
-	else if (cmd_keyboard_2(b) != KEY_IGNORE)
-		return (KEY_IGNORE);
-	else if (g_curs->activity == false && F1)
-		key_del_hist();
-	else if (g_curs->activity == false && ARROW_UP)
-		print_history_up();
-	else if (g_curs->activity == false && ARROW_DOWN)
-		print_history_down();
-	else if (g_curs->activity == false && TAB)
-		autocompletion();
-	else if (g_curs->activity == false && PAST)
-		past_event();
-	else if (g_curs->activity == false && DEL)
-		del_left();
-	else if (g_curs->activity == false && DEL_R)
-		del_right();
-	else if (g_curs->activity == true && (DEL || DEL_R))
-		del_selec();
-	else if (g_curs->activity == true && CUT)
-		cut_event();
-	return (KEY_IGNORE);
-}
-
-static char					get_char_keyboard(void)
-{
-	char					b[SIZE_BUFF];
-
-	ft_bzero(b, sizeof(b));
-	if (read(STDIN_FILENO, b, SIZE_BUFF) <= 0)
-		return (ERROR);
-	return (cmd_keyboard(b));
-}
 
 static int					is_end(char c)
 {

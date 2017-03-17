@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:13:38 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/15 20:18:20 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/17 18:41:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int							print_history_up(void)
 		return (false);
 	if (sh->hist->curs == NULL)
 		sh->hist->curs = sh->hist;
-	if (sh->hist->curs->next == NULL)
+	else if (sh->hist->curs->next == NULL)
 		return (false);
 	else
 		sh->hist->curs = sh->hist->curs->next;
@@ -79,12 +79,11 @@ int							print_history_down(void)
 	if ((sh = get_21sh(NULL)) == NULL || sh->hist == NULL)
 		return (false);
 	if (sh->hist->curs == NULL)
-		sh->hist->curs = sh->hist;
-	if (sh->hist->curs->prev == NULL)
 		return (false);
 	else
 		sh->hist->curs = sh->hist->curs->prev;
-	if (change_value_g_curs_line(sh->hist->curs->line) != true)
-		return (false);
-	return (true);
+	if (sh->hist->curs == NULL)
+		return (change_value_g_curs_line(""));
+	else
+		return (change_value_g_curs_line(sh->hist->curs->line));
 }

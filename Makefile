@@ -27,7 +27,8 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					event_move.c event_move2.c event_selec.c event_cpy.c		\
 					event_print_history.c										\
 					autocompletion.c autocompletion_bin.c autocompletion_path.c	\
-					init_history.c del_history.c print_history.c
+					init_history.c del_history.c print_history.c				\
+					get_char_keyboard.c											\
 
 INCLUDES		= shell_21sh.h key.h
 
@@ -47,7 +48,7 @@ SRCDIR_COMPLET	= srcs/completion
 SRCDIR_ENV		= srcs/env
 SRCDIR_EXE_CMD	= srcs/exe_cmd
 SRCDIR_HISTORY	= srcs/history
-SRCDIR_KEYBORD	= srcs/keybord
+SRCDIR_KEYBOARD	= srcs/keyboard
 SRCDIR_PARSE	= srcs/parse
 SRCDIR_SHELL	= srcs/shell
 SRCDIR_SIG		= srcs/sig
@@ -94,8 +95,8 @@ $(OBJDIR)/%.o : $(SRCDIR_HISTORY)/%.c $(INC)
 	@echo "\033[0;32mCOMPILE HISTORY\033[0m"
 	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
-$(OBJDIR)/%.o : $(SRCDIR_KEYBORD)/%.c $(INC)
-	@echo "\033[0;32mCOMPILE KEYBORD\033[0m"
+$(OBJDIR)/%.o : $(SRCDIR_KEYBOARD)/%.c $(INC)
+	@echo "\033[0;32mCOMPILE KEYBOARD\033[0m"
 	$(GCC) -I $(INCDIR)/ $(CFLAGS) -o $@ -c $<
 
 $(OBJDIR)/%.o : $(SRCDIR_PARSE)/%.c $(INC)
