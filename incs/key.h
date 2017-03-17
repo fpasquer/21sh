@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/17 19:26:01 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/17 20:59:03 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct				s_line
 	size_t					last_dir;
 	int						lft_rgt;
 	bool					activity;
-	bool					h_src;
+	bool					h_srch;
 }							t_line;
 
 t_line						*g_lines;

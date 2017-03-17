@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 19:15:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/17 19:21:29 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/17 23:24:04 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 #define KEY_IGNORE -2
 #define GC_ACTVT g_curs->activity == true
 #define GC_ACTVT_NO g_curs->activity == false
+#define GC_SRCH g_curs->activity == true
+#define GC_SRCH_NO g_curs->activity == false
 
 static char					cmd_keyboard_2(char b[SIZE_BUFF])
 {
-	if (GC_ACTVT_NO && ESC)
+	if (GC_ACTVT_NO && GC_SRCH_NO && ESC)
 		key_exit(EXIT_SUCCESS);
 	else if (ARROW_RIGHT)
 		return (move_right());
 	else if (ARROW_LEFT)
 		return (move_left());
-	else if (SEL_MOD)
+	else if (GC_SRCH_NO && SEL_MOD)
 		return (selec_mode());
 	else if (HOME)
 		return (move_start_line());
@@ -38,8 +40,10 @@ static char					cmd_keyboard_2(char b[SIZE_BUFF])
 		return (word_left());
 	else if (SHIFT_RIGHT)
 		return (word_right());
-	else if (CPY)
+	else if (GC_SRCH_NO && CPY)
 		return (cpy_event());
+	else if (GC_ACTVT && GC_SRCH_NO && CUT)
+		return (cut_event());
 	return (KEY_IGNORE);
 }
 
@@ -49,24 +53,22 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		return (b[0]);
 	else if (cmd_keyboard_2(b) != KEY_IGNORE)
 		return (KEY_IGNORE);
-	else if (GC_ACTVT_NO && F1)
+	else if (GC_ACTVT_NO && GC_SRCH_NO && F1)
 		key_del_hist();
-	else if (GC_ACTVT_NO && ARROW_UP)
+	else if (GC_ACTVT_NO && GC_SRCH_NO && ARROW_UP)
 		print_history_up();
-	else if (GC_ACTVT_NO && ARROW_DOWN)
+	else if (GC_ACTVT_NO && GC_SRCH_NO && ARROW_DOWN)
 		print_history_down();
-	else if (GC_ACTVT_NO && TAB)
+	else if (GC_ACTVT_NO && GC_SRCH_NO && TAB)
 		autocompletion();
-	else if (GC_ACTVT_NO && PAST)
+	else if (GC_ACTVT_NO && GC_SRCH_NO && PAST)
 		past_event();
 	else if (GC_ACTVT_NO && DEL)
 		del_left();
 	else if (GC_ACTVT_NO && DEL_R)
 		del_right();
-	else if (GC_ACTVT && (DEL || DEL_R))
+	else if (GC_ACTVT && GC_SRCH_NO && (DEL || DEL_R))
 		del_selec();
-	else if (GC_ACTVT && CUT)
-		cut_event();
 	return (KEY_IGNORE);
 }
 
