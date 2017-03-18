@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 22:16:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/18 20:25:03 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void						loop_shell(void)
 	{
 		while (print_prompt())
 		{
-			if ((line = get_line_entree()) == NULL)
+			if ((line = get_line_entree(false)) == NULL)
 				break ;
 			if (at_save_history(line) == true)
 				if (add_history(&sh->hist, line) == ERROR)

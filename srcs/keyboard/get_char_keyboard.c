@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 19:15:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/17 23:24:04 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:37:37 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #define KEY_IGNORE -2
 #define GC_ACTVT g_curs->activity == true
 #define GC_ACTVT_NO g_curs->activity == false
-#define GC_SRCH g_curs->activity == true
-#define GC_SRCH_NO g_curs->activity == false
+#define GC_SRCH g_curs->h_srch == true
+#define GC_SRCH_NO g_curs->h_srch == false
 
 static char					cmd_keyboard_2(char b[SIZE_BUFF])
 {
@@ -53,6 +53,8 @@ static char					cmd_keyboard(char b[SIZE_BUFF])
 		return (b[0]);
 	else if (cmd_keyboard_2(b) != KEY_IGNORE)
 		return (KEY_IGNORE);
+	else if (GC_ACTVT_NO && GC_SRCH_NO && H_SRCH)
+		search_history();
 	else if (GC_ACTVT_NO && GC_SRCH_NO && F1)
 		key_del_hist();
 	else if (GC_ACTVT_NO && GC_SRCH_NO && ARROW_UP)

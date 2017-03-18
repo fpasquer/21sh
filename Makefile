@@ -27,7 +27,8 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					event_move.c event_move2.c event_selec.c event_cpy.c		\
 					event_print_history.c										\
 					autocompletion.c autocompletion_bin.c autocompletion_path.c	\
-					init_history.c del_history.c print_history.c				\
+					init_history.c del_history.c search_history.c				\
+					print_history.c												\
 					get_char_keyboard.c											\
 
 INCLUDES		= shell_21sh.h key.h

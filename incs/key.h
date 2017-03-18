@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:17:49 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/17 20:59:03 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/18 20:24:22 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ size_t						g_x;
 # define DEL				(b[0] == 127 && b[1] ==   0 && b[2] ==   0 && b[3] ==   0 && b[4] ==   0 && b[5] ==   0) //<- del gauche
 # define DEL_R				(b[0] ==  27 && b[1] ==  91 && b[2] ==  51 && b[3] == 126 && b[4] ==   0 && b[5] ==   0) //-> del droite
 
-char						*get_line_entree(void);
+char						*get_line_entree(bool srch);
 int							add_c_to_line(char c, t_line **lines);
 int							insert_word_in_g_line(char *word, t_line **line);
 char						*make_tab(void);

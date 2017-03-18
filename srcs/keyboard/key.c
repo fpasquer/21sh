@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/17 19:24:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/18 20:24:30 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,12 +401,14 @@ char						*make_tab(void)
 	return (save_tab(tab));
 }
 
-char						*get_line_entree(void)
+char						*get_line_entree(bool srch)
 {
 	del_g_lines();
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL)
 		return (NULL);
 	g_curs = g_lines;
+	if (srch == true)
+		g_curs->h_srch = true;
 	if (get_line_cmd() == ERROR)
 		return (NULL);
 	return (make_tab());

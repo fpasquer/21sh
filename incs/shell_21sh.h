@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/02 22:19:11 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:06:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,11 @@ int							put_cmd_term(char *cmd);
 **	print_history.c
 */
 int							print_history(void);
+
+/*
+**	search_history.c
+*/
+int							search_history(void);
 
 /*
 **	del_history.c
