@@ -40,6 +40,7 @@ Arrow-up          : last/prev history lines
 
 Arrow-down        : next history lines
 
+CTRL-r            : search in history
 
 F1                : Del history
 
