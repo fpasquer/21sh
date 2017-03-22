@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:31:09 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/22 16:39:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/22 21:43:40 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ static int			search_line_in_history(char *line)
 	t_history		*curs;
 	char			*res;
 
-	if ((sh = get_21sh(NULL)) == NULL || (curs = sh->hist) == NULL)
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (false);
+	if ((curs = sh->hist) == NULL)
 		return (false);
 	res = NULL;
 	while (curs)
@@ -44,6 +46,7 @@ int					search_history(void)
 	print_prompt();
 	g_curs->h_srch = false;
 	srch_line = get_line_entree(true);
+	put_cmd_term("up");
 	g_lines = ft_memalloc(sizeof(t_line));
 	g_curs = g_lines;
 	if (srch_line == NULL || !strcmp(srch_line, ""))
