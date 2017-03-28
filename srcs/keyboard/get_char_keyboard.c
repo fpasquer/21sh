@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 19:15:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/28 01:14:45 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/28 17:22:39 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 static char					cmd_keyboard_2(char b[SIZE_BUFF])
 {
 	if (GC_ACTVT_NO && GC_SRCH_NO && CTRL_D)
-		key_exit(EXIT_SUCCESS);
+		ctrl_d(EXIT_SUCCESS);
 	else if (ARROW_RIGHT)
 		return (move_right());
 	else if (ARROW_LEFT)

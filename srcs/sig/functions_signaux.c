@@ -6,11 +6,12 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:30:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 14:30:41 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/28 17:19:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
+#include "../incs/key.h"
 
 void						resize_win(int val)
 {
@@ -23,7 +24,11 @@ void						resize_win(int val)
 
 void						ctrl_d(int val)
 {
-	val = val + 0;
-	del_21sh();
-	exit(EXIT_SUCCESS);
+	if (g_curs != NULL)
+	{
+		if (g_curs->line == NULL)
+			key_exit(val);
+		else
+			del_right();
+	}
 }
