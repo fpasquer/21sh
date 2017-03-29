@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/22 16:04:24 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/22 22:07:59 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
 		exe_binaire(cmd);
-		//builtin_or_not(cmd, 0, 0);
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0
 				&& cmd->right->done != -1)
 				|| (cmd->right && cmd->op == ET && cmd->done != 0)

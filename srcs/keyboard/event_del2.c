@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/31 22:00:38 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/03 05:29:55 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/29 12:14:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,16 @@ int					del_right(void)
 {
 	t_line			*c;
 
-	if ((c = g_curs) == NULL)
+	fprintf(debug, "prev =%c curent =%c next = %c\n", g_curs->curs && g_curs->curs->prev ? g_curs->curs->prev->c : 32, g_curs->curs ? g_curs->curs->c : 32, g_curs->curs && g_curs->curs->next ? g_curs->curs->next->c : 32);
+	if ((c = g_curs) == NULL || c->curs == NULL || c->curs->next == NULL)
 		return (false);
-	if ((c->curs == NULL && (c->line == NULL || c->line->next == NULL)) ||
-		(c->curs && c->curs->next && c->curs->next->next == NULL))
+	if (c->curs == NULL && (c->line == NULL || c->line->next == NULL ||
+		(c->curs && c->curs->next && c->curs->next->next == NULL)))
 		return (false);
-	else if (c->curs == NULL && c->line && c->line->next)
-		return (del_right_line(c, c->line->next));
 	else if (c->curs->next->next)
 		return (del_right_line(c, NULL));
+	else if (c->curs == NULL && c->line && c->line->next)
+		return (del_right_line(c, c->line->next));
 	return (false);
 }
 
