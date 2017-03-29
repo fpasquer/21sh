@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/31 22:00:38 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/29 12:14:38 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/03/29 20:18:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ static int			del_right_line(t_line *c, t_entry *tmp)
 		return (ERROR);
 	if (tmp == NULL)
 	{
-		tmp = c->curs->next->next;
-		if (c->curs->next->next->next)
-			c->curs->next->next->next->prev = c->curs->next;
-		c->curs->next->next = c->curs->next->next->next ?
-			c->curs->next->next->next : NULL;
+		tmp = c->curs->next;
+		if (c->curs->next->next)
+			c->curs->next->next->prev = c->curs;
+		c->curs->next = c->curs->next->next ?
+			c->curs->next->next : NULL;
 	}
 	else
 	{
-		tmp = c->line->next;
-		if (c->line->next->next)
-			c->line->next->next->prev = c->line;
-		c->line->next = c->line->next->next ? c->line->next->next : NULL;
+		tmp = c->line;
+		if (c->line->next)
+			c->line->next->prev = NULL;
+		c->line = c->line->next;
 	}
 	if (save_info_line(&c) == ERROR)
 		return (ERROR);
@@ -54,16 +54,12 @@ int					del_right(void)
 {
 	t_line			*c;
 
-	fprintf(debug, "prev =%c curent =%c next = %c\n", g_curs->curs && g_curs->curs->prev ? g_curs->curs->prev->c : 32, g_curs->curs ? g_curs->curs->c : 32, g_curs->curs && g_curs->curs->next ? g_curs->curs->next->c : 32);
-	if ((c = g_curs) == NULL || c->curs == NULL || c->curs->next == NULL)
+	if ((c = g_curs) == NULL)
 		return (false);
-	if (c->curs == NULL && (c->line == NULL || c->line->next == NULL ||
-		(c->curs && c->curs->next && c->curs->next->next == NULL)))
-		return (false);
-	else if (c->curs->next->next)
+	if (c->curs && c->curs->next)
 		return (del_right_line(c, NULL));
-	else if (c->curs == NULL && c->line && c->line->next)
-		return (del_right_line(c, c->line->next));
+	else if (c->curs == NULL && c->line)
+		return (del_right_line(c, c->line));
 	return (false);
 }
 

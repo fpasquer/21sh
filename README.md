@@ -43,5 +43,3 @@ Arrow-down        : next history lines
 CTRL-r            : search in history
 
 F1                : Del history
-
-F2                : Print history
