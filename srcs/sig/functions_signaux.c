@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:30:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/28 17:19:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/03 17:58:00 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ void						resize_win(int val)
 		ioctl(0, TIOCGWINSZ, &sh->win);
 }
 
+static void					retake_entree(int signum)
+{
+	if (signum == SIGINT)
+		;
+}
+
+static void					suspend_and_continue(int signum)
+{
+	if (signum == SIGCONT)
+		tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->term_param));
+}
+
 void						ctrl_d(int val)
 {
 	if (g_curs != NULL)
@@ -31,4 +43,11 @@ void						ctrl_d(int val)
 		else
 			del_right();
 	}
+}
+
+void						sig_manager(void)
+{
+	signal(SIGWINCH, resize_win);
+	signal(SIGINT, retake_entree);
+	signal(SIGCONT, suspend_and_continue);
 }

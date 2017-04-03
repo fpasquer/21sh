@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/29 12:12:57 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/03 16:58:21 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ static int					get_line_cmd(void)
 		c = get_char_keyboard();
 		if (place_curs() == ERROR)
 			return (ERROR);
-		if (c != KEY_IGNORE)
+		if (c != KEY_IGNORE && ft_isascii(c))
 			if (add_c_to_line(c, &g_curs) == ERROR)
 				return (ERROR);
 		if (put_cmd() == ERROR)

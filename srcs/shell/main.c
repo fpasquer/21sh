@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:42:53 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/29 22:51:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/03 15:39:13 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int							main(void)
 	{
 		if ((debug = fopen("test.txt", "w+")) == NULL)
 			return (EXIT_SUCCESS);
+		sig_manager();
 		signal(SIGWINCH, resize_win);
 		loop_shell();
 		ft_putendl("Erreur 21 sh");

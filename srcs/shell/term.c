@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:43:12 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:43:13 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/03 18:16:45 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int							init_term(t_21sh **sh)
 		return (ERROR);
 	(*sh)->term_param.c_lflag &= ~(ICANON);
 	(*sh)->term_param.c_lflag &= ~(ECHO);
-	(*sh)->term_param.c_lflag &= ~(ISIG);
 	(*sh)->term_param.c_cc[VMIN] = 1;
 	(*sh)->term_param.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &(*sh)->term_param) == -1)
