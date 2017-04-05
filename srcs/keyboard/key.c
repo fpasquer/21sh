@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/03 16:58:21 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/05 19:44:37 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,15 +112,6 @@ int							place_curs(void)
 	if (save_y_i(&y, &i) == ERROR)
 		return (ERROR);
 	return (loop_place_curs(y, i));
-}
-
-static int					clean_and_put_prompt(void)
-{
-	int							ret;
-
-	ret = put_cmd_term("cd");
-	print_prompt();
-	return (ret);
 }
 
 static int					replace_i(void)

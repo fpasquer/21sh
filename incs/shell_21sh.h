@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/03 15:04:12 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/05 20:56:54 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,12 @@ int							builtin_echo(t_cmd *cmd);
 **	loop_shell.c
 */
 void						loop_shell(void);
+
+/*
+**	print_prompt.c
+*/
 int							print_prompt(void);
+int							clean_and_put_prompt(void);
 
 /*
 **	term.c

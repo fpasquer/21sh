@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:30:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/03 17:58:00 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/05 22:01:27 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,13 @@ void						resize_win(int val)
 static void					retake_entree(int signum)
 {
 	if (signum == SIGINT)
-		;
+	{
+		put_cmd_term("do");
+		del_g_lines();
+		g_lines = ft_memalloc(sizeof(t_line));
+		g_curs = g_lines;
+		clean_and_put_prompt();
+	}
 }
 
 static void					suspend_and_continue(int signum)

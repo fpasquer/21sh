@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/22 22:07:59 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/05 20:31:05 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,6 @@ static void					put_line_entre(char *line)
 		sh->pos = 0;
 		del_g_lines();
 	}
-}
-
-static int					search_prompt(t_21sh *sh)
-{
-	ft_putstr_fd("search : ", STDOUT_FILENO);
-	sh->len_prompt = ft_strlen("search : ");
-	return (true);
-}
-
-int							print_prompt(void)
-{
-	char					promt[SIZE_PROMT + 5];
-	char					*ret;
-	t_21sh					*sh;
-
-	if ((ret = tgetstr("sc", NULL)) == NULL)
-		return (false);
-	tputs(ret, 0, my_out_put);
-	if (getcwd(promt, SIZE_PROMT) == NULL || (sh = get_21sh(NULL)) == NULL)
-		return (false);
-	if (g_curs && g_curs->h_srch == true)
-		return (search_prompt(sh));
-	if (ft_strcat(promt, " ?> ") == NULL)
-		return (false);
-	ft_putstr_fd(COLOR_POMT, STDOUT_FILENO);
-	ft_putstr_fd(promt, STDOUT_FILENO);
-	ft_putstr_fd(RESET_COLOR, STDOUT_FILENO);
-	sh->len_prompt = ft_strlen(promt);
-	return (true);
 }
 
 static int					at_save_history(char *line)
