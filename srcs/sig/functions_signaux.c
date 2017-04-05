@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:30:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/05 22:01:27 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/05 22:46:47 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void						resize_win(int val)
 
 static void					retake_entree(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT && g_curs && g_curs->h_srch != true)
 	{
 		put_cmd_term("do");
 		del_g_lines();
@@ -36,6 +36,8 @@ static void					retake_entree(int signum)
 
 static void					suspend_and_continue(int signum)
 {
+	if (signum == SIGQUIT)
+		;
 	if (signum == SIGCONT)
 		tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->term_param));
 }
@@ -56,4 +58,5 @@ void						sig_manager(void)
 	signal(SIGWINCH, resize_win);
 	signal(SIGINT, retake_entree);
 	signal(SIGCONT, suspend_and_continue);
+	signal(SIGQUIT, suspend_and_continue);
 }
