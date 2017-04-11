@@ -6,12 +6,13 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/10 19:24:18 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/11 03:27:02 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/shell_21sh.h"
 #include "../../incs/key.h"
+#include <signal.h>
 
 void				change_pipe(int pipefd[2], int save_fd, int choice)
 {
@@ -39,26 +40,20 @@ void				change_pipe(int pipefd[2], int save_fd, int choice)
 
 void				other_exe(t_cmd *cmd, char **env)
 {
-	pid_t			pid;
-	int				ret;
-
-	ret = 1;
 	if (builtin_or_not(cmd, 0, NULL, 0) == false)
 	{
-		if ((pid = fork()) != -1)
+		if ((cmd->pid = fork()) != -1)
 		{
-			if (pid == 0)
+			if (cmd->pid == 0)
 				ft_execve(cmd, env, NULL);
+			waitpid(cmd->pid, &cmd->status, WUNTRACED);
 		}
-		waitpid(pid, &ret, WUNTRACED);
-		if (WIFEXITED(ret))
-			cmd->done = WEXITSTATUS(ret);
+		cmd->done = WIFEXITED(cmd->status) ? WEXITSTATUS(cmd->status) : 130;
 	}
 }
 
-static void			ft_pipe(t_cmd *cmd, char **env, int ret)
+static void			ft_pipe(t_cmd *cmd, char **env)
 {
-	pid_t			pid;
 	int				pipefd[2];
 	int				save_fd;
 
@@ -66,9 +61,9 @@ static void			ft_pipe(t_cmd *cmd, char **env, int ret)
 	pipe(pipefd);
 	if (builtin_or_not(cmd, 0, pipefd, save_fd) == false)
 	{
-		if ((pid = fork()) != -1)
+		if ((cmd->pid = fork()) != -1)
 		{
-			if (pid == 0)
+			if (cmd->pid == 0)
 			{
 				change_pipe(pipefd, 0, 1);
 				ft_execve(cmd, env, NULL);
@@ -78,10 +73,12 @@ static void			ft_pipe(t_cmd *cmd, char **env, int ret)
 				change_pipe(pipefd, 0, 2);
 				exe_binaire(cmd->right);
 				change_pipe(pipefd, save_fd, 3);
+				waitpid(cmd->right->pid, &cmd->right->status, WUNTRACED);
+				kill(cmd->pid, 2);
 			}
-			waitpid(pid, &ret, WUNTRACED | WNOHANG);
+			waitpid(cmd->pid, &cmd->status, WUNTRACED);
 		}
-		cmd->done = WIFEXITED(ret) ? WEXITSTATUS(ret) : 0;
+		cmd->done = WIFEXITED(cmd->status) ? WEXITSTATUS(cmd->status) : 130;
 	}
 }
 
@@ -91,7 +88,7 @@ void				exe_binaire(t_cmd *cmd)
 
 	env = l_l_to_arr_env();
 	if (cmd->op == PIP && cmd->right)
-		ft_pipe(cmd, env, 1);
+		ft_pipe(cmd, env);
 	else
 		other_exe(cmd, env);
 	delete_env_array(env);

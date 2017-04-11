@@ -6,12 +6,14 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/18 22:02:34 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/11 00:24:13 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
+
+# include <unistd.h>
 
 /*
 **	numero operateur :
@@ -38,6 +40,8 @@
 
 typedef struct			s_cmd
 {
+	pid_t				pid;
+	int					status;
 	int					cmd;
 	int					op;
 	int					fd;
