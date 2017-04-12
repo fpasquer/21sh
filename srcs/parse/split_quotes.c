@@ -6,17 +6,17 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:37:23 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/04 16:54:34 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/12 14:55:58 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/shell_21sh.h"
 #include "../../incs/key.h"
 
-#define CHAR_SPACE 	32
-#define CHAR_W_QUOTE 	34
-#define CHAR_S_QUOTE 	39
-#define CHAR_HT		9
+#define C_S 	32
+#define C_W_Q 	34
+#define C_S_Q 	39
+#define C_HT		9
 
 /*
 **	fonction qui renvoit un tableau de
@@ -38,7 +38,7 @@ static char			*ft_strsub_bis(char *str, int index, int end, int nb_ht)
 	new_str = ft_strnew(end - index - nb_ht);
 	while (i < end)
 	{
-		if (str[i] != CHAR_HT)
+		if (str[i] != C_HT)
 		{
 			new_str[count] = str[i];
 			count++;
@@ -48,35 +48,33 @@ static char			*ft_strsub_bis(char *str, int index, int end, int nb_ht)
 	return (new_str);
 }
 
-static char			*parse_string(char *str, int *index, char delimiter, int nb)
+static char			*parse_string(char *s, int *i, char d, int nb)
 {
 	int				start_index;
 
-	if (str[*index] != CHAR_S_QUOTE && str[*index] != CHAR_W_QUOTE)
-		delimiter = CHAR_SPACE;
+	if (s[*i] != C_S_Q && s[*i] != C_W_Q)
+		d = C_S;
 	else
-		(*index)++;
-	start_index = (*index);
-	while (str[*index] && str[*index] != delimiter)
+		(*i)++;
+	start_index = (*i);
+	while (s[*i] && s[*i] != d)
 	{
-		if ((str[*index] == CHAR_S_QUOTE ||
-				str[*index] == CHAR_W_QUOTE) && delimiter == CHAR_SPACE)
+		if ((s[*i] == C_S_Q || s[*i] == C_W_Q) && d == C_S)
 		{
-			delimiter = str[*index];
-			str[*index] = CHAR_HT;
+			d = s[*i];
+			s[*i] = C_HT;
 			nb++;
 		}
-		(*index)++;
-		if ((str[*index] == CHAR_S_QUOTE && delimiter == CHAR_S_QUOTE) ||
-				(str[*index] == CHAR_W_QUOTE && delimiter == CHAR_W_QUOTE))
+		(*i)++;
+		if ((s[*i] == C_S_Q && d == C_S_Q) || (s[*i] == C_W_Q && d == C_W_Q))
 		{
-			str[*index] = CHAR_HT;
-			delimiter = CHAR_SPACE;
-			(*index)++;
+			s[*i] = C_HT;
+			d = C_S;
+			(*i)++;
 			nb++;
 		}
 	}
-	return (ft_strsub_bis(str, start_index, *index, nb));
+	return (ft_strsub_bis(s, start_index, *i, nb));
 }
 
 char				**split_quotes(char *str)
@@ -96,7 +94,7 @@ char				**split_quotes(char *str)
 	tmp_str = ft_strdup(str);
 	while (i < len)
 	{
-		if (tmp_str[i] != CHAR_SPACE)
+		if (tmp_str[i] != C_S)
 		{
 			new_str = parse_string(tmp_str, &i, str[i], 0);
 			list = ft_add_to_array(new_str, list);

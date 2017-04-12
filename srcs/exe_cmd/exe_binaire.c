@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/11 03:27:02 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/12 17:10:06 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ void				other_exe(t_cmd *cmd, char **env)
 	}
 }
 
-static void			ft_pipe(t_cmd *cmd, char **env)
+static void			ft_pipe(t_cmd *cmd, char **env, int save_fd)
 {
 	int				pipefd[2];
-	int				save_fd;
 
 	save_fd = dup(STDIN_FILENO);
 	pipe(pipefd);
@@ -88,7 +87,7 @@ void				exe_binaire(t_cmd *cmd)
 
 	env = l_l_to_arr_env();
 	if (cmd->op == PIP && cmd->right)
-		ft_pipe(cmd, env);
+		ft_pipe(cmd, env, 0);
 	else
 		other_exe(cmd, env);
 	delete_env_array(env);
