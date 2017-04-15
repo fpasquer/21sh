@@ -6,12 +6,13 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/08 18:04:31 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/13 17:28:21 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/shell_21sh.h"
 #include "../../incs/key.h"
+#include <signal.h>
 
 t_builtin_lst g_builtin_lst[] = {
 	{"cd", cd},

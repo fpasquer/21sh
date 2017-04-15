@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/11 03:15:27 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/13 15:18:58 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,11 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
+		fprintf(debug, "\n\nexe la cmd %s\n\n", cmd->arg[0]);
 		exe_binaire(cmd);
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0
 				&& cmd->right->done != -1)
-				|| (cmd->right && cmd->op == ET && cmd->done != 0)
+				|| (cmd->right && cmd->op == ET && cmd->done >= 0)
 				|| (cmd->right && cmd->op == OU && cmd->done == 0))
 		{
 			ft_putendl_fd("SKIP_CMD", 2);

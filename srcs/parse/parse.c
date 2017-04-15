@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/11 03:12:59 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/13 14:24:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ void					free_cmd(t_cmd *cmd)
 			ft_memdel((void**)&(cmd->arg[i]));
 			ft_memdel((void**)&(cmd->arg));
 		}
+		if (cmd->env)
+			del_list_env(&(cmd->env));
 		ft_memdel((void**)&cmd);
 	}
 }

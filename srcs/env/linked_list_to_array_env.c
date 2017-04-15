@@ -6,14 +6,14 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:08:27 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/29 17:11:56 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/13 14:59:49 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
 
-char				**l_l_to_arr_env(void)
+char				**l_l_to_arr_env(t_env *cmd_env, int env_i)
 {
 	t_21sh			*sh;
 	t_env			*env;
@@ -23,7 +23,10 @@ char				**l_l_to_arr_env(void)
 	i = 0;
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (NULL);
-	env = sh->env;
+	if (env_i == 1)
+		env = NULL;
+	else
+		env = cmd_env ? cmd_env : sh->env;
 	if ((new_env = ft_memalloc(sizeof(char*) * (sh->nb_var_env + 1))) == NULL)
 		return (NULL);
 	while (env)

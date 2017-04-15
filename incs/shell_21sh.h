@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/05 20:56:54 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/13 14:59:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,7 +355,7 @@ int							check_if_env_exist(char *name, t_env *sub_env);
 /*
 **	Permet de recuperer l'environnement en array.
 */
-char						**l_l_to_arr_env();
+char						**l_l_to_arr_env(t_env *cmd_env, int env_i);
 void						ft_print_env_array(char **env);
 int							delete_env_array(char **env);
 
