@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/19 00:07:07 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/19 07:36:25 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static void			ft_pipe(t_cmd *cmd, char **env, int save_fd)
 	int				pipefd[2];
 
 	save_fd = dup(STDIN_FILENO);
-	if (builtin_pipe(cmd, 0, save_fd) == false)
+	pipe(pipefd);
+	if (builtin_pipe(cmd, 0, pipefd, save_fd) == false)
 	{
-		pipe(pipefd);
 		if ((cmd->pid = fork()) != -1)
 		{
 			if (cmd->pid == 0)

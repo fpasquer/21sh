@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/17 18:11:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/19 07:35:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,8 @@ typedef struct				s_builtin_lst
 	int						(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
-int							builtin_pipe(t_cmd *content, int i, int s_fd);
+int							builtin_pipe(t_cmd *content, int i, int pipfd[2],
+			int s_fd);
 int							builtin_or_not(t_cmd *content, int i);
 
 /*
