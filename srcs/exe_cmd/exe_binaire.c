@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/15 19:09:00 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/19 00:07:07 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void				change_pipe(int pipefd[2], int save_fd, int choice)
 
 void				other_exe(t_cmd *cmd, char **env)
 {
-	if (builtin_or_not(cmd, 0, NULL, 0) == false)
+	if (builtin_or_not(cmd, 0) == false)
 	{
 		if ((cmd->pid = fork()) != -1)
 		{
@@ -57,9 +57,9 @@ static void			ft_pipe(t_cmd *cmd, char **env, int save_fd)
 	int				pipefd[2];
 
 	save_fd = dup(STDIN_FILENO);
-	pipe(pipefd);
-	if (builtin_or_not(cmd, 0, pipefd, save_fd) == false)
+	if (builtin_pipe(cmd, 0, save_fd) == false)
 	{
+		pipe(pipefd);
 		if ((cmd->pid = fork()) != -1)
 		{
 			if (cmd->pid == 0)
