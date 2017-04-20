@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/19 07:35:53 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/19 23:11:25 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,8 @@ typedef struct				s_builtin_lst
 	int						(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
-int							builtin_pipe(t_cmd *content, int i, int pipfd[2],
-			int s_fd);
+int							builtin_pipe(t_cmd *content, int i, int s_in,
+				int s_out);
 int							builtin_or_not(t_cmd *content, int i);
 
 /*
@@ -366,10 +366,16 @@ int							delete_env_array(char **env);
 char						**split_quotes(char *str);
 
 /*
+**	fd_manager.c
+*/
+void						change_pipe(int pipfd[2], int save_fd, int choice);
+void						save_fd(int *s_in, int *s_out);
+void						reset_fd(int s_in, int s_out);
+
+/*
 **	exe_binaire.c
 **	Fonction execute les binaires
 */
-void						change_pipe(int pipfd[2], int save_fd, int choice);
 void						other_exe(t_cmd *cmd, char **env);
 void						exe_binaire(t_cmd *cmd);
 
