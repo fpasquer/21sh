@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/20 06:37:34 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/20 06:55:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,10 @@ int				builtin_or_not(t_cmd *content, int i)
 		{
 			if (ft_strequ(content->arg[0], g_builtin_lst[i].str))
 			{
-				save_in = dup(STDIN_FILENO);
-				save_out = dup(STDOUT_FILENO);
+				save_fd(&save_in, &save_out);
 				redirecting(content->left, content->cmd, content->tgt_fd, 0);
 				content->done = g_builtin_lst[i].p(content) == true ? 0 : 1;
-				dup2(save_in, STDIN_FILENO);
-				dup2(save_out, STDOUT_FILENO);
+				reset_fd(save_in, save_out);
 				return (true);
 			}
 			i++;
