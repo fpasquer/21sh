@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/17 17:30:50 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/22 20:36:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,25 @@ static int					at_save_history(char *line)
 	return (ret);
 }
 
-static void					loop_cmd(t_cmd *cmd, t_cmd *head)
+static void					loop_cmd(t_cmd *cmd, t_cmd *head, t_21sh *sh)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
 		fprintf(debug, "\n\nexe la cmd %s\n\n", cmd->arg[0]);
 		exe_binaire(cmd);
+		sh->last_exe = cmd->done;
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0
 				&& cmd->right->done != -1)
-				|| (cmd->right && cmd->op == ET && cmd->done >= 0)
-				|| (cmd->right && cmd->op == OU && cmd->done == 0))
+				|| (cmd->right && cmd->op == ET && sh->last_exe > 0)
+				|| (cmd->right && cmd->op == OU && sh->last_exe == 0))
 		{
 			ft_putendl_fd("SKIP_CMD", 2);
 			ft_putstr_fd("cmd->", 2);
 			ft_putstr_fd(cmd->arg[0], 2);
 			ft_putstr_fd("== ", 2);
 			ft_putnbr_fd(cmd->done, 2);
+			ft_putstr_fd("   last_exe == ", 2);
+			ft_putnbr_fd(sh->last_exe, 2);
 			ft_putstr_fd("\nlen == ", 2);
 			ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
 			ft_putchar_fd('\n', 2);
@@ -110,6 +113,8 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head)
 		ft_putstr_fd(cmd->arg[0], 2);
 		ft_putstr_fd("== ", 2);
 		ft_putnbr_fd(cmd->done, 2);
+		ft_putstr_fd("   last_exe == ", 2);
+		ft_putnbr_fd(sh->last_exe, 2);
 		ft_putstr_fd("\nlen == ", 2);
 		ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
 		ft_putchar_fd('\n', 2);
@@ -138,7 +143,7 @@ void						loop_shell(void)
 			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
 				break ;
 			if ((cmd = parse_cmd(line, NULL, 0)) != NULL)
-				loop_cmd(cmd, cmd);
+				loop_cmd(cmd, cmd, sh);
 			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
 				break ;
 			ft_memdel((void**)&line);

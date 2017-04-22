@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/19 23:11:25 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/22 20:10:15 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,24 @@ FILE *debug;
 # define COLOR_LINE "\033[034;1;4m"
 # define SELECTED_COLOR "\033[0;7m"
 # define SPACE_CHAR 32
+
+# define NONE 0
+# define CLEAR 1
+# define APPEND 2
+# define NAPPEND 4
+# define DELETE 8
+
+# define FUNC_NONE 0
+# define FUNC_CLEAR 1
+# define FUNC_APPEND 2
+# define FUNC_NAPPEND 3
+# define FUNC_DELETE 4
+
+# define WRONG_BUILTIN 1
+# define ERROR_INCONNU 2
+# define ERROR_PARAM 3
+# define ERROR_OFFSET 4
+# define WRONG_OFFSET 5
 
 typedef struct stat			t_stat;
 
@@ -144,6 +162,7 @@ typedef struct				s_21sh
 	char					*path;
 	char					**tab_path;
 	char					*cpy_tmp;
+	int						last_exe;
 	int						sh_lvl;
 	int						pos;
 	int						pos_prev;
@@ -336,7 +355,41 @@ int							cd(t_cmd *cmd);
 int							builtin_setenv(t_cmd *cmd);
 int							builtin_unsetenv(t_cmd *content);
 int							builtin_exit(t_cmd *cmd);
+
+typedef struct				s_hist
+{
+	char					*line;
+	int						flags;
+	int						offset;
+	int						i;
+	int						type_error;
+}							t_hist;
+
+/*
+**	builtin_history.c
+*/
 int							builtin_history(t_cmd *cmd);
+
+/*
+**	options_history.c
+*/
+int							option_none(t_hist hist);
+int							option_clear(t_hist hist);
+int							option_append(t_hist hist);
+int							option_delete(t_hist hist);
+
+/*
+**	options_history2.c
+*/
+typedef struct				s_options_hist
+{
+	int						i;
+	int						(*f)(t_hist);
+}							t_options_hist;
+
+t_hist						msg_err(t_hist *hist, int val, t_hist *ret);
+int							option_nappend(t_hist hist);
+int							exe_hist(t_hist hist);
 
 /*
 **	Renvoi la valeur de l'environnement.
