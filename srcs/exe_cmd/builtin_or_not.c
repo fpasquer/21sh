@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/20 06:55:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/26 00:19:25 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,20 @@ static void		builtin_pipe_manager(int s_in, int s_out, t_cmd *c)
 
 int				builtin_pipe(t_cmd *content, int i, int s_in, int s_out)
 {
+	int			pipefd[2];
+
 	if (content->arg && len_y(content->arg) > 0)
 	{
 		while (g_builtin_lst[i].str)
 		{
 			if (ft_strequ(content->arg[0], g_builtin_lst[i].str))
 			{
+				pipe(pipefd);
+				dup2(pipefd[1], STDOUT_FILENO);
 				redirecting(content->left, content->cmd, content->tgt_fd, 0);
 				content->done = g_builtin_lst[i].p(content) == true ? 0 : 1;
+				dup2(s_out, STDOUT_FILENO);
+				change_pipe(pipefd, 0, 2);
 				builtin_pipe_manager(s_in, s_out, content);
 				return (true);
 			}
