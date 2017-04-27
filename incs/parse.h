@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/12 18:13:41 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/27 13:59:41 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ t_cmd					*exit_parse(t_cmd *cmd, char *str);
 
 void					scop(char *line, int *i, int *size);
 void					tacke_more_arg(t_cmd *cmd, t_cmd *red);
+int						tk_fd(char *line, int size);
 
 #endif

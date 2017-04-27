@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 04:49:01 by fcapocci          #+#    #+#             */
-/*   Updated: 2016/12/23 22:01:54 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/04/27 14:24:57 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,17 @@ void				tacke_more_arg(t_cmd *cmd, t_cmd *red)
 	if (((new_arg[i] = NULL) == NULL) && cmd->arg)
 		ft_free_strsplit(cmd->arg);
 	cmd->arg = new_arg;
+}
+
+int					tk_fd(char *line, int size)
+{
+	int				ret;
+
+	ret = 0;
+	if (line[size - 1] && ft_isdigit(line[size - 1]) && line[size - 2]
+			&& line[size - 2] == ' ')
+		ret = 1;
+	else if (line[size - 1] && ft_isdigit(line[size - 1]) && !line[size - 2])
+		ret = 1;
+	return (ret);
 }
