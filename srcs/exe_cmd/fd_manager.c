@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:50:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/20 06:37:56 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/02 17:47:36 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,19 @@ void				change_pipe(int pipefd[2], int s_in, int choice)
 	}
 }
 
-void				save_fd(int *s_in, int *s_out)
+void				save_fd(int std[3])
 {
-	*s_in = dup(STDIN_FILENO);
-	*s_out = dup(STDOUT_FILENO);
+	std[0] = dup(STDIN_FILENO);
+	std[1] = dup(STDOUT_FILENO);
+	std[2] = dup(STDERR_FILENO);
 }
 
-void				reset_fd(int s_in, int s_out)
+void				reset_fd(int std[3])
 {
-	dup2(s_in, STDIN_FILENO);
-	dup2(s_out, STDOUT_FILENO);
-	close(s_in);
-	close(s_out);
+	dup2(std[0], STDIN_FILENO);
+	dup2(std[1], STDOUT_FILENO);
+	dup2(std[2], STDERR_FILENO);
+	close(std[0]);
+	close(std[1]);
+	close(std[2]);
 }

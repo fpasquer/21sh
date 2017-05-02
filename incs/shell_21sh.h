@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/22 20:10:15 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/02 17:47:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,7 @@ typedef struct				s_builtin_lst
 	int						(*p)(t_cmd *stin);
 }							t_builtin_lst;
 
-int							builtin_pipe(t_cmd *content, int i, int s_in,
-				int s_out);
+int							builtin_pipe(t_cmd *content, int i, int std[3]);
 int							builtin_or_not(t_cmd *content, int i);
 
 /*
@@ -422,8 +421,8 @@ char						**split_quotes(char *str);
 **	fd_manager.c
 */
 void						change_pipe(int pipfd[2], int save_fd, int choice);
-void						save_fd(int *s_in, int *s_out);
-void						reset_fd(int s_in, int s_out);
+void						save_fd(int std[3]);
+void						reset_fd(int std[3]);
 
 /*
 **	exe_binaire.c

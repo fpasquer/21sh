@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/26 00:19:25 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/02 17:48:55 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_builtin_lst g_builtin_lst[] = {
 	{NULL, NULL},
 };
 
-static void		builtin_pipe_manager(int s_in, int s_out, t_cmd *c)
+static void		builtin_pipe_manager(int std[3], t_cmd *c)
 {
 	exe_binaire(c->right);
-	reset_fd(s_in, s_out);
+	reset_fd(std);
 }
 
-int				builtin_pipe(t_cmd *content, int i, int s_in, int s_out)
+int				builtin_pipe(t_cmd *content, int i, int std[3])
 {
 	int			pipefd[2];
 
@@ -44,9 +44,9 @@ int				builtin_pipe(t_cmd *content, int i, int s_in, int s_out)
 				dup2(pipefd[1], STDOUT_FILENO);
 				redirecting(content->left, content->cmd, content->tgt_fd, 0);
 				content->done = g_builtin_lst[i].p(content) == true ? 0 : 1;
-				dup2(s_out, STDOUT_FILENO);
+				dup2(std[1], STDOUT_FILENO);
 				change_pipe(pipefd, 0, 2);
-				builtin_pipe_manager(s_in, s_out, content);
+				builtin_pipe_manager(std, content);
 				return (true);
 			}
 			i++;
@@ -57,8 +57,7 @@ int				builtin_pipe(t_cmd *content, int i, int s_in, int s_out)
 
 int				builtin_or_not(t_cmd *content, int i)
 {
-	int			save_in;
-	int			save_out;
+	int			std[3];
 
 	if (content->arg && len_y(content->arg) > 0)
 	{
@@ -66,10 +65,10 @@ int				builtin_or_not(t_cmd *content, int i)
 		{
 			if (ft_strequ(content->arg[0], g_builtin_lst[i].str))
 			{
-				save_fd(&save_in, &save_out);
+				save_fd(std);
 				redirecting(content->left, content->cmd, content->tgt_fd, 0);
 				content->done = g_builtin_lst[i].p(content) == true ? 0 : 1;
-				reset_fd(save_in, save_out);
+				reset_fd(std);
 				return (true);
 			}
 			i++;

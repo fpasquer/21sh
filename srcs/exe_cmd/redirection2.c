@@ -6,12 +6,19 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/19 08:10:47 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/02 15:24:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/key.h"
 #include "../../incs/shell_21sh.h"
+
+static void			msg_error(char *str)
+{
+	ft_putstr_fd("error :", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putendl_fd(": permission denied", STDERR_FILENO);
+}
 
 void				read_funct(t_cmd *redirect, int tgt_fd)
 {
@@ -20,11 +27,7 @@ void				read_funct(t_cmd *redirect, int tgt_fd)
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "r")) >= 0)
 			dup2(redirect->fd, tgt_fd);
 		else
-		{
-			ft_putstr_fd("error :", STDERR_FILENO);
-			ft_putstr_fd(redirect->arg[0], STDERR_FILENO);
-			ft_putendl_fd(": permission denied", STDERR_FILENO);
-		}
+			msg_error(redirect->arg[0]);
 	}
 }
 
@@ -40,19 +43,27 @@ void				d_read_funct(t_cmd *redirect, int tgt_fd)
 
 void				write_funct(t_cmd *redirect, int tgt_fd)
 {
-	if (redirect->arg && redirect->arg[0])
+	char			*ptr;
+
+	ptr = redirect->arg ? redirect->arg[0] : NULL;
+	if (ptr && ptr[0] == '&')
+		ptr++;
+	if (ptr)
 	{
-		if ((redirect->fd = ft_fopen(redirect->arg[0], "w+")) >= 0)
+		if (ptr[0] == '-' && (ptr[1] == '\0' || ptr[1] == ' '))
+			close(tgt_fd);
+		else if (ft_isdigit(ptr[0]) && (ptr[1] == '\0' || ptr[1] == ' '))
+		{
+			dup2(redirect->fd, tgt_fd);
+			close(redirect->fd);
+		}
+		else if ((redirect->fd = ft_fopen(ptr, "w+")) >= 0)
 		{
 			dup2(redirect->fd, tgt_fd);
 			close(redirect->fd);
 		}
 		else
-		{
-			ft_putstr_fd("error :", STDERR_FILENO);
-			ft_putstr_fd(redirect->arg[0], STDERR_FILENO);
-			ft_putendl_fd(": permission denied", STDERR_FILENO);
-		}
+			msg_error(ptr);
 	}
 }
 
@@ -66,10 +77,6 @@ void				d_write_funct(t_cmd *redirect, int tgt_fd)
 			close(redirect->fd);
 		}
 		else
-		{
-			ft_putstr_fd("error :", STDERR_FILENO);
-			ft_putstr_fd(redirect->arg[0], STDERR_FILENO);
-			ft_putendl_fd(": permission denied", STDERR_FILENO);
-		}
+			msg_error(redirect->arg[0]);
 	}
 }

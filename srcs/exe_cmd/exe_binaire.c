@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/27 14:27:03 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/02 17:48:48 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ void				other_exe(t_cmd *cmd, char **env)
 	}
 }
 
-static void			ft_pipe(t_cmd *cmd, char **env, int save_in, int save_out)
+static void			ft_pipe(t_cmd *cmd, char **env)
 {
 	int				pipefd[2];
+	int				std[3];
 
-	save_fd(&save_in, &save_out);
-	if (builtin_pipe(cmd, 0, save_in, save_out) == false)
+	save_fd(std);
+	if (builtin_pipe(cmd, 0, std) == false)
 	{
 		pipe(pipefd);
 		if ((cmd->pid = fork()) != -1)
@@ -47,7 +48,7 @@ static void			ft_pipe(t_cmd *cmd, char **env, int save_in, int save_out)
 			{
 				change_pipe(pipefd, 0, 2);
 				exe_binaire(cmd->right);
-				change_pipe(pipefd, save_in, 3);
+				change_pipe(pipefd, std[0], 3);
 				waitpid(cmd->right->pid, &cmd->right->status, WUNTRACED);
 				kill(cmd->pid, 2);
 			}
@@ -69,7 +70,7 @@ void				exe_binaire(t_cmd *cmd)
 		while (env[i])
 			fprintf(debug, "%s\n", env[i++]);
 		if (cmd->op == PIP && cmd->right)
-			ft_pipe(cmd, env, 0, 0);
+			ft_pipe(cmd, env);
 		else
 			other_exe(cmd, env);
 		delete_env_array(env);
