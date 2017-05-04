@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/02 17:48:48 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:39:18 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,21 @@ static void			ft_pipe(t_cmd *cmd, char **env)
 void				exe_binaire(t_cmd *cmd)
 {
 	char			**env;
+	t_21sh			*sh;
 
 	if (cmd && cmd->done == -1)
 	{
 		env = l_l_to_arr_env(cmd->env, cmd->env_i);
-		fprintf(debug, "\nCMD NAME =============>> %s\n\n", cmd->arg[0]);
-		int i = 0;
-		while (env[i])
-			fprintf(debug, "%s\n", env[i++]);
+	//	fprintf(debug, "\nCMD NAME =============>> %s\n\n", cmd->arg[0]);
+	//	int i = 0;
+	//	while (env[i])
+	//		fprintf(debug, "%s\n", env[i++]);
 		if (cmd->op == PIP && cmd->right)
 			ft_pipe(cmd, env);
 		else
 			other_exe(cmd, env);
 		delete_env_array(env);
+		if ((sh = get_21sh(NULL)) != NULL)
+			sh->last_exe = cmd->done;
 	}
 }

@@ -6,12 +6,14 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/02 14:55:47 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:25:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 #include "../incs/key.h"
+
+#define SOUT STDOUT_FILENO
 
 static int				check_and_parse2(char *line, int i)
 {
@@ -37,35 +39,35 @@ static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
 	cmd->op = 0;
 	cmd->done = -2;
 	cmd->line = ft_strsub(line, i - size, tk_fd(line, size) ? size - 1 : size);
-	cmd->tgt_fd = cmd->cmd == 2 ? STDIN_FILENO : tk_fd(line, size);
+	cmd->tgt_fd = cmd->cmd > 3 && !tk_fd(line, size) ? SOUT : tk_fd(line, size);
 	cmd->arg = split_quotes(cmd->line);
 	ft_memdel((void**)&(cmd->line));
 }
 
-static t_cmd			*creat_cmd2(t_cmd *cmd2, char *line, int siz, int i)
+static t_cmd			*creat_cmd2(t_cmd *c2, char *line, int siz, int i)
 {
 	t_cmd				*cmd;
 	t_cmd				*head;
 
-	head = cmd2;
-	if (!ft_strcmp(line, cmd2->line))
+	head = c2;
+	if (!ft_strcmp(line, c2->line))
 	{
-		cmd2->cmd = check_and_parse2(line, i);
-		ft_memdel((void**)&(cmd2->line));
-		cmd2->line = ft_strsub(line, i - siz, tk_fd(line, siz) ? siz - 1 : siz);
-		fprintf(debug, "CMD->LINE == %s\n", cmd2->line);
-		cmd2->arg = split_quotes(cmd2->line);
-		cmd2->done = -1;
-		cmd2->tgt_fd = cmd2->cmd == 2 ? STDIN_FILENO : tk_fd(line, siz);
-		fprintf(debug, "CMD->TGT_FD == %d\n", cmd2->tgt_fd);
+		c2->cmd = check_and_parse2(line, i);
+		ft_memdel((void**)&(c2->line));
+		c2->line = ft_strsub(line, i - siz, tk_fd(line, siz) ? siz - 1 : siz);
+	//	fprintf(debug, "CMD->LINE == %s\n", c2->line);
+		c2->arg = split_quotes(c2->line);
+		c2->done = -1;
+	//	c2->tgt_fd = c2->cmd > 3 && !tk_fd(line, siz) ? SOUT : tk_fd(line, siz);
+	//	fprintf(debug, "CMD->TGT_FD == %d\n", c2->tgt_fd);
 	}
 	else
 	{
 		if ((cmd = ft_memalloc(sizeof(t_cmd))) == NULL)
 			return (exit_parse(head, "error to allocate memory"));
-		while (cmd2->left)
-			cmd2 = cmd2->left;
-		cmd2->left = cmd;
+		while (c2->left)
+			c2 = c2->left;
+		c2->left = cmd;
 		creat_cmd3(cmd, line, siz, i);
 		if (cmd->arg && cmd->arg[1])
 			tacke_more_arg(head, cmd);

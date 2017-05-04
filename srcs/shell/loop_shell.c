@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/22 20:36:44 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:41:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int					print_header(void)
 	ft_putnbr(sh->win.ws_col);
 	ft_putstr("\n\n");
 	return (true);
-}*/
+}
 
 static void					put_line_entre(char *line)
 {
@@ -69,7 +69,7 @@ static void					put_line_entre(char *line)
 		sh->pos = 0;
 		del_g_lines();
 	}
-}
+}*/
 
 static int					at_save_history(char *line)
 {
@@ -89,9 +89,8 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head, t_21sh *sh)
 {
 	while (cmd && cmd->arg && cmd->arg[0] != NULL)
 	{
-		fprintf(debug, "\n\nexe la cmd %s\n\n", cmd->arg[0]);
+	//	fprintf(debug, "\n\nexe la cmd %s\n\n", cmd->arg[0]);
 		exe_binaire(cmd);
-		sh->last_exe = cmd->done;
 		while ((cmd->right && cmd->op == PIP && cmd->done >= 0
 				&& cmd->right->done != -1)
 				|| (cmd->right && cmd->op == ET && sh->last_exe > 0)
@@ -139,7 +138,7 @@ void						loop_shell(void)
 			if (at_save_history(line) == true)
 				if (add_history(&sh->hist, line) == ERROR)
 					break ;
-			put_line_entre(line);
+	//		put_line_entre(line);
 			if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
 				break ;
 			if ((cmd = parse_cmd(line, NULL, 0)) != NULL)
