@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/02 17:48:55 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/05 14:30:13 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int				builtin_pipe(t_cmd *content, int i, int std[3])
 				redirecting(content->left, content->cmd, content->tgt_fd, 0);
 				content->done = g_builtin_lst[i].p(content) == true ? 0 : 1;
 				dup2(std[1], STDOUT_FILENO);
+				dup2(std[2], STDERR_FILENO);
 				change_pipe(pipefd, 0, 2);
 				builtin_pipe_manager(std, content);
 				return (true);

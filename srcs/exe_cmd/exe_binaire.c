@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/04 17:39:18 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/05 16:08:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,11 @@ void				exe_binaire(t_cmd *cmd)
 		if (cmd->op == PIP && cmd->right)
 			ft_pipe(cmd, env);
 		else
+		{
 			other_exe(cmd, env);
+			if ((sh = get_21sh(NULL)) != NULL)
+				sh->last_exe = cmd->done;
+		}
 		delete_env_array(env);
-		if ((sh = get_21sh(NULL)) != NULL)
-			sh->last_exe = cmd->done;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/04 17:25:31 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/05 17:08:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
 	cmd->cmd = check_and_parse2(line, i);
 	cmd->op = 0;
 	cmd->done = -2;
-	cmd->line = ft_strsub(line, i - size, tk_fd(line, size) ? size - 1 : size);
-	cmd->tgt_fd = cmd->cmd > 3 && !tk_fd(line, size) ? SOUT : tk_fd(line, size);
+	cmd->line = ft_strsub(line, i - size, tk_fd(line, i) ? size - 1 : size);
+//	fprintf(debug, "CMD->LINE == %s\n", cmd->line);
+	cmd->tgt_fd = cmd->cmd > 3 && !tk_fd(line, i) ? SOUT : tk_fd(line, i);
+//	fprintf(debug, "CMD->TGT_FD == %d\n", cmd->tgt_fd);
 	cmd->arg = split_quotes(cmd->line);
 	ft_memdel((void**)&(cmd->line));
 }
@@ -55,11 +57,11 @@ static t_cmd			*creat_cmd2(t_cmd *c2, char *line, int siz, int i)
 		c2->cmd = check_and_parse2(line, i);
 		ft_memdel((void**)&(c2->line));
 		c2->line = ft_strsub(line, i - siz, tk_fd(line, siz) ? siz - 1 : siz);
-	//	fprintf(debug, "CMD->LINE == %s\n", c2->line);
+//		fprintf(debug, "C2->LINE == %s\n", c2->line);
 		c2->arg = split_quotes(c2->line);
 		c2->done = -1;
-	//	c2->tgt_fd = c2->cmd > 3 && !tk_fd(line, siz) ? SOUT : tk_fd(line, siz);
-	//	fprintf(debug, "CMD->TGT_FD == %d\n", c2->tgt_fd);
+		c2->tgt_fd = c2->cmd > 3 && !tk_fd(line, siz) ? SOUT : tk_fd(line, siz);
+//		fprintf(debug, "C2->TGT_FD == %d\n", c2->tgt_fd);
 	}
 	else
 	{

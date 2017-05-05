@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/02 15:24:56 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/05 16:57:53 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void				write_funct(t_cmd *redirect, int tgt_fd)
 	ptr = redirect->arg ? redirect->arg[0] : NULL;
 	if (ptr && ptr[0] == '&')
 		ptr++;
-	if (ptr)
+	if (ptr[0])
 	{
 		if (ptr[0] == '-' && (ptr[1] == '\0' || ptr[1] == ' '))
 			close(tgt_fd);
