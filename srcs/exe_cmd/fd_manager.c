@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:50:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/02 17:47:36 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/08 23:53:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,10 @@ void				reset_fd(int std[3])
 	close(std[0]);
 	close(std[1]);
 	close(std[2]);
+}
+
+void				redirection_fd_manage(int redirect_fd, int tgt_fd)
+{
+	dup2(redirect_fd, tgt_fd);
+	close(redirect_fd);
 }

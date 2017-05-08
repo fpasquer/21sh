@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/05 16:57:53 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/09 00:04:25 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,18 @@ void				write_funct(t_cmd *redirect, int tgt_fd)
 {
 	char			*ptr;
 
-	ptr = redirect->arg ? redirect->arg[0] : NULL;
-	if (ptr && ptr[0] == '&')
-		ptr++;
-	if (ptr[0])
+	if ((ptr = redirect->arg ? redirect->arg[0] : NULL) != NULL)
 	{
-		if (ptr[0] == '-' && (ptr[1] == '\0' || ptr[1] == ' '))
-			close(tgt_fd);
-		else if (ft_isdigit(ptr[0]) && (ptr[1] == '\0' || ptr[1] == ' '))
+		if (ptr[0] && ptr[0] == '&')
 		{
-			dup2(redirect->fd, tgt_fd);
-			close(redirect->fd);
+			ptr++;
+			if (ptr[0] && ptr[0] == '-' && (ptr[1] == '\0' || ptr[1] == ' '))
+				close(tgt_fd);
+			else if (ptr[0] && ft_isdigit(ptr[0]) && (!ptr[1] || ptr[1] == ' '))
+				redirection_fd_manage(redirect->fd, tgt_fd);
 		}
-		else if ((redirect->fd = ft_fopen(ptr, "w+")) >= 0)
-		{
-			dup2(redirect->fd, tgt_fd);
-			close(redirect->fd);
-		}
+		if ((redirect->fd = ft_fopen(ptr, "w+")) >= 0)
+			redirection_fd_manage(redirect->fd, tgt_fd);
 		else
 			msg_error(ptr);
 	}
@@ -72,10 +67,7 @@ void				d_write_funct(t_cmd *redirect, int tgt_fd)
 	if (redirect->arg && redirect->arg[0])
 	{
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "a")) >= 0)
-		{
-			dup2(redirect->fd, tgt_fd);
-			close(redirect->fd);
-		}
+			redirection_fd_manage(redirect->fd, tgt_fd);
 		else
 			msg_error(redirect->arg[0]);
 	}

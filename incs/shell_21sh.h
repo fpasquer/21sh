@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/02 17:47:31 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/08 23:44:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,6 +423,7 @@ char						**split_quotes(char *str);
 void						change_pipe(int pipfd[2], int save_fd, int choice);
 void						save_fd(int std[3]);
 void						reset_fd(int std[3]);
+void						redirection_fd_manage(int redirect_fd, int tgt_fd);
 
 /*
 **	exe_binaire.c
