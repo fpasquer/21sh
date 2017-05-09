@@ -6,42 +6,46 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/09 00:04:25 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/09 16:06:47 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/key.h"
 #include "../../incs/shell_21sh.h"
 
-static void			msg_error(char *str)
+static int			msg_error(char *str)
 {
 	ft_putstr_fd("error :", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putendl_fd(": permission denied", STDERR_FILENO);
+	return (1);
 }
 
-void				read_funct(t_cmd *redirect, int tgt_fd)
+int					read_funct(t_cmd *redirect, int tgt_fd)
 {
 	if (redirect->arg && redirect->arg[0])
 	{
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "r")) >= 0)
 			dup2(redirect->fd, tgt_fd);
 		else
-			msg_error(redirect->arg[0]);
+			return (msg_error(redirect->arg[0]));
 	}
+	return (0);
 }
 
-void				d_read_funct(t_cmd *redirect, int tgt_fd)
+int					d_read_funct(t_cmd *redirect, int tgt_fd)
 {
-	if (redirect->arg && redirect->arg[0])
-	{
-		tgt_fd = STDIN_FILENO;
-	}
+	if (redirect->arg && redirect->arg[0] && tgt_fd == STDIN_FILENO)
+		return (heredoc(redirect->arg[0]));
 	else
+	{
 		ft_putendl_fd("syntax error unexpected token `newline'", STDERR_FILENO);
+		return (1);
+	}
+	return (0);
 }
 
-void				write_funct(t_cmd *redirect, int tgt_fd)
+int					write_funct(t_cmd *redirect, int tgt_fd)
 {
 	char			*ptr;
 
@@ -51,24 +55,26 @@ void				write_funct(t_cmd *redirect, int tgt_fd)
 		{
 			ptr++;
 			if (ptr[0] && ptr[0] == '-' && (ptr[1] == '\0' || ptr[1] == ' '))
-				close(tgt_fd);
+				return (close(tgt_fd));
 			else if (ptr[0] && ft_isdigit(ptr[0]) && (!ptr[1] || ptr[1] == ' '))
-				redirection_fd_manage(redirect->fd, tgt_fd);
+				return (redirection_fd_manage(ft_atoi(ptr), tgt_fd));
 		}
 		if ((redirect->fd = ft_fopen(ptr, "w+")) >= 0)
-			redirection_fd_manage(redirect->fd, tgt_fd);
+			return (redirection_fd_manage(redirect->fd, tgt_fd));
 		else
-			msg_error(ptr);
+			return (msg_error(ptr));
 	}
+	return (0);
 }
 
-void				d_write_funct(t_cmd *redirect, int tgt_fd)
+int					d_write_funct(t_cmd *redirect, int tgt_fd)
 {
 	if (redirect->arg && redirect->arg[0])
 	{
 		if ((redirect->fd = ft_fopen(redirect->arg[0], "a")) >= 0)
-			redirection_fd_manage(redirect->fd, tgt_fd);
+			return (redirection_fd_manage(redirect->fd, tgt_fd));
 		else
-			msg_error(redirect->arg[0]);
+			return (msg_error(redirect->arg[0]));
 	}
+	return (0);
 }

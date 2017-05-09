@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/05 16:08:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/09 15:52:12 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,6 @@ void				exe_binaire(t_cmd *cmd)
 	if (cmd && cmd->done == -1)
 	{
 		env = l_l_to_arr_env(cmd->env, cmd->env_i);
-	//	fprintf(debug, "\nCMD NAME =============>> %s\n\n", cmd->arg[0]);
-	//	int i = 0;
-	//	while (env[i])
-	//		fprintf(debug, "%s\n", env[i++]);
 		if (cmd->op == PIP && cmd->right)
 			ft_pipe(cmd, env);
 		else
