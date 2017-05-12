@@ -13,7 +13,7 @@
 NAME			= 21sh
 
 SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
-					sort_fonctions.c sort_list.c env.c builtin_env.c key.c		\
+					sort_fonctions.c sort_list.c env.c builtin_env.c			\
 					parse.c parse2.c setenv.c add_env_.c unsetenv.c  			\
 					builtin_history.c options_history.c options_history2.c		\
 					builtin_echo.c linked_list_to_array_env.c builtin_exit.c	\
@@ -29,7 +29,8 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					event_print_history.c										\
 					autocompletion.c autocompletion_bin.c autocompletion_path.c	\
 					init_history.c del_history.c search_history.c				\
-					make_tab.c get_char_keyboard.c prompt.c						\
+					get_line_entree.c make_tab.c get_char_keyboard.c prompt.c	\
+					place_curs.c put_cmd.c insert_in_g_lines.c					\
 
 INCLUDES		= shell_21sh.h key.h
 
