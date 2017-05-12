@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/10 19:29:24 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/11 19:46:58 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,24 @@ static char				get_char(void)
 	return (0);
 }
 
+
 int						heredoc(char *token)
 {
-	if (token != NULL)
-		return (0);
+	char				c;
+	char				*str;
+
+	str = NULL;
+	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL )
+		return (1);
+	g_curs = g_lines;
+	while (42)
+	{
+		c = get_char();
+		if (c == '\n')
+			str = make_tab();
+		if (str && ft_strequ(str, token))
+			break ;
+	}
+	del_g_lines();
 	return (0);
 }

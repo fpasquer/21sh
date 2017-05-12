@@ -6,7 +6,7 @@
 #    By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 22:05:26 by fcapocci          #+#    #+#              #
-#*   Updated: 2017/04/20 06:38:28 by fcapocci         ###   ########.fr       *#
+#*   Updated: 2017/05/11 19:29:18 by fcapocci         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					event_print_history.c										\
 					autocompletion.c autocompletion_bin.c autocompletion_path.c	\
 					init_history.c del_history.c search_history.c				\
-					get_char_keyboard.c prompt.c								\
+					make_tab.c get_char_keyboard.c prompt.c						\
 
 INCLUDES		= shell_21sh.h key.h
 
