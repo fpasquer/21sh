@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:56:58 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:56:59 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:52:49 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char		*ft_strjoin(const char *s1, const char *s2)
 		len += ft_strlen(s1);
 	if (s2 != NULL)
 		len += ft_strlen(s2);
-	if ((new_s = (char*)malloc(sizeof(*new_s) * len + 1)) == NULL)
+	if ((new_s = (char*)ft_memalloc(sizeof(*new_s) * len + 1)) == NULL)
 		return (NULL);
 	i = 0;
 	len = 0;

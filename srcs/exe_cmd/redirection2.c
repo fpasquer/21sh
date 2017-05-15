@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/09 16:06:47 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:48:42 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,18 @@ int					read_funct(t_cmd *redirect, int tgt_fd)
 
 int					d_read_funct(t_cmd *redirect, int tgt_fd)
 {
+	t_21sh			*sh;
+
+	if ((sh = get_21sh(NULL)) == NULL)
+		return (ERROR);
 	if (redirect->arg && redirect->arg[0] && tgt_fd == STDIN_FILENO)
-		return (heredoc(redirect->arg[0]));
+	{
+		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
+			return (ERROR);
+		heredoc(redirect->arg[0]);
+		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
+			return (ERROR);
+	}
 	else
 	{
 		ft_putendl_fd("syntax error unexpected token `newline'", STDERR_FILENO);
