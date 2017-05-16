@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:30:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/05 22:46:47 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/16 18:17:50 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void						resize_win(int val)
 
 static void					retake_entree(int signum)
 {
-	if (signum == SIGINT && g_curs && g_curs->h_srch != true)
+	if (signum == SIGINT && g_curs && g_lines->h_srch != true)
 	{
 		put_cmd_term("do");
 		del_g_lines();

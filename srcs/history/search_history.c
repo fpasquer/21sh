@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:31:09 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/03/22 23:19:54 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/16 18:32:30 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int					search_history(void)
 
 	place_curs();
 	put_cmd_term("cd");
-	g_curs->h_srch = true;
+	g_lines->h_srch = true;
 	print_prompt();
-	g_curs->h_srch = false;
+	g_lines->h_srch = false;
 	srch_line = get_line_entree(true);
 	put_cmd_term("up");
 	g_lines = ft_memalloc(sizeof(t_line));

@@ -6,13 +6,15 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 19:42:22 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/05 20:55:22 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/16 18:55:57 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/key.h"
 #include "../incs/shell_21sh.h"
 #include <term.h>
+
+#define GL_SRCH g_lines->h_srch == true
 
 static int					search_prompt(t_21sh *sh)
 {
@@ -32,7 +34,7 @@ int							print_prompt(void)
 	tputs(ret, 0, my_out_put);
 	if (getcwd(promt, SIZE_PROMT) == NULL || (sh = get_21sh(NULL)) == NULL)
 		return (false);
-	if (g_curs && g_curs->h_srch == true)
+	if (g_curs && GL_SRCH && (g_curs->line || g_curs == g_lines))
 		return (search_prompt(sh));
 	if (ft_strcat(promt, " ?> ") == NULL)
 		return (false);
