@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 21:31:27 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/30 21:36:55 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/17 15:30:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,8 @@ static int					get_path_begin(t_entry *c, char **path, char **bgin)
 		return (ERROR);
 	if ((addr = ft_strrchr(path_begin, '/')) == NULL)
 	{
-		*path = ft_strdup(path_begin);
-		*bgin = ft_strdup("");
+		*path = ft_strdup("./");
+		*bgin = ft_strdup(path_begin);
 	}
 	else
 	{

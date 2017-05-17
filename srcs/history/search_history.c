@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:31:09 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/16 18:32:30 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/17 15:04:46 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int			search_line_in_history(char *line)
 	res = NULL;
 	while (curs)
 	{
-		if (strstr(curs->line, line))
+		if (ft_strstr(curs->line, line))
 		{
 			res = curs->line;
 			break ;
@@ -49,7 +49,7 @@ int					search_history(void)
 	put_cmd_term("up");
 	g_lines = ft_memalloc(sizeof(t_line));
 	g_curs = g_lines;
-	if (srch_line == NULL || !strcmp(srch_line, ""))
+	if (srch_line == NULL || !ft_strcmp(srch_line, ""))
 		return (false);
 	ret = search_line_in_history(srch_line);
 	ft_memdel((void**)&srch_line);
