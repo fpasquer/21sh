@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 21:30:55 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/17 15:30:33 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/17 18:29:41 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,21 @@ static int					is_autocompletion_bin(t_entry *c)
 	nb_in_word = 0;
 	while (curs != NULL)
 	{
-		if (curs->c == ' ' && (curs->next == NULL || curs->next->c != ' '))
+		if (curs->c == ' ')
+		{
+			while (curs && curs->c == ' ')
+					curs = curs->prev;
+			if (!curs)
+				break ;
 			nb_in_word++;
-		if (curs->c == ';' || (curs->prev && ((curs->c == '&' &&
-			curs->prev->c == '&') || (curs->c == '|' && curs->prev->c == '|'))))
+		}
+		if (curs && (curs->c == ';' || (curs->prev && ((curs->c == '&' &&
+				curs->prev->c == '&') || (curs->c == '|')))))
 			break ;
-		curs = curs->prev;
+		curs = curs ? curs->prev : curs;
 	}
-	return (nb_in_word > 1 ? false : true);
+	return ((curs && nb_in_word > 1) ||
+			(!curs && nb_in_word >= 1) ? false : true);
 }
 
 int							del_car_begin_in_g_line(size_t len)
