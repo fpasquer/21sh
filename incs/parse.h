@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/27 13:59:41 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 11:30:09 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 # define PIP 3
 # define OU 4
 
-# define DROITE 2
-# define D_DROITE 3
-# define GAUCHE 4
-# define D_GAUCHE 5
+# define GAUCHE 2
+# define D_GAUCHE 3
+# define DROITE 4
+# define D_DROITE 5
 
 typedef struct			s_cmd
 {
