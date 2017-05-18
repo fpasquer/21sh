@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:28:52 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 00:46:39 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 18:15:06 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ int							put_cmd(void)
 			ft_putstr_fd(buff, STDOUT_FILENO);
 		}
 		if ((curs = curs->next) != NULL)
+		{
+			ft_putchar_fd('@', STDOUT_FILENO);
 			ft_putchar_fd('\n', STDOUT_FILENO);
+		}
 	}
 	return (replace_i());
 }

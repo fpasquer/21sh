@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 11:48:23 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 18:39:04 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../incs/key.h"
 
 #define KEY_IGNORE -2
-#define PRINT_MAX 500
+#define PRINT_MAX 1027
 
 static int				join_tab(char **buff, char *str)
 {
@@ -40,36 +40,38 @@ static int				heredoc(char *token, char **buff)
 
 	ft_bzero(str, sizeof(str));
 	i = 0;
-	fprintf(debug, "pass  ICI\n");
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL )
 		return (1);
 	g_curs = g_lines;
+	g_curs->h_srch = true;
 	g_curs->hdc = true;
-	print_prompt();
+	get_21sh(NULL)->len_prompt = 0;
 	while (42)
 	{
 		c = get_char_keyboard();
+		place_curs();
 		if (c != KEY_IGNORE && ft_isascii(c))
-		{
 			if (add_c_to_line(c, &g_curs) == ERROR)
 				break ;
-			if (c == '\n' && ft_strequ(str, token))
-				break ;
-			else
-			{
-				str[i++] = c;
-				if (c == '\n')
-				{
-					join_tab(buff, str);
-					i = 0;
-					ft_bzero(str, sizeof(str));
-				}
-			}
-		}
 		if (put_cmd() == ERROR)
 			break ;
+		if (c == '\n' && ft_strequ(str, token))
+			break ;
+		else if (c != KEY_IGNORE && ft_isascii(c))
+		{
+			str[i++] = c;
+			if (c == '\n')
+			{
+				join_tab(buff, str);
+				i = 0;
+				ft_bzero(str, sizeof(str));
+				g_curs->i = ULONG_MAX;
+			}
+		}
 	}
 	del_g_lines();
+	if (*buff == NULL)
+		*buff = ft_strdup("");
 	return (*buff ? 0 : 1);
 }
 
@@ -96,6 +98,5 @@ char				*give_heredoc(t_cmd *redirect, int index)
 		redirect = redirect->left;
 	}
 	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->reset));
-	fprintf(debug, "pass la buff == %s\n", buff);
 	return (buff);
 }

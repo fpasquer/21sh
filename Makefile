@@ -34,7 +34,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					autocompletion2.c print_event2.c autocompletion_bin2.c		\
 					print_list_term2.c autocompletion_path2.c
 
-INCLUDES		= shell_21sh.h key.h
+INCLUDES		= shell_21sh.h key.h parse.h
 
 LIBRARY			= libft/libft.a
 

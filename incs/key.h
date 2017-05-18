@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 19:01:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 12:29:24 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/18 16:47:05 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct				s_entry
 **	lft_rgt :			balance pr savoir si end et a gauche ou droit de start
 **	activity :			si le selec_mode est actif ? 1 : 0
 **	h_srch :			si mode search history est actif ? 1 : 0
-**	hdc :				si mode heredoc est actif ? 1 : 0
+**	hdc :				si heredoc active ? 1 : 0
 */
 typedef struct				s_line
 {
@@ -223,6 +223,7 @@ size_t						g_x;
 char						*get_line_entree(bool srch);
 int							add_c_to_line(char c, t_line **lines);
 int							insert_word_in_g_line(char *word, t_line **line);
+int							save_y_x();
 char						*make_tab(void);
 void						del_g_lines(void);
 int							get_infos_words(t_list_print *list,

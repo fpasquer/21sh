@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 19:24:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/11 19:27:45 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 16:47:08 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int					place_curs_end_line(void)
 	return (true);
 }
 
-static int					save_y_x(void)
+int							save_y_x(void)
 {
 	size_t					i;
 	t_line					*curs;
