@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 09:41:56 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 11:45:32 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int			heredoc_checker(t_cmd *c, int fd[2], char *buff)
 		if (c->left && c->left->arg)
 		{
 			pipe(fd);
-			ft_memdel((void**)&c->left->arg[0]);
-			c->left->arg[0] = ft_strdup(buff);
+			ft_putstr_fd(buff, fd[1]);
+			close(fd[1]);
 			ft_memdel((void**)&buff);
 			return (0);
 		}
@@ -46,17 +46,6 @@ static void			other_exe(t_cmd *cmd, char **env, int ret)
 				if (ret == 0)
 					change_pipe(pipefd, 0, 2);
 				ft_execve(cmd, env, NULL);
-			}
-			else
-			{
-				fprintf(debug, "ret == %d\n", ret);
-				if (ret == 0)
-				{
-					close(pipefd[0]);
-					ft_putstr_fd(cmd->left->arg[0], pipefd[1]);
-					close(pipefd[1]);
-				}
-					//add_heredoc();
 			}
 			waitpid(cmd->pid, &cmd->status, WUNTRACED);
 		}

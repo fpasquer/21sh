@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 09:11:56 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 11:48:23 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static int				heredoc(char *token, char **buff)
 	while (42)
 	{
 		c = get_char_keyboard();
-		if (place_curs() == ERROR)
-			break ;
 		if (c != KEY_IGNORE && ft_isascii(c))
 		{
 			if (add_c_to_line(c, &g_curs) == ERROR)
