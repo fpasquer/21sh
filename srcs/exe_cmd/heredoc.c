@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/15 17:24:01 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 01:22:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int						heredoc(char *token)
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL )
 		return (1);
 	g_curs = g_lines;
-	g_curs->h_srch = true;
+	g_curs->hdc = true;
+	print_prompt();
 	while (42)
 	{
 		c = get_char_keyboard();
@@ -75,6 +76,7 @@ int						heredoc(char *token)
 	if (buff)
 	{
 		fprintf(debug, "heredoc_line == %s\n", buff);
+		ft_putstr_fd(buff, STDIN_FILENO);
 		ft_memdel((void**)&buff);
 	}
 	del_g_lines();

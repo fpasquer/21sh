@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 19:01:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/05 19:00:28 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 00:13:08 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct				s_entry
 **	last_dir :			derniere direction employer dans le mode selec_mode
 **	lft_rgt :			balance pr savoir si end et a gauche ou droit de start
 **	activity :			si le selec_mode est actif ? 1 : 0
+**	h_srch :			si mode search history est actif ? 1 : 0
+**	hdc :				si mode heredoc est actif ? 1 : 0
 */
 typedef struct				s_line
 {
@@ -73,6 +75,7 @@ typedef struct				s_line
 	int						lft_rgt;
 	bool					activity;
 	bool					h_srch;
+	bool					hdc;
 }							t_line;
 
 t_line						*g_lines;

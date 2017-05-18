@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 19:42:22 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/16 18:55:57 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 00:17:11 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include <term.h>
 
 #define GL_SRCH g_lines->h_srch == true
+
+static int					heredoc_prompt(t_21sh *sh)
+{
+	ft_putstr_fd("heredoc> ", STDOUT_FILENO);
+	sh->len_prompt = ft_strlen("heredoc> ");
+	return (true);
+}
 
 static int					search_prompt(t_21sh *sh)
 {
@@ -36,6 +43,8 @@ int							print_prompt(void)
 		return (false);
 	if (g_curs && GL_SRCH && (g_curs->line || g_curs == g_lines))
 		return (search_prompt(sh));
+	if (g_curs && g_lines->hdc == true)
+		return (heredoc_prompt(sh));
 	if (ft_strcat(promt, " ?> ") == NULL)
 		return (false);
 	ft_putstr_fd(COLOR_POMT, STDOUT_FILENO);
