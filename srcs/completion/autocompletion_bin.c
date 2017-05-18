@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 21:31:08 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/30 21:33:48 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 12:09:19 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,41 +77,6 @@ static int					put_autocompletion_bin(char *begin, int i)
 	ret = print_list_term(sh, list_match, true);
 	ft_free_strsplit(list_match);
 	return (add_word_to_g_line(&ret, begin));
-}
-
-static int					is_end_loop(t_entry *c)
-{
-	if (c == NULL || c->c == ' ' || c->c == ';')
-		return (false);
-	return (true);
-}
-
-static char					*get_begin_bin(t_entry *c)
-{
-	char					*begin;
-	size_t					len;
-	size_t					mem_len;
-	t_entry					*curs;
-
-	if ((curs = c) == NULL)
-		return (NULL);
-	len = 0;
-	while (is_end_loop(curs))
-	{
-		len++;
-		curs = curs->prev;
-	}
-	if (len == 0)
-		return (NULL);
-	if ((begin = ft_memalloc(sizeof(begin) * (len + 1))) == NULL)
-		return (NULL);
-	mem_len = len;
-	while (is_end_loop(c))
-	{
-		begin[--len] = c->c;
-		c = c->prev;
-	}
-	return (del_car_begin_in_g_line(mem_len) == ERROR ? NULL : begin);
 }
 
 int							autocompletion_bin(t_entry *c)

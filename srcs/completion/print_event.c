@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 22:43:19 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/30 19:03:54 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 12:04:49 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,6 @@ static int					put_word(t_list_print *curs, int len,
 	while (i++ < len)
 		ft_putchar(' ');
 	return (true);
-}
-
-void						print_g_line(void)
-{
-	char					cpy_word[SIZE_MEM + 1];
-	int						i;
-	t_entry					*curs;
-
-	curs = g_lines->line;
-	while (curs != NULL)
-	{
-		i = 0;
-		ft_bzero(&cpy_word, sizeof(cpy_word));
-		while (i < SIZE_MEM && curs != NULL)
-		{
-			cpy_word[i++] = curs->c;
-			curs = curs->next;
-		}
-		ft_putstr(cpy_word);
-	}
 }
 
 static int					print_prompt_word(char *word, bool end)

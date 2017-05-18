@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 19:01:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 00:13:08 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 12:29:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,10 @@ int							add_c_to_line(char c, t_line **lines);
 int							insert_word_in_g_line(char *word, t_line **line);
 char						*make_tab(void);
 void						del_g_lines(void);
+int							get_infos_words(t_list_print *list,
+		size_t *bigger_word, unsigned int *len_total, unsigned int *nb_word);
+char						**make_list_object(char *path, char *begin_name,
+		int count);
 
 void						key_exit(unsigned char val_exit);
 int							key_del_hist(void);
@@ -259,6 +263,10 @@ int							del_selec(void);
 
 int							autocompletion_bin(t_entry *c);
 int							autocompletion_path(t_entry *c);
+char						*get_begin_bin(t_entry *c);
+int							get_infos_words(t_list_print *list,
+		size_t *bigger_word, unsigned int *len_total, unsigned int *nb_word);
+int							add_list_term(t_list_print **lst, char **word);
 
 char						get_char_keyboard(void);
 #endif
