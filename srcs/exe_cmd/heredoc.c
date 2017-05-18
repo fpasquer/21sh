@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 01:22:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 09:11:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,15 @@ static int				join_tab(char **buff, char *str)
 	return (0);
 }
 
-int						heredoc(char *token)
+static int				heredoc(char *token, char **buff)
 {
 	char				c;
 	int					i;
 	char				str[PRINT_MAX + 1];
-	char				*buff;
 
 	ft_bzero(str, sizeof(str));
-	buff = NULL;
 	i = 0;
+	fprintf(debug, "pass  ICI\n");
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL )
 		return (1);
 	g_curs = g_lines;
@@ -63,8 +62,7 @@ int						heredoc(char *token)
 				str[i++] = c;
 				if (c == '\n')
 				{
-					g_curs->count_line++;
-					join_tab(&buff, str);
+					join_tab(buff, str);
 					i = 0;
 					ft_bzero(str, sizeof(str));
 				}
@@ -73,12 +71,33 @@ int						heredoc(char *token)
 		if (put_cmd() == ERROR)
 			break ;
 	}
-	if (buff)
-	{
-		fprintf(debug, "heredoc_line == %s\n", buff);
-		ft_putstr_fd(buff, STDIN_FILENO);
-		ft_memdel((void**)&buff);
-	}
 	del_g_lines();
-	return (0);
+	return (*buff ? 0 : 1);
+}
+
+char				*give_heredoc(t_cmd *redirect, int index)
+{
+	char			*buff;
+	t_cmd			*head;
+
+	head = redirect;
+	buff = NULL;
+	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->term_param));
+	while (redirect)
+	{
+		if (index == D_GAUCHE && heredoc(redirect->arg[0], &buff) == 0)
+		{
+			while (head && head != redirect)
+			{
+				head->done = 1;
+				head = head->left;
+			}
+			head->done = 1;
+		}
+		index = redirect->cmd;
+		redirect = redirect->left;
+	}
+	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->reset));
+	fprintf(debug, "pass la buff == %s\n", buff);
+	return (buff);
 }

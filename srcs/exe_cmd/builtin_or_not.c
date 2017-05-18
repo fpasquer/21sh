@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:39:05 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/05 14:30:13 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 06:45:56 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,14 @@ int				builtin_pipe(t_cmd *content, int i, int std[3])
 	return (false);
 }
 
-int				builtin_or_not(t_cmd *content, int i)
+int				builtin_or_not(t_cmd *content, int i, int std[3])
 {
-	int			std[3];
-
 	if (content->arg && len_y(content->arg) > 0)
 	{
 		while (g_builtin_lst[i].str)
 		{
 			if (ft_strequ(content->arg[0], g_builtin_lst[i].str))
 			{
-				save_fd(std);
 				redirecting(content->left, content->cmd, content->tgt_fd, 0);
 				content->done = g_builtin_lst[i].p(content) == true ? 0 : 1;
 				reset_fd(std);

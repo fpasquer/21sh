@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/15 15:48:42 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 05:48:13 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int					read_funct(t_cmd *redirect, int tgt_fd)
 	return (0);
 }
 
-int					d_read_funct(t_cmd *redirect, int tgt_fd)
+/*int					d_read_funct(t_cmd *redirect, int tgt_fd)
 {
 	t_21sh			*sh;
 
@@ -54,7 +54,7 @@ int					d_read_funct(t_cmd *redirect, int tgt_fd)
 	}
 	return (0);
 }
-
+*/
 int					write_funct(t_cmd *redirect, int tgt_fd)
 {
 	char			*ptr;

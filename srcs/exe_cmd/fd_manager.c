@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:50:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/12 20:35:40 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 09:27:55 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ void				change_pipe(int pipefd[2], int s_in, int choice)
 {
 	if (choice == 1)
 	{
-		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
 	}
 	else if (choice == 2)
 	{
-		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
 	}
 	else if (choice == 3)
 	{

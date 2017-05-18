@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/05 11:54:03 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 09:34:35 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,27 +96,27 @@ static void					loop_cmd(t_cmd *cmd, t_cmd *head, t_21sh *sh)
 				|| (cmd->right && cmd->op == ET && sh->last_exe > 0)
 				|| (cmd->right && cmd->op == OU && sh->last_exe == 0))
 		{
-	//		ft_putendl_fd("SKIP_CMD", 2);
-	//		ft_putstr_fd("cmd->", 2);
-	//		ft_putstr_fd(cmd->arg[0], 2);
-	//		ft_putstr_fd("== ", 2);
-	//		ft_putnbr_fd(cmd->done, 2);
-	//		ft_putstr_fd("   last_exe == ", 2);
-	//		ft_putnbr_fd(sh->last_exe, 2);
-	//		ft_putstr_fd("\nlen == ", 2);
-	//		ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
-	//		ft_putchar_fd('\n', 2);
+			ft_putendl_fd("SKIP_CMD", 2);
+			ft_putstr_fd("cmd->", 2);
+			ft_putstr_fd(cmd->arg[0], 2);
+			ft_putstr_fd("== ", 2);
+			ft_putnbr_fd(cmd->done, 2);
+			ft_putstr_fd("   last_exe == ", 2);
+			ft_putnbr_fd(sh->last_exe, 2);
+			ft_putstr_fd("\nlen == ", 2);
+			ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
+			ft_putchar_fd('\n', 2);
 			cmd = cmd->right;
 		}
-	//	ft_putstr_fd("cmd->", 2);
-	//	ft_putstr_fd(cmd->arg[0], 2);
-	//	ft_putstr_fd("== ", 2);
-	//	ft_putnbr_fd(cmd->done, 2);
-	//	ft_putstr_fd("   last_exe == ", 2);
-	//	ft_putnbr_fd(sh->last_exe, 2);
-	//	ft_putstr_fd("\nlen == ", 2);
-	//	ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
-	//	ft_putchar_fd('\n', 2);
+		ft_putstr_fd("cmd->", 2);
+		ft_putstr_fd(cmd->arg[0], 2);
+		ft_putstr_fd("== ", 2);
+		ft_putnbr_fd(cmd->done, 2);
+		ft_putstr_fd("   last_exe == ", 2);
+		ft_putnbr_fd(sh->last_exe, 2);
+		ft_putstr_fd("\nlen == ", 2);
+		ft_putnbr_fd(ft_strlen(cmd->arg[0]), 2);
+		ft_putchar_fd('\n', 2);
 		cmd = cmd->right;
 	}
 	free_cmd(head);

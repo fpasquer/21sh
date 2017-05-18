@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/09 16:05:41 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 09:06:18 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ typedef struct				s_builtin_lst
 }							t_builtin_lst;
 
 int							builtin_pipe(t_cmd *content, int i, int std[3]);
-int							builtin_or_not(t_cmd *content, int i);
+int							builtin_or_not(t_cmd *content, int i, int std[3]);
 
 /*
 **	init_21sh.c
@@ -429,7 +429,6 @@ int							redirection_fd_manage(int redirect_fd, int tgt_fd);
 **	exe_binaire.c
 **	Fonction execute les binaires
 */
-void						other_exe(t_cmd *cmd, char **env);
 void						exe_binaire(t_cmd *cmd);
 
 /*
@@ -448,7 +447,7 @@ typedef struct				s_redirect_selec
 	int						(*p)(t_cmd *redirect, int tgt_fd);
 }							t_redirect_selec;
 
-void						redirecting(t_cmd *redirect, int index, int tgt_fd,
+int							redirecting(t_cmd *redirect, int index, int tgt_fd,
 							int i);
 
 /*
@@ -456,13 +455,13 @@ void						redirecting(t_cmd *redirect, int index, int tgt_fd,
 **	fonctions effectuant la redirection voulu
 */
 int							read_funct(t_cmd *redeirect, int tgt_fd);
-int							d_read_funct(t_cmd *redeirect, int tgt_fd);
+//int							d_read_funct(t_cmd *redeirect, int tgt_fd);
 int							write_funct(t_cmd *redeirect, int tgt_fd);
 int							d_write_funct(t_cmd *redeirect, int tgt_fd);
 
 /*
 **	heredoc.c
 */
-int							heredoc(char *token);
+char						*give_heredoc(t_cmd *redirect, int index);
 
 #endif

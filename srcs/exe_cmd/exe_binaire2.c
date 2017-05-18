@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 22:40:11 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/12 17:06:30 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/18 08:59:16 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int			check_access(t_cmd *cmd, char *cpy)
 
 void				ft_execve(t_cmd *cmd, char **env, char *exe)
 {
-	redirecting(cmd->left, cmd->cmd, cmd->tgt_fd, 0);
+	if (redirecting(cmd->left, cmd->cmd, cmd->tgt_fd, 0) != 0)
+		exit(EXIT_FAILURE);
 	if (check_access(cmd, NULL) == false)
 		exit(EXIT_FAILURE);
 	if (get_path_bin(cmd->arg[0], &exe) && execve(exe, cmd->arg, env) == -1)
