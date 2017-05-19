@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key.c                                              :+:      :+:    :+:   */
+/*   get_line_entree.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 18:24:04 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/19 13:43:51 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static int					get_line_cmd(void)
 	char					c;
 	int						ret;
 
+	ret = false;
 	while (1)
 	{
 		c = get_char_keyboard();
@@ -111,7 +112,7 @@ int							save_y_x_line(t_line **lines)
 		(*lines)->x_i = (*lines)->i == ULONG_MAX ?
 			0 : (*lines)->i % sh->win.ws_col;
 	}
-	fprintf(debug, "%c = x = %zi y = %zi i = %zi len = %zi\n", (*lines)->curs->c, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
+	//fprintf(debug, "%c = x = %zi y = %zi i = %zi len = %zi\n", (*lines)->curs->c, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 	return (true);
 }
 

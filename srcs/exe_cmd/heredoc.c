@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 18:39:04 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/19 13:48:42 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #define KEY_IGNORE -2
 #define PRINT_MAX 1027
 
-static int				join_tab(char **buff, char *str)
+
+
+/*static int				join_tab(char **buff, char *str)
 {
 	size_t				size;
 	char				*tmp;
@@ -30,6 +32,17 @@ static int				join_tab(char **buff, char *str)
 	if (tmp)
 		ft_memdel((void**)&tmp);
 	return (0);
+}*/
+
+static char					*make_tab_without_token(char *token)
+{
+	char					*tmp;
+	char					*mem;
+
+	if ((tmp = make_tab()))
+		if ((mem = ft_strstr(tmp, token)))
+			*mem = '\0';
+	return (tmp);
 }
 
 static int				heredoc(char *token, char **buff)
@@ -39,6 +52,7 @@ static int				heredoc(char *token, char **buff)
 	char				str[PRINT_MAX + 1];
 
 	ft_bzero(str, sizeof(str));
+	del_g_lines();
 	i = 0;
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL )
 		return (1);
@@ -49,30 +63,26 @@ static int				heredoc(char *token, char **buff)
 	while (42)
 	{
 		c = get_char_keyboard();
-		place_curs();
+		if (place_curs() == ERROR)
+			return (ERROR);
 		if (c != KEY_IGNORE && ft_isascii(c))
 			if (add_c_to_line(c, &g_curs) == ERROR)
 				break ;
-		if (put_cmd() == ERROR)
-			break ;
-		if (c == '\n' && ft_strequ(str, token))
+		if (put_cmd() == ERROR || (c == '\n' && ft_strequ(str, token)))
 			break ;
 		else if (c != KEY_IGNORE && ft_isascii(c))
 		{
 			str[i++] = c;
 			if (c == '\n')
 			{
-				join_tab(buff, str);
+				g_lines->count_line++;
 				i = 0;
 				ft_bzero(str, sizeof(str));
-				g_curs->i = ULONG_MAX;
+				//g_curs->i = ULONG_MAX;
 			}
 		}
 	}
-	del_g_lines();
-	if (*buff == NULL)
-		*buff = ft_strdup("");
-	return (*buff ? 0 : 1);
+	return ((*buff = make_tab_without_token(token)) ? 0 : 1);
 }
 
 char				*give_heredoc(t_cmd *redirect, int index)
@@ -98,5 +108,6 @@ char				*give_heredoc(t_cmd *redirect, int index)
 		redirect = redirect->left;
 	}
 	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->reset));
+	//fprintf(debug, "buff = '%s'\n", buff);
 	return (buff);
 }

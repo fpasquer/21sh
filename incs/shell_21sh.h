@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 14:57:03 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/19 11:26:42 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include "parse.h"
 
 FILE *debug;
+
+#define DEBUG(str) fprintf(debug, str)
 
 # define ERROR -1
 # define LEN_PATH_MAX 200

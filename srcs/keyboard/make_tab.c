@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 19:24:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 16:47:08 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/19 11:30:38 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ char						*make_tab(void)
 		len_total += curs->len;
 		curs = curs->next;
 	}
+	fprintf(debug, "len_total = %zu\n", len_total);
 	if ((tab = ft_memalloc(sizeof(*tab) * (len_total + 1))) == NULL)
 		return (NULL);
 	return (save_tab(tab));

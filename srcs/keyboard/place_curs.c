@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 17:17:50 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/12 17:38:37 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/19 13:52:49 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 
 static int					loop_place_curs(size_t y, size_t x)
 {
+	if (y > 10)
+	{
+		fprintf(debug, "line : %d : y = %zu x = %zu\n", __LINE__, y, x);
+		exit(10);
+	}
 	while (y-- > 1)
 		if (put_cmd_term("up") == ERROR)
 			return (ERROR);
@@ -39,6 +44,7 @@ static int					save_y_i(size_t *y, size_t *x)
 	(*y) = 0;
 	if (curs->x_i == 0 && curs->y_i == 0)
 		return (true);
+	fprintf(debug, "line : %d : y = %zu x = %zu\n", __LINE__, *y, *x);
 	while (curs != NULL)
 	{
 		loop++;
@@ -47,6 +53,7 @@ static int					save_y_i(size_t *y, size_t *x)
 		curs = curs->next;
 	}
 	(*y) += loop;
+	fprintf(debug, "\tline : %d : y = %zu x = %zu\n", __LINE__, *y, *x);
 	return (true);
 }
 
