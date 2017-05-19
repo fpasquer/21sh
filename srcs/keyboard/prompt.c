@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 19:42:22 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 17:46:30 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/19 10:21:46 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int							print_prompt(void)
 		return (false);
 	if (g_lines && GL_SRCH && g_lines->hdc == true)
 	{
-		fprintf(debug, "len_prompt == %zu\n", sh->len_prompt);
+		//fprintf(debug, "len_prompt == %zu\n", sh->len_prompt);
 		sh->len_prompt = 0;
 		return (true);
 	}
