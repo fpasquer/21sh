@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 15:36:23 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 08:57:17 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/20 18:09:49 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 t_redirect_selec	g_redirect_selec[] = {
 	{2, read_funct},
+	{3, put_heredoc},
 	{4, write_funct},
 	{5, d_write_funct},
 	{0, NULL}

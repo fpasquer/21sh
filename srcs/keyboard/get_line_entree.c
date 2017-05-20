@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/19 13:43:51 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/20 16:34:12 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int							save_y_x_line(t_line **lines)
 		(*lines)->x_i = (*lines)->i == ULONG_MAX ?
 			0 : (*lines)->i % sh->win.ws_col;
 	}
-	//fprintf(debug, "%c = x = %zi y = %zi i = %zi len = %zi\n", (*lines)->curs->c, (*lines)->x_i, (*lines)->y_i, (*lines)->i, (*lines)->len);
 	return (true);
 }
 

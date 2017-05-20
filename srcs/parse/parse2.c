@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 06:52:11 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/20 18:32:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,14 @@ static int				check_and_parse2(char *line, int i)
 	return (0);
 }
 
-static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i)
+static void				creat_cmd3(t_cmd *cmd, char *line, int size, int i, int index)
 {
-	cmd->right = NULL;
-	cmd->left = NULL;
 	cmd->cmd = check_and_parse2(line, i);
-	cmd->op = 0;
-	cmd->done = 0;
 	cmd->line = ft_strsub(line, i - size, tk_fd(line, i) ? size - 1 : size);
 	cmd->tgt_fd = cmd->cmd > 3 && !tk_fd(line, i) ? SOUT : tk_fd(line, i);
 	cmd->arg = split_quotes(cmd->line);
+	if (index == D_GAUCHE && cmd->arg && cmd->arg[0])
+		heredoc(NULL, &cmd->arg[0]);
 	ft_memdel((void**)&(cmd->line));
 }
 
@@ -66,7 +64,7 @@ static t_cmd			*creat_cmd2(t_cmd *c2, char *line, int siz, int i)
 		while (c2->left)
 			c2 = c2->left;
 		c2->left = cmd;
-		creat_cmd3(cmd, line, siz, i);
+		creat_cmd3(cmd, line, siz, i, c2->cmd);
 		if (cmd->arg && cmd->arg[1])
 			tacke_more_arg(head, cmd);
 	}

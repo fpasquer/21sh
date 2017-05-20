@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/19 11:26:42 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/20 19:13:14 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,13 +457,13 @@ int							redirecting(t_cmd *redirect, int index, int tgt_fd,
 **	fonctions effectuant la redirection voulu
 */
 int							read_funct(t_cmd *redeirect, int tgt_fd);
-//int							d_read_funct(t_cmd *redeirect, int tgt_fd);
+int							put_heredoc(t_cmd *redeirect, int tgt_fd);
 int							write_funct(t_cmd *redeirect, int tgt_fd);
 int							d_write_funct(t_cmd *redeirect, int tgt_fd);
 
 /*
 **	heredoc.c
 */
-char						*give_heredoc(t_cmd *redirect, int index);
+int							heredoc(char *token, char **buff);
 
 #endif

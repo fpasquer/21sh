@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 13:55:56 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 05:48:13 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/20 19:13:32 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,16 @@ int					read_funct(t_cmd *redirect, int tgt_fd)
 	return (0);
 }
 
-/*int					d_read_funct(t_cmd *redirect, int tgt_fd)
+int					put_heredoc(t_cmd *redirect, int tgt_fd)
 {
-	t_21sh			*sh;
+	int				pipefd[2];
 
-	if ((sh = get_21sh(NULL)) == NULL)
-		return (ERROR);
 	if (redirect->arg && redirect->arg[0] && tgt_fd == STDIN_FILENO)
 	{
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->term_param)) == -1)
-			return (ERROR);
-		heredoc(redirect->arg[0]);
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &(sh->reset)) == -1)
-			return (ERROR);
+		pipe(pipefd);
+		ft_putstr_fd(redirect->arg[0], pipefd[1]);
+		close(pipefd[1]);
+		change_pipe(pipefd, 0, 2);
 	}
 	else
 	{
@@ -54,7 +51,7 @@ int					read_funct(t_cmd *redirect, int tgt_fd)
 	}
 	return (0);
 }
-*/
+
 int					write_funct(t_cmd *redirect, int tgt_fd)
 {
 	char			*ptr;

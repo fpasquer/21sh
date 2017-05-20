@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/18 11:45:32 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/20 19:12:38 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,17 @@
 #include "../../incs/key.h"
 #include <signal.h>
 
-static int			heredoc_checker(t_cmd *c, int fd[2], char *buff)
+static void			other_exe(t_cmd *cmd, char **env)
 {
-	if ((buff = give_heredoc(c->left, c->cmd)) != NULL)
-	{
-		if (c->left && c->left->arg)
-		{
-			pipe(fd);
-			ft_putstr_fd(buff, fd[1]);
-			close(fd[1]);
-			ft_memdel((void**)&buff);
-			return (0);
-		}
-	}
-	return (1);
-}
-
-static void			other_exe(t_cmd *cmd, char **env, int ret)
-{
-	int				pipefd[2];
 	int				std[3];
 
 	save_fd(std);
 	if (builtin_or_not(cmd, 0, std) == false)
 	{
-		ret = heredoc_checker(cmd, pipefd, NULL);
 		if ((cmd->pid = fork()) != -1)
 		{
 			if (cmd->pid == 0)
-			{
-				if (ret == 0)
-					change_pipe(pipefd, 0, 2);
 				ft_execve(cmd, env, NULL);
-			}
 			waitpid(cmd->pid, &cmd->status, WUNTRACED);
 		}
 		cmd->done = WIFEXITED(cmd->status) ? WEXITSTATUS(cmd->status) : 130;
@@ -94,7 +72,7 @@ void				exe_binaire(t_cmd *cmd)
 			ft_pipe(cmd, env);
 		else
 		{
-			other_exe(cmd, env, 1);
+			other_exe(cmd, env);
 			if ((sh = get_21sh(NULL)) != NULL)
 				sh->last_exe = cmd->done;
 		}

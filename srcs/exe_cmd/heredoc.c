@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/19 23:24:58 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/20 19:12:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,17 @@ static int			make_tab_token(char **str, char **buff, char *token)
 {
 	char			*tmp;
 
-	tmp = *str;
+	tmp = NULL;
+	ft_memdel((void**)str);
 	if ((*str = make_tab()) == NULL)
 		*str = ft_strdup("");
-	ft_memdel((void**)&tmp);
 	if (ft_strequ(*str, token))
 		return (1);
 	if ((tmp = *str) != NULL || ft_strcmp(tmp, ""))
+	{
 		*str = ft_strjoin(tmp, "\n");
+		ft_memdel((void**)&tmp);
+	}
 	if (init_heredoc_g_lines())
 		return (1);
 	if (join_tab(buff, *str) != 0)
@@ -61,13 +64,16 @@ static int			make_tab_token(char **str, char **buff, char *token)
 	return (0);
 }
 
-static int			heredoc(char *token, char **buff)
+int					heredoc(char *token, char **buff)
 {
 	char			c;
 	char			*str;
 
+	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->term_param));
 	if (init_heredoc_g_lines() != 0)
 		return (1);
+	token = ft_strdup(*buff);
+	ft_memdel((void**)buff);
 	str = ft_strdup("");
 	while (42)
 	{
@@ -86,31 +92,8 @@ static int			heredoc(char *token, char **buff)
 	if (str)
 		ft_memdel((void**)&str);
 	del_g_lines();
-	return (*buff ? 0 : 1);
-}
-
-char				*give_heredoc(t_cmd *redirect, int index)
-{
-	char			*buff;
-	t_cmd			*head;
-
-	head = redirect;
-	buff = NULL;
-	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->term_param));
-	while (redirect)
-	{
-		if (index == D_GAUCHE && heredoc(redirect->arg[0], &buff) == 0)
-		{
-			while (head && head != redirect)
-			{
-				head->done = 1;
-				head = head->left;
-			}
-			head->done = 1;
-		}
-		index = redirect->cmd;
-		redirect = redirect->left;
-	}
+	*buff = *buff == NULL ? ft_strdup("") : *buff;
+	ft_memdel((void**)&token);
 	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->reset));
-	return (buff);
+	return (*buff ? 0 : 1);
 }
