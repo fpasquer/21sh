@@ -6,17 +6,18 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:42:53 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/03 15:39:13 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/22 20:42:47 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 
-int							main(void)
+int							main(int argc, char **environ)
 {
 	t_21sh					*sh;
 
-	if ((sh = init_21sh()) == NULL)
+	argc = argc + 1;
+	if ((sh = init_21sh(environ)) == NULL)
 		ft_putendl("Erreur initialisation 21sh");
 	else
 	{
