@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/20 19:12:38 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/22 12:58:57 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,67 +14,67 @@
 #include "../../incs/key.h"
 #include <signal.h>
 
-static void			other_exe(t_cmd *cmd, char **env)
+static void			other_exe(t_cmd *c, char **env)
 {
 	int				std[3];
 
 	save_fd(std);
-	if (builtin_or_not(cmd, 0, std) == false)
+	if (builtin_or_not(c, 0, std) == false)
 	{
-		if ((cmd->pid = fork()) != -1)
+		if ((c->pid = fork()) != -1)
 		{
-			if (cmd->pid == 0)
-				ft_execve(cmd, env, NULL);
-			waitpid(cmd->pid, &cmd->status, WUNTRACED);
+			if (c->pid == 0)
+				ft_execve(c, env, NULL);
+			waitpid(c->pid, &c->status, WUNTRACED);
 		}
-		cmd->done = WIFEXITED(cmd->status) ? WEXITSTATUS(cmd->status) : 130;
-		cmd->done = WIFSIGNALED(cmd->status) ? WTERMSIG(cmd->status) : cmd->done;
+		c->done = WIFEXITED(c->status) ? WEXITSTATUS(c->status) : 130;
+		c->done = WIFSIGNALED(c->status) ? WTERMSIG(c->status) : c->done;
 	}
 }
 
-static void			ft_pipe(t_cmd *cmd, char **env)
+static void			ft_pipe(t_cmd *c, char **env)
 {
 	int				pipefd[2];
 	int				std[3];
 
 	save_fd(std);
-	if (builtin_pipe(cmd, 0, std) == false)
+	if (builtin_pipe(c, 0, std) == false)
 	{
-		if (pipe(pipefd) == 0 && (cmd->pid = fork()) != -1)
+		if (pipe(pipefd) == 0 && (c->pid = fork()) != -1)
 		{
-			if (cmd->pid == 0)
+			if (c->pid == 0)
 			{
 				change_pipe(pipefd, 0, 1);
-				ft_execve(cmd, env, NULL);
+				ft_execve(c, env, NULL);
 			}
 			else
 			{
 				change_pipe(pipefd, 0, 2);
-				exe_binaire(cmd->right);
+				exe_binaire(c->right);
 				change_pipe(pipefd, std[0], 3);
 			}
-			waitpid(cmd->pid, &cmd->status, WUNTRACED);
+			waitpid(c->pid, &c->status, WUNTRACED);
 		}
-		cmd->done = WIFEXITED(cmd->status) ? WEXITSTATUS(cmd->status) : 130;
-		cmd->done = WIFSIGNALED(cmd->status) ? WTERMSIG(cmd->status) : cmd->done;
+		c->done = WIFEXITED(c->status) ? WEXITSTATUS(c->status) : 130;
+		c->done = WIFSIGNALED(c->status) ? WTERMSIG(c->status) : c->done;
 	}
 }
 
-void				exe_binaire(t_cmd *cmd)
+void				exe_binaire(t_cmd *c)
 {
 	char			**env;
 	t_21sh			*sh;
 
-	if (cmd && cmd->done == -1)
+	if (c && c->done == -1)
 	{
-		env = l_l_to_arr_env(cmd->env, cmd->env_i);
-		if (cmd->op == PIP && cmd->right)
-			ft_pipe(cmd, env);
+		env = l_l_to_arr_env(c->env, c->env_i);
+		if (c->op == PIP && c->right)
+			ft_pipe(c, env);
 		else
 		{
-			other_exe(cmd, env);
+			other_exe(c, env);
 			if ((sh = get_21sh(NULL)) != NULL)
-				sh->last_exe = cmd->done;
+				sh->last_exe = c->done;
 		}
 		delete_env_array(env);
 	}

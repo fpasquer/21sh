@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/20 19:12:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/22 17:39:33 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #define KEY_IGNORE -2
 #define PRINT_MAX 1027
 
-static int				init_heredoc_g_lines(void)
+static int			init_heredoc_g_lines(void)
 {
 	del_g_lines();
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL)
