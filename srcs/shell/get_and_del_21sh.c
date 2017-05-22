@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:21:14 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/25 22:14:14 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/22 21:39:22 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int							del_21sh(void)
 {
 	t_21sh					*shell_21sh;
 
-	fclose(debug);
 	if ((shell_21sh = get_21sh(NULL)) != NULL)
 	{
 		if (tcsetattr(0, TCSADRAIN, &shell_21sh->reset) == -1)
