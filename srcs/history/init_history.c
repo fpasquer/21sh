@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_and_del_history.c                             :+:      :+:    :+:   */
+/*   init_history.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/08 11:24:58 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/08 11:33:42 by fcapocci         ###   ########.fr       */
+/*   Created: 2017/05/23 11:18:50 by fcapocci          #+#    #+#             */
+/*   Updated: 2017/05/23 11:18:52 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,25 @@ static int					add_history_line(t_history **hist, char *line)
 int							add_history(t_history **hist, char *line)
 {
 	t_history				*new;
+	char					*cpy_line;
+	char					*tmp;
 
-	if (hist == NULL || line == NULL)
+	if (hist == NULL || line == NULL || (cpy_line = ft_strdup(line)) == NULL)
 		return (ERROR);
+	while ((tmp = ft_strrchr(cpy_line, '\n')))
+		*tmp = ' ';
 	if (*hist == NULL)
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
 			return (ERROR);
-		if ((new->line = ft_strdup(line)) == NULL)
+		if ((new->line = ft_strdup(cpy_line)) == NULL)
 			return (ERROR);
 		new->len = ft_strlen(new->line);
 		(*hist) = new;
 	}
 	else
-		return (add_history_line(hist, line));
+		return (add_history_line(hist, cpy_line));
+	ft_memdel((void**)&cpy_line);
 	return (true);
 }
 
