@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 11:18:50 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/23 11:18:52 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/23 14:52:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@ int							add_history(t_history **hist, char *line)
 	t_history				*new;
 	char					*cpy_line;
 	char					*tmp;
+	int						ret;
 
 	if (hist == NULL || line == NULL || (cpy_line = ft_strdup(line)) == NULL)
 		return (ERROR);
+	ret = true;
 	while ((tmp = ft_strrchr(cpy_line, '\n')))
 		*tmp = ' ';
 	if (*hist == NULL)
@@ -90,9 +92,9 @@ int							add_history(t_history **hist, char *line)
 		(*hist) = new;
 	}
 	else
-		return (add_history_line(hist, cpy_line));
+		ret = add_history_line(hist, cpy_line);
 	ft_memdel((void**)&cpy_line);
-	return (true);
+	return (ret);
 }
 
 int							init_history(void)
