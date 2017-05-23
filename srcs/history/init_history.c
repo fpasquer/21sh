@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 11:24:58 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/23 11:20:34 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:26:24 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ int							add_history(t_history **hist, char *line)
 	t_history				*new;
 	char					*cpy_line;
 	char					*tmp;
+	int						ret;
 
 	if (hist == NULL || line == NULL || (cpy_line = ft_strdup(line)) == NULL)
 		return (ERROR);
 	while ((tmp = ft_strrchr(cpy_line, '\n')))
 		*tmp = ' ';
+	ret = true;
 	if (*hist == NULL)
 	{
 		if ((new = ft_memalloc(sizeof(*new))) == NULL)
@@ -90,9 +92,9 @@ int							add_history(t_history **hist, char *line)
 		(*hist) = new;
 	}
 	else
-		return (add_history_line(hist, cpy_line));
+		ret = add_history_line(hist, cpy_line);
 	ft_memdel((void**)&cpy_line);
-	return (true);
+	return (ret);
 }
 
 int							init_history(void)
