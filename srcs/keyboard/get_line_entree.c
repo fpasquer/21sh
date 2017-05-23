@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:28:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/20 16:34:12 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/23 17:55:20 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int					get_line_cmd(void)
 				return (ERROR);
 		if (put_cmd() == ERROR)
 			return (ERROR);
+		check_words_builtins_exclame(c);
 		if ((ret = is_end(c)) != false)
 			break ;
 	}
