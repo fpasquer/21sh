@@ -6,17 +6,17 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:37:23 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/04/12 14:55:58 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/23 17:35:41 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/shell_21sh.h"
 #include "../../incs/key.h"
 
-#define C_S 	32
-#define C_W_Q 	34
-#define C_S_Q 	39
-#define C_HT		9
+//#define C_S ' '
+//#define C_W_Q '"'
+//#define C_S_Q '\''
+//#define C_HT '\t'
 
 /*
 **	fonction qui renvoit un tableau de
@@ -38,17 +38,45 @@ static char			*ft_strsub_bis(char *str, int index, int end, int nb_ht)
 	new_str = ft_strnew(end - index - nb_ht);
 	while (i < end)
 	{
-		if (str[i] != C_HT)
+		if (str[i] != '\t')
 		{
 			new_str[count] = str[i];
 			count++;
 		}
 		i++;
 	}
-	return (new_str);
+	return (check_globbing(&new_str, nb_ht));
 }
 
 static char			*parse_string(char *s, int *i, char d, int nb)
+{
+	int				start_index;
+
+	if (s[*i] != '\''  && s[*i] != '"')
+		d = ' ';
+	else
+		(*i)++;
+	start_index = (*i);
+	while (s[*i] && s[*i] != d)
+	{
+		if ((s[*i] == '\'' || s[*i] == '"') && d == ' ')
+		{
+			d = s[*i];
+			s[*i] = '\t';
+			nb++;
+		}
+		(*i)++;
+		if ((s[*i] == '\t' && d == '\t') || (s[*i] == '"' && d == '"'))
+		{
+			s[*i] = '\t';
+			d = ' ';
+			(*i)++;
+			nb++;
+		}
+	}
+	return (ft_strsub_bis(s, start_index, *i, nb));
+}
+/*static char			*parse_string(char *s, int *i, char d, int nb)
 {
 	int				start_index;
 
@@ -75,7 +103,8 @@ static char			*parse_string(char *s, int *i, char d, int nb)
 		}
 	}
 	return (ft_strsub_bis(s, start_index, *i, nb));
-}
+}*/
+
 
 char				**split_quotes(char *str)
 {
@@ -86,17 +115,18 @@ char				**split_quotes(char *str)
 	char			*tmp_str;
 
 	i = 0;
-	len = ft_strlen(str);
 	list = NULL;
 	new_str = NULL;
 	if (str == NULL)
 		return (NULL);
+	len = ft_strlen(str);
 	tmp_str = ft_strdup(str);
 	while (i < len)
 	{
-		if (tmp_str[i] != C_S)
+		if (tmp_str[i] != ' ')
 		{
 			new_str = parse_string(tmp_str, &i, str[i], 0);
+			fprintf(debug, "new_str = %s\n", new_str);
 			list = ft_add_to_array(new_str, list);
 		}
 		i++;

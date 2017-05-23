@@ -32,7 +32,7 @@ SRC_NAME		= main.c init_21sh.c fonctions.c bin.c table_hash.c del_bin.c	\
 					get_line_entree.c make_tab.c get_char_keyboard.c prompt.c	\
 					place_curs.c put_cmd.c insert_in_g_lines.c					\
 					autocompletion2.c print_event2.c autocompletion_bin2.c		\
-					print_list_term2.c autocompletion_path2.c
+					print_list_term2.c autocompletion_path2.c globbing.c
 
 INCLUDES		= shell_21sh.h key.h parse.h
 

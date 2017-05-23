@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 16:54:26 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/18 14:59:25 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/23 17:31:53 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ t_cmd					*exit_parse(t_cmd *cmd, char *str);
 void					scop(char *line, int *i, int *size);
 void					tacke_more_arg(t_cmd *cmd, t_cmd *red);
 int						tk_fd(char *line, int size);
+char					*check_globbing(char **list, int nb_ht);
 
 #endif
