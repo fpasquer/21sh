@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/23 06:27:03 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/23 15:36:05 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@
 # define ERROR_PARAM 3
 # define ERROR_OFFSET 4
 # define WRONG_OFFSET 5
+
+
+																				FILE *debug;
 
 typedef struct stat			t_stat;
 
