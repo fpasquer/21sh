@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 21:30:55 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/20 19:24:37 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/23 10:01:48 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static int					is_autocompletion_bin(t_entry *c)
 	nb_in_word = 0;
 	while (curs != NULL)
 	{
+		if (curs->c == '/')
+			return (false);
 		if (curs->c == ' ')
 		{
 			while (curs && curs->c == ' ')

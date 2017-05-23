@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:01:48 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/22 17:39:33 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/23 10:32:21 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 #define KEY_IGNORE -2
 #define PRINT_MAX 1027
 
-static int			init_heredoc_g_lines(void)
+static int			init_heredoc_g_lines(char **token, char **buff, char **str)
 {
+	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->term_param)) < 0)
+		return (1);
 	del_g_lines();
 	if ((g_lines = ft_memalloc(sizeof(t_line))) == NULL)
 		return (1);
@@ -25,6 +27,12 @@ static int			init_heredoc_g_lines(void)
 	g_curs->h_srch = true;
 	g_curs->hdc = true;
 	print_prompt();
+	if (buff && *buff)
+	{
+		*token = ft_strdup(*buff);
+		ft_memdel((void**)buff);
+		*str = ft_strdup("");
+	}
 	return (0);
 }
 
@@ -57,7 +65,7 @@ static int			make_tab_token(char **str, char **buff, char *token)
 		*str = ft_strjoin(tmp, "\n");
 		ft_memdel((void**)&tmp);
 	}
-	if (init_heredoc_g_lines())
+	if (init_heredoc_g_lines(NULL, NULL, NULL))
 		return (1);
 	if (join_tab(buff, *str) != 0)
 		return (1);
@@ -69,12 +77,8 @@ int					heredoc(char *token, char **buff)
 	char			c;
 	char			*str;
 
-	tcsetattr(STDIN_FILENO, TCSADRAIN, &((get_21sh(NULL))->term_param));
-	if (init_heredoc_g_lines() != 0)
+	if (init_heredoc_g_lines(&token, buff, &str) != 0)
 		return (1);
-	token = ft_strdup(*buff);
-	ft_memdel((void**)buff);
-	str = ft_strdup("");
 	while (42)
 	{
 		c = get_char_keyboard();
@@ -89,8 +93,7 @@ int					heredoc(char *token, char **buff)
 			if (make_tab_token(&str, buff, token) != 0)
 				break ;
 	}
-	if (str)
-		ft_memdel((void**)&str);
+	ft_memdel((void**)&str);
 	del_g_lines();
 	*buff = *buff == NULL ? ft_strdup("") : *buff;
 	ft_memdel((void**)&token);

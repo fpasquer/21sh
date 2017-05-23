@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:30:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 21:30:15 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/23 10:10:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,9 @@ int							del_bin(void)
 	while (i < SIZE_HASH)
 		if (sh->hash[i++] != NULL)
 			del_hash_bin(&sh->hash[i - 1]);
+	i = 0;
+	while (i < SIZE_DICO)
+		if (sh->dico[i++] != NULL)
+			sh->dico[i - 1] = NULL;
 	return (true);
 }
