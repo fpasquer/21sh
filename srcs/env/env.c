@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 15:19:33 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/02/04 17:07:27 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/23 06:26:37 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ int							add_env(t_env **env, char *str, int index, bool add)
 	return ((new == NULL) ? ERROR : true);
 }
 
-int							save_env(t_env **env)
+int							save_env(t_env **env, char **environ)
 {
-	extern char				**environ;
 	int						i;
 
 	if (env == NULL || environ == NULL)

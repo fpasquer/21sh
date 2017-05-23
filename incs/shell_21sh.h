@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/22 21:38:58 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/23 06:27:03 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int							builtin_or_not(t_cmd *content, int i, int std[3]);
 /*
 **	init_21sh.c
 */
-t_21sh						*init_21sh(void);
+t_21sh						*init_21sh(char **environ);
 
 /*
 **	get_and_del_21sh.c
@@ -242,7 +242,7 @@ int							save_dico(t_bin **n);
 /*
 **	env.c
 */
-int							save_env(t_env **env);
+int							save_env(t_env **env, char **environ);
 int							add_env(t_env **env, char *str, int index, bool ad);
 int							add_env_(char *name, char *value);
 int							del_list_env(t_env **list);
