@@ -6,7 +6,7 @@
 #    By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 22:00:29 by fpasquer          #+#    #+#              #
-#    Updated: 2017/05/24 14:43:09 by fpasquer         ###   ########.fr        #
+#    Updated: 2017/05/24 16:28:32 by fpasquer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRC = ft_atoi.c ft_bzero.c ft_clrscr.c ft_error.c ft_fopen.c ft_free_strsplit.c	
 	ft_tolower.c ft_toupper.c ft_utoa_base.c get_next_line.c get_y.c ft_abs.c	\
 	ft_nblen.c len_y.c ft_strsplit_guil.c ft_is_number.c ft_atoi_base.c			\
 	ft_count_char.c ft_getenv.c ft_add_to_array.c ft_is_dir.c ft_scandir.c		\
-	ft_free_add_to_array.c ft_trim.c
+	ft_free_add_to_array.c ft_trim.c ft_implode.c
 
 OBJ = $(SRC:.c=.o)
 
