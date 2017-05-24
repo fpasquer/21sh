@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 16:37:23 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/23 17:35:41 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/24 11:12:08 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char			*ft_strsub_bis(char *str, int index, int end, int nb_ht)
 		}
 		i++;
 	}
-	return (check_globbing(&new_str, nb_ht));
+	return (new_str);
 }
 
 static char			*parse_string(char *s, int *i, char d, int nb)
