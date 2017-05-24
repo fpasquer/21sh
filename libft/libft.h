@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 22:00:20 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/24 16:28:19 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/24 16:33:59 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,6 @@ int					ft_is_dir(char *path);
 bool				ft_free_add_to_array(char **array);
 int					ft_scandir(char *path, char ***list);
 char				*ft_trim(char *str);
-char				*ft_implode(char glue, char **list);
+char				*ft_implode(char *glue, char **list);
 
 #endif
