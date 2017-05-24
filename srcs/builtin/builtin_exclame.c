@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 15:33:53 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/23 18:22:29 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/24 18:20:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #define G_C_C g_curs->curs
 #define P prev
 
-static int					last_token()
+static int					last_token(void)
 {
 	int						ret;
 
@@ -32,6 +32,7 @@ static int					last_token()
 static int					builtin_exclame(void)
 {
 	t_21sh				*sh;
+	char				*tmp;
 
 	if ((sh = get_21sh(NULL)) == NULL)
 		return (false);
@@ -44,8 +45,10 @@ static int					builtin_exclame(void)
 	{
 		if (sh->hist->line)
 		{
+			tmp = ft_trim(sh->hist->line);
 			place_curs();
-			insert_word_in_g_line(sh->hist->line, &g_curs);
+			insert_word_in_g_line(tmp, &g_curs);
+			ft_memdel((void**)&tmp);
 		}
 	}
 	return (true);

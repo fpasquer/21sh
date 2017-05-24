@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 14:29:13 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/23 18:19:43 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/24 16:32:29 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int					at_save_history(char *line)
 	ret = false;
 	while (line[i] != '\0')
 		ret = (ft_isspace(line[i++]) == true) ? ret : true;
-	//ret = ft_strequ(line, "!!") ? false : true;
 	return (ret);
 }
 

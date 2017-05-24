@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/22 15:36:23 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/20 18:09:49 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:37:16 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int					redirecting(t_cmd *redirect, int index, int tgt_fd, int i)
 	r = 0;
 	if (redirect)
 	{
-		while (redirect->done == 0 && index != 0 && g_redirect_selec[i].p)
+		while (index != 0 && g_redirect_selec[i].p)
 		{
 			if (g_redirect_selec[i].num == index)
 			{

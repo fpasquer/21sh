@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 22:56:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/15 15:22:50 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:14:26 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,15 @@ int					take_cmd_if_exist(char **tmp_line, char ***tab,
 	{
 		cmd->env = save_env_modif(*tab);
 		cmd->env_i = choice;
-		cmd->right = content->right ? content->right : NULL;
 		cmd->op = content->op;
-		exe_binaire(cmd);
-		cmd->right = NULL;
+		cmd->cmd = content->cmd;
+		cmd->tgt_fd = content->tgt_fd;
+		cmd->right = content->right ? content->right : NULL;
+		content->right = cmd;
+		cmd->left = content->left;
+		content->left = NULL;
+		content->op = PV;
 		*tab = *tab != NULL ? ft_free_strsplit(*tab) : *tab;
-		free_cmd(cmd);
 	}
 	return (ret);
 }

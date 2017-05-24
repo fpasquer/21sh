@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 22:00:20 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/01/27 22:00:21 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:58:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void				ft_print_adr_fd(void *adr, int fd);
 void				ft_print_adr(void *adr);
 void				ft_printcolor(int color, char *str, size_t n);
 void				ft_clrscr(void);
+char				*ft_trim(char *str);
 
 /*
 ** Utilisation de la library time pour ft_rand()

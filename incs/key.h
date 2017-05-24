@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 19:01:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/23 17:15:58 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/24 18:12:37 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ int							put_cmd(void);
 int							save_y_x_line(t_line **line);
 int							put_lines(void);
 
-int							check_words_builtins_exclame(char);
+int							check_words_builtins_exclame(char c);
 
 char						last_c(t_line *line, size_t i);
 
