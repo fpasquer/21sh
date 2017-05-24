@@ -6,7 +6,7 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 22:00:20 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/01/27 22:00:21 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/24 10:12:18 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <dirent.h>
+# include <time.h>
+# include <stdbool.h>
 
 # define DEDANS 1
 # define DEHORS 0
@@ -176,5 +181,8 @@ int					ft_is_number(char *s);
 int					ft_atoi_base(const char *s, int base, int *nb);
 int					count_char(char *line, char c);
 char				**ft_add_to_array(char *str, char **list);
+int					ft_is_dir(char *path);
+bool				ft_free_add_to_array(char **array);
+int					ft_scandir(char *path, char ***list);
 
 #endif

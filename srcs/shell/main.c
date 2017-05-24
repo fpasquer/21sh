@@ -6,16 +6,16 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:42:53 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/23 15:35:41 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/24 10:15:49 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
 
+
 int							main(int argc, char **argv, char **environ)
 {
 	t_21sh					*sh;
-
 
 																				debug = fopen("debug", "w+");
 	if ((sh = init_21sh(environ)) == NULL)

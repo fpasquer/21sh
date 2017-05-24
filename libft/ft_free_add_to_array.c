@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_strsplit.c                                 :+:      :+:    :+:   */
+/*   ft_free_add_to_array.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpasquer <fpasquer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/27 21:49:56 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/24 08:58:51 by fpasquer         ###   ########.fr       */
+/*   Created: 2017/05/24 09:00:20 by fpasquer          #+#    #+#             */
+/*   Updated: 2017/05/24 09:03:40 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		**ft_free_strsplit(char **tab)
+bool						ft_free_add_to_array(char **array)
 {
-	unsigned int	y;
-
-	y = 0;
-	while (tab[y] != NULL)
-	{
-		free(tab[y]);
-		tab[y++] = NULL;
-	}
-	free(tab);
-	tab = NULL;
-	return (NULL);
+	if (array == NULL)
+		return (false);
+	ft_memdel((void**)&array);
+	return (true);
 }
