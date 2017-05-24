@@ -6,12 +6,11 @@
 /*   By: fpasquer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 21:42:53 by fpasquer          #+#    #+#             */
-/*   Updated: 2017/05/24 10:15:49 by fpasquer         ###   ########.fr       */
+/*   Updated: 2017/05/24 14:44:44 by fpasquer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/shell_21sh.h"
-
 
 int							main(int argc, char **argv, char **environ)
 {
