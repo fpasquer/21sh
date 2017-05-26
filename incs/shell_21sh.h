@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 17:18:30 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/23 16:40:15 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:07:44 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@
 # define ERROR_PARAM 3
 # define ERROR_OFFSET 4
 # define WRONG_OFFSET 5
+
+# define ENV_CREAT 21
 
 typedef struct stat			t_stat;
 
@@ -251,6 +253,8 @@ int							del_env(void);
 /*
 **	builtin_env.c
 */
+char						get_flags_env(char **l_cmd, t_env *sb);
+int							error_env(char flags, char *l_cmd);
 int							builtin_env(t_cmd *contentst);
 
 /*
@@ -273,6 +277,7 @@ int							print_env(char **tab);
 */
 int							take_cmd_if_exist(char **tmp_line, char ***tab,
 				t_cmd *content, int choice);
+int							check_if_env_creat_cmd(t_cmd *c);
 
 /*
 **	builtin_echo.c

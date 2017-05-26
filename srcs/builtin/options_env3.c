@@ -6,11 +6,16 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 22:56:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/24 17:14:26 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:34:18 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/shell_21sh.h"
+#define FLAG_I 1
+#define FLAG_U 8
+
+#define OPT_WRONG -2
+#define PARAM -3
 
 static t_env		*save_env_modif(char **environ)
 {
@@ -55,7 +60,34 @@ int					take_cmd_if_exist(char **tmp_line, char ***tab,
 		cmd->left = content->left;
 		content->left = NULL;
 		content->op = PV;
+		content->done = 0;
 		*tab = *tab != NULL ? ft_free_strsplit(*tab) : *tab;
+		ret = ENV_CREAT;
 	}
+	return (ret);
+}
+
+int					check_if_env_creat_cmd(t_cmd *content)
+{
+	char			flags;
+	char			**tab;
+	int				ret;
+	char			*tmp_line;
+
+	tmp_line = content->line;
+	tab = NULL;
+	if ((flags = get_flags_env(&tmp_line, content->env)) == PARAM
+			|| flags == OPT_WRONG)
+		return (error_env(flags, content->line));
+	if (flags == ERROR)
+		return (ERROR);
+	if ((flags & FLAG_I) != 0)
+		ret = take_cmd_if_exist(&tmp_line, &tab, content, 1);
+	else if ((flags & FLAG_U) != 0)
+		ret = take_cmd_if_exist(&tmp_line, &tab, content, 2);
+	else
+		ret = take_cmd_if_exist(&tmp_line, &tab, content, 3);
+	if (tab != NULL)
+		ft_free_strsplit(tab);
 	return (ret);
 }

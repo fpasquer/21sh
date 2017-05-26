@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 17:50:51 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/02/27 23:13:46 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:05:07 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 
 #define OPT_WRONG -2
 #define PARAM -3
-
-#include <stdio.h>
 
 static int					option_u_env(char **l_cmd, t_env *sub_env)
 {
@@ -67,7 +65,7 @@ static int					change_flag(char *flags, char **l_cmd, t_env *sub)
 	return (true);
 }
 
-static char					get_flags_env(char **l_cmd, t_env *sb)
+char						get_flags_env(char **l_cmd, t_env *sb)
 {
 	char					flags;
 	int						ret;
@@ -95,7 +93,7 @@ static char					get_flags_env(char **l_cmd, t_env *sb)
 	return (flags);
 }
 
-static int					error_env(char flags, char *l_cmd)
+int							error_env(char flags, char *l_cmd)
 {
 	if (flags == OPT_WRONG)
 	{

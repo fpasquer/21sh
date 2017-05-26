@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 14:22:59 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/22 12:58:57 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/26 18:17:29 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ void				exe_binaire(t_cmd *c)
 
 	if (c && c->done == -1)
 	{
+		if (c->arg[0] && ft_strequ(c->arg[0], "env")
+				&& check_if_env_creat_cmd(c) == ENV_CREAT)
+			c = c->right;
 		env = l_l_to_arr_env(c->env, c->env_i);
 		if (c->op == PIP && c->right)
 			ft_pipe(c, env);
