@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 21:13:03 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/22 14:15:00 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/27 18:09:28 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static t_cmd			*creat_cmd2(t_cmd *c2, char *line, int siz, int i)
 		c2->cmd = check_and_parse2(line, i);
 		ft_memdel((void**)&(c2->line));
 		c2->line = ft_strsub(line, i - siz, tk_fd(line, siz) ? siz - 1 : siz);
-		c2->arg = split_quotes(c2->line);
+		if ((c2->arg = split_quotes(c2->line)) == NULL)
+			c2->arg = split_quotes("cat");
 		c2->done = -1;
 		c2->tgt_fd = c2->cmd > 3 && !tk_fd(line, siz) ? SOUT : tk_fd(line, siz);
 	}
