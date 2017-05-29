@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 14:49:47 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/04/13 14:24:51 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/05/30 01:11:33 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static t_cmd			*create_cmd(t_cmd *cmd2, char *line, int size, int i)
 static int				check_error_parse(t_cmd *cmd)
 {
 	if ((cmd->op != 0 && !cmd->arg) ||
-			(cmd->op != 0 && cmd->arg && !cmd->arg[0]))
+			(cmd->op != 0 && cmd->arg && !cmd->arg[0]) ||
+			(cmd->op == 3 && (!cmd->right || (cmd->right && !cmd->right->arg))))
 		return (-1);
 	while (cmd)
 	{
