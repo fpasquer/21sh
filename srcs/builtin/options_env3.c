@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 22:56:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/06/01 02:16:20 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/06/01 05:30:31 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int					take_cmd_if_exist(char **tmp_line, char ***tab,
 	if ((cmd = parse_cmd(*tmp_line, NULL, 0)) != NULL && cmd->line != NULL)
 	{
 		cmd->env = save_env_modif(*tab);
-		cmd->env_i = choice;
+		cmd->env_i = cmd->env == NULL ? 1 : 0;
 		filler_cmd_created(cmd, content);
 		*tab = *tab != NULL ? ft_free_strsplit(*tab) : *tab;
 		ret = ENV_CREAT;
@@ -83,7 +83,7 @@ int					check_if_env_creat_cmd(t_cmd *content)
 	tab = NULL;
 	if ((flags = get_flags_env(&tmp_line, content->env)) == PARAM
 			|| flags == OPT_WRONG)
-		return (error_env(flags, content->line));
+		return (ERROR);
 	if (flags == ERROR)
 		return (ERROR);
 	if ((flags & FLAG_I) != 0)
