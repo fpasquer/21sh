@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 22:56:29 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/26 18:34:18 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/06/01 02:16:20 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ static t_env		*save_env_modif(char **environ)
 	return (lst_env);
 }
 
+static void			filler_cmd_created(t_cmd *cmd, t_cmd *content)
+{
+	cmd->op = content->op;
+	cmd->cmd = content->cmd;
+	cmd->tgt_fd = content->tgt_fd;
+	cmd->right = content->right ? content->right : NULL;
+	content->right = cmd;
+	cmd->left = content->left;
+	content->left = NULL;
+	content->op = PV;
+	content->done = 0;
+}
+
 int					take_cmd_if_exist(char **tmp_line, char ***tab,
 			t_cmd *content, int choice)
 {
@@ -52,15 +65,7 @@ int					take_cmd_if_exist(char **tmp_line, char ***tab,
 	{
 		cmd->env = save_env_modif(*tab);
 		cmd->env_i = choice;
-		cmd->op = content->op;
-		cmd->cmd = content->cmd;
-		cmd->tgt_fd = content->tgt_fd;
-		cmd->right = content->right ? content->right : NULL;
-		content->right = cmd;
-		cmd->left = content->left;
-		content->left = NULL;
-		content->op = PV;
-		content->done = 0;
+		filler_cmd_created(cmd, content);
 		*tab = *tab != NULL ? ft_free_strsplit(*tab) : *tab;
 		ret = ENV_CREAT;
 	}
