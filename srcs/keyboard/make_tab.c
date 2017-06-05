@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 19:24:40 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/20 16:53:32 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/06/06 00:13:51 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char					*save_tab(char *tab)
 			curent_c = curent_c->next;
 		}
 		if ((curs = curs->next) != NULL)
-			tab[i++] = curs->line && curs->line->c ? '\n' : '\0';
+			tab[i++] = curs->next ? '\n' : '\0';
 	}
 	del_g_lines();
 	return (tab);

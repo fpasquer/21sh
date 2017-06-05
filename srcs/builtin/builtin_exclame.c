@@ -6,7 +6,7 @@
 /*   By: fcapocci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 15:33:53 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/24 18:20:31 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/06/03 19:54:50 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int					builtin_exclame(void)
 	if (sh->hist == NULL)
 	{
 		ft_putendl_fd("error: !!: event not found", STDERR_FILENO);
+		print_prompt();
 		return (false);
 	}
 	else
