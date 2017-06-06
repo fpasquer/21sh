@@ -6,7 +6,7 @@
 /*   By: fcapocci <fcapocci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/19 04:49:01 by fcapocci          #+#    #+#             */
-/*   Updated: 2017/05/05 17:03:14 by fcapocci         ###   ########.fr       */
+/*   Updated: 2017/06/07 01:36:09 by fcapocci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,17 @@ int					tk_fd(char *line, int siz)
 	int				ret;
 
 	ret = 0;
-	if (line && line[siz] && line[siz] == '>')
+	if (line && siz > 0 && line[siz] && line[siz] == '>')
 	{
-		if (line[siz - 1] && ft_isdigit(line[siz - 1]) && line[siz - 2]
+		ft_putnbr_fd(siz, 2);
+		ft_putendl_fd(" --> size", 2);
+		if (siz < 2 && line[siz - 1] && ft_isdigit(line[siz - 1]))
+			ret = ft_atoi(&(line[siz - 1]));
+		else if (line[siz - 1] && ft_isdigit(line[siz - 1]) && line[siz - 2]
 				&& line[siz - 2] == ' ')
 			ret = ft_atoi(&(line[siz - 1]));
-		else if (line[siz - 1] && ft_isdigit(line[siz - 1]) && !line[siz - 2])
-			ret = ft_atoi(&(line[siz - 1]));
 	}
+	ft_putnbr_fd(ret, 2);
+	ft_putendl_fd(" --> ret", 2);
 	return (ret);
 }
